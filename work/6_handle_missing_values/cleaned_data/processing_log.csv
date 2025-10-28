@@ -1,0 +1,150 @@
+File,Sheet,Original_Rows,Final_Rows,Rows_Removed,Original_Zeros,Final_Zeros,Zeros_Replaced,Actions
+kse100_daily_data_sep_companies.xlsx,ABL,1411,1411,0,49,0,49,"VOLUME: Replaced 45 zeros with median (28,370); IDX WT %: Replaced 4 zeros with median (0.50)"
+kse100_daily_data_sep_companies.xlsx,ABOT,1411,1411,0,22,0,22,"VOLUME: Replaced 18 zeros with median (8,179); IDX WT %: Replaced 4 zeros with median (0.67)"
+kse100_daily_data_sep_companies.xlsx,AGIL,429,429,0,49,0,49,"VOLUME: Replaced 49 zeros with median (5,050)"
+kse100_daily_data_sep_companies.xlsx,AGP,1411,1411,0,5,0,5,"VOLUME: Replaced 1 zeros with median (119,435); IDX WT %: Replaced 4 zeros with median (0.41)"
+kse100_daily_data_sep_companies.xlsx,AICL,1411,1411,0,21,0,21,"VOLUME: Replaced 17 zeros with median (194,750); IDX WT %: Replaced 4 zeros with median (0.43)"
+kse100_daily_data_sep_companies.xlsx,AKBL,1411,1411,0,6,0,6,"VOLUME: Replaced 2 zeros with median (309,500); IDX WT %: Replaced 4 zeros with median (0.43)"
+kse100_daily_data_sep_companies.xlsx,ANL,672,672,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.32)
+kse100_daily_data_sep_companies.xlsx,APL,1411,1411,0,5,0,5,"VOLUME: Replaced 1 zeros with median (32,393); IDX WT %: Replaced 4 zeros with median (0.44)"
+kse100_daily_data_sep_companies.xlsx,ARPL,1043,1043,0,68,0,68,"VOLUME: Replaced 64 zeros with median (2,050); IDX WT %: Replaced 4 zeros with median (0.27)"
+kse100_daily_data_sep_companies.xlsx,ASL,243,243,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.26)
+kse100_daily_data_sep_companies.xlsx,ATLH,1168,1168,0,195,0,195,"VOLUME: Replaced 191 zeros with median (1,900); IDX WT %: Replaced 4 zeros with median (0.29)"
+kse100_daily_data_sep_companies.xlsx,ATRL,1411,1411,0,5,0,5,"VOLUME: Replaced 1 zeros with median (1,132,639); IDX WT %: Replaced 4 zeros with median (0.48)"
+kse100_daily_data_sep_companies.xlsx,AVN,981,981,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.34)
+kse100_daily_data_sep_companies.xlsx,BAFL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (1.40)
+kse100_daily_data_sep_companies.xlsx,BAHL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (2.71)
+kse100_daily_data_sep_companies.xlsx,BNWM,1411,1411,0,283,0,283,"VOLUME: Replaced 279 zeros with median (9,230); IDX WT %: Replaced 4 zeros with median (0.01)"
+kse100_daily_data_sep_companies.xlsx,BOP,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.44)
+kse100_daily_data_sep_companies.xlsx,BWCL,557,557,0,1,0,1,"VOLUME: Replaced 1 zeros with median (12,355)"
+kse100_daily_data_sep_companies.xlsx,BYCO,482,482,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.27)
+kse100_daily_data_sep_companies.xlsx,CEPB,847,847,0,8,0,8,"VOLUME: Replaced 4 zeros with median (113,500); IDX WT %: Replaced 4 zeros with median (0.27)"
+kse100_daily_data_sep_companies.xlsx,CHCC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.86)
+kse100_daily_data_sep_companies.xlsx,COLG,1411,1411,0,188,0,188,"VOLUME: Replaced 184 zeros with median (1,620); IDX WT %: Replaced 4 zeros with median (1.01)"
+kse100_daily_data_sep_companies.xlsx,DAWH,1228,1228,0,22,0,22,"VOLUME: Replaced 18 zeros with median (21,500); IDX WT %: Replaced 4 zeros with median (2.06)"
+kse100_daily_data_sep_companies.xlsx,DCR,1411,1411,0,5,0,5,"VOLUME: Replaced 1 zeros with median (243,697); IDX WT %: Replaced 4 zeros with median (0.38)"
+kse100_daily_data_sep_companies.xlsx,DGKC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.82)
+kse100_daily_data_sep_companies.xlsx,EFERT,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.00)
+kse100_daily_data_sep_companies.xlsx,EFUG,1410,1410,0,396,0,396,"VOLUME: Replaced 392 zeros with median (2,000); IDX WT %: Replaced 4 zeros with median (0.34)"
+kse100_daily_data_sep_companies.xlsx,ENGRO,1228,1228,0,4,0,4,IDX WT %: Replaced 4 zeros with median (4.76)
+kse100_daily_data_sep_companies.xlsx,EPCL,1410,1410,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.63)
+kse100_daily_data_sep_companies.xlsx,FABL,1411,1411,0,5,0,5,"VOLUME: Replaced 1 zeros with median (856,003); IDX WT %: Replaced 4 zeros with median (0.54)"
+kse100_daily_data_sep_companies.xlsx,FATIMA,1411,1411,0,6,0,6,"VOLUME: Replaced 2 zeros with median (110,000); IDX WT %: Replaced 4 zeros with median (0.58)"
+kse100_daily_data_sep_companies.xlsx,FCCL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.78)
+kse100_daily_data_sep_companies.xlsx,FCEPL,1410,1410,0,5,0,5,"VOLUME: Replaced 1 zeros with median (170,000); IDX WT %: Replaced 4 zeros with median (0.31)"
+kse100_daily_data_sep_companies.xlsx,FFBL,1219,1219,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.55)
+kse100_daily_data_sep_companies.xlsx,FFC,1411,1411,0,5,0,5,"VOLUME: Replaced 1 zeros with median (737,434); IDX WT %: Replaced 4 zeros with median (4.37)"
+kse100_daily_data_sep_companies.xlsx,FHAM,1411,1411,0,80,0,80,"VOLUME: Replaced 76 zeros with median (14,491); IDX WT %: Replaced 4 zeros with median (0.09)"
+kse100_daily_data_sep_companies.xlsx,FML,553,553,0,58,0,58,"VOLUME: Replaced 54 zeros with median (7,500); IDX WT %: Replaced 4 zeros with median (0.29)"
+kse100_daily_data_sep_companies.xlsx,GADT,1098,1098,0,246,0,246,"VOLUME: Replaced 242 zeros with median (2,306); IDX WT %: Replaced 4 zeros with median (0.11)"
+kse100_daily_data_sep_companies.xlsx,GATI,126,126,0,64,0,64,VOLUME: Replaced 64 zeros with median (150)
+kse100_daily_data_sep_companies.xlsx,GATM,1043,1043,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.27)
+kse100_daily_data_sep_companies.xlsx,GHGL,1411,1411,0,5,0,5,"VOLUME: Replaced 1 zeros with median (162,000); IDX WT %: Replaced 4 zeros with median (0.42)"
+kse100_daily_data_sep_companies.xlsx,GLAXO,1411,1411,0,6,0,6,"VOLUME: Replaced 2 zeros with median (53,400); IDX WT %: Replaced 4 zeros with median (0.40)"
+kse100_daily_data_sep_companies.xlsx,HABSM,117,117,0,1,0,1,"VOLUME: Replaced 1 zeros with median (8,748)"
+kse100_daily_data_sep_companies.xlsx,HBL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.77)
+kse100_daily_data_sep_companies.xlsx,HCAR,1168,1168,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.31)
+kse100_daily_data_sep_companies.xlsx,HGFA,1411,1411,0,197,0,197,"VOLUME: Replaced 193 zeros with median (19,000); IDX WT %: Replaced 4 zeros with median (0.09)"
+kse100_daily_data_sep_companies.xlsx,HINOON,1348,1348,0,9,0,9,"VOLUME: Replaced 5 zeros with median (8,500); IDX WT %: Replaced 4 zeros with median (0.56)"
+kse100_daily_data_sep_companies.xlsx,HMB,1411,1411,0,24,0,24,"VOLUME: Replaced 20 zeros with median (97,000); IDX WT %: Replaced 4 zeros with median (1.09)"
+kse100_daily_data_sep_companies.xlsx,HUBC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (4.18)
+kse100_daily_data_sep_companies.xlsx,IBFL,1285,1285,0,547,0,547,VOLUME: Replaced 543 zeros with median (500); IDX WT %: Replaced 4 zeros with median (0.16)
+kse100_daily_data_sep_companies.xlsx,ICI,744,744,0,18,0,18,"VOLUME: Replaced 14 zeros with median (11,975); IDX WT %: Replaced 4 zeros with median (0.58)"
+kse100_daily_data_sep_companies.xlsx,IDYM,187,187,0,55,0,55,VOLUME: Replaced 55 zeros with median (200)
+kse100_daily_data_sep_companies.xlsx,IGIHL,672,672,0,29,0,29,"VOLUME: Replaced 25 zeros with median (15,100); IDX WT %: Replaced 4 zeros with median (0.31)"
+kse100_daily_data_sep_companies.xlsx,ILP,1348,1348,0,5,0,5,"VOLUME: Replaced 1 zeros with median (347,872); IDX WT %: Replaced 4 zeros with median (0.51)"
+kse100_daily_data_sep_companies.xlsx,INDU,1411,1411,0,6,0,6,"VOLUME: Replaced 2 zeros with median (5,340); IDX WT %: Replaced 4 zeros with median (0.85)"
+kse100_daily_data_sep_companies.xlsx,INIL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.42)
+kse100_daily_data_sep_companies.xlsx,ISL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.50)
+kse100_daily_data_sep_companies.xlsx,JDWS,925,925,0,295,0,295,VOLUME: Replaced 295 zeros with median (500)
+kse100_daily_data_sep_companies.xlsx,JLICL,429,429,0,52,0,52,"VOLUME: Replaced 52 zeros with median (3,600)"
+kse100_daily_data_sep_companies.xlsx,JSCL,124,124,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.23)
+kse100_daily_data_sep_companies.xlsx,JVDC,858,858,0,149,0,149,"VOLUME: Replaced 149 zeros with median (14,500)"
+kse100_daily_data_sep_companies.xlsx,KAPCO,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.69)
+kse100_daily_data_sep_companies.xlsx,KEL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.50)
+kse100_daily_data_sep_companies.xlsx,KOHC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.60)
+kse100_daily_data_sep_companies.xlsx,KTML,1343,1343,0,44,0,44,"VOLUME: Replaced 40 zeros with median (34,139); IDX WT %: Replaced 4 zeros with median (0.30)"
+kse100_daily_data_sep_companies.xlsx,LCI,667,667,0,1,0,1,"VOLUME: Replaced 1 zeros with median (4,559)"
+kse100_daily_data_sep_companies.xlsx,LOTCHEM,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.28)
+kse100_daily_data_sep_companies.xlsx,LUCK,1411,1411,0,9,0,9,"VOLUME: Replaced 5 zeros with median (395,662); IDX WT %: Replaced 4 zeros with median (3.73)"
+kse100_daily_data_sep_companies.xlsx,MARI,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (2.61)
+kse100_daily_data_sep_companies.xlsx,MCB,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.47)
+kse100_daily_data_sep_companies.xlsx,MEBL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.03)
+kse100_daily_data_sep_companies.xlsx,MEHT,251,251,0,10,0,10,VOLUME: Replaced 10 zeros with median (491)
+kse100_daily_data_sep_companies.xlsx,MLCF,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.88)
+kse100_daily_data_sep_companies.xlsx,MTL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (1.67)
+kse100_daily_data_sep_companies.xlsx,MUGHAL,981,981,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.28)
+kse100_daily_data_sep_companies.xlsx,MUREB,1411,1411,0,187,0,187,"VOLUME: Replaced 183 zeros with median (1,543); IDX WT %: Replaced 4 zeros with median (0.29)"
+kse100_daily_data_sep_companies.xlsx,NATF,1411,1411,0,6,0,6,"VOLUME: Replaced 2 zeros with median (33,540); IDX WT %: Replaced 4 zeros with median (0.54)"
+kse100_daily_data_sep_companies.xlsx,NBP,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.90)
+kse100_daily_data_sep_companies.xlsx,NCL,798,798,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.25)
+kse100_daily_data_sep_companies.xlsx,NESTLE,1411,1411,0,244,0,244,VOLUME: Replaced 240 zeros with median (152); IDX WT %: Replaced 4 zeros with median (0.77)
+kse100_daily_data_sep_companies.xlsx,NML,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.57)
+kse100_daily_data_sep_companies.xlsx,NRL,973,973,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.35)
+kse100_daily_data_sep_companies.xlsx,OGDC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.62)
+kse100_daily_data_sep_companies.xlsx,OLPL,553,553,0,11,0,11,"VOLUME: Replaced 7 zeros with median (48,750); IDX WT %: Replaced 4 zeros with median (0.11)"
+kse100_daily_data_sep_companies.xlsx,PAEL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.42)
+kse100_daily_data_sep_companies.xlsx,PAKT,1411,1411,0,299,0,299,VOLUME: Replaced 295 zeros with median (350); IDX WT %: Replaced 4 zeros with median (0.69)
+kse100_daily_data_sep_companies.xlsx,PGLC,858,858,0,478,0,478,"VOLUME: Replaced 207 zeros with median (5,000); IDX WT %: Replaced 271 zeros with median (0.00)"
+kse100_daily_data_sep_companies.xlsx,PIBTL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.29)
+kse100_daily_data_sep_companies.xlsx,PIOC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.58)
+kse100_daily_data_sep_companies.xlsx,PKGP,494,494,0,12,0,12,"VOLUME: Replaced 12 zeros with median (7,030)"
+kse100_daily_data_sep_companies.xlsx,PKGS,1411,1411,0,21,0,21,"VOLUME: Replaced 17 zeros with median (9,296); IDX WT %: Replaced 4 zeros with median (0.58)"
+kse100_daily_data_sep_companies.xlsx,PMPK,313,313,0,160,0,160,VOLUME: Replaced 160 zeros with median (60)
+kse100_daily_data_sep_companies.xlsx,POL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (2.72)
+kse100_daily_data_sep_companies.xlsx,POML,1129,1129,0,351,0,351,VOLUME: Replaced 347 zeros with median (900); IDX WT %: Replaced 4 zeros with median (0.02)
+kse100_daily_data_sep_companies.xlsx,PPL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.06)
+kse100_daily_data_sep_companies.xlsx,PSEL,1411,1411,0,781,0,781,VOLUME: Replaced 777 zeros with median (150); IDX WT %: Replaced 4 zeros with median (1.03)
+kse100_daily_data_sep_companies.xlsx,PSMC,917,917,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.25)
+kse100_daily_data_sep_companies.xlsx,PSO,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (2.07)
+kse100_daily_data_sep_companies.xlsx,PSX,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.31)
+kse100_daily_data_sep_companies.xlsx,PTC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.29)
+kse100_daily_data_sep_companies.xlsx,RMPL,739,739,0,169,0,169,VOLUME: Replaced 169 zeros with median (92)
+kse100_daily_data_sep_companies.xlsx,SCBPL,1411,1411,0,84,0,84,"VOLUME: Replaced 80 zeros with median (21,500); IDX WT %: Replaced 4 zeros with median (0.32)"
+kse100_daily_data_sep_companies.xlsx,SEARL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.83)
+kse100_daily_data_sep_companies.xlsx,SHEL,1267,1267,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.34)
+kse100_daily_data_sep_companies.xlsx,SHFA,1161,1161,0,67,0,67,"VOLUME: Replaced 63 zeros with median (9,250); IDX WT %: Replaced 4 zeros with median (0.30)"
+kse100_daily_data_sep_companies.xlsx,SML,369,369,0,259,0,259,"VOLUME: Replaced 255 zeros with median (2,000); IDX WT %: Replaced 4 zeros with median (0.14)"
+kse100_daily_data_sep_companies.xlsx,SNGP,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.77)
+kse100_daily_data_sep_companies.xlsx,SPWL,556,556,0,4,0,4,"VOLUME: Replaced 4 zeros with median (149,750)"
+kse100_daily_data_sep_companies.xlsx,SRVI,1411,1411,0,17,0,17,"VOLUME: Replaced 13 zeros with median (6,381); IDX WT %: Replaced 4 zeros with median (0.45)"
+kse100_daily_data_sep_companies.xlsx,STJT,189,189,0,82,0,82,VOLUME: Replaced 82 zeros with median (500)
+kse100_daily_data_sep_companies.xlsx,SYS,1411,1411,0,6,0,6,"VOLUME: Replaced 2 zeros with median (243,296); IDX WT %: Replaced 4 zeros with median (3.03)"
+kse100_daily_data_sep_companies.xlsx,TGL,858,858,0,1,0,1,"VOLUME: Replaced 1 zeros with median (220,112)"
+kse100_daily_data_sep_companies.xlsx,THALL,1411,1411,0,37,0,37,"VOLUME: Replaced 33 zeros with median (11,600); IDX WT %: Replaced 4 zeros with median (0.65)"
+kse100_daily_data_sep_companies.xlsx,TPLRF1,125,125,0,1,0,1,"VOLUME: Replaced 1 zeros with median (10,369)"
+kse100_daily_data_sep_companies.xlsx,TRG,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (1.71)
+kse100_daily_data_sep_companies.xlsx,UBL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.77)
+kse100_daily_data_sep_companies.xlsx,UNITY,1379,1379,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.48)
+kse100_daily_data_sep_companies.xlsx,UPFL,739,739,0,223,0,223,VOLUME: Replaced 223 zeros with median (52)
+kse100_daily_data_sep_companies.xlsx,YOUW,1222,1222,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.01)
+kse30_daily_data_sep_companies.xlsx,ATRL,1234,1234,0,5,0,5,"VOLUME: Replaced 1 zeros with median (1,062,344); IDX WT %: Replaced 4 zeros with median (0.76)"
+kse30_daily_data_sep_companies.xlsx,AVN,615,615,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.65)
+kse30_daily_data_sep_companies.xlsx,BAHL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (4.08)
+kse30_daily_data_sep_companies.xlsx,DGKC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (1.22)
+kse30_daily_data_sep_companies.xlsx,EFERT,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (4.37)
+kse30_daily_data_sep_companies.xlsx,ENGRO,1228,1228,0,4,0,4,IDX WT %: Replaced 4 zeros with median (7.33)
+kse30_daily_data_sep_companies.xlsx,EPCL,790,790,0,4,0,4,IDX WT %: Replaced 4 zeros with median (1.39)
+kse30_daily_data_sep_companies.xlsx,FFC,1411,1411,0,5,0,5,"VOLUME: Replaced 1 zeros with median (737,434); IDX WT %: Replaced 4 zeros with median (6.64)"
+kse30_daily_data_sep_companies.xlsx,HBL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (5.67)
+kse30_daily_data_sep_companies.xlsx,HUBC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (6.38)
+kse30_daily_data_sep_companies.xlsx,INIL,125,125,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.87)
+kse30_daily_data_sep_companies.xlsx,ISL,491,491,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.93)
+kse30_daily_data_sep_companies.xlsx,KAPCO,782,782,0,4,0,4,IDX WT %: Replaced 4 zeros with median (1.16)
+kse30_daily_data_sep_companies.xlsx,LUCK,1411,1411,0,9,0,9,"VOLUME: Replaced 5 zeros with median (395,662); IDX WT %: Replaced 4 zeros with median (5.50)"
+kse30_daily_data_sep_companies.xlsx,MARI,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.96)
+kse30_daily_data_sep_companies.xlsx,MCB,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (5.18)
+kse30_daily_data_sep_companies.xlsx,MEBL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (4.60)
+kse30_daily_data_sep_companies.xlsx,MLCF,1290,1290,0,4,0,4,IDX WT %: Replaced 4 zeros with median (1.31)
+kse30_daily_data_sep_companies.xlsx,NRL,735,735,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.47)
+kse30_daily_data_sep_companies.xlsx,OGDC,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (5.29)
+kse30_daily_data_sep_companies.xlsx,PIOC,493,493,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.90)
+kse30_daily_data_sep_companies.xlsx,POL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (4.09)
+kse30_daily_data_sep_companies.xlsx,PPL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (4.51)
+kse30_daily_data_sep_companies.xlsx,PRL,504,504,0,4,0,4,IDX WT %: Replaced 4 zeros with median (0.31)
+kse30_daily_data_sep_companies.xlsx,PSO,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.06)
+kse30_daily_data_sep_companies.xlsx,SEARL,1039,1039,0,4,0,4,IDX WT %: Replaced 4 zeros with median (1.39)
+kse30_daily_data_sep_companies.xlsx,SYS,1110,1110,0,6,0,6,"VOLUME: Replaced 2 zeros with median (260,604); IDX WT %: Replaced 4 zeros with median (4.84)"
+kse30_daily_data_sep_companies.xlsx,TRG,1150,1150,0,4,0,4,IDX WT %: Replaced 4 zeros with median (3.32)
+kse30_daily_data_sep_companies.xlsx,UBL,1411,1411,0,4,0,4,IDX WT %: Replaced 4 zeros with median (5.75)
+kse30_daily_data_sep_companies.xlsx,UNITY,732,732,0,4,0,4,IDX WT %: Replaced 4 zeros with median (1.00)

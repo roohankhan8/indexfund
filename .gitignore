@@ -1,15 +1,12 @@
-copy.ipynb
-ex.html
-piff.ipynb
-index.ipynb
-index.py
-learn.ipynb
+.venv
 
-5yearsData
-nbppgiData
-2024data
-kse100
-nbppgi
+extras/cons/5yearsData
+extras/cons/2024Data
+extras/cons/kse100
 
-/dataextract
-/work
+work/1_data_extraction/whole-data
+work/1_data_extraction/whole-data.zip
+
+work/2_data_sheets_cleaning/kse-100-30-data
+work/2_data_sheets_cleaning/kse-100-30-data.zip
+
