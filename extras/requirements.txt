@@ -1,4 +1,0 @@
-pandas>=1.5
-openpyxl>=3.0
-# If you have many old .xls files you might also need:
-# xlrd==1.2.0  # only if you need .xls reading via xlrd
