@@ -1,0 +1,654 @@
+See discussions, stats, and author profiles for this publication at: https://www.researchgate.net/publication/304490797
+Equity market volatility using garch models- evidence from Pakistan stock
+exchange (kse-100 index)
+Article  in  International Journal of Accounting and Economics Studies · June 2016
+DOI: 10.14419/ijaes.v4i2.6200
+CITATIONS
+2
+READS
+347
+2 authors:
+Muhammad Asif
+Federal Urdu University of Arts, Science and Technology
+2 PUBLICATIONS   44 CITATIONS   
+SEE PROFILE
+Abdul Aziz
+Federal Urdu University of Arts, Science and Technology
+1 PUBLICATION   2 CITATIONS   
+SEE PROFILE
+All content following this page was uploaded by Abdul Aziz on 24 May 2018.
+The user has requested enhancement of the downloaded file.
+
+ 
+Copyright © 2016 Muhammad Asif, Abdul Aziz. This is an open access article distributed under the Creative Commons Attribution License , 
+which permits unrestricted use, distribution, and reproduction in any medium, provided the original work is properly cited.  
+ 
+ 
+International Journal of Accounting and Economics Studies, 4 (2) (2016) 96-101 
+ 
+International Journal of Accounting and Economics Studies 
+ 
+Website: www.sciencepubco.com/index.php/IJAES 
+doi: 10.14419/ijaes.v4i2.6200 
+Research paper 
+  
+ 
+ 
+ 
+Equity market volatility using garch models- evidence from 
+Pakistan stock exchange (kse-100 index) 
+ 
+Muhammad Asif *, Abdul Aziz 
+ 
+Lecturer Federal Urdu University of Arts, Science and Technology Karachi 
+*Corresponding author E-mail:muhammad.aseeph@gmail.com 
+ 
+ 
+Abstract 
+ 
+Purpose – The purpose of this paper is to investigate the cluster volatility of return di stribution in the Pakistan Stock exchange (PSX) 
+formerly named Karachi stock exchange (KSE-100 Index). GARCH model for characterizing financial market volatility is discussed. 
+Design/methodology/approach –This study used daily time series of the market index PSX (KSE -100) data over the period from 
+January 1st, 2008 to December 31st, 2015, 1983 observations have been collected from KSE we bsite.ARCH family models have 
+been used, such as GARCH, EGARCH, PGARCH and TARCH models, to est imate cluster volatility. SIC, AIC, and Log likelihood 
+have been used to select the appropriate model.  
+Findings – GARCH 1,1 model is found the most appropriate model among ARCH family models. The outcome of this study ind i-
+cates that the Pakistan Stock Exchange is weak-form efficient and explains cluster volatility and leptokurtic distribution. 
+Research limitations/implications – Re-composing of Karachi stock exchange 100 index. 
+Practical implications – Stock market returns' behavior changes according to daily basis available information, which is helpful for 
+the investors to maximize their portfolio's return and managing the risk. 
+Originality/value – Karachi stock market (KSE-100 Index) volatility from 2011 to 2015. 
+ 
+Keywords:Stock Market; Volatility; GARCH; EGARCH; TARCH; PSX; Pakistan. 
+ 
+1. Introduction 
+There are three fundamental purposes to forecast volatility; they 
+are risk management, assets allocation, and taki ng bets. A vast 
+portion of risk management is to measure the potential future mi s-
+fortunes of a portfolio of assets, and keeping in mind the targeted 
+goal to gauge these potential misfortunes. These gauges must be 
+made of future volatilities and correlations. 
+This research investigates the significance of GARCH models in 
+explaining stock return dynamics and volatility on the Pakistan 
+Stock Exchange. The share price valuation in the stock market is 
+one of the most important and focal point in the field of fin ance 
+research. The capital market analysts are interested to understand 
+the which factors are influence on the movement of share prices. 
+The upward trend in volatility is a cause of declining in equity 
+price examined by (Malkiel, 1979). The Autoregressive Condi-
+tional Heteroscedasticity (ARCH) process was introduced by 
+(Engle, 1982). ARCH imposes an autoregressive formation on 
+conditional variance and allocates volatility shocks to persist over 
+time. This persistence captures the tendency of returns of like 
+magnitude to cluster in time and can explain the well -documented 
+non-normality and non-stability of empirical assets return distribu-
+tions (Fama, 1965). Pakistan Stock Exchange (PSX) established  
+on 1st January 2016 after the merger of all three stocks marke ts 
+namely (Karachi stock exchange, Lahore stock exchange, and 
+Islamabad stock exchange). On this study, we will focus excl u-
+sively on KSE-100 Index, which is the benchmark of the Pakistan 
+capital market. The Pakistan stock exchange comprises of  six 
+different indices for the convenient of the investors. Pakistan stock 
+exchange comprise of  six different indices for the convenient  of 
+the investors. 
+i) KSE-All Companies Index.(Karachi Stock Exchange All 
+ Companies Index). 
+ii) KSE-100 Index(Karachi Stock Exchange 100  
+ Companies Index). 
+iii) KSE-30 Index(Karachi Stock Exchange 30 Companies   
+ Index). 
+iv) KMI-30 Index (Karachi Meezan Islamic 30 Companies   
+ Index). 
+v) BK TI (Banking Tradable Index). 
+vi) OGTI (Oil & Gas Tradable Index)  
+The investors are very much concerned with risk and return.The 
+risk management stra tegy is based on volatility. The financial 
+market return's volatility fluctuates between positive and negative 
+zones and mostly fund managers and investors awfully serious 
+concerns about negative returns.But it's true "High -risk intensity 
+follows by abnormal gain" . Mean reversion basic cause of volatil-
+ity and another hand is Mean fleeing if α + β  > 1. The oscillations 
+of a risk premium in the capital market and volatility persistence 
+are examined by using GARCH family models (Chou, 1988). 
+Mandelbrot (1963) and Fama (1965) both provided evidence that 
+major changes in an assets price are often fo llowed by other big 
+changes, small changes are often followed by small changes. 
+A Random walk is defined by the facts that price movement or 
+fluctuation are indepe ndent of each other and no any historical 
+effect on c urrent price and unpredictable (Brealey, Myers and 
+Allen, 2005). Under the random walk hypothesis, a market is 
+weak-form efficient if the most recent price contains all available 
+information. In the strictest version of the efficient market hypo th-
+
+International Journal of Accounting and Economics Studies 97 
+ 
+esis, εt is not only random and stationary, and also shows no aut o-
+correlation, since the disturbance or error term cannot acquire any 
+systematic predict errors. The theory of random walks says that 
+the future path of the price level of a security is no mor e predicta-
+ble than the path of a series of cumulated ra ndom numbers. In 
+statistical terms, the theory says that successive price changes are 
+independent, identically distributed random variables. Most sim p-
+ly this implies that the series of price changes has no memory, that 
+is, the past cannot be used to predict the future in any meaningful 
+way (Fama 1965). The numerous models were developed to eva l-
+uate the assets pricing volatility for the determining financial ma r-
+ket risk need the inference of a volatility  parameter. The info r-
+mation is the key input factor of the volatility and volatility is 
+helpful for the portfolio diversifications and hedging fund. The 
+fluctuation of the financial assets price returns either up or down is 
+called volatility. High volatili ty raises the financial risk which can 
+be the unfavorable impact on investor assets. Share prices follow 
+the information and quickly absorb the new information. The new 
+information about the economic indicators can be attr ibuted in the 
+increasing volatilit y. This type of volatility is not dangerous b e-
+cause there is no social cost affiliated with it. But against this ph e-
+nomenon, if the increase in volatility fails to e xplain the economic 
+indicator, it is harmful because it misprices the stocks (Karmaka, 
+2006). The perception of "Market efficiency" is vital to understand 
+the working of stock markets of the world. The random walk a r-
+gues that the price of the future is independent of the price today, 
+prices may be determined by the daily economic situation; late st 
+price may not be useful for predicting future prices. As one market 
+follows a random walk means that it has no patterns on the market 
+and any new information that is available immediately reflected in 
+stock prices and investors abnormal profits cannot w in by ident i-
+fying trends or patterns. A leptokurtic distribution has more o b-
+servations around the mean and in the tails than does a normal 
+distribution. Leptokurtosis appears also in stock prices (FAMA). 
+1.1. Volatility 
+Volatility is the standard deviation  of log returns. High volatility 
+means returns are highly risky or there is high fluctuation in r e-
+turns and low volatility means that low risk and low fluctuation. 
+"The estimate of future volatility will depend on upon information 
+in today's information set such as today's returns. Volatility is said 
+to be persistent if t oday's return has a large effect on the forecast 
+variance many periods in the future" (Engle and Patton,2001). 
+Any information can because of escalating volatility trim down 
+the demand for a stock because of risk aversion. The results turn 
+down in stock value is pursued by the increased volatility as for e-
+cast by the available information. The inference of such clustering 
+volatility is that volatility shocks today will pressure the anticip a-
+tion of volatility many periods in the future.  
+1.2. Object of study 
+The objective of this study is to make sure the PSX follow the 
+random walk or not and check the efficiency in its weak -form in 
+Pakistan Stock Exchange. The purpose of the study is to identi fy 
+that a technical investor that uses historical trends and events to 
+forecast future prices can earn the benefit from PSX or not. 
+1.3. Literature review 
+Several studies investigated the performance of GARCH models 
+in explaining the volatility of emerging  stock ma rkets. Ronald 
+Mangani (2005) and Tuyen, (2011) examined expected return and 
+volatility of stock market using GARCH models, results show that 
+volatility is prevalent on the market, it is established that the e f-
+fects of shocks on volatility are symmetric and that volatility is not 
+a commonly priced factor. Ahmed (2011) study Khartoum Stock 
+Exchange (KSE) period from Jan 2006 to Nov 2010 and result 
+show that high level of persistence in the stock market which ind i-
+cates low-risk aversion 
+Chou ( 1988) fo cused on Malkiel and Pindycy's hypothesis on 
+chaos in U.S. capital marketin 1974. He used GARCH models and 
+claimed that 4.5% risk aversion in U.S. market. Sabrina Kha n-
+niche (2015) studied hedge fund risk their volatility and using 
+symmetric (GARCH) and asy mmetric (EGARCH and TGARCH) 
+models used to ev aluate a 1 -day-ahead value at risk (VAR), and 
+find GARCH family models are very much appropriate.  
+Baillie and Myers (1991) applied Bi -variate GARCH model cash 
+and future in co mmodities prices. The optimal hedge  ratio (OHR) 
+is then calculated as a ratio of the conditional covariance between 
+cash and futures to the cond itional variance of futures. Lux and 
+Marchesi (2000) studied the both chartist and fundamentalist a p-
+proach. Price transform is brought about by  market speculators 
+were re-acting to inequity between demand and supply. The clu s-
+tered volatility was clarified as the outcome of the market being 
+the focus to rare short-term volatility.  
+Liu and Shrestha (2008) observed  the relation between the macro-
+factors and share prices in the China stock market and found that 
+strongrelationship. Beltratti and Morana (2006) examined the 
+association among macroeconomic and capital market volatility, 
+using S&P500 data for the period 1970 -2001. They were found 
+confirmation of both long memory and structural change in the 
+volatility process. Short term rates and M1 growth seem to be the 
+most closely associated variables. 
+1.4. Data 
+The data consist of 1983 daily trading  observations of the PSX 
+(KSE-100 index) from the period 01 January 2008  to 31 Dece m-
+ber 2015 obtained from www.psx.com.pk. We have use EViews7  
+is to estimate and forecast GARCH models. 
+2. Methodology 
+The volatility is based on standard deviation and forecasting vol a-
+tility of the assets returns based on conditional heteroscedasticity 
+model. The standard GARCH (p,q) model expresses the variance 
+at time t . σ 2t+1 = ω + αμ 2t + βσ 2t. The volatility estimate is based 
+on GARCH model.GARCH model has three different factors one 
+for the conditional mean equation, one for the conditional var i-
+ance, and one for the conditional error, the information set avail a-
+ble at time t-1. 
+ 
+GARCH model is σ2t+1 = ω + αμ2t + βσ2t 
+ 
+Where 
+ 
+σ2t+1= Tomorrow's return volatility (variance)  
+ 
+ω= Omega 
+ 
+αμ2t = Alpha coefficient oftoday return Mean square 
+ 
+βσ2t = Beta coefficient oftodayreturn variance  
+ 
+"When α + β <1, the variance process displays mean  reversion to 
+the unconditional expectation of  σ2t. ω /(1 –α – β). That is, for e-
+casts of volatility in the distant future will be equal to the uncondi-
+tional expectation of  σ2t. ω /(1– α – β)". (Neely, et al .2002). The 
+Risk Metrics model for volatility forecasting imposes the r e-
+strictions that α + β =1 and that ω = 0. In addition, the parameter β 
+is not estimated, bu t imposed to be equal to 0.94 ( J.P. Mo r-
+gan/Reuters, 1996).  
+GARCH(1,1) almost sure positivity  of requires, σ2t  
+With the conditions that (Nelson and Cao),  
+ 
+ω ≥ 0 
+ 
+α ≥ 0 
+
+98 International Journal of Accounting and Economics Studies 
+ 
+β ≥ 0 
+ 
+The Omega is a product of two facto rs lambda and long term a v-
+erage volatility. Omega shows the rate of volatility. 
+ 
+Omega = λ.VL 
+ 
+λ.VL= Gamma rate of long term average volatility 
+ 
+If λ equal to zero GARCH come to VaR model is  
+σ2t+1 =αμ2t + βσ2t. 
+ 
+λ is show persistence factor 'higher value of lambda  give more 
+weight  to older data lower value of lambda higher weight to r e-
+cent data. High persistence associated with slow decays, low per-
+sistence associated with fast decays.  If Alpha + Beta = 1; we will 
+use an Integrated GARCH (IGARCH) process. Efficient ma rkets 
+hypothesis (EMH) defines that in an efficient market share price 
+fully reflect the available information. There are three shap es or 
+stages of the efficient market hypothesis that differ in what info r-
+mation is considered. Weak -form version of EMH asserts that 
+prices of financial assets reflect all information contained in the 
+past prices. Semi -strong version hypoth esizes that shar e prices 
+reflect all the publicly available information. Lastly, strong -form 
+hypothesizes that share prices reflect, in addition to information on 
+past prices and publicly available information, inside information 
+(Fama, 1970). Karachi stock market is high  volatility due to insid-
+er trading by collusive stock brokers. 
+Numerous statistical tests for random walks have been used in the 
+literature.The most popular variance ratio is tested by (Lo and 
+MacKinlay,1988). The serial correlation test of returns has als o 
+been used extensively (See Kendell (1953), Moore (1962), Go d-
+frey (1964), and Fama (1965) . These random walk's tests are 
+based on the ind ependent identical distribution (iid) assumptions. 
+The GARCH (1,1) model is also used to capture the main chara c-
+teristics of financial time series such as volatility clustering, st a-
+tionarity and fat -tails. The GARCH model will add itionally be 
+used to discover the presence of nonlinear autoregressive cond i-
+tional heteroscedasticity (ARCH) property which says the opp o-
+site of the random walk concept. Results & Analysis. 
+ 
+ 
+ 
+Fig. 1: 
+ 
+In 2008 due to global financial crises KSE -100 show decline about 1/3, after that 2009 to 2012 was recovery se ction and 2013 to 2014 
+showed sharply upward trend and break past index levels with hi gh volatility as against past years , In 2015 broke all resistance levels 
+and touch to 35,456 highest index level but due to political & terrorism PSX fail to maintain their level and that period  show very high 
+volatility.  
+ 
+-.06
+-.04
+-.02
+.00
+.02
+.04
+.06
+.08
+.10
+250 500 750 1000 1250 1500 1750
+RETURN
+ 
+Fig. 2: 
+ 
+Table 1: 
+Descriptive Statistic                                                                                                     2008-15 
+  Mean 0.00044 
+ Median 0.00044 
+ Maximum 0.08255 
+ Minimum -0.05135 
+ Std. Dev. 0.01184 
+Skewness -0.24006 
+ Kurtosis 7.10325 
+Jarque-Bera 1409.46500 
+ Probability 0.00000 
+ Observations 1982 
+ 
+
+International Journal of Accounting and Economics Studies 99 
+ 
+0
+100
+200
+300
+400
+500
+600
+-0.04 -0.02 0.00 0.02 0.04 0.06 0.08
+Series: RETURN
+Sample 1 1983
+Observations 1982
+Mean       0.000442
+Median   0.000440
+Maximum  0.082547
+Minimum -0.051349
+Std. Dev.   0.011840
+Skewness  -0.240060
+Kurtosis   7.103251
+Jarque-Bera  1409.465
+Probability  0.000000
+ 
+Fig. 3: 
+ 
+In 2008-15 the result of descriptive statistics shows that the ave r-
+age daily return ln (Rt=lnRt1/lnRt0) the range between 0.00044 to -
+0.05135.The average daily return  of the KSE -100 close to zero 
+and high Std. deviation  which means that there are high volatility 
+and risk nature of the market . The skewness coefficient points out 
+that the returns distribution is significantly and negatively skewed; 
+the returns also show that the negative skewness in its distribution, 
+indicating the greater chance of extremely negative ou tcomes. 
+PSX daily returns are leptokurtic or fat -tailed. The kurtosis or 
+degree of excess, in the PSX returns, is  greater than the normal 
+value of 3. 
+Stationary Test. 
+ 
+Table 2: KSE-100 Index ADF and PP Unit Root Test Results at Levels 
+Null Hypothesis: KSE100 Index has a unit root 
+Type of 
+test t-statistic Critical 
+1% level 
+Critical 5% 
+level Inference 
+ADF test  
+PP test 
+0.709128 
+0.708894 
+-3.433452 
+-3.433450 
+-2.862796 
+-2.862796 
+Not reject H0 
+Not reject H0 
+ 
+Table 3: KSE-100 Index Returns ADF and PP Unit Root Test Results at 
+Levels 
+Null Hypothesis: KSE100 Index returns has a unit root 
+Type of 
+test t-statistic Critical 1% 
+level 
+Critical 5% 
+level Inference 
+ADF test  
+PP test 
+-36.79 
+-37.71 
+-3.433 
+-3.433 
+-2.863 
+-2.863 
+reject H0 
+reject H0 
+ 
+Testing non-stationarity is essential for the random walk hypoth e-
+ses, The above results of Augmented Dickey and Fuller and Phil  
+Personshow that the all null hypothesis reject and accept the al ter-
+native hypothesis as the p -value is less than the 1% significant at 
+the 1st level of the unit root test. Conclude that the PSX is ma rket 
+efficient at the weak-form level. 
+ 
+Table 4: 
+  GARCH 11 TARCH EGARCH PGARCH 
+Akaike info  -6.37671 -6.40766 -6.41554 -6.42129 
+Schwarz  -6.36543 -6.39356 -6.40143 -6.40436 
+ 
+Akaika information criterion (AIC) and SIC are the best tools to 
+choose the appropriate model. The SIC and Akaike Information 
+Criterion (AIC) have been widely used in the ARCH -GARCH 
+literature. The results in table 4 show that GARCH 1,1 is the best 
+model. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+GARCH 1, 1 Table 5: 
+Variance Equation 
+Variable Coefficient Std. Error z-Statistic Prob.  
+Ω 5.94E-06 4.16E-07 14.28147 0 
+α 0.165359 0.013715 12.0571 0 
+β 0.791296 0.01267 62.4545 0 
+Durbin-Watson stat 1.614025    Log likelihood 6323.321 
+ α+ β 0.957 
+VL 0.00000621 
+ 
+
+100 International Journal of Accounting and Economics Studies 
+ 
+Correlogram Q statistic Test 
+Table 6: 
+ AC   PAC  Q-Stat  Prob 
+1 0.146 0.146 42.263 0.000 
+2 0.041 0.020 45.659 0.000 
+3 0.023 0.014 46.701 0.000 
+4 0.052 0.047 52.040 0.000 
+5 0.031 0.017 54.003 0.000 
+6 0.018 0.009 54.671 0.000 
+7 0.013 0.007 55.001 0.000 
+8 -0.012 -0.019 55.304 0.000 
+9 0.000 0.002 55.304 0.000 
+10 0.056 0.056 61.495 0.000 
+11 0.020 0.003 62.270 0.000 
+12 -0.004 -0.010 62.309 0.000 
+13 0.008 0.009 62.424 0.000 
+14 0.033 0.027 64.568 0.000 
+15 0.017 0.005 65.142 0.000 
+16 0.027 0.022 66.613 0.000 
+17 0.023 0.014 67.704 0.000 
+18 0.041 0.034 71.110 0.000 
+19 0.004 -0.009 71.144 0.000 
+20 0.025 0.018 72.417 0.000 
+21 0.009 -0.002 72.571 0.000 
+22 0.001 -0.004 72.571 0.000 
+23 -0.046 -0.049 76.814 0.000 
+24 -0.010 -0.002 76.999 0.000 
+25 0.009 0.011 77.164 0.000 
+26 0.005 0.002 77.209 0.000 
+27 -0.017 -0.017 77.765 0.000 
+28 -0.011 -0.009 78.015 0.000 
+29 0.040 0.045 81.274 0.000 
+30 0.035 0.022 83.737 0.000 
+31 -0.009 -0.023 83.898 0.000 
+32 -0.029 -0.030 85.632 0.000 
+33 -0.022 -0.013 86.607 0.000 
+34 -0.000 0.002 86.607 0.000 
+35 0.012 0.009 86.900 0.000 
+36 -0.003 -0.007 86.913 0.000 
+     
+     
+ 
+0
+100
+200
+300
+400
+500
+600
+-8 -7 -6 -5 -4 -3 -2 -1 0 1 2 3 4
+ 
+Fig. 4: Normality Test. 
+ 
+GARCH 1,1 model results  primarily reject random walk hypoth e-
+sis. High persistence equates to slow decay and slow "regression 
+toward the mean;" low persistence equates to rapid decay and 
+quick "reversion to  the mean." GARCH coefficient ( α+ β) is very 
+close to 1, that demonstratingthe volatility shocks are quite a pe r-
+sistence. High persistence of volatility clusters on the market. This 
+is an indication of inefficiency. Furthe rmore, the coefficient of 
+lagged conditional variance is signific antlypositive and less than 
+one indicate the impact of old news on volatility is significant. 
+meaning that large changes tend to be followed by large changes 
+and the reverse is true (Mandelbrot, 1963). 
+ 
+Table 8: Variance Ratio Tests 
+Null Hypothesis: RETURN is a random walk 
+Assume no heteroskedasticity 
+Period z-Statistic P-value 
+2 -19.54942 0 
+4 -17.02463 0 
+8 -12.63861 0 
+16 -9.388312 0 
+Variance ratio analysis was used to test the random walk hypoth e-
+sis for the markets under study. variance ratio tes t result shows 
+that Pakistan stock exchange daily return data do not follow ra n-
+dom walks. 
+3. Conclusion 
+Market efficiency one of the most important area for financial 
+researchers.This paper investigated the issue of weak -form eff i-
+ciency on the Pakistan Stock Exchange (KSE-100) for the period 
+2008 to 2015. The main analytical mo dels: GARCH (1,1) model 
+has been employed to test for significant random walks and vol a-
+tility of the market.  
+The outcome  of this study indicates that the Pakistan Stock E x-
+change is weak -form of market efficient. The Results from the 
+GARCH models and other nonparametric tests generally reject the 
+presence of random walks in the PSX daily market returns. The 
+
+International Journal of Accounting and Economics Studies 101 
+ 
+lack of random walks a mark of market inefficiency and assumes 
+that assets pricing and risk are the misrepresentation in the market. 
+On the whole, the outcomes from this study give confirmation to 
+show volatility clustering and leptokurtic distributionfor the Pak i-
+stan stock exchange on the basis of daily returns data. These co n-
+clusions are tuned with internatio nal evidence of financial data 
+exhibiting the phenomenon of volatility clustering and fat -tailed 
+distribution. The long run volatility annualized is 18.58%. Highly 
+persistence factor indicates that "slow decay" toward the mean.We 
+get 4.34% risk aversion and prove the existence of altering equity 
+premium in PSX during 2008-2015.  
+References 
+[1] Ahmed, A. E. M., &Suliman, S. Z. (2011). Modeling stock market 
+volatility using garch models evidence from sudan. International 
+Journal of Business and Social Science, 2(23), 114–128. 
+[2] Baillie, R. T., & Myers, R. J. (2016). Bivariate garch estimation of 
+the optimal commodity futures hedge, 6(2), 109 –
+124.http://dx.doi.org/10.1002/jae.3950060202. 
+[3] Beltratti, A., &Morana, C. (2006). Breaks and persistency: Macroe-
+conomic causes of stock market volatility. Journal of Econometrics, 
+131, 151–177. http://dx.doi.org/10.1016/j.jeconom.2005.01.007. 
+[4] Chen, J. (2008). Variance Ratio Tests Of Random Walk Hypothesis 
+of the Euro E xchange Rate, 7(12), 97 –
+106.http://dx.doi.org/10.19030/iber.v7i12.3318. 
+[5] Chou, R. Y. (1988). Volatility persistence and s tock valuations: 
+Some empirical evidence using garch. Journal of Applied Econ o-
+metrics, 3(4), 279–294. http://dx.doi.org/10.1002/jae.3950030404. 
+[6] Cont, R. (2005). Volatility clustering in financial marke ts : Empiri-
+cal facts and agent – based models. A Kirman& G Teyssiere (eds.): 
+Long Memory in Economics , 21. 
+http://dx.doi.org/10.2139/ssrn.1411462. 
+[7] Dueker, M. J. (1997). Markov Switching in GARCH Processe s and 
+Mean Reverting Stock Market Volatility. Markov switching in 
+garch processes and mean reverting stock market volatil i-
+ty.http://dx.doi.org/10.2307/1392070. 
+[8] Engle, R. F., & Patton, A. J. (2001). What good is a volatility mod-
+el? Quantitative finance volume , 1, 237 –
+245.http://dx.doi.org/10.1088/1469-7688/1/2/305. 
+[9] Ghahramani, M., &Thavaneswaran, a. (2006). Financial applic a-
+tions of ARMA models with GARC H errors. The Journal of Risk 
+Finance, 7(5), 525 –543. 
+http://dx.doi.org/10.1108/15265940610712678. 
+[10] Hou, Y., & Li, S. (2015). Volatility behavior of stock index futures 
+in China: a b ivariate GARCH approach. Studies in Economics and 
+Finance, 32(1), 128 –154. http://dx.doi.org/10.1108/SEF-10-2013-
+0158. 
+[11] Lamoureux, C. G., &Lastrapes, W. D. (2015). Heteroskedasticity in 
+Stock Return Data : Volume versus GARCH Effects. American Fi-
+nance Association , 45(1), 221 –
+229.http://dx.doi.org/10.2307/2328817. 
+[12] Liu, M. H., &Shrestha, K. M. (2008). Analysis of the long -term re-
+lationship between macroeconomic variables and the Chinese stock 
+market u sing heteroskedasticitycointegration. Managerial Finance, 
+34(11), 744-755.http://dx.doi.org/10.1108/03074350810900479. 
+[13] Lux, T., &Marchesi, M. (2000). Volatility Clustering in Financial 
+Markets: a Microsimulation of Interacting Agents. International 
+Journal of Theoretical and Applied Finance , 03(04), 675 –702. 
+http://dx.doi.org/10.1142/S0219024900000826. 
+[14] Magnus, F. J. (2008). Capital Market Efficiency : An Analysis of 
+Weak-form Efficiency on the Ghana Stock Exchange, 5(5), 5–12. 
+[15] Mangani, R. (2005) “Evidence against Static Assets Pricing on the 
+JSE Securities Exchange of South  Africa” Working Paper No. 
+2005/02, University of Malawi, Chancellor College, Zomba. 
+[16] Mckerrow, R. (2013). Random walks in frontier stock markets. 
+Ghanaian Journal of Economics, 1, 87–103. 
+[17] Mittnik, S., Robinzonov, N., &Spindler, M. (2015). Stock market 
+volatility: identifying major drivers and the Nature of Their Impact. 
+Journal of Banking & Finance , 58, 1 –14. 
+http://dx.doi.org/10.1016/j.jbankfin.2015.04.003. 
+[18] Neely, C. J., & Weller, P. A. (2002).  Predicting Exchange Rate 
+Volatility: Genetic Programming versus GARCH and RiskMe t-
+ricsTM. REVIEW, 43–54. 
+[19] Omar, M., Hussain, H., Bhatti, G. A., &Altaf, M. (2013). Testing of 
+random walks in Karachi stock exchange. Elixir Financial Ma n-
+agement, 54, 12293–12299. 
+[20] Tuyen, T. M. (2011). Modeling Volatility Using GARCH Models: 
+Evidence from Vietnam. Economics Bulletin, 31(3), 1935–1942. 
+View publication stats
