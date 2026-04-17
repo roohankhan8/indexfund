@@ -1,0 +1,5 @@
+Portfolio,Ann. Return (%),Ann. Volatility (%),Sharpe Ratio,Max Drawdown (%),Active Stocks
+Equal Weight,15.11,21.92,0.2103,-37.98,17
+Market Cap,14.74,21.3,0.1989,-34.7,17
+Min Variance,22.37,16.56,0.7166,-23.98,11
+Max Sharpe,28.08,18.66,0.9423,-29.81,7
