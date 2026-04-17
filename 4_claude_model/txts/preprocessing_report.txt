@@ -1,0 +1,105 @@
+=================================================================
+SECTION 1 — KSE-30 stock data
+=================================================================
+Dropped 120 rows with weight = 0 (non-constituent days)
+KSE-30 stocks: 34,650 rows | 58 unique symbols | 2021-01-04 → 2025-10-01
+Symbols present: ['AIRLINK', 'APL', 'ATRL', 'AVN', 'BAFL', 'BAHL', 'BOP', 'CHCC', 'CNERGY', 'COLG', 'DAWH', 'DFML', 'DGKC', 'EFERT', 'ENGRO', 'ENGROH', 'EPCL', 'FCCL', 'FFBL', 'FFC', 'GAL', 'GGL', 'GHNI', 'HASCOL', 'HBL', 'HUBC', 'INIL', 'ISL', 'KAPCO', 'LUCK', 'MARI', 'MCB', 'MEBL', 'MLCF', 'MTL', 'NBP', 'NETSOL', 'NML', 'NRL', 'OGDC', 'PAEL', 'PIOC', 'POL', 'PPL', 'PRL', 'PSO', 'SAZEW', 'SEARL', 'SHEL', 'SNGP', 'SSGC', 'SYS', 'TELE', 'TPLP', 'TREET', 'TRG', 'UBL', 'UNITY']
+
+=================================================================
+SECTION 2 — KSE-30 index level
+=================================================================
+Index level: 1,238 rows | 2021-01-04 → 2025-10-01
+Nulls: {'date': 0, 'idx_return': 0, 'idx_log_return': 0, 'idx_total_volume': 0, 'idx_avg_wt_change': 0, 'idx_num_companies': 0, 'idx_rolling_vol_30d': 0}
+
+=================================================================
+SECTION 3 — Fund data: NAV returns + fund flows
+=================================================================
+AKD — daily rows: 1,643 | monthly rows: 60 | flow spikes (>2σ): 2
+  AUM range: 0.00 → 2107.24 PKR mn
+  Fund flow range: -768.67 → 823.51 PKR mn
+  Spike months: [Period('2024-05', 'M'), Period('2024-06', 'M')]
+NBP — daily rows: 1,922 | monthly rows: 63 | flow spikes (>2σ): 3
+  AUM range: 0.00 → 94.00 PKR mn
+  Fund flow range: -9.01 → 24.95 PKR mn
+  Spike months: [Period('2025-05', 'M'), Period('2025-10', 'M'), Period('2026-01', 'M')]
+NTI — daily rows: 2,127 | monthly rows: 70 | flow spikes (>2σ): 3
+  AUM range: 0.00 → 212.86 PKR mn
+  Fund flow range: -68.23 → 66.30 PKR mn
+  Spike months: [Period('2020-04', 'M'), Period('2024-05', 'M'), Period('2024-06', 'M')]
+
+=================================================================
+SECTION 4 — Macro data
+=================================================================
+Interest rate: forward-filled to 1732 daily rows from 7.25 → 10.5%
+CPI: 91 monthly rows | 2018-07-31 → 2026-01-31
+
+=================================================================
+SECTION 5 — Building daily master table
+=================================================================
+Daily master: 1,159 rows × 22 columns
+Date range: 2021-01-04 → 2025-10-01
+Columns: ['date', 'idx_return', 'idx_log_return', 'idx_total_volume', 'idx_avg_wt_change', 'idx_num_companies', 'idx_rolling_vol_30d', 'oil_price', 'oil_log_return', 'usdpkr', 'usdpkr_log_return', 'interest_rate', 'cpi_yoy', 'nav_akd', 'nav_return_akd', 'nav_vol_akd', 'nav_nbp', 'nav_return_nbp', 'nav_vol_nbp', 'nav_nti', 'nav_return_nti', 'nav_vol_nti']
+
+Remaining nulls in daily master:
+oil_log_return        1
+usdpkr               39
+usdpkr_log_return    40
+nav_vol_akd          11
+dtype: int64
+
+=================================================================
+SECTION 6 — Building monthly master table
+=================================================================
+Monthly master: 39 rows × 30 columns
+Date range: 2021-03-31 → 2025-09-30
+Columns: ['month', 'date', 'idx_return_monthly', 'idx_vol_monthly', 'idx_total_vol', 'oil_price_end', 'oil_return_monthly', 'usdpkr_end', 'usdpkr_return_monthly', 'interest_rate_end', 'cpi_yoy_end', 'nav_akd_end', 'nav_return_akd_monthly', 'aum_akd', 'flow_akd', 'flow_pct_akd', 'flow_spike_akd', 'nav_nbp_end', 'nav_return_nbp_monthly', 'aum_nbp', 'flow_nbp', 'flow_pct_nbp', 'flow_spike_nbp', 'nav_nti_end', 'nav_return_nti_monthly', 'aum_nti', 'flow_nti', 'flow_pct_nti', 'flow_spike_nti', 'total_fund_flow']
+
+No nulls in monthly master.
+
+=================================================================
+SECTION 7 — ADF stationarity tests
+=================================================================
+Series                                ADF stat    p-value  Stationary?
+----------------------------------------------------------------------
+KSE-30 index log return                -1.6474     0.0998           NO
+KSE-30 total volume                   -10.8160     0.0000          YES
+Brent oil log return                  -32.5885     0.0000          YES
+USD/PKR log return                    -23.0748     0.0000          YES
+Brent oil price (level)                -2.9290     0.0035          YES
+USD/PKR (level)                        -1.3357     0.1819           NO
+Interest rate (level)                  -1.2038     0.2289           NO
+KSE-30 monthly return                  -1.5827     0.1222           NO
+CPI YoY monthly                        -0.8688     0.3907           NO
+Fund flow % (AKD)                      -6.0966     0.0000          YES
+Fund flow % (NBP)                      -7.1137     0.0000          YES
+Fund flow % (NTI)                      -6.1020     0.0000          YES
+
+Interpretation: log returns of prices are typically stationary (I(0)).
+Price levels are typically non-stationary (I(1)) — confirmed above.
+Use log returns (not levels) as model inputs for ARIMA/LSTM.
+
+=================================================================
+SECTION 8 — Descriptive statistics
+=================================================================
+
+KSE-30 daily log return:
+  Mean: 0.348943  Std: 0.170821  Skew: -0.0172  Kurt: -1.0286
+  Min: 0.0301  Max: 0.6572
+  Positive days: 1159 (100.0%)
+
+Fund NAV monthly returns (descriptive):
+  AKD: mean=1.37%  std=5.61%  min=-6.62%  max=15.12%
+  NBP: mean=1.81%  std=6.28%  min=-9.85%  max=15.60%
+  NTI: mean=2.04%  std=6.23%  min=-11.47%  max=15.54%
+
+Fund flow % of AUM (descriptive):
+  AKD: mean=-1.59%  std=17.37%  inflow months=27  outflow months=12
+  NBP: mean=24.03%  std=151.25%  inflow months=16  outflow months=23
+  NTI: mean=-2.43%  std=17.12%  inflow months=26  outflow months=13
+
+=================================================================
+SECTION 9 — Saving output files
+=================================================================
+Saved: daily_master.csv
+Saved: monthly_master.csv
+Saved: kse30_stocks_daily.csv
