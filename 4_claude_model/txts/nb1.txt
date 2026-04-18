@@ -1,0 +1,83 @@
+Loading data …
+Daily   : 1,159 rows  2021-01-04 → 2025-10-01
+Monthly : 39 rows  2021-03-31 → 2025-09-30
+
+── A. Daily EDA ──────────────────────────────────────────────────
+A1. Macro time-series panel …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\A1_macro_daily.png
+A2. Fund NAV levels …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\A2_nav_levels.png
+A3. NAV return distributions …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\A3_nav_return_dist.png
+A4. Rolling volatility …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\A4_rolling_volatility.png
+A5. Macro vs NAV return scatter …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\A5_macro_vs_nav_scatter.png
+A6. Daily correlation heatmap …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\A6_daily_correlation_heatmap.png
+A7. Squared returns (volatility clustering evidence) …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\A7_squared_returns_clustering.png
+A8. Interest rate vs NAV …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\A8_interest_rate_vs_nav.png
+
+── B. Monthly EDA ────────────────────────────────────────────────
+B1. AUM over time …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\B1_aum_over_time.png
+B2. Fund flows bar charts …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\B2_fund_flows_bar.png
+B3. Total fund flow vs macro …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\B3_flow_vs_macro.png
+B4. Monthly NAV returns …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\B4_monthly_nav_returns.png
+B5. Monthly correlation heatmap …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\B5_monthly_correlation_heatmap.png
+B6. Cross-correlation: fund flow lag analysis …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\B6_cross_correlation_flow_macro.png
+B7. Fund flow scatter vs CPI …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\eda\B7_flow_vs_cpi_scatter.png
+
+── C. Printed summaries ──────────────────────────────────────────
+
+[Table] Descriptive statistics — Daily NAV returns
+  AKD Jarque-Bera: stat=7063173.32, p=0.0000  (Non-normal)
+  NBP Jarque-Bera: stat=15145131.95, p=0.0000  (Non-normal)
+  NIT Jarque-Bera: stat=10552380.29, p=0.0000  (Non-normal)
+         mean       std       min       max  skewness    kurtosis
+AKD  0.000811  0.027452 -0.592590  0.600057  0.234905  384.100380
+NBP  0.000747  0.096029 -2.294768  2.293365 -0.046178  562.444656
+NIT  0.000494  0.036956 -0.840365  0.847624  0.198293  469.482194
+
+[Table] Descriptive statistics — Monthly fund flows (% of AUM)
+     count    mean     std     min     25%     50%     75%     max
+AKD   39.0 -0.0159  0.1737 -1.0636 -0.0006  0.0061  0.0200  0.0873
+NBP   39.0  0.2403  1.5125 -1.0454 -0.1951 -0.0398  0.1041  8.9971
+NIT   39.0 -0.0243  0.1712 -1.0437 -0.0061  0.0037  0.0122  0.0659
+
+[Table] Inflow vs outflow months
+  AKD: 27 inflow months, 12 outflow months (69% inflow rate)
+  NBP: 16 inflow months, 23 outflow months (41% inflow rate)
+  NIT: 26 inflow months, 13 outflow months (67% inflow rate)
+
+[Table] Pairwise Pearson correlations — Monthly
+                Oil return  USD/PKR return  Interest rate  CPI YoY  AKD NAV ret  NBP NAV ret  NIT NAV ret  AKD flow %  NBP flow %  NIT flow %
+Oil return           1.000          -0.245         -0.302   -0.134       -0.082       -0.080       -0.004       0.091      -0.121       0.106
+USD/PKR return      -0.245           1.000         -0.004    0.165       -0.207       -0.148       -0.194       0.046      -0.020       0.071
+Interest rate       -0.302          -0.004          1.000    0.647        0.292        0.378        0.388      -0.206       0.158      -0.220
+CPI YoY             -0.134           0.165          0.647    1.000        0.023        0.105        0.152       0.071      -0.025       0.030
+AKD NAV ret         -0.082          -0.207          0.292    0.023        1.000        0.912        0.926      -0.139      -0.032      -0.106
+NBP NAV ret         -0.080          -0.148          0.378    0.105        0.912        1.000        0.943      -0.054      -0.005      -0.029
+NIT NAV ret         -0.004          -0.194          0.388    0.152        0.926        0.943        1.000      -0.035       0.024      -0.023
+AKD flow %           0.091           0.046         -0.206    0.071       -0.139       -0.054       -0.035       1.000       0.151       0.974
+NBP flow %          -0.121          -0.020          0.158   -0.025       -0.032       -0.005        0.024       0.151       1.000       0.148
+NIT flow %           0.106           0.071         -0.220    0.030       -0.106       -0.029       -0.023       0.974       0.148       1.000
+
+[Summary] Cross-correlation peak lags (fund flow % → macro)
+  AKD flow % vs CPI: peak r=0.242 at lag=+6 months
+  AKD flow % vs Interest Rate: peak r=-0.216 at lag=-3 months
+  NBP flow % vs CPI: peak r=-0.243 at lag=+6 months
+  NBP flow % vs Interest Rate: peak r=0.228 at lag=-1 months
+  NIT flow % vs CPI: peak r=0.233 at lag=+6 months
+  NIT flow % vs Interest Rate: peak r=-0.220 at lag=+0 months
+
+All EDA figures saved to: D:\roohan\fyp-indexfunds\4_claude_model\figures\eda
+EDA COMPLETE.

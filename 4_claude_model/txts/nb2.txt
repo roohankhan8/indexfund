@@ -1,0 +1,86 @@
+Monthly rows: 39  (2021-03-31 → 2025-09-30)
+
+── Section 1: ARIMA Baseline ─────────────────────────────────────
+
+  AKD
+    ARIMA train           RMSE=0.019779  MAE=0.013098  R²=0.0318  MAPE=475.39%
+    ARIMA test            RMSE=0.292621  MAE=0.110464  R²=-0.0941  MAPE=253.64%
+
+  NBP
+    ARIMA train           RMSE=0.341328  MAE=0.270539  R²=0.2513  MAPE=2119.08%
+    ARIMA test            RMSE=2.609607  MAE=1.309593  R²=-0.1871  MAPE=932.16%
+
+  NIT
+    ARIMA train           RMSE=0.037902  MAE=0.018193  R²=0.0140  MAPE=204.47%
+    ARIMA test            RMSE=0.281103  MAE=0.109678  R²=-0.0471  MAPE=413.34%
+
+── Section 2: Feature Engineering ───────────────────────────────
+
+── Section 3: LSTM (numpy) ───────────────────────────────────────
+
+── Section 5: Training LSTM & LSTM-Attention ────────────────────
+
+  ── AKD ──
+    Train: 22 samples | Test: 14 samples
+    Training LSTM …
+    Epoch 100/300  MSE=0.003014
+    Epoch 200/300  MSE=0.001536
+    Epoch 300/300  MSE=0.001226
+    Training LSTM-Attention …
+    Epoch 100/300  MSE=0.008716
+    Epoch 200/300  MSE=0.003326
+    Epoch 300/300  MSE=0.006463
+
+    Metrics comparison — AKD
+    Model                        RMSE        MAE       R²    MAPE%
+    ------------------------------------------------------------
+    ARIMA(1,0,1)             0.292621   0.110464  -0.0941   253.64%
+    LSTM                     0.314453   0.139490  -0.2634  2659.81%
+    LSTM-Attention           0.298282   0.109665  -0.1368   514.61%
+
+  ── NBP ──
+    Train: 22 samples | Test: 14 samples
+    Training LSTM …
+    Epoch 100/300  MSE=0.009652
+    Epoch 200/300  MSE=0.000543
+    Epoch 300/300  MSE=0.000093
+    Training LSTM-Attention …
+    Epoch 100/300  MSE=0.027677
+    Epoch 200/300  MSE=0.015777
+    Epoch 300/300  MSE=0.013515
+
+    Metrics comparison — NBP
+    Model                        RMSE        MAE       R²    MAPE%
+    ------------------------------------------------------------
+    ARIMA(1,0,1)             2.609607   1.309593  -0.1871   932.16%
+    LSTM                     2.557762   1.482644  -0.1404  1120.10%
+    LSTM-Attention           2.849868   1.344755  -0.4157   542.13%
+
+  ── NIT ──
+    Train: 22 samples | Test: 14 samples
+    Training LSTM …
+    Epoch 100/300  MSE=0.012908
+    Epoch 200/300  MSE=0.005258
+    Epoch 300/300  MSE=0.001571
+    Training LSTM-Attention …
+    Epoch 100/300  MSE=0.025917
+    Epoch 200/300  MSE=0.017305
+    Epoch 300/300  MSE=0.007062
+
+    Metrics comparison — NIT
+    Model                        RMSE        MAE       R²    MAPE%
+    ------------------------------------------------------------
+    ARIMA(1,0,1)             0.281103   0.109678  -0.0471   413.34%
+    LSTM                     0.303744   0.161180  -0.2226   814.31%
+    LSTM-Attention           0.299759   0.151301  -0.1907   723.35%
+
+── Section 6: Generating figures ────────────────────────────────
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\fund_flow\F1_AKD_predictions.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\fund_flow\F1_NBP_predictions.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\fund_flow\F1_NIT_predictions.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\fund_flow\F2_training_loss_curves.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\fund_flow\F3_rmse_comparison.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\fund_flow\F4_actual_vs_predicted_scatter.png
+
+All figures saved to: D:\roohan\fyp-indexfunds\4_claude_model\figures\fund_flow
+FUND FLOW PREDICTION COMPLETE.

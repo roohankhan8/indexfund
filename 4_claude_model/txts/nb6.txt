@@ -1,0 +1,89 @@
+=================================================================
+TABLE 1 — Descriptive Statistics
+=================================================================
+Fund               Data    N  Mean (%)  Std (%)   Min (%)  Max (%)  Skewness  Excess Kurt     JB stat  JB p-value Normal?
+ AKD   Daily NAV return 1159    0.0811   2.7440  -59.2590  60.0057    0.2346     382.4402  7063173.32         0.0      No
+ NBP   Daily NAV return 1159    0.0747   9.5987 -229.4768 229.3365   -0.0461     560.0160 15145131.95         0.0      No
+ NIT   Daily NAV return 1159    0.0494   3.6940  -84.0365  84.7624    0.1980     467.4541 10552380.29         0.0      No
+ AKD Monthly flow % AUM   39   -1.5876  17.1440 -106.3618   8.7316   -5.8382      32.7747         NaN         NaN       —
+ NBP Monthly flow % AUM   39   24.0313 149.2940 -104.5396 899.7133    5.1637      27.4000         NaN         NaN       —
+ NIT Monthly flow % AUM   39   -2.4309  16.9000 -104.3653   6.5894   -5.6327      30.9605         NaN         NaN       —
+
+=================================================================
+TABLE 2 — GARCH Model Selection Summary
+=================================================================
+Fund      Model  ω (omega)  α (alpha)  β (beta)  α+β (persist)     AIC           Note
+ AKD GARCH(1,1)   0.622904     0.2939    0.7061         1.0000 4788.69 near unit-root
+ NBP GARCH(1,1)   9.157242     0.2384    0.7594         0.9978 7798.69 near unit-root
+ NIT GARCH(1,1)   0.810764     0.7052    0.1873         0.8926 3861.48               
+
+=================================================================
+TABLE 3 — Fund Flow Prediction Model Comparison
+=================================================================
+Fund        Model  Train N  Test N     RMSE      MAE      R²     Note
+ AKD ARIMA(1,0,1)       25      14 0.292621 0.110464 -0.0941   ← Best
+ AKD         LSTM       25      14 0.314453 0.139490 -0.2634         
+ AKD    LSTM-Attn       25      14 0.298282 0.109665 -0.1368         
+ NBP ARIMA(1,0,1)       25      14 2.609607 1.309593 -0.1871 Baseline
+ NBP         LSTM       25      14 2.557762 1.482644 -0.1404   ← Best
+ NBP    LSTM-Attn       25      14 2.849868 1.344755 -0.4157         
+ NIT ARIMA(1,0,1)       25      14 0.281103 0.109678 -0.0471   ← Best
+ NIT         LSTM       25      14 0.303744 0.161180 -0.2226         
+ NIT    LSTM-Attn       25      14 0.299759 0.151301 -0.1907         
+
+Note: All models trained on Jan 2021–Dec 2023, tested on Jan 2024–Sep 2025
+      Negative R² indicates test-set variance exceeds model error
+      (expected with only 39 monthly observations total)
+
+=================================================================
+TABLE 4 — Market Efficiency Test Results
+=================================================================
+Fund  N (daily)  Runs Z  Runs p        Runs  VR(2)  VR(2) p  VR(4) VR verdict  ACF lag-1 Overall
+ AKD       1159 -2.5774  0.0100 Inefficient 0.5452   0.2704 0.3695  Efficient    -0.4552   MIXED
+ NBP       1159 -0.6283  0.5298   Efficient 0.5096   0.3197 0.2659  Efficient    -0.4909   MIXED
+ NIT       1159 -2.5616  0.0104 Inefficient 0.5131   0.2821 0.3205  Efficient    -0.4873   MIXED
+
+Note: Runs test rejects H0 for AKD & NIT; VR test fails to reject for all funds.
+Strong negative ACF lag-1 suggests daily NAV pricing mechanism, not true RW.
+All Hurst exponents H > 0.64 → long-memory persistent processes.
+
+=================================================================
+TABLE 5 — Portfolio Performance Comparison
+=================================================================
+              Ann. Return (%)  Ann. Volatility (%)  Sharpe Ratio  Max Drawdown (%)  Active Stocks
+Portfolio                                                                                        
+Equal Weight            15.11                21.92        0.2103            -37.98             17
+Market Cap              14.74                21.30        0.1989            -34.70             17
+Min Variance            22.37                16.56        0.7166            -23.98             11
+Max Sharpe              28.08                18.66        0.9423            -29.81              7
+
+Risk-free rate: 10.5% p.a. (SBP policy rate end of analysis period)
+Max Sharpe portfolio top holdings: FFC (20%), MEBL (20%), EFERT (20%)
+
+── Generating summary figures ────────────────────────────────────
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\summary\S1_results_dashboard.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\summary\S2_portfolio_weights_final.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\summary\S3_efficiency_summary_by_fund.png
+
+Saved: results_descriptive.csv
+Saved: results_garch.csv
+Saved: results_fund_flow_prediction.csv
+Saved: results_efficiency.csv
+Saved: results_portfolio.csv
+
+All figures saved to: D:\roohan\fyp-indexfunds\4_claude_model\figures\summary
+
+=================================================================
+FYDP RESULTS SUMMARY COMPLETE
+=================================================================
+
+File inventory for thesis:
+  Preprocessing  : preprocessing.py
+  EDA            : nb1_eda.py            (15 figures)
+  Fund flow pred : nb2_fund_flow_prediction.py  (6 figures)
+  GARCH vol      : nb3_garch_volatility.py      (8 figures)
+  Portfolio opt  : nb4_portfolio_optimisation.py (9 figures)
+  Mkt efficiency : nb5_market_efficiency.py     (6 figures)
+  Summary        : nb6_results_summary.py       (3 figures)
+  Total figures  : 47
+  Output CSVs    : 5 results tables + portfolio_weights.csv

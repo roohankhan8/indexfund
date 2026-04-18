@@ -1,0 +1,116 @@
+Stock rows: 34,650  Symbols: 58
+Date range: 2021-01-04 → 2025-10-01
+
+Active symbols (≥80% of trading days): 19
+['ATRL', 'BAHL', 'DGKC', 'EFERT', 'ENGRO', 'FFC', 'HBL', 'HUBC', 'LUCK', 'MARI', 'MCB', 'MEBL', 'MLCF', 'OGDC', 'POL', 'PPL', 'PSO', 'SYS', 'UBL']
+
+── Section 1: Building returns matrix ───────────────────────────
+Returns matrix: 1155 dates × 17 stocks
+Remaining NaN: 99
+
+── Section 2: Per-stock descriptive stats ────────────────────────
+
+[Table] Top 10 by Sharpe ratio:
+       mean_annual  vol_annual  sharpe_annual  skewness
+FFC         0.3160      0.2435         0.8665    0.9830
+MEBL        0.3176      0.2820         0.7540    0.4082
+EFERT       0.2737      0.2532         0.6663    0.1534
+ATRL        0.3028      0.4446         0.4449    0.5829
+BAHL        0.2282      0.3051         0.4039   -0.0468
+HUBC        0.2211      0.3244         0.3578   -0.8088
+UBL         0.2373      0.4370         0.3028  -13.8321
+OGDC        0.2011      0.3514         0.2734    0.5201
+HBL         0.1683      0.3116         0.2033    0.8850
+DGKC        0.1781      0.4043         0.1809    0.4717
+
+[Table] Bottom 10 by Sharpe ratio:
+      mean_annual  vol_annual  sharpe_annual  skewness
+SYS       -0.2525      0.8914        -0.4010  -23.6394
+LUCK      -0.0836      0.8029        -0.2348  -26.6700
+MARI      -0.1241      1.0497        -0.2182  -29.3974
+POL        0.1285      0.2388         0.0985   -1.3684
+MCB        0.1385      0.2581         0.1299    0.1849
+PSO        0.1546      0.3597         0.1379    0.3951
+PPL        0.1628      0.3748         0.1542    0.5242
+DGKC       0.1781      0.4043         0.1809    0.4717
+HBL        0.1683      0.3116         0.2033    0.8850
+OGDC       0.2011      0.3514         0.2734    0.5201
+
+── Section 3: Correlation analysis ──────────────────────────────
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P1_stock_correlation_heatmap.png
+
+Correlation stats across 136 pairs:
+  Mean: 0.2585  Std: 0.1374
+  Min: 0.0233  Max: 0.8485
+  % positive pairs: 100.0%
+  % pairs with r > 0.5: 3.7%
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P2_clustered_correlation.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P3_return_risk_scatter.png
+
+── Section 4: Markowitz optimisation ────────────────────────────
+
+Minimum Variance Portfolio:
+  Return=22.37%  Vol=16.56%  Sharpe=0.7166
+
+Maximum Sharpe Portfolio:
+  Return=28.08%  Vol=18.66%  Sharpe=0.9423
+
+Equal Weight Portfolio:
+  Return=15.11%  Vol=21.92%  Sharpe=0.2103
+
+Market-Cap Weight Portfolio:
+  Return=14.74%  Vol=21.30%  Sharpe=0.1989
+
+Generating efficient frontier (10,000 random portfolios) …
+
+── Section 5: Portfolio figures ──────────────────────────────────
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P4_efficient_frontier.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P5_weight_comparison_bar.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P5b_weight_heatmap.png
+
+Computing cumulative portfolio returns …
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P6_cumulative_returns.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P7_rolling_sharpe.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P8_return_distributions_violin.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio\P9_drawdowns.png
+
+── Section 6: Summary tables ─────────────────────────────────────
+
+[Table] Portfolio Performance Summary
+              Ann. Return (%)  Ann. Volatility (%)  Sharpe Ratio  Max Drawdown (%)  Active stocks
+Portfolio                                                                                        
+Equal Weight            15.11                21.92        0.2103            -37.98             17
+Market Cap              14.74                21.30        0.1989            -34.70             17
+Min Variance            22.37                16.56        0.7166            -23.98             11
+Max Sharpe              28.08                18.66        0.9423            -29.81              7
+
+Weights saved → D:\roohan\fyp-indexfunds\4_claude_model\portfolio_weights.csv
+   Symbol  Equal Weight (%)  Market Cap Wt (%)  Min Variance Wt (%)  Max Sharpe Wt (%)  Ann Return (%)  Ann Vol (%)  Sharpe
+4     FFC              5.88               9.71                20.00              20.00           31.60        24.35  0.8665
+10   MEBL              5.88               6.04                11.84              20.00           31.76        28.20  0.7540
+3   EFERT              5.88               5.89                16.78              20.00           27.37        25.32  0.6663
+1    BAHL              5.88               5.19                 7.45              15.31           22.82        30.51  0.4039
+0    ATRL              5.88               1.04                 0.00              11.32           30.28        44.46  0.4449
+6    HUBC              5.88               8.22                 7.11               9.81           22.11        32.44  0.3578
+16    UBL              5.88               8.10                 0.00               3.57           23.73        43.70  0.3028
+2    DGKC              5.88               1.61                 0.00               0.00           17.81        40.43  0.1809
+5     HBL              5.88               6.98                 1.95               0.00           16.83        31.16  0.2033
+8    MARI              5.88               5.49                 0.70               0.00          -12.41       104.97 -0.2182
+7    LUCK              5.88               7.11                 0.22               0.00           -8.36        80.29 -0.2348
+11   OGDC              5.88               6.58                 0.00               0.00           20.11        35.14  0.2734
+9     MCB              5.88               6.50                13.17               0.00           13.85        25.81  0.1299
+12    POL              5.88               5.27                20.00               0.00           12.85        23.88  0.0985
+13    PPL              5.88               5.71                 0.00               0.00           16.28        37.48  0.1542
+
+[Table] Top 10 max-Sharpe portfolio stocks:
+   Symbol  Max Sharpe Wt (%)  Ann Return (%)  Ann Vol (%)  Sharpe
+4     FFC              20.00           31.60        24.35  0.8665
+10   MEBL              20.00           31.76        28.20  0.7540
+3   EFERT              20.00           27.37        25.32  0.6663
+1    BAHL              15.31           22.82        30.51  0.4039
+0    ATRL              11.32           30.28        44.46  0.4449
+6    HUBC               9.81           22.11        32.44  0.3578
+16    UBL               3.57           23.73        43.70  0.3028
+
+All figures saved to: D:\roohan\fyp-indexfunds\4_claude_model\figures\portfolio
+PORTFOLIO OPTIMISATION COMPLETE.
