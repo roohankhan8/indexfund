@@ -1,4 +1,4 @@
-# Long Short-Term Memory Method: A Case Study of Pakistan Stock Market Volatility (2025)
+c# Long Short-Term Memory Method: A Case Study of Pakistan Stock Market Volatility (2025)
 
 ## Paper Details
 - Authors: Zahid Iqbal, Muhammad Shoaib

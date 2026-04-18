@@ -1,0 +1,34 @@
+# FYDP Project — Python Dependencies
+# Install with: pip install -r requirements.txt
+#
+# Core data
+numpy
+pandas
+openpyxl
+scipy
+
+# Visualisation
+matplotlib
+seaborn
+
+# Machine learning (preprocessing + metrics only — LSTM built from numpy)
+scikit-learn
+
+# Optional — install these for faster/better LSTM training
+tensorflow       # replace numpy LSTM with Keras in nb2
+torch             # alternative deep learning backend
+arch              # proper GARCH via MLE (replaces numpy GARCH in nb3)
+statsmodels      # proper ARIMA + Ljung-Box (replaces manual implementations)
+cvxpy             # convex portfolio optimisation (replaces scipy.optimize)
+
+xgboost
+shap
+statsmodels
+selenium
+requests
+openpyxl
+xlrd
+odfpy
+tensorflow
+lightgbm 
+PyPortfolioOpt

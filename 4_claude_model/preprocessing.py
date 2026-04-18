@@ -570,22 +570,22 @@ log("SECTION 9 — Saving output files")
 log("=" * 65)
 
 daily.drop(columns=['month']).to_csv(
-    os.path.join(BASE, "daily_master.csv"), index=False
+    os.path.join(BASE, "new_data/daily_master.csv"), index=False
 )
 log("Saved: daily_master.csv")
 
 monthly_agg.drop(columns=['month'], errors='ignore').to_csv(
-    os.path.join(BASE, "monthly_master.csv"), index=False
+    os.path.join(BASE, "new_data/monthly_master.csv"), index=False
 )
 log("Saved: monthly_master.csv")
 
 df_stocks.to_csv(
-    os.path.join(BASE, "kse30_stocks_daily.csv"), index=False
+    os.path.join(BASE, "new_data/kse30_stocks_daily.csv"), index=False
 )
 log("Saved: kse30_stocks_daily.csv")
 
 # Write report
-report_path = os.path.join(BASE, "preprocessing_report.txt")
+report_path = os.path.join(BASE, "new_data/preprocessing_report.txt")
 with open(report_path, 'w', encoding='utf-8') as f:
     f.write("\n".join(report_lines))
 log("Saved: preprocessing_report.txt")
