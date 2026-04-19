@@ -1,0 +1,201 @@
+Stock rows: 34,650  |  Symbols ever: 58
+Date range: 2021-01-04 → 2025-10-01
+Rebalancing dates confirmed: 10
+
+── Section 1: Building rebalancing panel dataset ─────────────────
+Panel: 226 rows | 9 windows | 41 unique symbols
+Retained rate: 89.8%
+Dropped rate:  10.2%
+
+Feature NaN rates:
+  cur_weight          : 0.0%
+  mom_30              : 0.0%
+  mom_60              : 0.0%
+  mom_90              : 0.0%
+  vol_30              : 0.0%
+  vol_60              : 0.0%
+  avg_volume          : 0.0%
+  mkt_cap_proxy       : 0.0%
+  price_to_ma20       : 0.0%
+  price_to_ma50       : 0.0%
+  wt_drift            : 0.0%
+  wt_range            : 0.0%
+
+── Section 2: Rebalancing pattern analysis ───────────────────────
+
+Rebalancing summary across 9 periods:
+  Window 1 (2021-03-15 → 2021-09-15): 21 retained, 3 dropped | Dropped: ['CHCC', 'NML', 'PAEL']
+  Window 2 (2021-09-15 → 2022-03-15): 23 retained, 2 dropped | Dropped: ['ISL', 'PIOC']
+  Window 3 (2022-03-15 → 2022-09-15): 25 retained, 1 dropped | Dropped: ['SEARL']
+  Window 4 (2022-09-15 → 2023-03-15): 25 retained, 2 dropped | Dropped: ['GGL', 'MLCF']
+  Window 5 (2023-03-15 → 2023-09-15): 23 retained, 3 dropped | Dropped: ['NRL', 'TPLP', 'UNITY']
+  Window 6 (2023-09-15 → 2024-03-15): 21 retained, 3 dropped | Dropped: ['AVN', 'EPCL', 'KAPCO']
+  Window 7 (2024-03-15 → 2024-09-16): 22 retained, 2 dropped | Dropped: ['CHCC', 'TRG']
+  Window 8 (2024-09-16 → 2025-03-17): 20 retained, 5 dropped | Dropped: ['BAFL', 'ENGRO', 'NRL', 'PRL', 'SNGP']
+  Window 9 (2025-03-17 → 2025-09-15): 23 retained, 2 dropped | Dropped: ['AIRLINK', 'MTL']
+
+Feature comparison: retained vs dropped stocks
+Feature                Retained mean   Dropped mean    p-value
+--------------------------------------------------------------
+cur_weight                    4.1019         1.1724     0.0000 **
+mom_30                       -0.0247        -0.0572     0.0802 *
+mom_60                       -0.0243        -0.0844     0.0110 **
+mom_90                       -0.0099        -0.0883     0.0158 **
+vol_30                        0.2875         0.3502     0.0060 **
+vol_60                        0.2969         0.3498     0.0054 **
+avg_volume              2212332.8752   1927075.6434     0.8295 
+mkt_cap_proxy         250115351.7538 106148171.4132     0.0017 **
+price_to_ma20                -0.0126        -0.0255     0.3780 
+price_to_ma50                -0.0148        -0.0483     0.0376 **
+wt_drift                      0.0062        -0.0438     0.1789 
+wt_range                      0.3470         0.1314     0.0000 **
+
+── Section 3: Train/test split ───────────────────────────────────
+Train: 176 obs (7 windows)
+Test:  50  obs (2  windows)
+
+── Task A: Weight prediction (regression) ────────────────────────
+    Naive (train)                   RMSE=0.7973%  MAE=0.5838%  R²=0.8799
+    Naive (test)                    RMSE=1.4723%  MAE=0.9121%  R²=0.7460
+    Ridge regression (train)        RMSE=0.7578%  MAE=0.5690%  R²=0.8915
+    Ridge regression (test)         RMSE=1.4651%  MAE=0.9201%  R²=0.7484
+
+  Ridge feature importances (coefficient magnitudes):
+    cur_weight          : +1.9272
+    price_to_ma50       : -0.4087
+    wt_range            : +0.2610
+    mom_30              : +0.2091
+    mom_90              : +0.1843
+    avg_volume          : +0.1419
+    mkt_cap_proxy       : -0.1182
+    vol_60              : -0.1107
+    price_to_ma20       : +0.0950
+    wt_drift            : -0.0830
+    mom_60              : +0.0773
+    vol_30              : -0.0536
+    Random Forest (train)           RMSE=0.5708%  MAE=0.4463%  R²=0.9384
+    Random Forest (test)            RMSE=1.6108%  MAE=1.0182%  R²=0.6959
+
+  RF feature importances:
+    cur_weight          : 0.9662
+    wt_range            : 0.0068
+    vol_60              : 0.0065
+    mkt_cap_proxy       : 0.0038
+    avg_volume          : 0.0034
+    mom_90              : 0.0028
+    wt_drift            : 0.0025
+    vol_30              : 0.0024
+    mom_30              : 0.0024
+    price_to_ma20       : 0.0016
+    mom_60              : 0.0009
+    price_to_ma50       : 0.0008
+
+── Task B: Inclusion prediction (classification) ─────────────────
+    Naive (all retained)            Acc=0.860  AUC=0.500  Prec=0.860  Rec=1.000  TP=43  FP=7  FN=0  TN=0
+    Logistic (train)                Acc=0.920  AUC=nan  Prec=0.920  Rec=1.000  TP=160  FP=14  FN=0  TN=2
+    Logistic regression             Acc=0.860  AUC=0.844  Prec=0.860  Rec=1.000  TP=43  FP=7  FN=0  TN=0
+
+  Logistic regression coefficients:
+    cur_weight          : +1.5032  (raises retention prob)
+    mkt_cap_proxy       : +0.6172  (raises retention prob)
+    wt_range            : +0.4990  (raises retention prob)
+    mom_90              : +0.4233  (raises retention prob)
+    vol_30              : -0.3629  (lowers retention prob)
+    mom_60              : -0.3232  (lowers retention prob)
+    mom_30              : +0.2309  (raises retention prob)
+    price_to_ma50       : -0.1837  (lowers retention prob)
+    vol_60              : +0.1494  (raises retention prob)
+    wt_drift            : +0.1172  (raises retention prob)
+    price_to_ma20       : -0.0693  (lowers retention prob)
+    avg_volume          : -0.0248  (lowers retention prob)
+    RF Classifier (train)           Acc=0.938  AUC=nan  Prec=0.936  Rec=1.000  TP=160  FP=11  FN=0  TN=5
+    RF Classifier                   Acc=0.860  AUC=0.771  Prec=0.860  Rec=1.000  TP=43  FP=7  FN=0  TN=0
+
+  Classification report (Random Forest, test set):
+              precision    recall  f1-score   support
+
+     Dropped       0.00      0.00      0.00         7
+    Retained       0.86      1.00      0.92        43
+
+    accuracy                           0.86        50
+   macro avg       0.43      0.50      0.46        50
+weighted avg       0.74      0.86      0.80        50
+
+
+── Section 4: Predict next rebalancing (2025-09-15) ─────────────
+Current constituents (2025-03-17): 30
+
+Predictions for 2025-09-15 rebalancing (30 current constituents):
+
+Symbol    CurWt%  PredWt(R)  PredWt(RF)   RetProb     Risk
+----------------------------------------------------------
+DFML        0.10       0.14        0.36     0.543    0.457 ⚠ AT RISK
+NETSOL      0.15       0.25        0.39     0.665    0.335
+GHNI        0.42       0.51        0.36     0.752    0.248
+GAL         0.41       0.27        0.39     0.761    0.239
+AIRLINK     0.85       0.31        0.66     0.814    0.186
+SAZEW       0.91       0.78        0.46     0.842    0.158
+ATRL        1.11       1.00        0.67     0.880    0.120
+PAEL        0.77       1.19        0.72     0.887    0.113
+SEARL       1.03       0.99        0.74     0.899    0.101
+MLCF        1.10       1.25        0.78     0.906    0.094
+MTL         2.00       2.11        1.58     0.916    0.084
+DGKC        1.05       0.78        0.76     0.916    0.084
+FCCL        1.57       1.78        1.17     0.934    0.066
+UBL         7.51       7.64        6.80     0.955    0.045
+POL         2.85       2.98        3.27     0.963    0.037
+BAHL        4.43       4.64        4.79     0.972    0.028
+NBP         1.49       1.31        1.15     0.973    0.027
+PPL         4.87       4.41        4.87     0.974    0.026
+PSO         3.46       2.91        3.62     0.977    0.023
+SYS         3.66       3.81        3.80     0.981    0.019
+OGDC        5.66       5.14        5.37     0.983    0.017
+EFERT       5.12       4.97        4.91     0.985    0.015
+HBL         3.54       3.84        3.81     0.986    0.014
+MEBL        4.32       4.69        4.83     0.988    0.012
+HUBC        5.09       5.17        5.03     0.988    0.012
+ENGROH      7.19       7.05        7.02     0.989    0.011
+MCB         4.64       4.82        4.81     0.990    0.010
+FFC        13.34      12.73        6.75     0.991    0.009
+MARI        6.18       5.47        5.84     0.993    0.007
+LUCK        5.20       4.93        4.98     0.993    0.007
+
+Stocks at risk of exclusion (>35% dropout probability): ['DFML']
+
+── Section 5: Generating figures ─────────────────────────────────
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\rebalancing\R1_composition_history.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\rebalancing\R2_weight_prediction_scatter.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\rebalancing\R3_feature_importances.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\rebalancing\R4_retention_probability.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\rebalancing\R5_predicted_weight_changes.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\rebalancing\R6_confusion_matrices.png
+  saved → D:\roohan\fyp-indexfunds\4_claude_model\figures\rebalancing\R7_feature_distributions.png
+
+── Section 6: Summary results ────────────────────────────────────
+
+[Table A] Weight Prediction Results
+Model                           Train RMSE  Test RMSE   Test R²
+---------------------------------------------------------------
+Naive (cur weight → next wt)        0.7973%     1.4723%    0.7460
+Ridge regression                    0.7578%     1.4651%    0.7484
+Random Forest                       0.5708%     1.6108%    0.6959
+
+[Table B] Inclusion Prediction Results
+Model                           Train Acc  Test Acc  Test AUC
+------------------------------------------------------------
+Naive (all retained)                0.909     0.860     0.500
+Logistic regression                 0.920     0.860     0.844
+Random Forest                       0.938     0.860     0.771
+
+[Table C] At-Risk Stocks — Sep 2025 Rebalancing Prediction
+symbol  cur_weight  avg_retention_prob  risk_of_exclusion  pred_weight_ridge  pred_weight_rf
+  DFML      0.1013              0.5431             0.4569             0.1355          0.3596
+NETSOL      0.1480              0.6651             0.3349             0.2492          0.3878
+  GHNI      0.4199              0.7518             0.2482             0.5052          0.3584
+   GAL      0.4141              0.7614             0.2386             0.2724          0.3927
+
+Saved: results_rebalancing.csv
+Saved: results_rebalancing_forecast.csv
+
+All figures saved to: D:\roohan\fyp-indexfunds\4_claude_model\figures\rebalancing
+REBALANCING PREDICTION COMPLETE.
