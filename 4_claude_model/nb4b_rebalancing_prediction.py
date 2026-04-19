@@ -86,8 +86,8 @@ TRAIN_WINDOWS = list(range(7))   # indices into REBAL_DATES for feature snapshot
 TEST_WINDOWS  = [7, 8]
 
 # ── Load ─────────────────────────────────────────────────────────────────────
-stocks  = pd.read_csv("new_data/kse30_stocks_daily.csv", parse_dates=["date"])
-monthly = pd.read_csv("new_data/monthly_master.csv",     parse_dates=["date"])
+stocks  = pd.read_csv("processed_data/kse30_stocks_daily.csv", parse_dates=["date"])
+monthly = pd.read_csv("processed_data/monthly_master.csv",     parse_dates=["date"])
 stocks  = stocks.sort_values(["symbol","date"]).reset_index(drop=True)
 print(f"Stock rows: {len(stocks):,}  |  Symbols ever: {stocks.symbol.nunique()}")
 print(f"Date range: {stocks.date.min().date()} → {stocks.date.max().date()}")
