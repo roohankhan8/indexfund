@@ -48,7 +48,7 @@ plt.rcParams.update({"figure.dpi": 150, "axes.titlesize": 12,
 FUND_COLORS = {"AKD": "#1f77b4", "NBP": "#ff7f0e", "NIT": "#2ca02c"}
 
 # ── load ─────────────────────────────────────────────────────────────────────
-daily = pd.read_csv("new_data/daily_master.csv", parse_dates=["date"])
+daily = pd.read_csv("processed_data/daily_master.csv", parse_dates=["date"])
 daily = daily.sort_values("date").reset_index(drop=True)
 print(f"Daily rows: {len(daily)}  {daily['date'].min().date()} → {daily['date'].max().date()}")
 

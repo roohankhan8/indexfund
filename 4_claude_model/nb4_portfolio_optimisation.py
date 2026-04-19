@@ -49,7 +49,7 @@ plt.rcParams.update({"figure.dpi": 150, "axes.titlesize": 12,
 RISK_FREE = 0.105 / 252   # SBP rate ~10.5% annualised → daily
 
 # ── load ─────────────────────────────────────────────────────────────────────
-stocks = pd.read_csv("new_data/kse30_stocks_daily.csv", parse_dates=["date"])
+stocks = pd.read_csv("processed_data/kse30_stocks_daily.csv", parse_dates=["date"])
 stocks = stocks.sort_values(["symbol","date"]).reset_index(drop=True)
 print(f"Stock rows: {len(stocks):,}  Symbols: {stocks['symbol'].nunique()}")
 print(f"Date range: {stocks['date'].min().date()} → {stocks['date'].max().date()}")

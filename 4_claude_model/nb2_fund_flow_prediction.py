@@ -66,7 +66,7 @@ HIDDEN      = 32
 np.random.seed(42)
 
 # ── load ─────────────────────────────────────────────────────────────────────
-monthly = pd.read_csv("new_data/monthly_master.csv", parse_dates=["date"])
+monthly = pd.read_csv("processed_data/monthly_master.csv", parse_dates=["date"])
 monthly = monthly.sort_values("date").reset_index(drop=True)
 print(f"Monthly rows: {len(monthly)}  ({monthly['date'].min().date()} → {monthly['date'].max().date()})")
 

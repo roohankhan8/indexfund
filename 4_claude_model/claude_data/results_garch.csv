@@ -1,4 +1,0 @@
-Fund,Model,ω (omega),α (alpha),β (beta),α+β (persist),AIC,Note
-AKD,"GARCH(1,1)",0.622904,0.2939,0.7061,1.0,4788.69,near unit-root
-NBP,"GARCH(1,1)",9.157242,0.2384,0.7594,0.9978,7798.69,near unit-root
-NIT,"GARCH(1,1)",0.810764,0.7052,0.1873,0.8926,3861.48,

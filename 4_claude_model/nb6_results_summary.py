@@ -36,10 +36,10 @@ plt.rcParams.update({"figure.dpi": 150, "axes.titlesize": 12,
                      "axes.labelsize": 10, "legend.fontsize": 9})
 
 # ── load ─────────────────────────────────────────────────────────────────────
-monthly  = pd.read_csv("new_data/monthly_master.csv",  parse_dates=["date"])
-daily    = pd.read_csv("new_data/daily_master.csv",    parse_dates=["date"])
-stocks   = pd.read_csv("new_data/kse30_stocks_daily.csv", parse_dates=["date"])
-weights  = pd.read_csv("new_data/portfolio_weights.csv")
+monthly  = pd.read_csv("processed_data/monthly_master.csv",  parse_dates=["date"])
+daily    = pd.read_csv("processed_data/daily_master.csv",    parse_dates=["date"])
+stocks   = pd.read_csv("processed_data/kse30_stocks_daily.csv", parse_dates=["date"])
+weights  = pd.read_csv("processed_data/portfolio_weights.csv")
 monthly  = monthly.sort_values("date").reset_index(drop=True)
 daily    = daily.sort_values("date").reset_index(drop=True)
 

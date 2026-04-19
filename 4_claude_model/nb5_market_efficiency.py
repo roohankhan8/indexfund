@@ -48,9 +48,9 @@ plt.rcParams.update({"figure.dpi": 150, "axes.titlesize": 12,
 FUND_COLORS = {"AKD": "#1f77b4", "NBP": "#ff7f0e", "NIT": "#2ca02c"}
 
 # ── load ─────────────────────────────────────────────────────────────────────
-daily   = pd.read_csv("new_data/daily_master.csv",           parse_dates=["date"])
-monthly = pd.read_csv("new_data/monthly_master.csv",         parse_dates=["date"])
-stocks  = pd.read_csv("new_data/kse30_stocks_daily.csv",     parse_dates=["date"])
+daily   = pd.read_csv("processed_data/daily_master.csv",           parse_dates=["date"])
+monthly = pd.read_csv("processed_data/monthly_master.csv",         parse_dates=["date"])
+stocks  = pd.read_csv("processed_data/kse30_stocks_daily.csv",     parse_dates=["date"])
 daily   = daily.sort_values("date").reset_index(drop=True)
 monthly = monthly.sort_values("date").reset_index(drop=True)
 
