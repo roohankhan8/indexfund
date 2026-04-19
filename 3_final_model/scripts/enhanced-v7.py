@@ -22,7 +22,7 @@ except ImportError:
     print("lightgbm not installed — using XGBoost only for tree models.")
 
 warnings.filterwarnings('ignore')
-%matplotlib inline
+# %matplotlib inline
 
 # ── CONFIG ────────────────────────────────────────────────────────────────────
 RANDOM_STATE    = 42
