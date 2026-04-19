@@ -1,0 +1,682 @@
+See discussions, stats, and author profiles for this publication at: https://www.researchgate.net/publication/375504984
+A Hybrid Model of Machine Learning Model and Econometrics’ Model to Predict
+Volatility of KSE-100 Index
+Article  in  Reviews of Management Sciences · June 2022
+DOI: 10.53909/rms.04.01.0125
+CITATIONS
+5
+READS
+160
+3 authors, including:
+Komal Batool
+NED University of Engineering and Technology
+6 PUBLICATIONS   9 CITATIONS   
+SEE PROFILE
+All content following this page was uploaded by Komal Batool on 07 February 2025.
+The user has requested enhancement of the downloaded file.
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+225 
+ 
+A Hybrid Model of Machine Learning Model and 
+Econometrics’ Model to Predict Volatility of KSE-100 Index 
+Komal Batool1, Mirza Faizan Ahmed2, Muhammad Ali Ismail3 
+1Lecturer, NED University of Engineering & Technology, komal@neduet.edu.pk 
+2Assistant Professor, NED University of Engineering & Technology, mirzafaizan@neduet.edu.pk 
+3Professor, NED University of Engineering & Technology, maismail@neduet.edu.pk 
+ARTICLE DETAILS ABSTRACT 
+ 
+History 
+Received: February 2022 
+Available online: June 
+2022 
+Purpose: 
+The purpose of this paper is to predict the volatility of the KSE-100 
+index using econometric and machine learning models. It also 
+designs hybrid models for volatility forecasting by combining these 
+two models in three different ways. 
+Methodology: 
+Estimations and forecasting are based on an econometric model 
+GARCH (Generalized Auto Regressive Conditional 
+Heteroscedasticity) and a machine learning model NNAR (Neural 
+Network Auto -Regressive model). The hybrid models designed 
+with GARCH and NNAR include GARCH -based NNAR, NNAR-
+based GARCH, and the linear combination of GARCH and NNAR. 
+Findings: 
+In a comparison of the forecasting results of the KSE -100 index 
+over different periods, the least RMSE is found in a linear 
+combination of NNAR and GARCH, followed by NNAR, GARCH, 
+NNAR based GARCH, and GARCH based NNAR models. 
+Conclusion: 
+The study concludes that the hybrid model designed with a linear 
+combination of GARCH and NNAR performs better among all the 
+models in forecasting the volatility of the KSE-100 index. 
+ 
+Keywords 
+Volatility 
+KSE-100 index 
+GARCH model 
+Neural Network  
+Auto-Regressive model 
+Hybrid models 
+ 
+ 
+ 
+This is an open -access article 
+distributed under the Creative 
+Commons Attribution License4.0 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+_________________________________________ 
+Corresponding author’s email address: komal@neduet.edu.pk 
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+226 
+ 
+1. Introduction 
+The stock market prediction has always been an interesting area for both researchers and 
+investors. Investing in a stock market is one of the most crucial decisions that an investor 
+makes. Before investing in the stock market, decisions are made using mult iple 
+mathematical and statistical models that are used to forecast the prices of shares in the 
+upcoming time. Based on this forecasted return, decision-making is done before any trade. 
+But only the prediction of return is not enough in heavy investments, b ut the risk factor is 
+also required to be forecasted to make better decisions and to do profitable trading. Stock 
+market traders are always eager to know the expected return as well as the expected risk or 
+volatility before taking exposure to the market. M ost of the traders in a market are risk 
+avert that aim to have maximum return with minimum possible risk. By predicting 
+volatility, traders can estimate the expected risk. They prefer investing in the asset that 
+bears the least possible risk keeping the re turn constant and trying to hedge the expected 
+risk. Thus, predicting risk is one of the most significant needs of informed traders when 
+making trading decisions (Huy, D.T.N., & Hang, N.T. 2021). 
+In the stock market, the future expected value and standard deviation of a financial time 
+series are forecasted to predict the future price and volatility of any particular stock to gain 
+maximum profit and avoid losses. The volatility of a time series is calculated by standard 
+deviation or variance, otherwise, of the expected errors (Hang, N. T., & Nam, V. Q. 2021). 
+It represents the error/white noise of a series and therefore it has very significance in time 
+series analysis. It represents a degree of variation from a mean value at any point of a series. 
+In financial time series, it is quite significant as it repre sents the risk factor. Volatility 
+modeling provides a simple approach to calculating the value at risk of a financial position. 
+Financial time series also hold the characteristics of time -dependent volatility or 
+heteroscedasticity, which makes it more rele vant to forecast. The unpredictable nature of 
+volatility causes heteroscedasticity in a time series (Somarajan, S. et al 2019). It also has a 
+characteristic of volatility clustering; high volatility followed by higher volatility and vice 
+versa. It gradually changes its pace from higher to lower and vice versa, thus showing a 
+tendency of auto -regression, current values depending upon past values. To es timate the 
+heteroscedasticity of a time series, various techniques are used. There were multiple 
+methods used to predict expected return but there was no such statistical model for 
+predicting volatility before the ARCH model (Engle, R. 2001). 
+As heteroscedasticity is autoregressive, classical time series models can be used to predict 
+future volatility. Among those, econometrics models have been widely used to predict the 
+volatility of financial time series. GARCH -Generalized Auto -Regressive Conditional 
+Heteroscedasticity is one of those econometrics’ models that can be used to predict the 
+future volatility of time series. GARCH model is a stochastic model that is widely used for 
+forecasting the volatility of time series. It is an extension of the ARCH (Auto -regressive 
+Conditional Heteroscedasticity) model that deals with the conditional volatility of any 
+heteroscedastic time series. The underlying assu mption of this model is stationarity. The 
+mean and variance of a series must be time-invariant to implement the GARCH model, but 
+the conditional variance is time-variant, or we can say that the series may contain volatility 
+clusters. As volatility is autoregressive so it is considered an efficient way to predict it. 
+On the other side, machine learning modeling is another approach to predicting the 
+volatility of the financial time series. But by the time when machine learning techniques 
+have been used widely in almost every domain, several Machines were used to study time 
+series or sequential data like neural network models, decision tree, or support vector 
+machines. The decision learning algorithms are tree is a classification model that can be 
+used for the classification of time series data ( Brunello, A., et al 2019 ). As this research 
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+227 
+ 
+aims to forecast the volatility of time series for different periods r egression on models is 
+selected. Machine Learning algorithms can be used for the prediction of the volatility of 
+financial time series like neural network models can be used to forecast future volatility. 
+NNAR-Neural Network Auto -Regressive model is a neur al network model that is 
+particularly used for time series that have autoregressive nature. It uses the linear 
+combination of past values to predict future values. 
+Another approach is using a hybrid model, which is a combination of two or more models 
+that are combined to obtain better predictive results. The algorithms assembled in the 
+hybrid models can either be the two or more machine learning models, two or more 
+econometric models, or can be a combination of both machine learning and econometric 
+model. T hese models are designed to achieve higher accuracy and precision as they 
+combine the accuracy of multiple different models. The combined models have enhanced 
+predictivity than the individual models (Hajirahimi, Z., & Khashei, M. 2022). The accuracy 
+of the hybrid model depends on the accuracy of models that are being used in the 
+construction of the hybrid model. 
+For this paper, the KSE -100 index is cons idered, the representative index of the stock 
+market of Pakistan.  This research aims to estimate the volatility of the KSE-100 index by 
+using GARCH, NNAR, and a hybrid model designed by using the two models. The 
+research includes five different models alt ogether; GARCH, NNAR, and three hybrid 
+models that are designed by combing NNAR and GARCH using three different techniques. 
+The research further extends by comparing the predictivity of volatility from all the models. 
+From the literature review, it was found that the hybrid models using NNAR and GARCH 
+have never been designed to predict the volatility of the KSE 100 index. 
+2. Literature Review 
+GARCH model is a stochastic model that is widely used for forecasting the volatility of 
+time series. It is an autoregr essive model as it allows the conditional variance to change 
+with time as a function of previous errors and volatility.  It is an extension of the ARCH 
+(Auto-regressive Conditional Heteroscedasticity) model that deals with the conditional 
+volatility of a h eteroscedastic time series, and it considers conditional variance only as a 
+function of past errors ( Bollerslev, T. 1986). GARCH is an econometric model which is 
+especially useful in analyzing the volatility of financial time series, such as stock prices, 
+inflation rates, and exchange rates. A distinguishing feature of this model is that the error 
+variance is correlated over time because of the phenomenon of volatility clustering which 
+means that the large and small errors tend to cluster together ( McNees, S. 1973 ). This 
+allows, in addition to the average value of the studied parameters, to model the dynamics 
+of its variance simultaneously. Therefore, such a model can correctly describe phenomena 
+such as clustering of volatility and asymmetric information ( Tsay, R. S. 2005 ). The 
+underlying assumption of this model is stationarity. The mean and variance of a series must 
+be time-invariant to implement the GARCH model, but the conditional variance is time -
+variant, or we can say that the series may contain volatility clusters ( Tsay, R. S. 2005 ; 
+Satchell, S., & Knight, J. 2011 ). As this model deals with the volatility of time series, it  
+makes certain assumptions about volatility that sometimes are beyond the nature of time 
+series. Therefore, the accuracy of the model may compromise. Say, for instance, the 
+GARCH model assumes the same effects of positive and negative shocks on the volatility 
+of time series. But in real-world data negative and positive shocks respond to the volatility 
+in a different manner. Furthermore, as the model uses previous values for future 
+predictions, the error increases for the prediction of a longer period. In a simple word, we 
+can say that the number of days to be predicted and the error has a direct relation. In the 
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+228 
+ 
+GARCH model, the conditional variance is converged towards the unconditional variance 
+which is why the predictions of GARCH are more relevant in short term (Hamilton 1994). 
+Kanasro et al. found a high presence of volatility in the KSE -100 index in a clustering 
+manner and with stochastic nature.  It is analyzed using ARCH and GARCH models 
+(Kanasro, H. A., et al 2009). M Fakhfekh, A Jeribi compared five different GARCH models 
+to predict the volatility of most popular cryptocurrencies and found that Threshold GARCH 
+(TGARCH) is the best model among them to predict volatility (Fakhfekh, M., & Jeribi, A. 
+2020). An artificial Neural network (ANN) is a machine learning model that can be used 
+in various fields. ANN works on the working behavior of the human brain; it stores events 
+and learns from data. It designs the same neural network just li ke a neural network of the 
+human brain. Therefore, it is named as artificial neural network (Basheer, I. A., & Hajmeer, 
+M. 2000). Neural Network Auto-Regressive (NNAR) model is a neural network model that 
+uses lagged values of a time series as an input and gives the predicted values for the future 
+as an output. It feeds a forward neural network with three layers; an input layer, a hidden 
+layer, and an output layer (Maleki, A.et al 2018). 
+Khan et al. used GRNN -Generalized Regression Neural Network and simple and 
+exponential moving average models to study the forecasting ability of these models to 
+predict the KSE-100 index and found that artificial neural network is better in dealing with 
+the behavior of stock prices ( Khan, M. A., et al. 2017 ). Islam and Nguyen presented a 
+comparative analysis of three models for predicting stock price ; ARIMA, ANN, and 
+Geometric Brownian motion, and found that for next -day prediction conventional 
+statistical and stochastic models are better than ANN ( Islam, M. R., & Nguyen, N. 2020). 
+Hybrid modeling is another mathematical technique to design models for desirable 
+outcomes. Hybrid models or ensemble models are formed by combining two or more 
+models. The models can be combined in multiple ways to form a new model. These models 
+can be stochastic, statistical, or machine learning models (Khashei, M., & Bijari, M. 2012). 
+Mergani and Khairalla have  designed a hybrid model from a statistical model and ANN 
+and concluded that the hybrid model is better than the two themselves in predicting returns 
+of financial time series ( Khairalla, M., & AL -Jallad, N. T. 2017 ).  Josip Arnerić, Tea 
+Poklepović, and Zdravka Aljinović have been worked on a hybrid model of GARCH and 
+ANN for predicting exchange rates using daily closing prices of the Zagreb Stock 
+Exchange and found the hybrid model much more accurate than individual models 
+(Arnerić, J., 2014). Monfared, Almasi and Enkehave also worked on the hyb rid model in 
+2014 in which they built a GARCH -based ANN model and ANN -based GARCH model, 
+for predicting the volatility of the market for the next two months ( Monfared, S. A., & 
+Enke, D. 2014). Fatima et al., designed hybrid financial systems using ARIMA, ANN, and 
+ARCH/ GARCH for the forecasting risk and return of the KSE -100 index and found that 
+ANN ARCH/ GARCH is a better predictive model for the KS E-100 index than simple 
+ANN and ANN ARIMA (Fatima S, Hussain G. 2006).  
+Škorna, B. Š. & Tomanová, P. ensemble GARCH, and ANN to predict the volatil ity of 
+S&P 500 to have better predictions in a sudden downturn and relative stability (Škorna, B. 
+Š., & Tomanová, P. 2020). Koo, Eunho, and Kim designed a hybrid model of GARCH and 
+LSTM along with volume up distribution from original volatility to predict the volatility 
+of the stock market and obtained 21.03% performance gain in comparison with the already 
+designed hybrid model of GARCH and LSTM (Koo, E., & Kim, G. 2022). In contrast with 
+the available related work, the novelty of this research is that it aims to design a better 
+predictive model to forecast the volatility of the KSE -100 index by combining GARCH 
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+229 
+ 
+and NNAR as NNAR-based GARCH, GARCH-based NNAR, and a linear combination of 
+NNAR and GARCH. 
+3. Research Methodology 
+3.1. Data Set 
+The data used in this paper is a time -series data of daily closing values of the KSE -100 
+index from January 2000 to July 2019 collected from yaho o finance.  It is split into two 
+parts, test and train. From 2000 to 2018, data is used for training purposes. The remaining 
+data from January 2019 to July 2019 is taken as test data. For this research, daily volatility 
+is required, which is calculated from daily log returns calculated from the closing price. 
+3.2. Pre-Testing 
+The closing values of KSE-100 form a non-stationary time series, observed from its graph 
+Figure.1. The graph of closing price shows an increasing trend. Since there is a trend in the 
+graph, it shows that the series is not stationary. 
+To convert it into sta tionary series, the log difference was calculated using the formula 
+mentioned in equation (2). 
+                             
+(2) 
+Where, is return in period ‘ ’ and subscript and  are the prices at time ‘
+’ and ‘ ’ respectively. 
+Dickey-Fuller test is used for checking the stationarity of a time series ( Tsay, R.S. 2005). 
+On performing this test, it is found that the log return is stationary. Log return in Figure 2: 
+Log closing price of the KSE-100 index shows stationarity with no trend and seasonality.  
+ 
+Figure.1. Daily Closing Price of KSE-100 Index from January 2000 to July 2019 
+Source: Daily closing price collected from yahoo finance 
+ 
+ 
+ 
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+230 
+ 
+ 
+ 
+ 
+Figure.2. Log Closing Price of KSE-100 Index 
+Source: Author’s own elaboration 
+From Figure 2, it can be observed that the series is more volatile from 2000 to 2010 and is 
+comparatively less volatile from 2010 to 2019. Besides, there are clusters visible in the 
+figure. It indicates that the variance changes over time. 
+3.3. Volatility of KSE-100 Index 
+Volatility is estimated by using the estimated error in the return series. The model used to 
+estimate returns and consequently the errors, is Autoregressive Moving Average (ARMA). 
+ARMA is applied on stationary time series. Equation 3 shows the ARMA (p, q). In order 
+to apply the ARMA model, the optimal order of ARMA is identified using Auto 
+Correlation Function (ACF) and Partial Auto Correlation (PACF) plots. Volatility is then 
+calculated by calculating the absolute estimated error ( Lin, F.n.d.). Figure 3 shows the 
+absolute values of estimated error (volatility) of return on the KSE -100 index from 2000 
+to 2019. 
+                  (3) 
+Where  is return at time ‘t’, are parameters and  is 
+white noise at time ‘t’. 
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+231 
+ 
+ 
+ 
+Figure 3: Daily Volatility 
+Source: Author’s own elaboration 
+3.4. GARCH on KSE-100 Index 
+GARCH model is applied to the volatility, the series shown in Figure 3. The optimal model 
+of GARCH for the series is determined by AIC (Akaike Information Criteria). Equation 4 
+shows how GARCH (m, s) can be used to estimate the volatility of the series.  
+ 
+Where  is white noise at time ‘t’, are parameters,  is 
+conditional variance and  is variable having standard normal distribution ( McNees, 
+S.S. 1973). 
+3.5. NNAR on KSE-100 Index 
+The Neural Network Auto -Regressive model is a feed -forward neural network. Since the 
+volatility of a time series is autoregressive in nature this Neural Network is used to forecast 
+volatility. NNAR is a three-layered model with one input layer, one hidden layer, and one 
+output layer. This model involves a linear combination and an activation function (Oh, K. 
+J., et al 2011). The mathematical representation of a linear function is given in equation 5. 
+The activation function is a sigmoid function, mentioned in equation 6. 
+                    (5) 
+f(x) =                                                                                                      
+(6) 
+As in the data preparation phase, the time series has already been made stationary; hence 
+it seems not to contain any seasonal effect. However, an optimal number of se asonal and 
+non-seasonal lags is used to design an efficient model to predict the volatility of time series.  
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+232 
+ 
+3.6. Hybrid Models of GARCH and NNAR 
+As previous literature proves that hybrid models enhance the forecasting ability of the 
+individual models so three different hybrid models are designed ( Taskaya-Temizel, T. et 
+al 2005). To design a model that contains characteristics of a machine learning model and 
+an econometric model, hybrid models are designed to predict the volatility of the KSE-100 
+index. In this regard, three methods are used to  ensemble GARCH and NNAR and then 
+tested to determine the efficient one. 
+3.7. Linear Combination of NNAR and GARCH 
+The hybrid model is designed by using simple regression that is applied to the outputs of 
+the GARCH and NNAR models. The idea of linear combination came from (Khairalla, M., 
+2017) in which three different models were combined linearly. After the implementation 
+of simple regression, the signif icance of each parameter is checked, and only significant 
+parameters are used in the prediction model. Mathematically the designed model is 
+expressed in equation (7). 
+                              
+    (7) 
+Where  is predicted volatility from GARCH and N NAR.  and 
+ are predicted volatilities from NNAR and GARCH respectively. 
+are the parameters. 
+3.8. NNAR Based GARCH 
+In this form of a hybrid model, firstly NNAR is applied to actual volatility. The model is 
+then used to predict volatility. The actual volati lity is then compared with the predicted 
+volatility obtained from NNAR. The absolute difference between actual and predicted 
+volatility is the error of the NNAR model and this error is a new time series that is taken 
+as an input of the GARCH model. GARCH m odel is then applied to that to estimate the 
+error of NNAR. The estimated error of GARCH (output of GARCH) and predicted 
+volatility of NNAR (output of NNAR) is added to get the final volatility which is 
+considered the output of the hybrid (NNAR -based GARCH) model. The actual volatility 
+is then compared with the predicted volatility of the hybrid model to compute the error of 
+the hybrid model and to check its efficiency. 
+3.9. GARCH Based NNAR 
+In this form of a hybrid model, firstly GARCH is applied to the volatility series of the KSE-
+100 index. The forecasted volatility from this model (output of GARCH) is compared with 
+actual volatility to compute the error of the GARCH. This error of GARCH is then used as 
+an input of NNAR. NNAR model is applied to that to estimate the error of GARCH. The 
+estimated error (output of NNAR) and predicted volatility (output of GARCH) are added, 
+and a new measure of volatility is computed that is considered as the r esult of this hybrid 
+model. In simple words, by adding the predicted volatility of GARCH and predicted error 
+of NNAR we get the overall output volatility of the hybrid model. This output is compared 
+with the actual volatility of the KSE -100 index to calculate the error of the hybrid model 
+to analyze its efficiency. 
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+233 
+ 
+4. Results and Findings 
+4.1. GARCH Model 
+ARMA (1, 9) is found as the best order to calculate the mean of the series. Table 1 shows 
+the result of the ARMA (1, 9) model on the log daily closing price of th e KSE-100 index. 
+The optimal order of the ARMA model is found using ACF and PACF plots.  
+Table.1. Result of ARMA (1,9) 
+Coefficient Value of Coefficient Standard Error 
+ar1 0.7879** 0.0977 
+ma1 -0.6960** 0.0984 
+ma2 -0.0355 0.0201 
+ma3 0.0081 0.0182 
+ma4 -0.0092 0.0182 
+ma5 0.0046 0.0176 
+ma6 -0.0148 0.0179 
+ma7 0.0319 0.0176 
+ma8 -0.0290 0.0177 
+ma9 0.0409* 0.0156 
+Intercept 0.0007* 0.0003 
+          Source: Author’s own elaboration  
+GARCH (5, 4) is found as the optimal model to predict the volatility of the KSE-100 index 
+from AIC. 2 represents the result of GARCH (5,4) to predict the volatility of the KSE-100 
+index. 
+ 
+Table.2. Result of GARCH (5,4) 
+Coefficient Value of Coefficient Standard Error 
+ 1.3418** 0.0221 
+ 0.9250** 0.0747 
+ 0.5087** 0.0350 
+ 1.4662** 0.0334 
+ 0.7998** 0.0125 
+ 1.3766** 0.3544 
+ 1.3290** 0.1931 
+ 1.4903** 0.2074 
+ 1.3848** 0.1664 
+Intercept 1.0895** 0.0004(10-2) 
+                     Source: Author’s own elaboration 
+The trained model of GARCH (5,4) is then tested on test data of volatility from January 
+2019 to July 2019. The designed model is tested in two ways i.e., the model’s accuracy for 
+short-term prediction o f volatility and long -term prediction. RMSE (Root Mean Squared 
+Error) is used to compare one model with another. Furthermore, the predicted volatility 
+(represented by the red line in the graph [Figure 4]) from GARCH seems acceptable for a 
+shorter period but it becomes a straight linear line as the number of days increases [Figure 
+5] and the reason behind this behavior of GARCH is that the conditional variance is 
+convergent towards unconditional variance. We can see this convergence in the long-term 
+prediction of volatility from the GARCH model. 
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+234 
+ 
+ 
+Figure.4. Short-term (5 days) Forecasting using GARCH 
+Source: Author’s own elaboration 
+ 
+Figure.5. Long-term (60 days) Prediction using GARCH 
+Source: Author’s own elaboration 
+4.2. NNAR Model 
+NNAR model is trained on stationary series of the volatility of the KSE -100 index. Since 
+the series is stationary therefore there is no seasonality in the series. Seasonal lag is taken 
+at 0 and non-seasonal lag is taken at 28, identified using AIC. The trained model of NNAR 
+is then tested on a test series of volatility from January 2019 to July 2019. The accuracy of 
+the model is calculated for both periods, short-term forecasting and long-term forecasting.  
+RMSE (Root Mean Squared Error) is used to compute the model’s error and to determine 
+the efficient model among all designed models. 
+NNAR gives lesser RMSE as compared to the GARCH model [Table 4]. Figure 6 and 
+Figure 7 show short and long -term predictions of volatility from the NNAR model 
+respectively. The blue line is representing actual volatility while the orange line is showing 
+predicted volatility. The model also seems fair in predicting long-term volatility unlike the 
+GARCH model since it remains fluctuated throughout the period due to its intrinsic 
+characteristics [Figure 7]. The variation is observed in the graphs of volatility in the case 
+of different models is due to the difference in the period of data as depicted in graphs and 
+the multiple measures of volatility used in the case of hybrid models . However, for 
+comparison, RMSE is used on the difference between actual and predicted values of the 
+volatility of the KSE-100 index. 
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+235 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure.6. Short-term (5 days) Forecasting using NNAR 
+Source: Author’s own elaboration 
+ 
+Figure.7. Long-term (60 days) prediction from NNAR 
+Source: Author’s own elaboration 
+4.3. Hybrid Models 
+As mentioned earlier those three different hybrid models are designed from NNAR and 
+GARCH to predict the volatility of the KSE -100 index. After designing the m odels, each 
+model is used to forecast short -term and long -term volatility. The predicted volatility is 
+then compared to the actual volatility of test data. RMSE is calculated to compute error 
+and to analyze the most efficient model. The behavior of GARCH t hat it converges for 
+long-run prediction continues in the hybrid model as well. 
+In NNAR-based GARCH, GARCH is applied to the error of NNAR. Figure 8  and Figure 
+9 show the short and long-term prediction of NNAR based GARCH hybrid model in which 
+the red line is showing actual volatility and the blue line is representing predicted volatility. 
+ 
+ 
+Figure.8. Short-term Prediction of NNAR-base GARCH 
+Source: Author’s own elaboration 
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+236 
+ 
+ 
+Figure.9. Long-term Prediction of NNAR based GARCH 
+Source: Author’s own elaboration 
+In GARCH based NNAR, NNAR model is trained on a series of errors of GARCH model. 
+Figure 10 and 11 show the short and long-run prediction of GARCH based NNAR hybrid 
+model. 
+ 
+ 
+Figure.10. Short-term Prediction of GARCH based NNAR 
+Source: Author’s own elaboration 
+ 
+Figure.11. Long-term Prediction of GARCH based NNAR 
+Source: Author’s own elaboration 
+In a linear combination of GARCH and NNAR, the predicted volatility obtained from both 
+of the models is combined linearly. Table 3  shows the result obtained from the linear 
+combination of the NNAR and GARCH model. From the predicted volatility and RMSE 
+of the model it is found that the behavior of prediction of this model is the same as that of 
+NNAR. The reason behind this is that the significant variable in the regression is the output 
+of NNAR only, but not the output of GARCH. 
+Table.3. Result of Hybrid Model (Linear Combination of GARCH and NNAR) 
+Coefficient Value of Coefficient Standard Error 
+W1 -0.0011* 0.0004 
+W2 1.0539*** 0.0282 
+W3 0.0435 0.0264 
+                        Source: Author’s own elaboration 
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+237 
+ 
+Figure 12and Figure 13 show the short and long-term prediction of volatility respectively, 
+of the KSE-100 index from the hybrid model of linearly combined GARCH and NNAR. 
+ 
+ 
+ 
+ 
+ 
+Figure.12. Short-term Prediction of Linear Combination of GARCH and NNAR 
+Source: Author’s own elaboration 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure.13. Long-term Prediction of Linear Combination of GARCH and NNAR 
+Source: Author’s own elaboration
+It is found that the linear combination of NNAR and GARCH has the least RMSE values 
+and therefore is a better model than NNAR based GARCH a nd GARCH based NNAR in 
+predicting volatility of the KSE-100 index for both long-term and short-term periods [Table 
+4]. On the other hand, GARCH based NNAR and NNAR based GARCH models have 
+almost the same RMSE values and are not efficient predictive models as compared to linear 
+combination of GARCH and NNAR. 
+Table.4. RMSE of all Models (Values are Presented in 10-3). 
+Model 15-days 
+ahead 
+30-days 
+ahead 
+60-days 
+ahead 
+6-months 
+ahead 
+Remarks 
+Linear Combination of 
+GARCH and NNAR 6.05 5.06 5.07 7.36 Robust 
+NNAR 6.07 5.56 5.44 7.57 Good 
+GARCH 8.28 8.09 8.18 8.18 Average 
+NNAR Based GARCH 9.11 9.35 9.50 9.63 Average 
+GARCH based NNAR 11.6 11.9 12.2 11.7 Poor 
+     Source: Author’s own elaboration 
+5. Conclusion and Recommendations 
+Volatility of time series can be predicted using various different techniques. Econometric 
+models, machine learning models and hybrid models all can be used to predict the volatility 
+of financial time series or a risk. As the working algorithms of these mo dels are different, 
+therefore the results of the models also vary. It can be observed that among five models; 
+out of which one is econometric model (GARCH), one is machine learning model (NNAR) 
+and three are hybrid models (linear combination of NNAR and GA RCH, GARCH based 
+
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+238 
+ 
+NNAR and NNAR based GARCH), all models give different RMSE over different 
+forecasting periods. Out of all five models, our designed hybrid model which is a linear 
+combination of GARCH and NNAR is the best predictive model for predicting vo latility 
+of KSE -100 index for both short -term and long -term forecasting of risk with minimum 
+RMSE [Table 4]. After linear combination of NNAR and GARCH, NNAR is proved to be 
+the best for the prediction of volatility of KSE -100 index followed by GARCH, NNAR  
+based GARCH, and GARCH based NNAR models for the prediction of volatility of KSE-
+100 index. In order to check the robustness of the designed models’ the data size of the 
+training data set is halved and it is observed that again the linear combination of G ARCH 
+and NNAR is the best model for predicting the volatility of the KSE-10 index.    
+The research can be further extended by combining these models in other ways. As NNAR 
+and GARCH are combined linearly in this research, the non -linear combination can als o 
+be explored to design new hybrid combinations. Other methods can also be used to design 
+hybrid models to predict the volatility of financial time series. 
+References 
+Arnerić, J., Poklepović,  T., & Aljinović,  Z. (2014). GARCH based artificial neural 
+networks in forecasting conditional variance of stock returns. Croatian Operational 
+Research Review, 5(2), 329-343.  
+Basheer, I., & Hajmeer, M. (2000). Artificial neural networks: Fundamentals, computing, 
+design, and application. Journal of Microbiological Methods, 43(1), 3-31. 
+Bollerslev, T. (1986). Generalized autoregressive conditional heteroskedasticity. Journal 
+of econometrics, 31(3), 307-327. 
+Brunello, A., Marzano, E., Montanari, A., & Sciavicco, G. (2019). J48SS: A novel decision 
+tree approach for the handling of sequential and time series data. Computers, 8(1), 
+21. 
+Engle, R. (2001). GARCH 101: The use of ARCH/GARCH models in applied 
+econometrics. Journal of economic perspectives, 15(4), 157-168.  
+Fakhfekh, M., & Jeribi, A. (2020). Volatility dynamics of cr ypto-currencies’ returns: 
+Evidence from asymmetric and long memory GARCH models.  Research in 
+International Business and Finance, 51, 101075. 
+Fatima, S., & Hussain,  G. (2006). Statistical models of KSE100 index using hybrid 
+financial systems. 2006 IEEE Inte rnational Conference on Engineering of 
+Intelligent Systems. 
+Hajirahimi, Z., & Khashei, M. (2022). Hybridization of hybrid structures for time series 
+forecasting: a review. Artificial Intelligence Review, 1-61. 
+Hamilton, J.D (1994). Time Series Analysis 2 Princeton: Princeton University Press. 
+Hang, N. T., & Nam, V. Q. (2021). Formulation Of Beta Capm Index With Weighted 
+Average Methods And Market Risk Comparison Of Listed Banks During Post -
+Global Crisis Period 2011-2020. 
+Huy, D.T.N., & Hang,N.T. (2021). Factors that affect Stock Price and Beta CAPM of 
+Vietnam Banks and Enhancing Management Information System –Case of Asia 
+Commercial Bank. REVISTA Geintec-Gestao Inovacao E Tecnologias, 11(2), 302-
+308. 
+Islam, M. R.,  & Nguyen, N. (2020). Comparison of financial models for stock price 
+prediction. Journal of Risk and Financial Management, 13(8), 181. 
+Kanasro, H. A., Rohra, C. L., & Junejo, M. A. (2009). Measurement of stock market 
+volatility through ARCH and GARCH model s: a case study of Karachi stock 
+exchange. Australian Journal of Basic and Applied Sciences, 3(4), 3123-3127. 
+Khairalla, M., -, X., & T., N. (2017). Hybrid forecasting scheme for financial time -series 
+
+ 
+Reviews of Management Sciences    Vol. 4, No 1, January-June 2022 
+239 
+ 
+data using neural network and statistical methods. International Journal of 
+Advanced Computer Science and Applications, 8(9).  
+Khan, M. A., Khan, N., Hussain, J., Shah, N. H., & Abbas, Q. (2017). Validity of technical 
+analysis indicators: A case of KSE-100 index. Abasyn University Journal of Social 
+Sciences, 10(1), 1-19. 
+Khashei, M., & Bijari, M. (2012). A new class of hybrid models for time series forecasting. 
+Expert Systems with Applications, 39(4), 4344-4357.  
+Knight, J., & Satchell,  S. E. (2007). GARCH predictions and the predictions of option 
+prices. Forecasting Volatility in the Financial Markets, 279-294. 
+Koo, E., & Kim, G. (2022). A Hybrid Prediction Model Integrating GARCH Models with 
+a Distribution Manipulation Strategy Based on LSTM Networks for Stock Market 
+Volatility. IEEE Access, 10, 34743-34754.  
+Lin, F. (n.d.) Prediction and Analysis of Financial Volatility Based on Implied Volatility 
+and GARCH Model. 
+Maleki, A., Nasseri, S., Aminabad, M. S., & Hadi, M. (2018). Comparison of ARIMA and 
+NNAR models for forecasting water treatment plant’s influent ch aracteristics. 
+KSCE Journal of Civil Engineering, 22(9), 3233-3245.  
+McNees, S.S. (1973) The Forecasting Record for the 1970s, New England Economic 
+Review. 
+Monfared, S. A., & Enke,  D. (2014). Volatility forecasting using a hybrid GJR -GARCH 
+neural network model. Procedia Computer Science, 36, 246-253.  
+Oh, K. J., Kim, T. Y., Jung, K. W., & Kim, C. H. (2011). Stock market stability index via 
+linear and neural n etwork autoregressive model. Journal of the Korean Data and 
+Information Science Society, 22(2), 335-351. 
+Somarajan, S., Shankar, M., Sharma, T., & Jeyanthi, R. (2019). Modelling and analysis of 
+volatility in time series data. In Soft Computing and Signal P rocessing (pp. 609-
+618). Springer, Singapore. 
+Škorna, B. Š., & Tomanová, P. (2020). Artificial Neural Networks in Space of Stock 
+Returns: Volatility Prediction. 
+Taskaya-Temizel, T., & Casey, M. C. (2005). A comparative study of autoregressive neural 
+network hybrids. Neural Networks, 18(5-6), 781-789. 
+Tsay, R. S. (2005). Analysis of financial time series. Wiley Series in Probability and 
+Statistics. 
+View publication stats

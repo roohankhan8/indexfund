@@ -1,0 +1,577 @@
+99 
+ 
+ 
+ 
+Journal of Statistics, Computing and 
+Interdisciplinary Research 
+ISSN (P): 2707-7101 
+ 
+J. Stat. Comp. & Interdis. Rese. 
+Volume 5(2) (2023), 99-119 
+http://scir.wum.edu.pk/index.php/ojs 
+ 
+Stock Volatility Prediction Using Machine Learning  
+during Covid-19 
+Saba Zahid1*, Hassan Mujtaba Nawaz Saleem2 
+1Ph.D. Scholar, Institute of Business Management & Administrative Sciences, The 
+Islamia University of Bahawalpur. 
+2Associate Professor, Institute of Business Management & Administrative Sciences, 
+The Islamia University of Bahawalpur. 
+*Corresponding author: s21bmgmt4m01034@iub.edu.pk 
+ 
+Abstract 
+Predicting the stock prices’ movement has been considered a tedious task due to the 
+stock market's volatile behavior. This study is an attempt to predict stock prices based 
+on 15 trading factors by applying deep learning algorithm support vector machine 
+(SVM) on daily price data of three stocks of COVID -19, collected from secondary 
+sources and processed through Python software. The finding of this study suggests that 
+the linear kernel gives 53%, the polynomial kernel gives 46% and the radical basis 
+function (RBF) kernel gives 62% validation accuracy, which shows the RBF kernel 
+predictive ability is highest than others during high volatility. The current study 
+contributes to the stock return literature-originated machine learning algorithms during 
+the unprecedented market condition.  The finding of this study is helpful for investors 
+and traders who calculate stock return in their portfolio diversified decisions, regulators, 
+and policymakers in the formulation of their regulations & implementation decisions 
+while the market condition is unprecedented. Thus, the support vector machine (SVM) 
+algorithm offers an accurate prediction of stock return to investors who invest during 
+high volatility.  
+Key Words:  Pakistan Stock Exchange, Stock Returns Prediction, Support Vector Machine, 
+Covid-19 & Machine Learning. 
+Introduction: 
+Sudden stop in a large steam of activities of national and global economies due to a respiratory 
+syndrome known as covid-19 (Shafi, Liu et al. 2020). Enterprises experience a significant impact 
+
+saba et al. (2023) 
+100 
+ 
+of this outbreak (Dyduch, Chudziński et al. 2021). Develop and under developing both economies 
+suffering in a bad situation by imposing lockdown (Alsamhi, Al-Ofairi et al. 2022). UNIDO (2020) 
+state SMES in Pakistan have negative impact of covid-19. However, impact density varies on the 
+basis of firm size, sector, nature of business and the technology utilization. In Pakistan 90% 
+business show decline in their revenue, while 2% firm show positive attitude respect to their profit. 
+Pakistan economy that suffering already in a recovery position hit badly due to covid-19 pandemic 
+(Amir, Farooq et al. 2022). 
+Predicting the movement of stock prices has been the focus of the study by experts in a broad 
+variety of disciplines, including economics, history, finance, mathematics, and computer 
+technology. The stock market’s volatility makes it challenging to use con ventional statistical 
+methods, such as time -series analysis or regression (Gupta, Nel et al. 2023). Many proprietary 
+information models have been developed by banking firms and traders to outperform the market, 
+but few of them have been consistently successful (Kolte, Roy et al. 2023). However, the allure of 
+stock forecasting lies in the fact that even a modest gain of a few percent might result in a million-
+dollar windfall for these organizations.  
+Stochastic linear time -series models, such as the ARIMA, have long been the primary focus of 
+many forecasts (Y.A. L. B. Gianluca Bontempi 2015). However, no-linear models such as ARCH 
+generally have lower prediction errors due to the volatility underlying the movements of stocks 
+and other commodities, making liner strategies unsatisfactory (Zhang, Shan et al. 2009). In recent 
+years, analysts have looked to big information and machine learning methods from the area of 
+computer science to better predict stock prices. These make use of computing capacity to develop 
+mathematical and statistical hypotheses. To “figure out” the answer to a problem, machine learning 
+algorithms analyze existing data. Algorithms and high-frequency trading procedures employed by 
+financial firms are also based on big information and machine learning approaches. 
+In this paper, we use Support Vector Machines, a machine learning technique known as SVM with 
+their three different kernels to check the accuracy of price prediction during high volatility. 
+Specifically, we want to utilize SVM at time t to forecast whether the price of a certain stock will 
+be greater or lower on day t + 1. The time t represents the time in which market conditions around 
+the world, resulted in a global recession of Covid-19 because the economic impact of this pandemic 
+is still unknown. In this study fifteen factors are used to predict stock prices, these fifteen factors 
+are further divided into four main categories, which include volume and price factor, valuation 
+factor, risk factors, and scale factors. Pakistan stock market’s three stocks are analyzed. We placed 
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+101 
+ 
+the algorithms on fifteen variables, of three stocks including the food, personal care products, 
+automobile assembler, and pharmaceutical industry’s daily data. These values are determined by 
+utilizing the final prices of each stock each day between 2020 a nd 2022. In this research, we 
+investigate whether or not this past information can aid in predicting the future course of prices 
+while the market suffers from high volatility. In addition to this analysis, the accuracy of 3 different 
+kernels of SVM is name d polynomial kernel, linear kernel, and RBF kernel. According to the 
+Efficient Markets Hypothesis (EMH), prices should fluctuate at random in response to information 
+in the market.  
+ Background information: 
+ Stock Market Efficiency: 
+The market efficiency hypothesis, a popular topic of economic study, states that stock prices 
+already represent all relevant information and are, therefore, unexpected (Kang, Zong et al. 2023). 
+The EMH states that stock prices will act randomly as they rea ct to fresh information. They are 
+unpredictable if they solely react to fresh information because predictable movement would 
+indicate that information was not represented by market rates, the fact that shares move randomly 
+is evidence of market efficiency (Chen 2023, Sheth and Shah 2023).  
+The weak, semi-strong, and strong forms of this theory exist. The majority of studies have found 
+support for the somewhat strong interpretation. This version asserts that stock prices accurately 
+represent all publicly accessible information; nevertheless, non-public data may be exploited to 
+make biased predictions of future earnings, and because of this, insider trading rules are so strict 
+(Chhajer, Shah et al. 2022). The EMH is challenged, however, by a few features of the market. 
+Anomalies in the market i n the market describe these situations. The short -term momentum in 
+stock prices was found by Jagadeesh and Titman. Recently increasing stock keep increasing while 
+decreasing ones keep decreasing. The pattern would seem to imply that stock values in the fut ure 
+are somewhat predictable, which would go counter to the EMH (Jegadeesh and Titman 1993). 
+Seasonal patterns may be seen in the stock market as well. Through analysis of data spanning 
+decades, Jacobsen and Zhang discovered that trading techniques may tak e advantage of seasonal 
+patterns of high cold returns and low summertime returns to generate profits (Ben Jacobsen 2012, 
+Jacobsen 2012, Jacobsen and Zhang 2014). If the EMH were accurate, then it would be impossible 
+to forecast the direction in which futur e stock prices with a probability higher than 50%. Simply 
+put, one should not have any more luck predicting whether prices will rise or fall in the future than 
+they would be using a random number generator (Yang and Ma 2022, Zhang and Wu 2022, Kurani, 
+saba et al. (2023) 
+102 
+ 
+Doshi et al. 2023). However, as shown, machine learning approaches may use momentum as well 
+as other price patterns to anticipate price direction with higher than 50% accuracy, as seen by the 
+research covered therein (Krollner, Vanstone et al. 2010, Chen 2022, Khashanah and Shao 2022). 
+General Machine Learning: 
+Both traditional and modern machine learning methods fall into one of two broad categories. The 
+first kind is called supervised learning, and it requires training data in the form of examples that 
+have been labeled to show what the desired outcome should be for each feature set included in the 
+example. A dataset’s characteristics and labels are sent to algorithms as training examples, and the 
+algorithm is tasked with using this information to predict the labels for a second dataset (test 
+data)(Tiphimmala 2014, Illa, Parvathala et al. 2022). In contrast, unsupervised learning relies on 
+unlabeled samples in the feature set. As a rule, algorithms will attempt to “cluster” your data into 
+meaningful categories.  
+Regression and classification issues are subsets of supervised learning. In classification problems, 
+the output is discretely labeled as one of many possible categories, but in regression problems, it 
+takes on a continuous range of values. In this study, w e frame the issue of predicting stock prices 
+as one of categorization. To forecast whether a stock’s price will be higher or lower than the current 
+day’s price days from now, the feature set of its recent price fluctuations and momentum is 
+combined by calculating the stock return and making standardization of this return by comparing 
+actual return.  
+Previous Research: 
+Artificial neural networks have been the primary focus of the study in the field of machine learning 
+for predicting (ANN) (Krollner, Vanstone et al. 2010, Al-Najjar 2022). Artificial neural networks 
+(ANNs) simulate the structure of the nervous system by us ing a network of interconnected nodes 
+that stand in for individual neurons (input layer, processing layer, and output layer, etc.). the input 
+is fed into the ANN, and then the output is computed using the weights that have been assigned to 
+the various connections. As it learns, the computer will adjust the weights based on the patterns it 
+finds in the training data. When the data does not contain drastic shifts, as shown by Kar, ANNs 
+may achieve high accuracy (Bregu, Shosha et al. , Kar 1990, Kar 1990, de O liveira, Zárate et al. 
+2011, Fagner Andrade de Oliveira 2011, A. Victor Devadoss 2013). Although Patel and yalamalle 
+both agree that ANNs may achieve prediction accuracy of just over 50%, they warn that the 
+nonlinear and temporal changes in stock market da ta make it challenging for even the most 
+sophisticated methods to make accurate forecasts (Patel and Yalamalle 2014).  
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+103 
+ 
+Recent research on the topic has employed another technology known as support vector machines 
+in addition to or as an option for ANNs. SVMs may commit classification mistakes inside training 
+data to reduce total error across test data, while ANNs are model s that strive to decrease 
+classification errors within the training data. A key benefit of SVMs is that it finds a global 
+optimum, while the neural network may only discover a local optimum (Kim 2003, Krollner, 
+Vanstone et al. 2010, Khashanah and Shao 2022, Kurani, Doshi et al. 2023).  
+By using a support vector machine (SVM) model, Kim achieved a prediction accuracy of up to 
+57% (using test data outputs), which is much over the 50% criterion. According to the findings of 
+survey research on stock prediction done by the Shah, SVM is the most effective machine learning 
+model. Kim’s conclusion is in line with his 60% success record in making predictions. Since most 
+current research has integrated SVMs, this is the approach we employ in our study (Lv, Guo et al. 
+2022, Sheth and Shah 2023). 
+Support Vector Machines: 
+For binary classification, Support Vector Machines are among the top options. As a result, they 
+establish a dividing line between the two sets of data, with most of the points in one set lying on 
+one side of the line and most of the points in the second lying on the other. Think of a characteristic 
+vector x = (X1,…, Xn) with n dimensions (Milke 2022, Koranteng 2023).  A linear border 
+(hyperplane) may be defined as follows: - 
+𝛽° + 𝛽1𝑥1 + ⋯ + 𝛽𝑛𝑥𝑛  =  𝛽° + ∑ 𝛽𝑖𝑥𝑖 = 0
+𝑛
+𝑖=1
+ 
+ 
+The other the total of the items in one set will be more than zero, while the sum of the elements in 
+the other set will be less than zero. Labeled instances have y, where y is the label. We use the 
+notation y = 1,1 to organize things. 
+𝑌 = 𝛽° + ∑ 𝛼𝑖𝑦𝑖𝑥(𝑖) ∗ 𝑥 
+The recast the hyperplane equation, we may use inner products. The best hyperplane is the one 
+where we have the greatest possible separation between the plane and any given point. The margin 
+represents this extra space. When dividing the information, the d ecision boundary hyperplane 
+(MMH) is optimal. Since this may not be a perfect separation, we may include error variables 1…n 
+and constrain their total to be less than some limit B. The most important consideration when 
+saba et al. (2023) 
+104 
+ 
+choosing a hyperplane is its proximity to the border. The points themselves are called support 
+vectors, and the classification hyperplane that assigns each support vector to one of two categories 
+is called a support vector classifier (SVC).  
+While the idea behind the SVC is similar to that of ordinary least squares (OLS), another well -
+known linear regression model, the two models maximize different values (Ghimire, Guéguen et 
+al. 2022). The OLS calculates the sum of squares of the residuals, or the distances from each piece 
+of data to the fit line. On the other hand, the SVC is concerned only with the support vectors, and 
+it uses the inner product the optimize the distance from the hyperplane to the support vector. 
+Additionally, in SVC, the inn er products are weighted by their labels, but in OLS, the weighting 
+is the square of residuals. As a result, SVC and OLS are two distinct strategies for tackling the 
+issue.  
+The restriction of SVCs to linear bounds is a major limitation. To address this problem, SVMs use 
+non-linear kernel functions to translate the inputs to a higher -dimensional space, where they may 
+be classified linearly. Classifications that are linear in t he higher dimensional space will be non -
+linear in the lower dimensional space. The SVM ramps the input to higher dimensions by 
+substituting a more generic kernel function K for the inner product. So, for a support vector 
+machine, y = 0+iyiK(x(i),x) describes this relationship. 
+Linear kernel: 
+A linear kernel is a feature space corresponding with its original feature space. In linear kernels no 
+shadowy involved in n-dimensional space, they direct translate Euclidian distances. Linear kernel 
+support vector machine performs well only on very simple problems. The algorithm performance 
+is worse due to the more indecipherable boundaries between class clusters. 
+ 
+
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+105 
+ 
+Polynomial kernel: 
+The polynomial regression feature space represents the polynomial feature space corresponding; 
+both are the same. In a polynomial kernel each x feature is copied over to x2, x3………., xn up to 
+the degree, and then draw the feature space by separating the hyp erplanes. Concerning their 
+polynomial nature, they draw them in two dimensions. The polynomial kernel of the support vector 
+classifier has unique degree parameters. The  higher the degree the resulting space is more 
+overfitted. Hyperplanes remain continuous and boundless while generating space and separating 
+them. 
+ 
+RBF kernel: 
+The most popular kernel choice in support vector machines is the RBF kernel. RBF is known as 
+the radical basis function. This function is used to approximate the other functions and is used 
+default in sklearn. The kernel is translated in complex math but b asically, they draw the most 
+complex boundaries that one’s available to Sklearn. Kernel density estimation is through behind 
+kernel smoothing which includes KDE plotting that is popular in EDA machine learning. 
+ 
+
+saba et al. (2023) 
+106 
+ 
+  
+Model Creation and Evaluation Method: 
+This study uses SVM by focusing on its three different kernels for price forecasting. This study 
+aims to find the best kernel that is used SVM model to see an opportunity to predict stock price by 
+applying the historical stock data through the pandemic data and subsequent recovery period. 
+The Framework of Stock Prediction: 
+ 
+  
+Data Collection and Time Frame: 
+Economic conditions greatly deteriorated during covid-19. Unemployment increases that create a 
+downturn in the Labor market, which enhances the depression of the great pandemic. This study 
+wants to analyze the historical factors that predict stock prices w hile the market is unstable. This 
+study also wants to see which kernel of the SVM model performs well during high volatility. The 
+study used historical data on covid-19 by focusing on 3 stocks from 3 different sectors. Focusing 
+on three different sectors a s opposed to a single sector allows us to test the model on different 
+nature companies making our results relatively standardized. Automobile assembler (Atlas Honda 
+limited), food and personal care (Fuji Foods limited), and pharmaceuticals (abbot laborator ies 
+limited) sector stock included in this study. Stock price data were obtained from the Pakistan stock 
+exchange website.  
+SVM model: 
+Three kernel functions of SVM is used in this study, to check the accuracy of stock prediction, 
+which include linear kernel, polynomial kernel, and radical kernel. 
+The function of the linear kernel in SVM. 
+• Transaction 
+Data 𝓢 (𝒊,𝒌,𝒕)
+Enter
+• SVM
+• Linear Kernel
+• Polly Kernel
+• RBF Kernel
+Method • Forecasting 
+Price 𝑃
+(𝑖,𝑡+1)
+Output
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+107 
+ 
+𝐾(𝑥, 𝑥𝑘) = ∑(𝑥𝑖𝑗. 𝑥𝑘𝑗)
+𝑛
+𝑗=1
+ 
+The function of a polynomial kernel in SVM. 
+𝐾(𝑥, 𝑥𝑘) = (∑ 𝑎 + 𝑥𝑖𝑗
+𝑡
+𝑛
+𝑗=1
+𝑥𝑗)𝑏 
+The function of a radical kernel in SVM. 
+𝐾(𝑥𝑖, 𝑥𝑘)  = exp( − 1
+𝛿2 ∑(𝑥𝑖𝑗 − 𝑥𝑘𝑗)2
+𝑛
+𝑗=1
+) 
+The Python library that is used for this SVM model is numpy and pandas. 
+Feature selection: 
+This study uses 15 trading factors that are mainly divided into four broader categories, which 
+include volume and price factors, valuation factors, risk factors, and scale factors. (Table 1) 
+Method   
+Table 1 describes how each feature is calculated. To calculate the trading, feature this study looks 
+at everyday trading data from 2020 through March 2022. 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Table 1 
+ 
+ 
+▪ Previous day 
+closing price 
+▪ Trading volume  
+▪ Opening price  
+▪ Average price  
+▪ Closing price  
+▪ Lowest price 
+▪ Turnover 
+▪ Highest price 
+ 
+▪ P/B ratio  
+▪ P/E ratio 
+▪ P/S ratio 
+▪ Up & Downs of 
+Rs 
+▪ Turnover Rate 
+▪ Total Market 
+Capitalization 
+▪ Total Equity 
+Trading Factor 
+saba et al. (2023) 
+108 
+ 
+Results: 
+The training accuracy and validation accuracy of three stocks concerning three different kernels 
+of the SVM model is shown in Table 2. 
+Stocks 
+Training Accuracy Validation Accuracy 
+Linear 
+Kernel 
+Polynomial 
+Kernel 
+Radicle 
+Kernel 
+Linear 
+Kernel 
+Polynomial 
+Kernel 
+Radicle 
+Kernel 
+ABOT 0.582 0.584 0.622 0.626 0.562 0.621 
+FFL 0.367 0.407 0.383 0.441 0.381 0.502 
+HCAR 0.467 0.408 0.624 0.412 0.413 0.521 
+ 
+Table 2 
+The training accuracy of ABOT stock is 58% and validation accuracy is 62% by using a linear 
+kernel of the SVM model. The training accuracy of ABOT stock is 58% and validation accuracy 
+is 56% by using a polynomial kernel of the SVM model. The training accuracy of ABOT stock is 
+62% and validation accuracy is also 62% by using the radicle kernel of the SVM model. That 
+means the radical kernel of SVM is more competent to predict the volatility during unstable market 
+condition. The density of all 15 factors respect to the ABOT model show in appendix figure 1. The 
+individual factor predictive capability of ABOT each factor shown in appendix figure 2. Training 
+accuracy of all factors respect to three kernels of ABOT train algo shown in appendix 3. The 
+feature engineering that is used in train and test model respect to factors pairing to evaluate the 
+predictive accuracy of ABOT shown in appendix 4. The price movement of ABOT stock is shown 
+in the below figure 1. 
+ 
+  
+Figure 1 
+
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+109 
+ 
+The training accuracy of FFL stock is 36% and validation accuracy is 44% by using a linear kernel 
+of the SVM model. The training accuracy of FFL stock is 40% and validation accuracy is 38% by 
+using a polynomial kernel of the SVM model. The training accurac y of FFL stock is 38% and 
+validation accuracy is 50% by using the radicle kernel of the SVM model. That means the radical 
+kernel of SVM is more competent to predict the volatility during unstable market condition. The 
+density of all 15 factors respect to t he FFL model is shown in appendix figure 5. The individual 
+factor predictive capability of FFL is each factor shown in appendix figure 6. Training accuracy 
+of all factors respect to three kernels of FFL train algo shown in appendix 7. The feature 
+engineering that is used in train and test model respect to factors pairing to evaluate the predictive 
+accuracy of FFL shown in appendix 8. The price movement of FFL stock is shown in the below 
+figure 2. 
+ 
+Figure 2 
+The training accuracy of HCAR stock is 46% and validation accuracy is 41% by using a linear 
+kernel of the SVM model. The training accuracy of HCAR stock is 40% and validation accuracy 
+is 41% by using a polynomial kernel of the SVM model. The training accuracy of HCAR stock is 
+62% and validation accuracy is also 52% by using the radicle kernel of the SVM model. That 
+means the radical kernel of SVM is more competent to predict the volatility during unstable market 
+condition. The density of all 15 factors respecting the HCAR model show in appendix figure 9. 
+The individual factor predictive capability of HCAR each factor shown in appendix figure 10. 
+Training accuracy of all factors respect to three kernels of HCAR train algo shown in appendix 11. 
+The feature engineering that is used in train and test model respect to factors pairing to evaluate 
+the predictive accuracy of HCAR shown in appendix 12. The price movement of HCAR stock is 
+shown in the below figure 3. 
+
+saba et al. (2023) 
+110 
+ 
+ 
+Figure 3 
+Discussion: 
+The innovation of the stock selection model proposed in this study by using fifteen trading factors 
+as a predictive factor to evaluate the forecasted price of stock while the market condition is highly 
+volatile. Trading factors contain the historical infor mation of stocks daily. To prove the 
+effectiveness of the SVM kernel the proposed stock selection model compared three kernels of 
+SVM. The finding of this study suggests that the linear kernel gives 53%, the polynomial kernel 
+gives 46% and the radical basis function (RBF) kernel gives 62% validation accuracy. The results 
+show that the radical kernel of SVM that adopted a model of machine learning used in this study 
+performs better than Linear and Polly kernels. This study also supports the idea that  machine 
+learning model plays an important role in stock selection while the market condition is 
+unprecedented. Additionally, historic data is an optimized predictor of stock forecasting by using 
+machine learning during high volatility.  
+Future Work: 
+This study used daily data, but the market swings its mood every minute or second, next study by 
+looking at intra-day trading data enhances the accuracy of the model by considering intra-day data 
+to create robust that capitalized on sudden changes. 
+Machine learning model accuracy greatly depends on feature selection. In this study, we consider 
+trading factors, and future work may consider economic factors like inflation, and GDP growth 
+rate to enhance the accuracy.  
+Another scope of future growth is to apply the model in other sectors. In this study, we focus on 
+only 3 sectors and individual stock from each sector. We can apply our model to other sectors and 
+check the model’s predictive ability. 
+
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+111 
+ 
+  
+Appendix: 
+ABOT (Abbot Laboratories (Pakistan) Limited – Pharmaceuticals): 
+ 
+Appendix Figure 1 
+Appendix Figure 2 
+
+saba et al. (2023) 
+112 
+ 
+ 
+Appendix Figure 3 
+ 
+ 
+Appendix Figure 4 
+FFL (Fauji Foods Limited – Food & Personal Care Products): 
+
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+113 
+ 
+ 
+Appendix Figure 5 
+ 
+Appendix Figure 6 
+
+saba et al. (2023) 
+114 
+ 
+ 
+Appendix Figure 7 
+ 
+ 
+Appendix Figure 8 
+ 
+HCAR (Honda Atlas Cars (Pakistan) Limited – Automobile Assembler): 
+
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+115 
+ 
+ 
+Appendix Figure 9 
+ 
+Appendix Figure 10 
+
+saba et al. (2023) 
+116 
+ 
+Appendix Figure 11 
+ 
+ 
+Appendix Figure 12 
+ 
+References:   
+
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+117 
+ 
+A. Victor Devadoss, T. A. A. L. (2013). Stock Prediction Using Artificial Stock Prediction Using 
+Artificial, International Journal of Data Mining Techniques and Applications. 
+Al-Najjar, D. (2022). "The Co-movement between international and emerging stock markets using 
+ANN and stepwise models: evidence from selected indices." Complexity 2022: 1-14. 
+Alsamhi, M. H., et al. (2022). "Impact of Covid -19 on firms’ performance: Empirical evidence 
+from India." Cogent Business & Management 9(1): 2044593. 
+Amir, M., et al. (2022). "The Impact of COVID -19 Pandemic on the Financial Performance of 
+Firms Listed on the Pakistan Stock Exchange (PSX)." Competitive Social Science 
+Research Journal 3(1): 606-620. 
+Ben Jacobsen, C. Y. Z. (2012). The Halloween indicator, “Sell in May and go Away”: an even 
+bigger puzzle. 
+Bregu, E., et al. "THE FUTURE OF SECURITIES MARKET IN ALBANIA." 
+Chen, Q. (2022). Stock Market Prediction Using Machine Learning. 2022 International 
+Conference on Bigdata Blockchain and Economy Management (ICBBEM 2022), Atlantis 
+Press. 
+Chen, Y. (2023). "Using AH Premium to Predict Related Stock Index with Support Vector 
+Machine." 
+Chhajer, P., et al. (2022). "The applications of artificial neural networks, support vector machines, 
+and long–short term memory for stock market prediction." Decision Analytics Journal 2: 
+100015. 
+de Oliveira, F. A., et al. (2011). The use of artificial neural networks in the analysis and prediction 
+of stock prices. 2011 IEEE International Conference on Systems, Man, and Cybernetics, 
+IEEE. 
+Dyduch, W., et al. (2021). "Dynamic capabilities, value creation and value capture: Evidence from 
+SMEs under Covid-19 lockdown in Poland." Plos one 16(6): e0252423. 
+Fagner Andrade de Oliveira, L. E. Z., Marcos de Azevedo Reis, Cristiane Neri Nobre (2011). The 
+use of artificial neural networks in the analysis and prediction of stock prices, IEEE. 
+Ghimire, S., et al. (2022). "Testing machine learning models for seismic damage prediction at a 
+regional scale using building -damage dataset compiled after the 2015 Gorkha Nepal 
+earthquake." Earthquake Spectra 38(4): 2970-2993. 
+saba et al. (2023) 
+118 
+ 
+Gupta, R., et al. (2023). "Investor confidence and forecastability of US stock market realized 
+volatility: evidence from machine learning." Journal of Behavioral Finance 24(1): 111 -
+122. 
+Illa, P. K., et al. (2022). "Stock price prediction methodology using random forest algorithm and 
+support vector machine." Materials Today: Proceedings 56: 1776-1782. 
+Jacobsen, B. and C. Y. Zhang (2014). "The halloween indicator,‘sell in may and go away’: an even 
+bigger puzzle." Available at SSRN 2154873. 
+Jacobsen, C. Y. Z. B. (2012). Are monthly seasonals real? a three century perspective. 
+Jegadeesh, N. and S. Titman (1993). "Returns to buying winners and selling losers: Implications 
+for stock market efficiency." The Journal of finance 48(1): 65-91. 
+Kang, H., et al. (2023). "Binary gravity search algorithm and support vector machine for 
+forecasting and trading stock indices." International Review of Economics & Finance 84: 
+507-526. 
+Kar, A. (1990). "Stock prediction using artificial neural networks." Dept. of Computer Science and 
+Engineering, IIT Kanpur. 
+Kar, A. (1990). Stock prediction using artificial neural networks, Dept. of Computer Science and 
+Engineering, IIT Kanpur. 
+Khashanah, K. and C. Shao (2022). "Short -term volatility forecasting with kernel support vector 
+regression and Markov switching multifractal model." Quantitative Finance 22(2): 241 -
+253. 
+Kim, K. -j. (2003). "Financial time series forecasting using support vector machines." 
+Neurocomputing 55(1-2): 307-319. 
+Kolte, A., et al. (2023). "The impact of unpredictable resource prices and equity volatility in 
+advanced and emerging economies: An econometric and machine learning approach." 
+Resources Policy 80: 103216. 
+Koranteng, D. (2023). "C-statistic vs bayesian: A comparative analysis of x-ray spectral statistics." 
+Krollner, B., et al. (2010). Financial time series forecasting with machine learning techniques: a 
+survey. ESANN. 
+Kurani, A., et al. (2023). "A comprehensive comparative study of artificial neural network (ANN) 
+and support vector machines (SVM) on stock forecasting." Annals of Data Science 10(1): 
+183-208. 
+Stock Volatility Prediction Using Machine Learning during Covid-19 
+119 
+ 
+Lv, Y., et al. (2022). Stock volatility prediction Using TabNet based deep learning method. 2022 
+3rd International Conference on Big Data, Artificial Intelligence and Internet of Things 
+Engineering (ICBAIE), IEEE. 
+Milke, V. (2022). Intraday machine learning for the securities market, Anglia Ruskin University. 
+Patel, M. B. and S. R. Yalamalle (2014). "Stock price prediction using artificial neural network." 
+International Journal of Innovative Research in Science, Engineering and Technology 
+3(6): 13755-13762. 
+Shafi, M., et al. (2020). "Impact of COVID -19 pandemic on micro, small, and medium -sized 
+Enterprises operating in Pakistan." Research in Globalization 2: 100018. 
+Sheth, D. and M. Shah (2023). "Predicting stock market using machine learning: best and accurate 
+way to know future stock prices." International Journal of System Assurance Engineering 
+and Management: 1-18. 
+Tiphimmala, S. (2014). "Forecasting Stock Price Index Using Artificial Neural Networks in the 
+Indonesian Stock Exchange." 
+Y.A. L. B. Gianluca Bontempi, S. B. T. (2015). Machine Learning Strategies for Time Series 
+Forecasting, Machine Learning Group, Computer Science Department, Univerite Libre de 
+Bruxelles. 
+Yang, Y. and X. Ma (2022). "Support Vector Machine and Granular Computing Based Time Series 
+Volatility Prediction." Journal of Robotics 2022. 
+Zhang, J., et al. (2009). "Applying time series analysis builds stock price forecast model." Modern 
+Applied Science 3(5): 152-157. 
+Zhang, W. and Z. Wu (2022). "Optimal hybrid framework for carbon price forecasting using time 
+series analysis and least squares support vector machine." Journal of Forecasting 41(3): 
+615-632. 
+ 
+ 
+ 
