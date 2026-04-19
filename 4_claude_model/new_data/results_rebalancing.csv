@@ -1,0 +1,7 @@
+Task,Model,Train RMSE,Test RMSE,Test MAE,Test R²,Train Acc,Test Acc,Test AUC
+Weight prediction,Naive,0.7973,1.4723,0.9121,0.746,,,
+Weight prediction,Ridge regression,0.7578,1.4651,0.9201,0.7484,,,
+Weight prediction,Random Forest,0.5708,1.6108,1.0182,0.6959,,,
+Inclusion prediction,Naive,,,,,0.9091,0.86,0.5
+Inclusion prediction,Logistic regression,,,,,0.9205,0.86,0.8439
+Inclusion prediction,Random Forest,,,,,0.9375,0.86,0.7708
