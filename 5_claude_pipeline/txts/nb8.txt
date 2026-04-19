@@ -1,0 +1,259 @@
+=================================================================
+SECTION 1 — Data ingestion & cleaning
+=================================================================
+Raw rows: 42,330  |  columns: ['Date', 'ISIN', 'SYMBOL', 'COMPANY', 'PRICE', 'IDX WT %', 'FF BASED SHARES', 'FF BASED MCAP', 'ORD SHARES', 'ORD SHARES MCAP', 'Volume', 'VOLUME']
+Dropped 120 trading-halt rows (Oct 2021 PSX suspension)
+Computing per-symbol features …
+Stock data: 42,210 rows | 59 symbols | 2020-01-01 → 2025-10-01
+Loading macro data …
+Loading fund data …
+Data loading complete.
+
+=================================================================
+SECTION 2 — Master dataset construction
+=================================================================
+Daily master: 1,155 rows × 21 cols | 2021-01-04 → 2025-10-01
+Nulls: {'nav_vol_akd': 11}
+Monthly master: 56 rows × 29 cols | 2021-02-26 → 2025-10-01
+Saved: daily_master.csv, monthly_master.csv, kse30_stocks_clean.csv
+
+=================================================================
+SECTION 3 — Exploratory data analysis
+=================================================================
+
+[Table] Descriptive statistics — Daily NAV log returns
+Fund    N  Mean %  Std %     Min %    Max %    Skew   ExKurt  JB p Normal
+ AKD 1155  0.0802 2.7487  -59.2590  60.0057  0.2351 381.1399   0.0     No
+ NBP 1155  0.0757 9.6153 -229.4768 229.3365 -0.0464 558.0906   0.0     No
+ NIT 1155  0.0499 3.7000  -84.0365  84.7624  0.1974 466.0419   0.0     No
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\eda\E01_aum_trend.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\eda\E02_nav_return_dist.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\eda\E03_fund_flows.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\eda\E04_macro_overview.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\eda\E05_monthly_correlation.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\eda\E06_index_cumulative_return.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\eda\E07_top_weights.png
+EDA figures saved.
+
+=================================================================
+SECTION 4 — GARCH volatility modelling
+=================================================================
+
+  AKD — fitting GARCH(1,1) and EGARCH(1,1) …
+    GARCH(1,1):  AIC=4778.2  persist=0.9974
+    EGARCH(1,1): AIC=4194.2  leverage=NO
+    Best: EGARCH(1,1)
+
+  NBP — fitting GARCH(1,1) and EGARCH(1,1) …
+    GARCH(1,1):  AIC=7775.9  persist=0.9996
+    EGARCH(1,1): AIC=4198.1  leverage=NO
+    Best: EGARCH(1,1)
+
+  NIT — fitting GARCH(1,1) and EGARCH(1,1) …
+    GARCH(1,1):  AIC=3850.5  persist=0.8937
+    EGARCH(1,1): AIC=3800.7  leverage=NO
+    Best: EGARCH(1,1)
+
+  Saved: results_garch.csv
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\garch\G01_returns_and_vol.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\garch\G02_var_backtest.png
+
+=================================================================
+SECTION 5 — Fund flow prediction
+=================================================================
+Train: 35 months | Test: 21 months
+
+  ADF tests:
+    total_fund_flow                 t= -7.400  p=0.0000  Stationary
+    interest_rate_end               t= -1.216  p=0.2295  Non-stationary
+    cpi_yoy_end                     t= -0.981  p=0.3312  Non-stationary
+    oil_return_monthly              t= -7.156  p=0.0000  Stationary
+    usdpkr_return_monthly           t= -8.295  p=0.0000  Stationary
+
+  Granger causality (macro → fund flow):
+    IR → flow            lag=1: F=2.179  p=0.1459  ns
+    CPI → flow           lag=1: F=0.198  p=0.6586  ns
+    Oil → flow           lag=1: F=0.257  p=0.6144  ns
+    USD/PKR → flow       lag=1: F=0.031  p=0.8610  ns
+
+  ARIMAX(1,0,1) …
+    ARIMAX(1,0,1)                 RMSE=  197.642  MAE=  77.871  R²=-0.1172  DirAcc=65.0%
+    Naive (RW)                    RMSE=  267.676  MAE= 109.729  R²=-1.0492  DirAcc=30.0%
+  VAR(1) …
+    VAR(1)                        RMSE=  190.624  MAE=  74.393  R²=-0.0393  DirAcc=80.0%
+    AKD ARIMAX                    RMSE=  180.388  MAE=  70.666  R²=-0.1345  DirAcc=70.0%
+    NBP ARIMAX                    RMSE=    7.214  MAE=   5.230  R²= 0.1483  DirAcc=75.0%
+    NIT ARIMAX                    RMSE=   15.623  MAE=   6.711  R²=-0.0017  DirAcc=40.0%
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\fund_flow\FF01_total_flow_predictions.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\fund_flow\FF02_granger.png
+  Saved: results_fund_flow.csv
+
+  Model comparison:
+  Model                       RMSE        R²    DirAcc
+  Naive (RW)                 267.7   -1.0492      30.0%
+  ARIMAX(1,0,1)              197.6   -0.1172      65.0%
+  VAR(1)                     190.6   -0.0393      80.0%
+
+=================================================================
+SECTION 6 — Market efficiency tests
+=================================================================
+
+  Fund     Runs Z   Runs p   VR(2)    VR p    LB p   Hurst H
+  ------------------------------------------------------------
+  AKD     -2.4841   0.0130  0.5452  0.2704  0.0000     0.669
+  NBP     -0.5237   0.6005  0.5095  0.3197  0.0000    0.6689
+  NIT     -2.4463   0.0144  0.5128  0.2819  0.0000    0.6619
+
+  Sub-period (high-rate Apr 2022–Dec 2023 vs low-rate):
+  AKD: VR(2) high-rate=1.2093 low-rate=0.5058 | H high=0.7162 low=0.6306
+  NBP: VR(2) high-rate=0.5051 low-rate=1.0332 | H high=0.7047 low=0.6465
+  NIT: VR(2) high-rate=0.9862 low-rate=0.4941 | H high=0.6945 low=0.6359
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\efficiency\EF01_acf.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\efficiency\EF02_variance_ratio.png
+  Saved: results_efficiency.csv
+
+=================================================================
+SECTION 7 — Rebalancing weight & inclusion prediction
+=================================================================
+  Detected 14 rebalancing dates:
+    2020-03-13
+    2020-09-15
+    2021-03-15
+    2021-09-15
+    2022-03-15
+    2022-09-15
+    2023-03-15
+    2023-09-15
+    2024-03-15
+    2024-09-16
+    2024-12-23
+    2025-01-06
+    2025-03-17
+    2025-09-15
+
+  Building rebalancing panel …
+  Panel: 338 rows | 13 windows | 43 symbols
+  Retained rate: 90.8%
+
+  Feature comparison — retained vs dropped:
+  Feature                Retained    Dropped    p-value
+  ----------------------------------------------------
+  cur_weight               3.9546     1.1934     0.0000 **
+  mom_30                   0.0006    -0.0220     0.1865 
+  mom_60                   0.0168     0.0093     0.3330 
+  mom_90                   0.0604     0.0376     0.3627 
+  vol_30                   0.3570     0.4149     0.0250 **
+  vol_60                   0.3401     0.3917     0.0250 **
+  avg_volume           3158746.8123 3709585.9228     0.1839 
+  mkt_cap_proxy        385742649.8926 241772978.1474     0.0223 **
+  price_to_ma20           -0.0069    -0.0140     0.5145 
+  price_to_ma50            0.0100     0.0047     0.3667 
+  wt_drift                 0.0056    -0.0294     0.3755 
+  wt_range                 0.4155     0.1630     0.0000 **
+
+  Train: 284 | Test: 54
+    Naive wt                      RMSE=    0.781  MAE=   0.537  R²= 0.9272  DirAcc=86.8%
+    Ridge                         RMSE=    0.760  MAE=   0.520  R²= 0.9308  DirAcc=84.9%
+    Random Forest                 RMSE=    1.153  MAE=   0.739  R²= 0.8409  DirAcc=84.9%
+    Naive (all ret)               Acc=0.870  AUC=nan  TP=47 FP=7 FN=0 TN=0
+    Logistic                      Acc=0.870  AUC=0.863  TP=47 FP=7 FN=0 TN=0
+    Random Forest                 Acc=0.870  AUC=0.836  TP=47 FP=7 FN=0 TN=0
+
+  Predicting next rebalancing …
+
+  Forward forecast (next rebalancing ~2026-03-15):
+  Symbol     CurWt   PredWt   RetProb     Risk
+  ---------------------------------------------
+  GHNI        0.37     0.48     0.747    0.253
+  GAL         0.40     0.49     0.782    0.218
+  ATRL        0.84     0.73     0.827    0.173
+  SAZEW       1.04     0.80     0.829    0.171
+  FCCL        1.50     1.20     0.896    0.104
+  PAEL        0.83     0.79     0.900    0.100
+  MLCF        1.49     1.22     0.905    0.095
+  DGKC        1.57     1.23     0.922    0.078
+  POL         2.65     2.69     0.933    0.067
+  SEARL       0.89     0.78     0.935    0.065
+  HUBC        5.32     4.98     0.955    0.045
+  NBP         2.82     2.95     0.956    0.044
+  LUCK        6.28     6.49     0.957    0.043
+  EFERT       3.91     3.99     0.972    0.028
+  UBL         9.63     8.25     0.976    0.024
+  SYS         3.93     4.04     0.977    0.023
+  BAHL        4.41     4.40     0.978    0.022
+  PSO         2.93     2.80     0.979    0.021
+  PPL         3.81     3.64     0.980    0.020
+  ENGROH      6.76     6.85     0.982    0.018
+  HBL         4.48     4.73     0.982    0.018
+  MARI        4.88     4.64     0.983    0.017
+  MCB         4.37     4.43     0.985    0.015
+  OGDC        5.20     4.86     0.986    0.014
+  MEBL        5.46     5.22     0.986    0.014
+  FFC        11.68     9.41     0.990    0.010
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\rebalancing\R01_retention_probability.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\rebalancing\R02_feature_importances.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\rebalancing\R03_weight_scatter.png
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\rebalancing\R04_weight_changes.png
+
+  Saved: results_rebalancing.csv, results_rebalancing_forecast.csv
+
+=================================================================
+SECTION 8 — Results summary
+=================================================================
+
+[Table 1] Descriptive statistics — Daily NAV returns
+Fund    N  Mean %  Std %     Min %    Max %    Skew   ExKurt  JB p Normal
+ AKD 1155  0.0802 2.7487  -59.2590  60.0057  0.2351 381.1399   0.0     No
+ NBP 1155  0.0757 9.6153 -229.4768 229.3365 -0.0464 558.0906   0.0     No
+ NIT 1155  0.0499 3.7000  -84.0365  84.7624  0.1974 466.0419   0.0     No
+
+[Table 2] GARCH model selection
+Fund      Model    omega  alpha   beta  persist     AIC
+ AKD GARCH(1,1) 0.626931 0.2916 0.7058   0.9974 4778.18
+ NBP GARCH(1,1) 9.190388 0.2406 0.7590   0.9996 7775.89
+ NIT GARCH(1,1) 0.812578 0.7064 0.1873   0.8937 3850.53
+
+[Table 3] Fund flow prediction
+        Model Target   RMSE    MAE      R2  DirAcc         Note
+   Naive (RW)  Total 267.68 109.73 -1.0492    30.0    Benchmark
+ARIMAX(1,0,1)  Total 197.64  77.87 -0.1172    65.0      Primary
+       VAR(1)  Total 190.62  74.39 -0.0393    80.0 System model
+
+[Table 4] Market efficiency
+Fund  Runs Z  Runs p Runs verdict  VR(2)  VR(2) p  LB Q p  Hurst H
+ AKD -2.4841  0.0130  Inefficient 0.5452   0.2704     0.0   0.6690
+ NBP -0.5237  0.6005    Efficient 0.5095   0.3197     0.0   0.6689
+ NIT -2.4463  0.0144  Inefficient 0.5128   0.2819     0.0   0.6619
+
+[Table 5] Weight prediction
+  Task        Model   RMSE    MAE     R2  Accuracy  AUC
+Weight        Naive 0.7805 0.5374 0.9272       NaN  NaN
+Weight        Ridge 0.7605 0.5201 0.9308       NaN  NaN
+Weight RandomForest 1.1535 0.7389 0.8409       NaN  NaN
+
+[Table 6] Inclusion prediction
+     Task        Model  RMSE  MAE  R2  Accuracy    AUC
+Inclusion        Naive   NaN  NaN NaN    0.8704    NaN
+Inclusion     Logistic   NaN  NaN NaN    0.8704 0.8632
+Inclusion RandomForest   NaN  NaN NaN    0.8704 0.8359
+
+[Table 7] At-risk stocks — next rebalancing
+symbol  cur_weight  avg_ret_prob  exclusion_risk  pred_wt_avg
+  GHNI      0.3669        0.7472          0.2528       0.4761
+   GAL      0.3959        0.7816          0.2184       0.4891
+    fig → D:\roohan\fyp-indexfunds\4_claude_model\pipeline\figures\summary\SUMMARY_dashboard.png
+
+=================================================================
+PIPELINE COMPLETE
+=================================================================
+
+Outputs:
+  daily_master.csv
+  monthly_master.csv
+  kse30_stocks_clean.csv
+  results_garch.csv
+  results_fund_flow.csv
+  results_efficiency.csv
+  results_rebalancing.csv
+  results_rebalancing_forecast.csv
+  figures/  (18 figures)
