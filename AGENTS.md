@@ -15,10 +15,16 @@ pip install -r requirements.txt
 
 ### Main runnable pipelines (pick one)
 
-- **Single-file end-to-end pipeline** (generates masters + figures + results tables):
+- **Single-file canonical pipeline** (AKD/NBP/NTI splits + full workflow; masters + figures next to inputs):
 
 ```bash
 python 5_claude_pipeline/pipeline.py
+```
+
+- **KSE-30-focused variant** (combined index-fund flows + index-centric GARCH/efficiency; reads CSV/Excel from `5_claude_pipeline/`, writes outputs under `6_cursor_model/`):
+
+```bash
+python 6_cursor_model/pipeline.py
 ```
 
 - **Final-model “enhanced” script** (generates versioned plots under `3_final_model/`):
@@ -46,7 +52,8 @@ python 3_final_model/scripts/enhanced-v7.py
 - **`2_midyear_model/`**: mid-year experiments (notebook-driven; plots under `graphs/` and `output/`).
 - **`3_final_model/`**: final enhanced iterations (multiple `enhanced-v*.ipynb`, key scripts under `scripts/`, outputs under `output*`).
 - **`4_claude_model/`**: modular “nb*.py” research pipeline (preprocessing/EDA/GARCH/efficiency/portfolio/summary) with `figures/` and `processed_data/`.
-- **`5_claude_pipeline/`**: single `pipeline.py` that runs the full workflow.
+- **`5_claude_pipeline/`**: single self-contained `pipeline.py` plus local copies of key inputs (`kse30_daily_data.csv`, Excel, etc.).
+- **`6_cursor_model/`**: separate `pipeline.py` — same flow family trimmed to aggregated KSE-30 flows and index-centric stats; consumes inputs from `5_claude_pipeline/` and writes figures/CSVs locally.
 
 ## Agent rules (do/don’t)
 
