@@ -51,7 +51,10 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 warnings.filterwarnings("ignore")
 
-FIG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figures", "fund_flow")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROCESSED_DIR = os.path.join(BASE_DIR, "processed_data")
+
+FIG_DIR = os.path.join(BASE_DIR, "figures", "fund_flow")
 os.makedirs(FIG_DIR, exist_ok=True)
 
 def savefig(name):
@@ -68,7 +71,7 @@ FUND_COLORS = {"AKD": "#1f77b4", "NBP": "#ff7f0e", "NIT": "#2ca02c",
 TRAIN_END = "2023-12-31"
 
 # ── load ─────────────────────────────────────────────────────────────────────
-monthly = pd.read_csv("processed_data/monthly_master.csv", parse_dates=["date"])
+monthly = pd.read_csv(os.path.join(PROCESSED_DIR, "monthly_master.csv"), parse_dates=["date"])
 monthly = monthly.sort_values("date").reset_index(drop=True)
 print(f"Monthly rows: {len(monthly)}  ({monthly['date'].min().date()} → {monthly['date'].max().date()})")
 
@@ -394,7 +397,7 @@ print("\n── Section 7: Fund flow → Market efficiency link ─────�
 
 # High-flow months: does autocorrelation of index returns change?
 # Proxy: compare rolling ACF of KSE-30 log return in high vs low flow months
-daily = pd.read_csv("processed_data/daily_master.csv", parse_dates=["date"])
+daily = pd.read_csv(os.path.join(PROCESSED_DIR, "daily_master.csv"), parse_dates=["date"])
 daily = daily.sort_values("date").reset_index(drop=True)
 daily["month"] = daily["date"].dt.to_period("M")
 monthly["month"] = monthly["date"].dt.to_period("M")
@@ -648,7 +651,7 @@ for fund in ["AKD","NBP","NIT"]:
         })
 
 results_df = pd.DataFrame(rows)
-results_df.to_csv("results_fund_flow_prediction.csv", index=False)
+results_df.to_csv(os.path.join(BASE_DIR, "results_fund_flow_prediction.csv"), index=False)
 print("Saved: results_fund_flow_prediction.csv")
 print(results_df.to_string(index=False))
 

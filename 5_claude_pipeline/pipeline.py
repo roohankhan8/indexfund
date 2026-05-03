@@ -169,7 +169,7 @@ print(f"Raw rows: {len(raw):,}  |  columns: {list(raw.columns)}")
 raw = raw.drop(columns=["ISIN"])
 
 # Rename columns to snake_case
-raw = raw.rename(columns={
+rename_map = {
     "Date":             "date",
     "SYMBOL":           "symbol",
     "COMPANY":          "company",
@@ -179,15 +179,24 @@ raw = raw.rename(columns={
     "FF BASED MCAP":    "ff_mcap",
     "ORD SHARES":       "ord_shares",
     "ORD SHARES MCAP":  "ord_mcap",
-    "Volume":           "vol_a",
-    "VOLUME":           "vol_b",
-})
+}
 
+# Handle volume column — check if both "Volume" and "VOLUME" exist
+if "Volume" in raw.columns:
+    rename_map["Volume"] = "vol_a"
+if "VOLUME" in raw.columns:
+    rename_map["VOLUME"] = "vol_b" if "Volume" in raw.columns else "volume"
+
+raw = raw.rename(columns=rename_map)
 raw["date"] = pd.to_datetime(raw["date"])
 
-# Merge Volume columns: vol_a (older rows) and vol_b (newer rows) never overlap
-raw["volume"] = raw["vol_a"].fillna(raw["vol_b"])
-raw = raw.drop(columns=["vol_a", "vol_b"])
+# Merge Volume columns if both exist: vol_a (older rows) and vol_b (newer rows) never overlap
+if "vol_a" in raw.columns and "vol_b" in raw.columns:
+    raw["volume"] = raw["vol_a"].fillna(raw["vol_b"])
+    raw = raw.drop(columns=["vol_a", "vol_b"])
+elif "vol_a" in raw.columns:
+    raw = raw.rename(columns={"vol_a": "volume"})
+# else: "volume" already exists from rename_map
 
 # Normalise company names using the canonical map
 raw["company"] = raw["symbol"].map(COMPANY_MAP).fillna(raw["company"])

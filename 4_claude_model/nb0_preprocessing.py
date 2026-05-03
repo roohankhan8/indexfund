@@ -37,8 +37,10 @@ CPI_CSV       = os.path.join(DATA, "data/cpi.csv")
 KSE30_INDEX   = os.path.join(DATA, "data/kse30_index_level.csv")
 
 # ── analysis window ────────────────────────────────────────────────────────
-WINDOW_START = pd.Timestamp("2021-01-04")
-WINDOW_END   = pd.Timestamp("2025-10-01")
+# KSE-30 basic is the anchor dataset. We infer the working window from it
+# so no KSE rows are dropped.
+WINDOW_START = None
+WINDOW_END   = None
 
 # ── report collector ───────────────────────────────────────────────────────
 report_lines = []
@@ -58,10 +60,16 @@ log("=" * 65)
 
 df_stocks = pd.read_excel(KSE30_STOCKS)
 
-# Fix Excel serial date format
-df_stocks['Date'] = pd.to_datetime(
-    df_stocks['Date'], unit='D', origin='1899-12-30'
-)
+# Parse dates written either as Excel serial numbers or as ISO/date strings
+date_values = pd.to_datetime(df_stocks['Date'], errors='coerce')
+serial_mask = date_values.isna()
+if serial_mask.any():
+    date_values.loc[serial_mask] = pd.to_datetime(
+        pd.to_numeric(df_stocks.loc[serial_mask, 'Date'], errors='coerce'),
+        unit='D',
+        origin='1899-12-30'
+    )
+df_stocks['Date'] = date_values
 df_stocks = df_stocks.rename(columns={
     'Date':     'date',
     'SYMBOL':   'symbol',
@@ -101,15 +109,14 @@ df_stocks['ma_50'] = (
     .transform(lambda x: x.rolling(50, min_periods=25).mean())
 )
 
-# Clip to analysis window
-df_stocks = df_stocks[
-    (df_stocks['date'] >= WINDOW_START) &
-    (df_stocks['date'] <= WINDOW_END)
-].copy()
+# Set anchor window from KSE-30 basic (keep full coverage)
+WINDOW_START = df_stocks['date'].min()
+WINDOW_END = df_stocks['date'].max()
 
 log(f"KSE-30 stocks: {len(df_stocks):,} rows | "
     f"{df_stocks['symbol'].nunique()} unique symbols | "
     f"{df_stocks['date'].min().date()} → {df_stocks['date'].max().date()}")
+log(f"Anchor window (from KSE-30 basic): {WINDOW_START.date()} → {WINDOW_END.date()}")
 log(f"Symbols present: {sorted(df_stocks['symbol'].unique())}")
 log()
 
@@ -360,6 +367,32 @@ for fund, df_f in funds_daily.items():
     # Some fund dates may fall on non-trading days — left join keeps only trading days
     daily = daily.merge(df_f_renamed, on='date', how='left')
 
+# Fill index-derived fields to keep full KSE timeline coverage even where
+# kse30_index_level.csv does not yet have rows.
+if INDEX_AVAILABLE:
+    daily_stock_summary = (
+        df_stocks.groupby('date')
+        .agg(
+            stock_total_volume=('volume', 'sum'),
+            stock_num_companies=('symbol', 'nunique')
+        )
+        .reset_index()
+    )
+    daily = daily.merge(daily_stock_summary, on='date', how='left')
+
+    daily['idx_total_volume'] = daily['idx_total_volume'].fillna(daily['stock_total_volume'])
+    daily['idx_num_companies'] = daily['idx_num_companies'].fillna(daily['stock_num_companies'])
+
+    idx_return_fill_cols = ['idx_return', 'idx_log_return', 'idx_avg_wt_change']
+    for col in idx_return_fill_cols:
+        if col in daily.columns:
+            daily[col] = daily[col].fillna(0.0)
+
+    if 'idx_rolling_vol_30d' in daily.columns:
+        daily['idx_rolling_vol_30d'] = daily['idx_rolling_vol_30d'].ffill().bfill().fillna(0.0)
+
+    daily = daily.drop(columns=['stock_total_volume', 'stock_num_companies'])
+
 # Forward-fill macro on any trading days where macro had no entry
 # (weekends already excluded; some holidays in macro data may be missing)
 macro_ffill_cols = [
@@ -367,11 +400,11 @@ macro_ffill_cols = [
     'usdpkr', 'usdpkr_log_return',
     'interest_rate', 'cpi_yoy'
 ]
-daily[macro_ffill_cols] = daily[macro_ffill_cols].ffill()
+daily[macro_ffill_cols] = daily[macro_ffill_cols].ffill().bfill()
 
 # For NAV columns: fund may be closed on some trading days — ffill is fine
 nav_cols = [c for c in daily.columns if c.startswith('nav_')]
-daily[nav_cols] = daily[nav_cols].ffill()
+daily[nav_cols] = daily[nav_cols].ffill().bfill()
 
 log(f"Daily master: {len(daily):,} rows × {len(daily.columns)} columns")
 log(f"Date range: {daily['date'].min().date()} → {daily['date'].max().date()}")
@@ -440,9 +473,28 @@ for fund, df_m in funds_monthly.items():
     monthly_agg = monthly_agg.merge(df_m_renamed, on='date', how='left')
 
 # Drop first row (may have incomplete fund data before all funds launched)
-monthly_agg = monthly_agg.dropna(
-    subset=[c for c in monthly_agg.columns if c.startswith('flow_')]
-).reset_index(drop=True)
+# Keep all KSE months and fill non-anchor datasets to match this timeline.
+
+# Monthly returns/flows are event values, so fill missing with 0.
+flow_fill_cols = [
+    c for c in monthly_agg.columns
+    if c.startswith('flow_') and not c.endswith('_spike')
+]
+if flow_fill_cols:
+    monthly_agg[flow_fill_cols] = monthly_agg[flow_fill_cols].fillna(0.0)
+
+# Spike flags default to False when no source value exists.
+spike_cols = [c for c in monthly_agg.columns if c.endswith('_spike')]
+if spike_cols:
+    monthly_agg[spike_cols] = monthly_agg[spike_cols].fillna(False)
+
+# Levels (NAV/AUM/macro/index-vol) are carried across time to align all months.
+level_like_cols = [
+    c for c in monthly_agg.columns
+    if c not in ['month', 'date'] + flow_fill_cols + spike_cols
+]
+if level_like_cols:
+    monthly_agg[level_like_cols] = monthly_agg[level_like_cols].ffill().bfill()
 
 # Composite flow: sum of all three fund flows (total market-wide fund flow proxy)
 flow_cols = [c for c in monthly_agg.columns if c.startswith('flow_akd') or

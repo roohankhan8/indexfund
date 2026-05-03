@@ -34,7 +34,10 @@ from scipy.optimize import minimize
 
 warnings.filterwarnings("ignore")
 
-FIG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figures", "portfolio")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROCESSED_DIR = os.path.join(BASE_DIR, "processed_data")
+
+FIG_DIR = os.path.join(BASE_DIR, "figures", "portfolio")
 os.makedirs(FIG_DIR, exist_ok=True)
 
 def savefig(name):
@@ -49,7 +52,8 @@ plt.rcParams.update({"figure.dpi": 150, "axes.titlesize": 12,
 RISK_FREE = 0.105 / 252   # SBP rate ~10.5% annualised → daily
 
 # ── load ─────────────────────────────────────────────────────────────────────
-stocks = pd.read_csv("processed_data/kse30_stocks_daily.csv", parse_dates=["date"])
+stocks_path = os.path.join(PROCESSED_DIR, "kse30_stocks_daily.csv")
+stocks = pd.read_csv(stocks_path, parse_dates=["date"])
 stocks = stocks.sort_values(["symbol","date"]).reset_index(drop=True)
 print(f"Stock rows: {len(stocks):,}  Symbols: {stocks['symbol'].nunique()}")
 print(f"Date range: {stocks['date'].min().date()} → {stocks['date'].max().date()}")

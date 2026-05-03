@@ -60,7 +60,10 @@ from sklearn.metrics import (mean_squared_error, mean_absolute_error,
 
 warnings.filterwarnings("ignore")
 
-FIG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROCESSED_DIR = os.path.join(BASE_DIR, "processed_data")
+
+FIG_DIR = os.path.join(BASE_DIR,
                        "figures", "rebalancing")
 os.makedirs(FIG_DIR, exist_ok=True)
 
@@ -86,8 +89,10 @@ TRAIN_WINDOWS = list(range(7))   # indices into REBAL_DATES for feature snapshot
 TEST_WINDOWS  = [7, 8]
 
 # ── Load ─────────────────────────────────────────────────────────────────────
-stocks  = pd.read_csv("processed_data/kse30_stocks_daily.csv", parse_dates=["date"])
-monthly = pd.read_csv("processed_data/monthly_master.csv",     parse_dates=["date"])
+stocks_path = os.path.join(PROCESSED_DIR, "kse30_stocks_daily.csv")
+monthly_path = os.path.join(PROCESSED_DIR, "monthly_master.csv")
+stocks  = pd.read_csv(stocks_path, parse_dates=["date"])
+monthly = pd.read_csv(monthly_path, parse_dates=["date"])
 stocks  = stocks.sort_values(["symbol","date"]).reset_index(drop=True)
 print(f"Stock rows: {len(stocks):,}  |  Symbols ever: {stocks.symbol.nunique()}")
 print(f"Date range: {stocks.date.min().date()} → {stocks.date.max().date()}")
@@ -740,10 +745,10 @@ for label, m_tr, m_te in [
         "Test AUC":  round(m_te.get("AUC", np.nan), 4),
     })
 
-pd.DataFrame(results_rows).to_csv("results_rebalancing.csv", index=False)
+pd.DataFrame(results_rows).to_csv(os.path.join(BASE_DIR, "results_rebalancing.csv"), index=False)
 print("\nSaved: results_rebalancing.csv")
 
-future_df.to_csv("results_rebalancing_forecast.csv", index=False)
+future_df.to_csv(os.path.join(BASE_DIR, "results_rebalancing_forecast.csv"), index=False)
 print("Saved: results_rebalancing_forecast.csv")
 
 print(f"\nAll figures saved to: {FIG_DIR}")

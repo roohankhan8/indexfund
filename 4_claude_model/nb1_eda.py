@@ -22,8 +22,12 @@ from scipy import stats
 
 warnings.filterwarnings("ignore")
 
+# ── base paths ──────────────────────────────────────────────────────────────
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROCESSED_DIR = os.path.join(BASE_DIR, "processed_data")
+
 # ── output directory ────────────────────────────────────────────────────────
-FIG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figures", "eda")
+FIG_DIR = os.path.join(BASE_DIR, "figures", "eda")
 os.makedirs(FIG_DIR, exist_ok=True)
 
 def savefig(name):
@@ -47,8 +51,11 @@ FUND_COLORS = {"AKD": "#1f77b4", "NBP": "#ff7f0e", "NIT": "#2ca02c"}
 
 # ── load data ────────────────────────────────────────────────────────────────
 print("Loading data …")
-daily   = pd.read_csv("processed_data/daily_master.csv",   parse_dates=["date"])
-monthly = pd.read_csv("processed_data/monthly_master.csv", parse_dates=["date"])
+daily_path = os.path.join(PROCESSED_DIR, "daily_master.csv")
+monthly_path = os.path.join(PROCESSED_DIR, "monthly_master.csv")
+
+daily   = pd.read_csv(daily_path,   parse_dates=["date"])
+monthly = pd.read_csv(monthly_path, parse_dates=["date"])
 daily   = daily.sort_values("date").reset_index(drop=True)
 monthly = monthly.sort_values("date").reset_index(drop=True)
 
@@ -264,8 +271,15 @@ for i, (fund, col, spike_col) in enumerate([
               for v in monthly[col]]
     bars = ax.bar(monthly["date"], monthly[col], color=colors,
                   width=20, edgecolor="white", linewidth=0.4)
-    # Mark spikes
-    spikes = monthly[monthly[spike_col]]
+    # Mark spikes (robust to bool/string/numeric encodings after CSV roundtrip)
+    spike_mask = (
+        monthly[spike_col]
+        .astype(str)
+        .str.strip()
+        .str.lower()
+        .isin(["true", "1", "1.0"])
+    )
+    spikes = monthly[spike_mask]
     ax.scatter(spikes["date"], spikes[col], color="black",
                zorder=5, s=40, marker="*", label="Flow spike (>2σ)")
     ax.axhline(0, color="black", linewidth=0.7)

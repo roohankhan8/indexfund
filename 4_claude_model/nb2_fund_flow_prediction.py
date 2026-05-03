@@ -42,7 +42,10 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 warnings.filterwarnings("ignore")
 
-FIG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figures", "fund_flow")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROCESSED_DIR = os.path.join(BASE_DIR, "processed_data")
+
+FIG_DIR = os.path.join(BASE_DIR, "figures", "fund_flow")
 os.makedirs(FIG_DIR, exist_ok=True)
 
 def savefig(name):
@@ -66,7 +69,8 @@ HIDDEN      = 32
 np.random.seed(42)
 
 # ── load ─────────────────────────────────────────────────────────────────────
-monthly = pd.read_csv("processed_data/monthly_master.csv", parse_dates=["date"])
+monthly_path = os.path.join(PROCESSED_DIR, "monthly_master.csv")
+monthly = pd.read_csv(monthly_path, parse_dates=["date"])
 monthly = monthly.sort_values("date").reset_index(drop=True)
 print(f"Monthly rows: {len(monthly)}  ({monthly['date'].min().date()} → {monthly['date'].max().date()})")
 

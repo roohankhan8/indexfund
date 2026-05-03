@@ -33,7 +33,10 @@ from scipy import stats
 
 warnings.filterwarnings("ignore")
 
-FIG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figures", "efficiency")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROCESSED_DIR = os.path.join(BASE_DIR, "processed_data")
+
+FIG_DIR = os.path.join(BASE_DIR, "figures", "efficiency")
 os.makedirs(FIG_DIR, exist_ok=True)
 
 def savefig(name):
@@ -48,9 +51,9 @@ plt.rcParams.update({"figure.dpi": 150, "axes.titlesize": 12,
 FUND_COLORS = {"AKD": "#1f77b4", "NBP": "#ff7f0e", "NIT": "#2ca02c"}
 
 # ── load ─────────────────────────────────────────────────────────────────────
-daily   = pd.read_csv("processed_data/daily_master.csv",           parse_dates=["date"])
-monthly = pd.read_csv("processed_data/monthly_master.csv",         parse_dates=["date"])
-stocks  = pd.read_csv("processed_data/kse30_stocks_daily.csv",     parse_dates=["date"])
+daily   = pd.read_csv(os.path.join(PROCESSED_DIR, "daily_master.csv"), parse_dates=["date"])
+monthly = pd.read_csv(os.path.join(PROCESSED_DIR, "monthly_master.csv"), parse_dates=["date"])
+stocks  = pd.read_csv(os.path.join(PROCESSED_DIR, "kse30_stocks_daily.csv"), parse_dates=["date"])
 daily   = daily.sort_values("date").reset_index(drop=True)
 monthly = monthly.sort_values("date").reset_index(drop=True)
 

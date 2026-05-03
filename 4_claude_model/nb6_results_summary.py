@@ -23,7 +23,10 @@ import seaborn as sns
 
 warnings.filterwarnings("ignore")
 
-FIG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "figures", "summary")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROCESSED_DIR = os.path.join(BASE_DIR, "processed_data")
+
+FIG_DIR = os.path.join(BASE_DIR, "figures", "summary")
 os.makedirs(FIG_DIR, exist_ok=True)
 
 def savefig(name):
@@ -36,10 +39,14 @@ plt.rcParams.update({"figure.dpi": 150, "axes.titlesize": 12,
                      "axes.labelsize": 10, "legend.fontsize": 9})
 
 # ── load ─────────────────────────────────────────────────────────────────────
-monthly  = pd.read_csv("processed_data/monthly_master.csv",  parse_dates=["date"])
-daily    = pd.read_csv("processed_data/daily_master.csv",    parse_dates=["date"])
-stocks   = pd.read_csv("processed_data/kse30_stocks_daily.csv", parse_dates=["date"])
-weights  = pd.read_csv("processed_data/portfolio_weights.csv")
+monthly  = pd.read_csv(os.path.join(PROCESSED_DIR, "monthly_master.csv"), parse_dates=["date"])
+daily    = pd.read_csv(os.path.join(PROCESSED_DIR, "daily_master.csv"), parse_dates=["date"])
+stocks   = pd.read_csv(os.path.join(PROCESSED_DIR, "kse30_stocks_daily.csv"), parse_dates=["date"])
+
+weights_path = os.path.join(BASE_DIR, "portfolio_weights.csv")
+if not os.path.exists(weights_path):
+    weights_path = os.path.join(PROCESSED_DIR, "portfolio_weights.csv")
+weights  = pd.read_csv(weights_path)
 monthly  = monthly.sort_values("date").reset_index(drop=True)
 daily    = daily.sort_values("date").reset_index(drop=True)
 
@@ -494,11 +501,11 @@ plt.tight_layout(rect=[0, 0.06, 1, 1])
 savefig("S3_efficiency_summary_by_fund.png")
 
 # ── Save consolidated CSVs ────────────────────────────────────────────────────
-desc_df.to_csv("results_descriptive.csv", index=False)
-garch_df.to_csv("results_garch.csv", index=False)
-pred_df.to_csv("results_fund_flow_prediction.csv", index=False)
-eff_df.to_csv("results_efficiency.csv", index=False)
-port_df.to_csv("results_portfolio.csv")
+desc_df.to_csv(os.path.join(BASE_DIR, "results_descriptive.csv"), index=False)
+garch_df.to_csv(os.path.join(BASE_DIR, "results_garch.csv"), index=False)
+pred_df.to_csv(os.path.join(BASE_DIR, "results_fund_flow_prediction.csv"), index=False)
+eff_df.to_csv(os.path.join(BASE_DIR, "results_efficiency.csv"), index=False)
+port_df.to_csv(os.path.join(BASE_DIR, "results_portfolio.csv"), index=False)
 print("\nSaved: results_descriptive.csv")
 print("Saved: results_garch.csv")
 print("Saved: results_fund_flow_prediction.csv")

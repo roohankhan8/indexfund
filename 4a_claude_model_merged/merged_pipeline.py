@@ -26,6 +26,8 @@ import sys
 import warnings
 import numpy as np
 import pandas as pd
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import seaborn as sns
@@ -59,9 +61,9 @@ for subdir in ["figures", "figures/eda", "figures/garch", "figures/fund_flow",
 WINDOW_START = pd.Timestamp("2021-01-04")
 WINDOW_END = pd.Timestamp("2025-10-01")
 TRAIN_END = "2023-12-31"
-FUNDS = ["AKD", "NBP", "NIT"]
-COL_NAME = {"AKD": "akd", "NBP": "nbp", "NIT": "nti"}
-FUND_COLORS = {"AKD": "#1f77b4", "NBP": "#ff7f0e", "NIT": "#2ca02c"}
+FUNDS = ["AKD", "NBP", "NTI"]
+COL_NAME = {"AKD": "akd", "NBP": "nbp", "NTI": "nti"}
+FUND_COLORS = {"AKD": "#1f77b4", "NBP": "#ff7f0e", "NTI": "#2ca02c"}
 RISK_FREE = 0.105 / 252
 
 # Plotting configuration
@@ -80,8 +82,29 @@ report_lines = []
 
 def log(msg=""):
     """Print to console and save to report."""
-    print(msg)
+    try:
+        print(msg)
+    except UnicodeEncodeError:
+        safe_msg = msg.encode("ascii", errors="replace").decode("ascii")
+        print(safe_msg)
     report_lines.append(msg)
+
+def parse_mixed_excel_or_datetime(series):
+    """Parse either Excel serial dates or already-formatted date strings."""
+    numeric = pd.to_numeric(series, errors='coerce')
+    parsed = pd.Series(pd.NaT, index=series.index, dtype="datetime64[ns]")
+
+    numeric_mask = numeric.notna()
+    if numeric_mask.any():
+        parsed.loc[numeric_mask] = pd.to_datetime(
+            numeric.loc[numeric_mask], unit='D', origin='1899-12-30', errors='coerce'
+        )
+
+    text_mask = ~numeric_mask
+    if text_mask.any():
+        parsed.loc[text_mask] = pd.to_datetime(series.loc[text_mask], errors='coerce')
+
+    return parsed
 
 def savefig(subdir, name):
     """Save figure to output/figures/subdir/."""
@@ -157,7 +180,7 @@ except FileNotFoundError:
 # ── 1.1 Load KSE-30 stock data ──────────────────────────────────────────────
 log("\n1.1 Loading KSE-30 stock data …")
 df_stocks = pd.read_excel(KSE30_STOCKS)
-df_stocks['Date'] = pd.to_datetime(df_stocks['Date'], unit='D', origin='1899-12-30')
+df_stocks['Date'] = parse_mixed_excel_or_datetime(df_stocks['Date'])
 df_stocks = df_stocks.rename(columns={
     'Date': 'date', 'SYMBOL': 'symbol', 'COMPANY': 'company',
     'PRICE': 'price', 'IDX WT %': 'weight_pct', 'VOLUME': 'volume'
@@ -447,13 +470,16 @@ ax.bar(monthly_agg['date'], monthly_agg['total_fund_flow'], color=colors_neg, al
 ax.axhline(0, color='black', linewidth=0.8)
 ax.set_xlabel("Date")
 ax.set_ylabel("Fund Flow (PKR mn)")
-ax.set_title("Aggregate Monthly Fund Flows (AKD + NBP + NIT)")
+ax.set_title("Aggregate Monthly Fund Flows (AKD + NBP + NTI)")
 ax.grid(True, alpha=0.3, axis='y')
 savefig("eda", "03_total_flows.png")
 
 # ── 2.4 Correlation heatmap ─────────────────────────────────────────────────
 log("2.4 Creating correlation heatmap …")
-corr_cols = ['total_fund_flow', 'oil_price', 'usdpkr', 'interest_rate', 'cpi_yoy']
+corr_cols = [
+    'total_fund_flow', 'oil_price_end', 'usdpkr_end',
+    'interest_rate_end', 'cpi_yoy_end'
+]
 if INDEX_AVAILABLE and 'idx_return_monthly' in monthly_agg.columns:
     corr_cols.append('idx_return_monthly')
 
@@ -949,7 +975,9 @@ if len(test_rebal) > 0:
 log("7.4 Training weight predictor (Ridge regression) …")
 
 train_rebal_weight = train_rebal.dropna(subset=['new_weight'])
-X_weight_train = train_rebal_weight[['momentum', 'volatility', 'avg_weight', 'avg_volume']]
+X_weight_train = train_rebal_weight[
+    ['momentum', 'volatility', 'avg_weight', 'avg_volume']
+].fillna(0)
 y_weight_train = train_rebal_weight['new_weight']
 
 X_weight_train_std = scaler_rebal.fit_transform(X_weight_train)
@@ -960,7 +988,9 @@ ridge.fit(X_weight_train_std, y_weight_train)
 # Test
 test_rebal_weight = test_rebal.dropna(subset=['new_weight'])
 if len(test_rebal_weight) > 0:
-    X_weight_test = test_rebal_weight[['momentum', 'volatility', 'avg_weight', 'avg_volume']]
+    X_weight_test = test_rebal_weight[
+        ['momentum', 'volatility', 'avg_weight', 'avg_volume']
+    ].fillna(0)
     X_weight_test_std = scaler_rebal.transform(X_weight_test)
     y_weight_test = test_rebal_weight['new_weight']
     
@@ -1042,7 +1072,7 @@ savefig("summary", "01_dashboard.png")
 
 # Save report
 report_path = os.path.join(OUTPUT_DATA, 'pipeline_report.txt')
-with open(report_path, 'w') as f:
+with open(report_path, 'w', encoding='utf-8') as f:
     f.write('\n'.join(report_lines))
 log(f"\n✓ Report saved to {report_path}")
 
