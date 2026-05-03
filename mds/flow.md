@@ -21,6 +21,9 @@ Predict **aggregate net investor flows** into three **KSE-30 index-tracking mutu
                            ┌──────────────────────────┴──────────────────────────┐
                            ▼                                                     ▼
                  4_claude_model (modular nb*.py pipeline)           5_claude_pipeline (single pipeline.py)
+                                                                           │
+                                                                           ▼
+                                                           6_cursor_model (KSE-30 index-focused variant)
 ```
 
 | Stage | Role | Primary outputs |
@@ -32,6 +35,7 @@ Predict **aggregate net investor flows** into three **KSE-30 index-tracking mutu
 | **3_final_model** | Final iterated models + figures | enhanced notebooks/scripts, `output*` PNGs |
 | **4_claude_model** | Scriptable chapters (EDA/GARCH/flows/…) | `processed_data/*.csv`, `figures/**/*.png` |
 | **5_claude_pipeline** | One-command full run | masters + CSV results + dashboards |
+| **6_cursor_model** | KSE-30 index-focused variant | aggregated flows, index-centric GARCH/efficiency (reads from `5_claude_pipeline/`, outputs `results_*.csv`, `figures/`) |
 
 ## What was modeled (tracks)
 
@@ -57,7 +61,15 @@ Predict **aggregate net investor flows** into three **KSE-30 index-tracking mutu
 - **Efficiency**: **Runs test**, **variance ratio**, **Ljung–Box–style autocorrelation summaries**, **Hurst exponent** approximations.
 - **Rebalancing / weights**: **Ridge** regressors + **random forests** (+ **logistic** classifiers where used) on rebalancing-window panels in `pipeline.py` / sister scripts.
 - **Results**: Persisted primarily as **`results_*.csv`** alongside interpretive PNGs (`figures/` or folder-level outputs). Treat these CSVs as the quantitative “truth tables” when writing your report.
+### Track C — `6_cursor_model/` (Index-focused variant, downstream of Track B)
 
+- **Data source**: Reads clean/preprocessed outputs from `5_claude_pipeline/` (`daily_master.csv`, `monthly_master.csv`, funds data, macro aggregates).
+- **Fund flows**: Aggregate **AKD + NBP + NTI** combined flows (single time series); same **ARIMAX(1,0,1)** + **VAR(1)** methodology as Track B, optimized for KSE-30 index-level narrative.
+- **Volatility**: **GARCH(1,1)** and **EGARCH(1,1)** on KSE-30 reconstructed index returns; conditional VaR backtests; tail-risk diagnostic PNGs.
+- **Efficiency**: Market-level **Runs test**, **Variance Ratio** (multiple lag tiers), **Ljung–Box Q** p-values, rolling **Hurst exponent** (random walk / mean reversion evidence).
+- **Rebalancing**: **Ridge** + **Random Forest** weight predictor; forward-looking symbol-level inclusion probabilities; hypothetical future compositions.
+- **Results**: Eight CSV tables (`results_garch.csv`, `results_fund_flow.csv`, `results_efficiency.csv`, `results_rebalancing.csv`, etc.); 20+ PNG figures organized in 6 subdirectories (`figures/{eda,garch,fund_flow,efficiency,rebalancing,summary}/`).
+- **Integration**: Can run **after** `5_claude_pipeline/` completes; results cited directly in thesis Discussion for KSE-30–specific narratives (efficiency, rebalancing mechanics, volatility regimes).
 ## Principles you should defend in your thesis
 
 1. **Small \(N\) for monthly macro-regimes** (~47–60 clean months typical) ⇒ prefer **parsimonious** models + time-series CV, not unconstrained forests or deep nets.
@@ -75,12 +87,21 @@ Predict **aggregate net investor flows** into three **KSE-30 index-tracking mutu
 | Final ML figures | `3_final_model/output*` + `explanations/` |
 | Modular writeup | `4_claude_model/figures/` + `processed_data/` |
 | One-shot full run | `5_claude_pipeline/pipeline.py` outputs |
+| Index-focused variant | `6_cursor_model/pipeline.py` outputs + figures |
 | Agent running notes | `AGENTS.md` |
 
 ## Suggested “Methods” paragraph (copy/adapt)
 
-We construct monthly aggregate fund flows from daily NAV/AUM for three KSE-30 index funds using a standard flow residualization identity. Macro variables (oil, USD/PKR, policy rate/KIBOR) and index-level diagnostics are aligned on a calendar and lagged prior to forecasting. Predictive modeling follows two parallel tracks—regularized regressions plus shallow boosted trees (`3_final_model/`), and ARIMAX/VAR econometric baselines coupled with Granger causality diagnostics (`5_claude_pipeline/` and `4_claude_model/`). Volatility clustering is examined with GARCH-type models. Forecast performance is summarized with RMSE, MAE, \(R^2\), and directional accuracy with explicit caveats for rare-event months and small holdout sizes.
+We construct monthly aggregate fund flows from daily NAV/AUM for three KSE-30 index funds (AKD, NBP, NTI) using a standard flow residualization identity. Macro variables (oil price, USD/PKR, KIBOR policy rate) and index-level diagnostics are aligned on a calendar and lagged 1–3 months prior to forecasting. **Predictive modeling follows three parallel validation tracks**:
+
+1. **Track A** (`3_final_model/`): Regularized regressions (Ridge, ElasticNet) + shallow boosted trees (XGBoost, LightGBM) with engineered features (lag returns, volatility, abnormal volume); monthly data; time-series cross-validation.
+
+2. **Track B** (`4_claude_model/`, `5_claude_pipeline/`): Econometric baselines—pseudo-ARIMAX(1,0,1) and VAR(1) fits via OLS walk-forward; Granger causality diagnostics (macro → flows); GARCH(1,1) and EGARCH(1,1) volatility clustering; market efficiency tests (Runs, Variance Ratio, Ljung–Box, Hurst).
+
+3. **Track C** (`6_cursor_model/`): Index-focused replication of Track B using KSE-30 reconstructed index returns; rebalancing weight prediction (Ridge + Random Forest); forward-looking inclusion probabilities.
+
+Volatility clustering, conditional VaR, and market microstructure are examined with GARCH-type models and efficiency diagnostics. Forecast performance is summarized with RMSE, MAE, \(R^2\), directional accuracy, and feature importances—with explicit caveats for rare-event months, small holdout sizes, and non-stationarity.
 
 ## Per-folder detailed indexes (this repo)
 
-- `mds/0-docs.md`, `mds/0-raw-data.md`, `mds/1_data_extraction.md`, `mds/2_midyear_model.md`, `mds/3_final_model.md`, `mds/4_claude_model.md`, `mds/5_claude_pipeline.md`
+- `mds/0-docs.md`, `mds/0-raw-data.md`, `mds/1_data_extraction.md`, `mds/2_midyear_model.md`, `mds/3_final_model.md`, `mds/4_claude_model.md`, `mds/5_claude_pipeline.md`, `mds/6_cursor_model.md`

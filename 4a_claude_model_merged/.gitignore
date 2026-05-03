@@ -1,0 +1,5 @@
+# Ignore generated outputs (but keep input_data/ for versioning if needed)
+output_data/
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
