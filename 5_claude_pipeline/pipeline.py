@@ -7,19 +7,24 @@ Single file covering the complete research workflow:
   SECTION 1  — Data ingestion & cleaning  (kse30_daily_data.csv)
   SECTION 2  — Master dataset construction (daily + monthly)
   SECTION 3  — Exploratory data analysis
-  SECTION 4  — GARCH volatility modelling
-  SECTION 5  — Fund flow prediction  (ARIMAX + VAR)
-  SECTION 6  — Market efficiency tests
+  SECTION 4  — GARCH volatility modelling (KSE-30 index returns)
+  SECTION 5  — Aggregate index-fund flow prediction  (ARIMAX + VAR)
+  SECTION 6  — Market efficiency tests (index returns)
   SECTION 7  — KSE-30 rebalancing weight & inclusion prediction
   SECTION 8  — Results summary
 
-Input files (same directory as this script)
+Flow series: combined net flow across KSE-30 index-tracking mutual funds
+(AKD + NBP + NTI merged to one sector total — not plotted or modelled separately).
+
+Primary market series: reconstructed KSE-30 index from constituent free-float MCAP.
+
+Input files — read from DATA_DIR (5_claude_pipeline/ when PIPELINE_VARIANT=cursor)
   kse30_daily_data.csv   — KSE-30 constituent daily data (2020-01-01 → present)
-  funds_data.xlsx        — AKD / NBP / NTI NAV & AUM sheets
+  funds_data.xlsx        — fund NAV & AUM sheets (used only to build aggregate flow)
   macro_data.xlsx        — OIL / IR / USD sheets
   cpi.csv                — Monthly CPI YoY
 
-Outputs
+Outputs — written under OUT_DIR
   daily_master.csv
   monthly_master.csv
   results_fund_flow.csv
@@ -29,7 +34,9 @@ Outputs
   results_rebalancing_forecast.csv
   figures/               — all plots
 
-Run:  python pipeline.py
+Run:   python pipeline.py
+       python 6_cursor_model/run_pipeline.py   # reads 5_claude_pipeline/data, writes outputs to 6_cursor_model/
+
 Deps: numpy, pandas, matplotlib, seaborn, scipy, scikit-learn, openpyxl
 """
 
@@ -55,8 +62,16 @@ np.random.seed(42)
 # SECTION 0 — CONFIGURATION & UTILITIES
 # ═══════════════════════════════════════════════════════════════════════════
 
-BASE     = os.path.dirname(os.path.abspath(__file__))
-FIG_BASE = os.path.join(BASE, "figures")
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_REPO_ROOT = os.path.dirname(_SCRIPT_DIR)
+if os.environ.get("PIPELINE_VARIANT", "").strip().lower() == "cursor":
+    DATA_DIR = os.path.join(_REPO_ROOT, "5_claude_pipeline")
+    OUT_DIR = os.path.join(_REPO_ROOT, "6_cursor_model")
+else:
+    DATA_DIR = _SCRIPT_DIR
+    OUT_DIR = _SCRIPT_DIR
+os.makedirs(OUT_DIR, exist_ok=True)
+FIG_BASE = os.path.join(OUT_DIR, "figures")
 for sub in ["eda","garch","fund_flow","efficiency","rebalancing","summary"]:
     os.makedirs(os.path.join(FIG_BASE, sub), exist_ok=True)
 
@@ -71,9 +86,9 @@ plt.rcParams.update({"figure.dpi": 150, "axes.titlesize": 12,
                      "xtick.labelsize": 8, "ytick.labelsize": 8})
 sns.set_theme(style="whitegrid", palette="muted")
 
-FUND_COLORS  = {"AKD": "#1f77b4", "NBP": "#ff7f0e", "NIT": "#2ca02c"}
-TRAIN_END    = "2023-12-31"    # fund-flow model train cut-off
-ANALYSIS_START = "2021-01-04"  # align with fund NAV data start
+INDEX_COLOR = "#2c3e50"
+TRAIN_END    = "2023-12-31"    # aggregate flow model train cut-off
+ANALYSIS_START = "2021-01-04"  # align with available fund NAV / sector flow data start
 
 # ── normalised company name map (SYMBOL → clean name) ────────────────────────
 COMPANY_MAP = {
@@ -162,7 +177,7 @@ print("SECTION 1 — Data ingestion & cleaning")
 print("="*65)
 
 # ── 1a. KSE-30 constituent data ──────────────────────────────────────────────
-raw = pd.read_csv(os.path.join(BASE, "kse30_daily_data.csv"))
+raw = pd.read_csv(os.path.join(DATA_DIR, "kse30_daily_data.csv"))
 print(f"Raw rows: {len(raw):,}  |  columns: {list(raw.columns)}")
 
 # Drop ISIN (not needed analytically)
@@ -236,7 +251,7 @@ print(f"Stock data: {len(raw):,} rows | {raw['symbol'].nunique()} symbols | "
 
 # ── 1c. Macro data ────────────────────────────────────────────────────────────
 print("Loading macro data …")
-macro_path = os.path.join(BASE, "macro_data.xlsx")
+macro_path = os.path.join(DATA_DIR, "macro_data.xlsx")
 
 df_oil = pd.read_excel(macro_path, sheet_name="OIL")
 df_oil = df_oil.rename(columns={"DATE":"date","PRICE":"oil_price"})
@@ -254,7 +269,7 @@ df_usd = df_usd.sort_values("date").drop_duplicates(subset="date", keep="last").
 df_usd["usdpkr_log_return"] = np.log(df_usd["usdpkr"] / df_usd["usdpkr"].shift(1))
 
 # CPI
-df_cpi = pd.read_csv(os.path.join(BASE, "cpi.csv"), skiprows=1, header=0)
+df_cpi = pd.read_csv(os.path.join(DATA_DIR, "cpi.csv"), skiprows=1, header=0)
 df_cpi.columns = ["period_str", "cpi_yoy"]
 df_cpi = df_cpi.dropna()
 df_cpi["cpi_yoy"] = pd.to_numeric(df_cpi["cpi_yoy"], errors="coerce")
@@ -273,7 +288,7 @@ df_cpi = df_cpi[["date","cpi_yoy"]].sort_values("date").reset_index(drop=True)
 
 # ── 1d. Fund data (NAV + AUM) ─────────────────────────────────────────────────
 print("Loading fund data …")
-funds_path = os.path.join(BASE, "funds_data.xlsx")
+funds_path = os.path.join(DATA_DIR, "funds_data.xlsx")
 funds_daily_raw   = {}
 funds_monthly_raw = {}
 
@@ -370,19 +385,7 @@ daily = pd.DataFrame({"date": trading_days})
 daily = daily.merge(idx_daily, on="date", how="left")
 daily = daily.merge(macro_daily, on="date", how="left")
 
-# Merge fund NAV data
-for fund in ["AKD","NBP","NTI"]:
-    f_col = fund.lower()
-    df_f  = funds_daily_raw[fund]
-    df_f_m = df_f[["date","nav","nav_log_return","nav_rolling_vol_30d"]].copy()
-    df_f_m.columns = ["date", f"nav_{f_col}", f"nav_return_{f_col}",
-                       f"nav_vol_{f_col}"]
-    daily = daily.merge(df_f_m, on="date", how="left")
-
-nav_cols = [c for c in daily.columns if c.startswith("nav_")]
-daily[nav_cols] = daily[nav_cols].ffill()
-
-# Restrict to analysis window (start with fund data)
+# Restrict to analysis window (overlap with aggregated fund-flow history)
 daily = daily[daily["date"] >= ANALYSIS_START].reset_index(drop=True)
 print(f"Daily master: {len(daily):,} rows × {len(daily.columns)} cols | "
       f"{daily.date.min().date()} → {daily.date.max().date()}")
@@ -434,6 +437,15 @@ flow_cols = [c for c in monthly.columns
              if c.startswith("flow_") and not c.endswith("_pct")
              and not c.endswith("_spike")]
 monthly["total_fund_flow"] = monthly[flow_cols].sum(axis=1)
+monthly["sector_aum_mn"] = (
+    monthly["aum_akd"] + monthly["aum_nbp"] + monthly["aum_nti"]
+)
+monthly["sector_aum_prev"] = monthly["sector_aum_mn"].shift(1)
+monthly["flow_pct_sector"] = (
+    monthly["total_fund_flow"] / monthly["sector_aum_prev"].replace(0, np.nan)
+)
+_tf = monthly["total_fund_flow"]
+monthly["flow_spike_sector"] = (_tf - _tf.mean()).abs() > 2 * _tf.std()
 
 # Replace inf values that arise when prior-period AUM = 0 (fund launch months)
 monthly = monthly.replace([np.inf, -np.inf], np.nan)
@@ -445,15 +457,23 @@ print(f"Monthly master: {len(monthly):,} rows × {len(monthly.columns)} cols | "
 
 # Save master datasets
 daily.drop(columns=["month"]).to_csv(
-    os.path.join(BASE, "daily_master.csv"), index=False
+    os.path.join(OUT_DIR, "daily_master.csv"), index=False
 )
-monthly.drop(columns=["month"], errors="ignore").to_csv(
-    os.path.join(BASE, "monthly_master.csv"), index=False
+
+MONTHLY_EXPORT_COLS = [
+    "date", "oil_price_end", "oil_return_monthly", "usdpkr_end",
+    "usdpkr_return_monthly", "interest_rate_end", "cpi_yoy_end",
+    "idx_return_monthly", "idx_vol_monthly",
+    "sector_aum_mn", "total_fund_flow", "flow_pct_sector", "flow_spike_sector",
+]
+monthly_saved = monthly[MONTHLY_EXPORT_COLS].copy()
+monthly_saved.to_csv(
+    os.path.join(OUT_DIR, "monthly_master.csv"), index=False
 )
 
 # Save cleaned stock file
 raw_out = raw.drop(columns=["weight_pct_clean"], errors="ignore")
-raw_out.to_csv(os.path.join(BASE, "kse30_stocks_clean.csv"), index=False)
+raw_out.to_csv(os.path.join(OUT_DIR, "kse30_stocks_clean.csv"), index=False)
 print("Saved: daily_master.csv, monthly_master.csv, kse30_stocks_clean.csv")
 
 
@@ -696,7 +716,7 @@ for fund, col in [("AKD","nav_return_akd"),
     })
 
 pd.DataFrame(garch_rows).to_csv(
-    os.path.join(BASE, "results_garch.csv"), index=False
+    os.path.join(OUT_DIR, "results_garch.csv"), index=False
 )
 print("\n  Saved: results_garch.csv")
 
@@ -949,7 +969,7 @@ for fund in ["AKD","NBP","NIT"]:
             "R2":round(m["R2"],4),"DirAcc":round(m["DirAcc"],1),
             "Note":"Heterogeneity"})
 pd.DataFrame(ff_rows).to_csv(
-    os.path.join(BASE,"results_fund_flow.csv"), index=False)
+    os.path.join(OUT_DIR, "results_fund_flow.csv"), index=False)
 print("  Saved: results_fund_flow.csv")
 
 print(f"\n  Model comparison:")
@@ -1049,7 +1069,7 @@ for fund, col in [("AKD","nav_return_akd"),
     })
 
 pd.DataFrame(eff_rows).to_csv(
-    os.path.join(BASE,"results_efficiency.csv"), index=False)
+    os.path.join(OUT_DIR, "results_efficiency.csv"), index=False)
 
 # Sub-period analysis
 print("\n  Sub-period (high-rate Apr 2022–Dec 2023 vs low-rate):")
@@ -1408,9 +1428,9 @@ reb_rows = [
      "AUC":round(m_rf_clf["AUC"],4)},
 ]
 pd.DataFrame(reb_rows).to_csv(
-    os.path.join(BASE,"results_rebalancing.csv"), index=False)
+    os.path.join(OUT_DIR, "results_rebalancing.csv"), index=False)
 future_df.to_csv(
-    os.path.join(BASE,"results_rebalancing_forecast.csv"), index=False)
+    os.path.join(OUT_DIR, "results_rebalancing_forecast.csv"), index=False)
 print("\n  Saved: results_rebalancing.csv, results_rebalancing_forecast.csv")
 
 
@@ -1429,7 +1449,7 @@ print("\n[Table 2] GARCH model selection")
 print(pd.DataFrame(garch_rows).to_string(index=False))
 
 print("\n[Table 3] Fund flow prediction")
-ff_df = pd.read_csv(os.path.join(BASE,"results_fund_flow.csv"))
+ff_df = pd.read_csv(os.path.join(OUT_DIR, "results_fund_flow.csv"))
 print(ff_df[ff_df.Target=="Total"].to_string(index=False))
 
 print("\n[Table 4] Market efficiency")
@@ -1438,7 +1458,7 @@ print(eff_out[["Fund","Runs Z","Runs p","Runs verdict",
                "VR(2)","VR(2) p","LB Q p","Hurst H"]].to_string(index=False))
 
 print("\n[Table 5] Weight prediction")
-reb_df = pd.read_csv(os.path.join(BASE,"results_rebalancing.csv"))
+reb_df = pd.read_csv(os.path.join(OUT_DIR, "results_rebalancing.csv"))
 print(reb_df[reb_df.Task=="Weight"].to_string(index=False))
 
 print("\n[Table 6] Inclusion prediction")

@@ -1,230 +1,130 @@
-# enhanced-v5.py — Analysis & Implementation Plan
+# `3_final_model/` — Planning + results + limitations (enhanced-v1…v8)
 
-## 1. Notebook Lineage Analysis
+This file is the “single source of truth” plan for the `3_final_model/` workstream, but it also captures the **observed results**, **what models were tried**, and the **limitations** you should explicitly state in the FYP report.
 
-### enhanced-v1 → Baseline Pipeline
-- Established core architecture: KSE-30 + 3 funds (AKD, NBP, NTI) + macro (oil, IR, USD)
-- Fund flow formula: `flow = AUM_t - AUM_{t-1} × (NAV_t / NAV_{t-1})`
-- Model: Random Forest (100 trees, unconstrained) — high overfitting risk at ~57 rows
-- 5 lagged level features only
-- **Defect**: `bfill()` fabricates 2020 macro values from 2021 data (oil ~80 vs actual ~42, IR ~15% vs ~7%, USD ~238 vs ~160)
-- **Good**: Winsorization at ±3 std to handle the April 2022 political event outlier (-62.7)
-- **Good**: Introduced TimeSeriesSplit(5) CV and plot per fold
+## 1. What files exist in this folder (and what they’re for)
 
-### enhanced-v2 → Data Quality Fix + Better Model
-- **Fix**: Drops all 2020 rows → avoids fabricated macro data that corrupted training
-- **Fix**: `ffill()` only (no `bfill`) for macros
-- **Fix**: Ridge + StandardScaler replaces Random Forest (appropriate for ~47 rows)
-- **Added**: First-difference features `lag_ir_change`, `lag_usd_pct_change` (more stationary across regimes)
-- **Reduced prediction to directional signal only** (magnitude unreliable at this size)
-- Mean CV RMSE: 140.50 (high std of 130.59 — fold 3 RMSE 339.55 is still dominated by outliers)
+### 1.1 Notebooks
 
-### enhanced-v3 → Multi-Model Comparison + Directional Accuracy
-- Three models: Ridge, XGBoost (max_depth=3, lr=0.05), LSTM
-- **Best addition**: Directional accuracy as explicit metric (most actionable for investment signal)
-- **Reverted** to including 2020 rows (regression from v2)
-- Same 7 features as v2
-- Ridge coefficient inspection for interpretability
-- LSTM: 1 timestep → no sequence benefit, essentially a feedforward net
+- **`enhanced-v1.ipynb` … `enhanced-v8.ipynb`**
+  - Iterative experiments for: feature engineering, modeling, evaluation, and forecast → company selection.
+  - These are the “research timeline” artifacts and support the report’s *iteration story*.
+- **`grok/grok-notebook-v1.ipynb`, `grok/grok-notebook-v2.ipynb`**
+  - Alternative idea exploration: proxy-flow approaches, volatility/efficiency metrics, and correlation analysis.
 
-### grok-notebook-v1 → Independent Approach (No Fund Data)
-- **Unique**: Synthetic flow proxy = `abnormal_volume × sign(return) × |return|`
-- **Unique**: Hurst Exponent (1.052) + Variance Ratio (2.724) — confirms market persistence
-- Multi-lag features: 1, 3, 6 months for returns and abnormal volume
-- `avg_weight_change` = mean abs daily weight change/month (rebalancing pressure signal)
-- No macro data — useful as a fallback if fund data is unavailable
-- Target shifted -1 (next month's proxy) — proper predictive horizon
+### 1.2 Scripts (reproducible entry points)
 
-### grok-notebook-v2 → Per-Fund Normalized Flows + Correlation Analysis
-- **Unique**: Flow normalized as fraction of AUM (percentage not absolute PKR)
-- Multi-lag (1 and 3 months) for both returns and all 3 macro variables
-- **Unique**: Correlation heatmap between flows and macro variables
-- Per-fund level tracking across AKD, NBP, NTI
-- Hurst Exponent + Variance Ratio included
-- Known runtime error in portfolio cell (idx_wt_% missing after merge)
+- **`scripts/enhanced-v5.py`**
+  - Monthly pipeline with multi-lags + macro + CPI, multiple models, CV/holdout, 6-month forecast, and company selection.
+- **`scripts/enhanced-v7.py`**
+  - Weekly pipeline (more observations) + technical indicators; CV/holdout; 12-week + 2-year forecast; company selection.
 
-### enhanced-v4 → CPI + 6-Month Forecast + Auto Model Selection
-- **Unique**: CPI (YoY%) as 6th feature — inflation signal
-- **Unique**: 6-month iterative forward forecast (other notebooks: 1 month only)
-- Auto-selects 2 best models by RMSE, averages their predictions
-- Company selection by avg return during positive flow months (vs volume rank in v1-v3)
-- **LSTM failure**: relu activation + no dropout + 1 timestep → RMSE 188,366
-- First-difference features dropped (regression from v2/v3)
-- 2020 rows not dropped (regression from v2)
+### 1.3 Inputs and outputs
 
----
+- **`data/`**: local copies of model inputs (KSE-30, funds, macro, CPI, index level).
+- **`output/`, `output-v5/`, `output-v6/`, `output-v7/`**: generated figures by version.
+- **`explanations/`**
+  - `v5-explanation.md`, `v7-explanation.md`: narrative interpretation of the saved figures (useful report text).
+- **`mds/`**
+  - planning and debugging notes (`context.md`, `bugs.md`, `diff.md`, `extra.md`, this `plan.md`).
 
-## 2. Critical Issues to Fix in v5
+## 2. Data + target definition (core thesis)
 
-| Issue | Present In | Fix |
-|---|---|---|
-| Fabricated 2020 macro values via bfill | v1, v3, v4 | Drop rows where year < 2021 |
-| LSTM with 1 timestep and relu | v3, v4 | Drop LSTM entirely |
-| Future lag update: `log(1 + avg_pred/1000)` | v4 | Hold macros at last known, document assumption |
-| Zero-fill on fund flow NaN | all | Keep fillna(0) for fund flow only; ffill for macros; drop remaining NaN |
-| No winsorization in v4 | v4 | Add back at ±3 std before feature engineering |
-| Only 1-month lags (v1-v4 enhanced) | v1-v4 | Add 3-month lags for all key features |
-| No directional accuracy in v4 | v4 | Add back from v3 |
-| CPI but dropped first-diff features | v4 | Keep both CPI and first-diff macros |
-| TSCV dropped in v4 | v4 | Use TimeSeriesSplit(5) instead of single 80/20 split |
+### 2.1 Fund flow (target)
 
----
+Fund flow is computed per fund and then aggregated:
 
-## 3. Proposed Architecture for enhanced-v5.py
+- Per fund: \(flow_t = AUM_t - AUM_{t-1} \times (NAV_t/NAV_{t-1})\)
+- Aggregate target used in most models: `total_fund_flow = flow_AKD + flow_NBP + flow_NTI`
 
-### 3.1 Data Pipeline (No Changes to Raw Loading Logic)
+### 2.2 Why modeling is hard here
 
-```
-Load KSE-30 → aggregate daily → resample monthly → log_return
-Load AKD/NBP/NTI → nav_ratio → flow → monthly sum
-Load oil/IR/USD → monthly resample
-Load CPI → monthly last
-Merge all on date (left join from KSE-30 monthly)
-```
+From the v5 diagnostics (`explanations/v5-explanation.md`):
 
-**Filtering:**
-- Winsorize `total_fund_flow` at ±3 std (before merging features)
-- Drop year < 2021 (macro starts 2021)
-- ffill macros within range, fillna(0) only for fund flow first-row NaN
+- Features have **near-zero linear correlation** with the target (all \(\le |0.19|\)).
+- Target has **rare extreme events** (large outflow months) that dominate RMSE and are not predictable from lagged features.
+- Monthly dataset has only **~47–57 usable rows** after cleaning → high variance estimates and unstable validation.
 
-### 3.2 Feature Set (12 features total)
+## 3. Models tried (and why)
 
-| Feature | Source | Why |
-|---|---|---|
-| `lag1_volume` | KSE-30 | Trading activity (1-month lag) |
-| `lag3_volume` | KSE-30 | Medium-term trading trend |
-| `lag1_return` | KSE-30 | Market performance signal |
-| `lag3_return` | KSE-30 | Trend persistence |
-| `vol3_return` | KSE-30 | 3-month rolling std of log_return — volatility signal |
-| `lag1_abnorm_vol` | KSE-30 | Abnormal volume = volume / 3m rolling avg |
-| `lag1_ir` | IR | Level matters for absolute cost of capital |
-| `lag1_ir_change` | IR | Rate direction (cut/hike cycle) |
-| `lag1_usd` | USD | Exchange rate level |
-| `lag1_usd_pct` | USD | Currency pressure direction |
-| `lag1_oil` | OIL | Macro global signal |
-| `lag1_cpi` | CPI | Inflation eats real returns → flow deterrent |
+### 3.1 Monthly (v5/v6 family)
 
-**Rationale for each addition vs v4:**
-- `lag3_*`: multi-month memory of macro regime (from grok-v2 insight)
-- `vol3_return`: volatility deters flow (from context.md recommendations)
-- `lag1_abnorm_vol`: captures institutional vs retail flow pressure (from grok-v1)
-- `lag1_ir_change` + `lag1_usd_pct`: first-diff features from v2 — direction more stationary than level
+Typical suite:
 
-### 3.3 Model Suite (4 models, no LSTM)
+- **Ridge** + `StandardScaler` (robust baseline for small N)
+- **ElasticNet** + `StandardScaler` (handles correlated features + sparsity)
+- **GradientBoostingRegressor** (shallow trees)
+- **XGBoostRegressor** and/or **LightGBM** (tree boosting, but high overfit risk on small monthly N)
 
-| Model | Config | Rationale |
-|---|---|---|
-| **ElasticNet** | `l1_ratio=0.5, alpha=0.1`, StandardScaler | Auto feature selection + L2 stability; never tried yet |
-| **Ridge** | `alpha=1.0`, StandardScaler | Proven baseline from v2/v3/v4 |
-| **LightGBM** | `num_leaves=15, min_data_in_leaf=5, lambda_l1=1, n_estimators=100` | Better regularization than XGBoost on small data |
-| **GradientBoosting** | `max_depth=2, n_estimators=50, learning_rate=0.05` | From context.md recommendation; shallower than v3/v4 XGB |
+### 3.2 Weekly + technical indicators (v7 family)
 
-Drop: LSTM (not viable at ~50 rows), Random Forest (high variance, from v1).
+Enhancements:
 
-### 3.4 Evaluation
+- Higher frequency aggregation (weekly) to increase sample size (~200+ points).
+- Technical indicators on index-level daily returns:
+  - **RSI**, **Bollinger Band position**, **MACD**
+  - **4-week momentum** and volatility/abnormal volume style signals
 
-- **CV**: `TimeSeriesSplit(n_splits=5)` — not single 80/20 (avoids v4 mistake)
-- **Metrics per fold and overall**:
-  - RMSE (primary)
-  - MAE
-  - Directional Accuracy: `mean(sign(y_true) == sign(y_pred)) * 100`
-- **Final holdout**: last 20% for final metrics table
-- **Feature importance** table from LightGBM + GradientBoosting
-- **Ridge/ElasticNet coefficients** for interpretability
+## 4. Key results (use directly in the report)
 
-### 3.5 Forecasting
+### 4.1 enhanced-v5 (monthly) — holdout results summary
 
-- **Horizon**: 6 months (from v4)
-- **Assumption**: macro features held at last known values (documented in code)
-- **Ensemble**: average predictions across all 4 models (not just top 2)
-- **Output**: predicted direction with confidence (majority vote on sign)
+From `explanations/v5-explanation.md` (holdout is ~10 points):
 
-### 3.6 Portfolio / Company Selection
+- **R² (holdout)**:
+  - Ridge ≈ **0.04**
+  - ElasticNet ≈ **0.02**
+  - LightGBM ≈ **−0.02**
+  - GradBoost ≈ **−0.12**
+  - XGBoost ≈ **−0.14**
+- **Interpretation**:
+  - Negative R² means “worse than predicting the mean”.
+  - Directional accuracy on 10 points is not statistically meaningful (1 correct call = 10%).
 
-- Use v4 approach: top 10 companies by avg return **during months with positive predicted flow**
-- Secondary: top 10 by avg volume during positive flow months (v1-v3 approach) as a fallback
-- Output: ranked table with both metrics side by side
+### 4.2 enhanced-v5 — important failure modes (what you learned)
 
----
+Also from `explanations/v5-explanation.md`:
 
-## 4. File Structure
+- **Rare spikes dominate** (models miss the biggest outflows even after winsorization).
+- **Multicollinearity** inflates linear coefficients (large coefficients do not imply genuine predictive power).
+- **Feature importance plots can mislead** unless importance scales are normalized across tree libraries.
+- **Company selection can be broken by a single outlier return** unless company returns are winsorized/clipped.
 
-`enhanced-v5.py` as a single Python script (not notebook), organized in sections:
+### 4.3 enhanced-v7 (weekly + technical)
 
-```
-# --- CONFIG ---
-# --- STEP 1: DATA LOADING ---
-# --- STEP 2: FUND FLOW COMPUTATION ---
-# --- STEP 3: MACRO + CPI PROCESSING ---
-# --- STEP 4: MERGE AND CLEAN ---
-# --- STEP 5: OUTLIER HANDLING (WINSORIZE) ---
-# --- STEP 6: FEATURE ENGINEERING ---
-# --- STEP 7: MODEL TRAINING (TimeSeriesSplit) ---
-# --- STEP 8: HOLDOUT EVALUATION ---
-# --- STEP 9: 6-MONTH FORECAST ---
-# --- STEP 10: COMPANY SELECTION ---
-# --- STEP 11: SUMMARY OUTPUT ---
-```
+From `explanations/v7-explanation.md` + code changes visible in `scripts/enhanced-v7.py`:
 
----
+- **Sample size increases** from ~48 monthly points to **~200 weekly points**, making CV/holdout more stable.
+- **Fix applied**: company return ranking uses **winsorized returns (1–99%)** to prevent single-stock outliers dominating “top-10” selection.
+- **Limitations still apply**: if the underlying relationship is weak, more frequency adds noise as well as data.
 
-## 5. What v5 Fixes vs v4 (all issues from bugs.md)
+## 5. Limitations (write these explicitly in the thesis)
 
-| Bug # | Description | v5 Fix |
-|---|---|---|
-| 1 | Incorrect return calc (weighted price ≠ return) | Document limitation clearly; use KSE-30 index level from `kse30_index_level.csv` if available |
-| 2 | Placeholder lag update formula | Hold all macros constant; document this as the assumption |
-| 3 | Incomplete future feature updates | All 12 features documented as held constant for forecast |
-| 4 | Missing data: fillna(0) on fund flow | Only fill NaN with 0 for fund flow first row; ffill macros; dropna on features |
-| 5 | First row flow NaN → 0 | Same — accept this as minor data loss |
-| 6 | LSTM 1 timestep | Dropped entirely |
-| 7 | Hardcoded 80/20 split | Replaced with TimeSeriesSplit(5) |
-| 8 | No date range validation | Added: print date range and NaN count per column after merge |
-| 9 | Company selection historical bias | Acknowledged in comments |
-| 10 | NaN in company returns | Add `.dropna()` filter before averaging |
-| 11 | IR forward-fill limitation | Same approach; print the IR coverage dates |
-| 12 | Unused TimeSeriesSplit import | Clean imports — only import what's used |
-| 13 | Duplicate date handling | Add `drop_duplicates(subset=['date','company'])` on load |
-| 14 | Bare except | Replace with `except (ValueError, TypeError)` |
-| 15 | LSTM no random seed | Dropped — not applicable |
+### 5.1 Data limitations
 
----
+- **Small effective monthly sample**: after merges/cleaning you typically have <60 rows.
+- **Rare-event target**: investor flows include shock months (political/exogenous events) that are not learnable from simple lags.
+- **Macro coverage / alignment**: macro series begin later than some market/fund series → aggressive filling can fabricate history if not handled carefully.
 
-## 6. Key Design Decisions
+### 5.2 Modeling limitations
 
-1. **Python script over notebook**: Easier to run headlessly, cleaner prints, no cell ordering issues
-2. **No LSTM**: Dataset too small (~47 rows after cleaning); adds noise not signal
-3. **ElasticNet as new model**: Never tested across the v1-v4 series; combines L1 + L2, handles correlated macro features with automatic zero-ing out of weak features
-4. **LightGBM over XGBoost**: Better handling of small `min_data_in_leaf`, stronger built-in regularization, faster
-5. **kse30_index_level.csv**: There is a `kse30_index_level.csv` file in the data folder — this should be used to compute actual index log returns instead of the weighted_price proxy that all v1-v4 notebooks use
-6. **12 features**: Adds meaningful signal (multi-lag, volatility, abnormal volume, CPI) without exploding the feature space relative to ~47 training rows (ratio ~4:1 rows per feature — acceptable for regularized linear models)
+- **Deep learning (LSTM/GRU)**: not viable at monthly scale; even weekly is small relative to typical DL needs.
+- **Tree boosting overfit risk**: boosted trees can easily achieve negative R² on small holdouts if not carefully regularized.
+- **Directional accuracy volatility**: with small holdouts, DA changes in large steps and can’t be over-interpreted.
 
----
+### 5.3 Forecasting limitations (multi-step)
 
-## 7. kse30_index_level.csv — Confirmed Useful
+- Any multi-step iterative forecast that “updates” only a subset of lagged features (or holds macros constant) should be described as:
+  - **scenario-style** / **directional** forecast, not a point-accurate quantitative forecast.
 
-Inspected the file. Columns:
-```
-date, index_return, log_return, total_volume, avg_weight_change, num_companies
-```
+## 6. What to present as “final” in the report (recommended)
 
-This is already a **pre-computed daily index dataset** with:
-- `log_return`: proper index log return (fixes Bug #1 — no more weighted_price proxy)
-- `total_volume`: same as sum from kse-30-basic.xlsx
-- `avg_weight_change`: mean absolute daily weight change — same signal as grok-v1's unique feature
+- **Primary thesis pipeline**: monthly flow prediction + direction-based portfolio tilting (conceptual).
+- **Evidence for limitations**: show v5 holdout metrics and explain why performance is weak (near-zero correlations + rare events + small N).
+- **Improvement attempt**: v7 weekly + technical indicators to increase N; present as an attempt to reduce variance and test whether technical indicators add signal.
 
-**v5 will use this file as the primary KSE-30 source** for returns and volume. The `kse-30-basic.xlsx` is only needed for company-level price data (Step 10: company selection). This simplifies Step 1 significantly.
+## 7. Pointers to the “report-ready” text
 
----
-
-## 8. Open Questions Before Proceeding
-
-1. **Script vs Notebook**: The task says `enhanced-v5.py` — confirmed as a plain Python file, not a Jupyter notebook?
-2. **Matplotlib output**: Should plots be saved to files (PNG) or shown interactively (`plt.show()`)?
-3. **LightGBM dependency**: Is `lightgbm` installed in the project venv, or should we substitute with sklearn `GradientBoostingRegressor` only?
-
----
-
-## 9. For advanced: Use PyPortfolioOpt (pip install PyPortfolioOpt)
-``` from pypfopt import expected_returns, risk_models, EfficientFrontier ```
-... compute optimal weights based on predicted returns = f(flow_pred)
+- Use these as your figure captions / interpretation text:
+  - `3_final_model/explanations/v5-explanation.md`
+  - `3_final_model/explanations/v7-explanation.md`
