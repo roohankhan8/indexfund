@@ -192,8 +192,16 @@ raw = raw.rename(columns={
 raw["date"] = pd.to_datetime(raw["date"])
 
 # Merge Volume columns: vol_a (older rows) and vol_b (newer rows) never overlap
-raw["volume"] = raw["vol_a"].fillna(raw["vol_b"])
-raw = raw.drop(columns=["vol_a", "vol_b"])
+# Handle case where only one volume column exists
+if "vol_a" in raw.columns and "vol_b" in raw.columns:
+    raw["volume"] = raw["vol_a"].fillna(raw["vol_b"])
+    raw = raw.drop(columns=["vol_a", "vol_b"])
+elif "vol_a" in raw.columns:
+    raw = raw.rename(columns={"vol_a": "volume"})
+elif "vol_b" in raw.columns:
+    raw = raw.rename(columns={"vol_b": "volume"})
+else:
+    raise ValueError("No volume column found in data")
 
 # Normalise company names using the canonical map
 raw["company"] = raw["symbol"].map(COMPANY_MAP).fillna(raw["company"])
