@@ -12,8 +12,8 @@ The weak contemporaneous correlations and non-significant lag-1 Granger results 
 The broader implication is that KSE-30 related fund flows in Pakistan are partially structured but still heavily affected by episodic shocks, fund-specific events, and sample limitations. The models do not support a claim of smooth macro-driven predictability. They support a narrower and more defensible claim: disciplined time-series models can extract useful directional information from a noisy aggregate flow series.
 
 [Suggested Figure 7.1]
-Existing figure path: `6_cursor_model/figures/fund_flow/FF01_total_flow_predictions.png`
-Caption idea: "Interpretive view of actual and predicted aggregate KSE-30 sector flows."
+Generated figure path: `report_workspace/chapter-07-discussion/images/C7_01_flow_model_scorecard.png`
+Caption idea: "Comparative scorecard of the retained aggregate KSE-30 fund-flow models."
 
 7.2 Discussion of Market Efficiency Findings
 
@@ -26,10 +26,8 @@ The Hurst exponent above 0.65 reinforces this view. It suggests that the market 
 This interpretation aligns well with the project's broader results. If the market were perfectly efficient in a strict sense, we would expect weaker evidence for structured volatility persistence and less room for rebalancing-oriented predictive ranking. Instead, the project finds modest but consistent evidence that the KSE-30 retains exploitable structure.
 
 [Suggested Figure 7.2]
-Existing figure paths:
-`6_cursor_model/figures/efficiency/EF01_acf.png`
-`6_cursor_model/figures/efficiency/EF02_variance_ratio.png`
-Caption idea: "Complementary efficiency evidence for the KSE-30 showing both random-walk-consistent and persistence-consistent patterns."
+Generated figure path: `report_workspace/chapter-07-discussion/images/C7_02_efficiency_evidence_summary.png`
+Caption idea: "Discussion-oriented summary of the KSE-30 efficiency diagnostics and persistence indicators."
 
 7.3 Discussion of Volatility Persistence
 
@@ -42,10 +40,8 @@ The VaR backtest also supports the usefulness of the volatility models beyond me
 This persistence result also strengthens the broader dissertation argument. If volatility is highly persistent and asymmetric, then investors and fund managers cannot assume that market risk conditions normalize immediately after a shock. That supports the need for predictive monitoring and justifies extending the project into a portfolio-tilt framework rather than ending at descriptive analysis.
 
 [Suggested Figure 7.3]
-Existing figure paths:
-`6_cursor_model/figures/garch/G01_returns_and_vol.png`
-`6_cursor_model/figures/garch/G02_var_backtest.png`
-Caption idea: "KSE-30 volatility persistence and downside-risk calibration under the preferred EGARCH model."
+Generated figure path: `report_workspace/chapter-07-discussion/images/C7_03_realized_volatility_regimes.png`
+Caption idea: "Realized KSE-30 volatility regimes over time, highlighting persistent high-volatility phases."
 
 7.4 Econometric Models versus Machine Learning Models
 
@@ -58,10 +54,8 @@ However, the project also shows that machine learning has a legitimate role when
 Therefore, the central discussion point is not "econometrics good, machine learning bad." The stronger conclusion is that the final KSE-30 project favors parsimonious, interpretable models for low-frequency aggregate prediction and allows machine-learning methods to play a supporting role where richer cross-sectional structure exists.
 
 [Suggested Figure 7.4]
-Existing figure paths:
-`6_cursor_model/figures/fund_flow/FF01_total_flow_predictions.png`
-`6_cursor_model/figures/rebalancing/R02_feature_importances.png`
-Caption idea: "Why simpler econometric models dominate aggregate flow prediction while richer feature-based models become more relevant in stock-level rebalancing."
+Generated figure path: `report_workspace/chapter-07-discussion/images/C7_04_model_family_comparison.png`
+Caption idea: "Cross-task comparison of model families across flow prediction, weight prediction, and inclusion prediction."
 
 7.5 Implications for Investors, Fund Managers, and Policymakers
 
@@ -74,8 +68,8 @@ For policymakers and regulators, the study suggests that Pakistan's benchmark eq
 At a broader level, the study also contributes to local capital-market development by showing that Pakistan-specific benchmark data can be analyzed through reproducible, script-based quantitative workflows. That is valuable not only for academic work but also for improving the analytical culture around fund products and benchmark monitoring in the Pakistani market.
 
 [Suggested Figure 7.5]
-Existing figure path: `6_cursor_model/figures/summary/SUMMARY_dashboard.png`
-Caption idea: "Integrated view of the project's implications for forecasting, risk monitoring, and index positioning."
+Generated figure path: `report_workspace/chapter-07-discussion/images/C7_05_rebalancing_risk_map.png`
+Caption idea: "Practical interpretation of KSE-30 rebalancing risk by current weight and exclusion probability."
 
 7.6 Limitations of the Study
 

@@ -86,10 +86,8 @@ The monthly master dataset contains month-level aggregates derived from the alig
 The cleaned stock file, `kse30_stocks_clean.csv`, preserves the stock-level panel needed for rebalancing and weight prediction. Together, these files ensure that the analysis does not depend on repeatedly rebuilding raw data from scratch.
 
 [Suggested Figure 4.1]
-Create a small table or diagram listing:
-`kse30_daily_data.csv` -> `kse30_stocks_clean.csv`
-raw macro and fund files -> `daily_master.csv`
-daily + monthly aggregation -> `monthly_master.csv`
+Generated figure path: `report_workspace/chapter-04-data-collection-and-processing/images/C4_01_dataset_coverage_timeline.png`
+Caption idea: "Coverage and overlap of the main datasets used to build the final KSE-30 analytical tables."
 
 4.7 Fund Flow Computation
 

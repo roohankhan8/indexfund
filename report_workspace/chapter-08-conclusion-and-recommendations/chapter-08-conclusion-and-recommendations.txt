@@ -12,8 +12,8 @@ The market-efficiency evidence is mixed. Some tests, such as the runs and varian
 Taken together, the project concludes that the Pakistani KSE-30 market contains measurable structure in fund-flow behaviour, volatility, and index rebalancing dynamics. That structure is not strong enough to justify exaggerated predictive claims, but it is strong enough to support disciplined quantitative analysis and practical decision-support applications.
 
 [Suggested Figure 8.1]
-Existing figure path: `6_cursor_model/figures/summary/SUMMARY_dashboard.png`
-Caption idea: "Overall synthesis of the project's main findings on flows, volatility, efficiency, and rebalancing."
+Generated figure path: `report_workspace/chapter-08-conclusion-and-recommendations/images/C8_01_key_metrics_summary.png`
+Caption idea: "Final summary of the study's main KSE-30 metrics, sample structure, and best-performing models."
 
 8.2 Key Contributions of the Study
 

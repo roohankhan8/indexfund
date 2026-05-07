@@ -13,6 +13,8 @@ This file summarizes the current report-writing direction, the canonical pipelin
 - Chapter drafts must follow the TOC headings and numbering exactly.
 - A dedicated root-level workspace now exists at `report_workspace/` for report writing assets.
 - Chapter drafts should now be edited from `report_workspace/`, not from `0-docs/reports/`.
+- Do not reuse the same graph in multiple report chapters.
+- Prefer chapter-specific visuals inside each chapter's `images/` folder.
 
 ## Files created or updated in this session
 
@@ -52,6 +54,10 @@ This file summarizes the current report-writing direction, the canonical pipelin
 - `report_workspace/`
   - New root-level report workspace.
   - Contains chapter folders, chapter-specific image folders, the moved TOC, and a copied `session.md`.
+
+- `report_workspace/generate_additional_report_graphs.py`
+  - New report-specific graph generator.
+  - Reads final pipeline outputs from `6_cursor_model/` and creates fresh non-repeated figures for Chapters 4, 7, and 8.
 
 ## Current Chapter 3 stance
 
@@ -115,6 +121,7 @@ The final Chapter 3 should say:
 - `report_workspace/chapter-08-conclusion-and-recommendations/chapter-08-conclusion-and-recommendations.txt`
 - `report_workspace/table-of-contents.txt`
 - `report_workspace/session.md`
+- `report_workspace/generate_additional_report_graphs.py`
 
 ### Reference PDFs
 
@@ -189,6 +196,7 @@ The final Chapter 3 should say:
 - Before writing any chapter, first check `report_workspace/table-of-contents.txt` and mirror its exact section names.
 - If a chapter draft already exists but its headings differ from the TOC, update the draft to match the TOC before adding more content.
 - Use the chapter-specific `images/` folders under `report_workspace/` when assembling the final document.
+- If a new graph is needed, generate or assign it so that it appears in one chapter only.
 
 ## Recommended next tasks in a future chat
 

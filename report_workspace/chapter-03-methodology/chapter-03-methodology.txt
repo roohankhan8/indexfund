@@ -90,8 +90,9 @@ In methodological terms, this stage serves three purposes. First, it checks whet
 For the dissertation, the figures used in this part should preferably come from `6_cursor_model/` because those outputs are already aligned with the KSE-30 specific framing of the final study.
 
 [Suggested Figure 3.3]
-Existing figure path: `6_cursor_model/figures/eda/E05_monthly_correlation.png`
-Caption idea: "Correlation structure between aggregate KSE-30 fund flow and selected macroeconomic and market variables."
+Create a variable-family diagram with four blocks:
+target flow variable, macroeconomic drivers, KSE-30 market variables, and rebalancing features.
+Caption idea: "Main variable families used in the final KSE-30 methodology."
 
 3.8 Fund-Flow Forecasting Methodology
 

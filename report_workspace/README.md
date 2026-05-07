@@ -18,6 +18,12 @@ Each chapter folder contains:
 - the chapter `.txt` draft
 - an `images/` folder with copied figures relevant to that chapter
 
+## Figure rule
+
+- Use each graph only once in the report.
+- If a later chapter needs a new visual, generate a chapter-specific one instead of reusing an earlier graph.
+- Use `generate_additional_report_graphs.py` to create the extra Chapter 4, 7, and 8 visuals from final pipeline outputs.
+
 ## References still kept elsewhere
 
 - Sample report PDF: `0-docs/reports/FYDP.pdf`
@@ -27,4 +33,3 @@ Each chapter folder contains:
 ## Writing rule
 
 Always follow the headings in `table-of-contents.txt` exactly when updating or adding report chapters.
-
