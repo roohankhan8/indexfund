@@ -1,10 +1,10 @@
-# `0-docs/` — complete file index (literature + proposal)
+# `0-docs/` - complete file index (literature + proposal + reports)
 
-This folder holds **reading material and proposal bureaucracy**. Nothing here executes in the pipelines; folder-level **`mds/`** docs reference it.
+This folder holds **reading material, report drafts, and proposal bureaucracy**. Nothing here executes in the pipelines; folder-level **`mds/`** docs reference it.
 
 **Models:** N/A for this folder (reference only).
 
-**Outputs / results:** N/A — bibliographic grounding for methodological choices cited in Track A/B (time-series discipline, volatility modeling, skepticism toward over-parameterized nets on PSX datasets).
+**Outputs / results:** N/A - bibliographic grounding for methodological choices cited in Track A/B (time-series discipline, volatility modeling, skepticism toward over-parameterized nets on PSX datasets).
 
 ---
 
@@ -17,7 +17,19 @@ This folder holds **reading material and proposal bureaucracy**. Nothing here ex
 
 ---
 
-## `psx-research-papers/` — PDFs (20 files)
+## `reports/` (5 files)
+
+| File | Purpose |
+|------|---------|
+| `FYDP.pdf` | Sample full FYDP report used as formatting and completeness benchmark. |
+| `FYDP.md` | Markdown text extraction of the sample FYDP report. |
+| `FYP Report (Analyzing Mutual Funds).pdf` | Current project report draft. |
+| `FYP Report (Analyzing Mutual Funds).md` | Markdown text extraction of the current project report draft. |
+| `guide.md` | Project completion guide comparing the current report with the FYDP sample and mapping missing work to repo outputs. |
+
+---
+
+## `psx-research-papers/` - PDFs (20 files)
 
 Each PDF supports **related work** citations (ARIMA/GARCH/macros/psychology-of-flow topics on PSX/frontier markets). Filenames encode paper topic + year where possible.
 
@@ -46,7 +58,7 @@ Each PDF supports **related work** citations (ARIMA/GARCH/macros/psychology-of-f
 
 ---
 
-## `psx-research-papers/psx-research-papers-md/` — Markdown mirrors (21 files)
+## `psx-research-papers/psx-research-papers-md/` - Markdown mirrors (21 files)
 
 | File | Purpose |
 |------|---------|
@@ -74,8 +86,8 @@ Each PDF supports **related work** citations (ARIMA/GARCH/macros/psychology-of-f
 
 ---
 
-## `psx-research-papers/psx-research-papers-txt/` — OCR/plain text (20 files)
+## `psx-research-papers/psx-research-papers-txt/` - OCR/plain text (20 files)
 
 | File | Purpose |
 |------|---------|
-| `paper1_fulltext.txt` … `paper20_fulltext.txt` | Searchable plaintext extractions numbered for quick grep; align titles by cross-checking with the MD/PDF filenames or `session.md`. |
+| `paper1_fulltext.txt` ... `paper20_fulltext.txt` | Searchable plaintext extractions numbered for quick grep; align titles by cross-checking with the MD/PDF filenames or `session.md`. |
