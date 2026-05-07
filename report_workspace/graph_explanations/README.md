@@ -8,3 +8,5 @@ Use these notes when:
 - keeping interpretation consistent across chapters
 
 The paths mentioned below refer to the chapter image copies inside `report_workspace/`.
+
+For appendix-only figures, use `report_workspace/appendices/appendices.txt` as the source of truth for suggested placements.

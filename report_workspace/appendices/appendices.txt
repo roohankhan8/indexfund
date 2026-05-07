@@ -1,0 +1,315 @@
+APPENDICES
+
+This section provides supporting material that complements the main dissertation chapters. The appendices are designed to improve transparency, reproducibility, and interpretability without interrupting the flow of the main report. They include extended result tables, supplementary figure guidance, formal variable definitions, output-file references, and a concise summary of the final code workflow used in the study.
+
+Appendix A: Additional Result Tables
+
+This appendix should contain supporting tables that are useful for verification and technical detail but are too long or too secondary to remain in the main chapters. The main body should continue to present the most important summary tables, while this appendix can preserve fuller versions for reference.
+
+A.1 Full Aggregate Fund-Flow Forecasting Results
+
+Use file: `6_cursor_model/results_fund_flow.csv`
+
+Recommended columns:
+Model | Target | RMSE | MAE | R-squared | Directional Accuracy | Note
+
+Suggested appendix table title:
+"Detailed Aggregate KSE-30 Fund-Flow Forecasting Results"
+
+Current values from the final cleaned pipeline:
+
+1. Naive (RW): RMSE = 83.10, MAE = 51.54, R-squared = -1.4048, Directional Accuracy = 37.5 percent
+2. ARIMAX(1,0,1): RMSE = 58.56, MAE = 37.35, R-squared = -0.1944, Directional Accuracy = 75.0 percent
+3. VAR(1): RMSE = 63.10, MAE = 39.41, R-squared = -0.3867, Directional Accuracy = 75.0 percent
+
+Interpretation note:
+This appendix table is helpful because it preserves the exact comparison between the benchmark and retained dynamic models. In the cleaned final run, ARIMAX is the preferred model on forecast error, while ARIMAX and VAR tie on directional accuracy.
+
+A.2 Volatility Model Output Table
+
+Use file: `6_cursor_model/results_garch.csv`
+
+Recommended columns:
+Series | Model | omega | alpha | beta | Persistence | AIC
+
+Suggested appendix table title:
+"Detailed KSE-30 GARCH Output"
+
+Current values from the final cleaned pipeline:
+
+1. Series: KSE-30
+2. Model: GARCH(1,1)
+3. omega = 0.074916
+4. alpha = 0.1284
+5. beta = 0.8383
+6. persistence = 0.9667
+7. AIC = 4243.43
+
+Additional note for writing:
+The main body already discusses that EGARCH is preferred because of lower AIC and leverage effects. In this appendix, you may add the EGARCH estimates manually from the pipeline console output if your department expects both specifications in one appendix table.
+
+A.3 Market Efficiency Results Table
+
+Use file: `6_cursor_model/results_efficiency.csv`
+
+Recommended columns:
+Series | N | Runs Z | Runs p | Runs Verdict | VR(2) | VR(2) p | VR(4) | VR Verdict | Ljung-Box p | ACF lag-1 | Hurst H | Hurst Interpretation
+
+Suggested appendix table title:
+"Detailed KSE-30 Market Efficiency Diagnostics"
+
+Current values from the final cleaned pipeline:
+
+1. Runs Z = -1.9106
+2. Runs p = 0.0561
+3. Runs verdict = Efficient
+4. VR(2) = 1.0069
+5. VR(2) p = 0.8752
+6. VR(4) = 0.9106
+7. VR verdict = Efficient
+8. Ljung-Box p = 0.0000
+9. ACF lag-1 = 0.0071
+10. Hurst H = 0.6559
+11. Hurst interpretation = Persistent
+
+A.4 Rebalancing Model Comparison Table
+
+Use file: `6_cursor_model/results_rebalancing.csv`
+
+Recommended columns:
+Task | Model | RMSE | MAE | R-squared | Accuracy | AUC
+
+Suggested appendix table title:
+"Detailed Rebalancing Model Comparison"
+
+Current values from the final cleaned pipeline:
+
+Weight prediction:
+1. Naive: RMSE = 0.5595, MAE = 0.2541, R-squared = 0.9677
+2. Ridge: RMSE = 0.5590, MAE = 0.2963, R-squared = 0.9678
+3. Random Forest: RMSE = 0.6900, MAE = 0.3553, R-squared = 0.9509
+
+Inclusion prediction:
+1. Naive: Accuracy = 0.9655
+2. Logistic Regression: Accuracy = 0.9655, AUC = 0.8214
+3. Random Forest: Accuracy = 0.9655, AUC = 0.5446
+
+A.5 Forward Rebalancing Forecast Table
+
+Use file: `6_cursor_model/results_rebalancing_forecast.csv`
+
+Recommended columns:
+Symbol | Current Weight | Predicted Average Weight | Average Retention Probability | Exclusion Risk
+
+Suggested appendix table title:
+"Forward KSE-30 Rebalancing Forecast Details"
+
+Suggested use in the appendix:
+Instead of showing all rows in the main chapter, the appendix can include either the full forecast table or at least the top 10 highest-risk names and top 10 highest-weight names.
+
+Examples from the final cleaned run:
+
+Highest exclusion-risk names:
+1. SSGC: exclusion risk = 52.89 percent
+2. GAL: exclusion risk = 39.59 percent
+3. GHNI: exclusion risk = 39.50 percent
+4. PAEL: exclusion risk = 33.78 percent
+5. BOP: exclusion risk = 33.17 percent
+
+Highest predicted weights:
+1. FFC: 12.0857
+2. UBL: 10.6149
+3. ENGROH: 7.8589
+4. MEBL: 5.7242
+5. HUBC: 5.5357
+
+Appendix B: Additional Figures
+
+This appendix should contain figures that support interpretation but were not retained in the main body because of the no-repetition rule or because they are more supplementary than central.
+
+B.1 Macro Overview Figure
+
+Suggested path:
+`6_cursor_model/figures/eda/E04_macro_overview.png`
+
+Suggested appendix caption:
+"Macro-financial environment over the study period, including oil prices, USD/PKR, and policy rate."
+
+Purpose:
+This figure gives useful context for the forecasting environment but is not essential enough to remain in the main body once the report is tightened.
+
+B.2 Top KSE-30 Weight Figure
+
+Suggested path:
+`6_cursor_model/figures/eda/E07_top_weights.png`
+
+Suggested appendix caption:
+"Largest KSE-30 constituent weights observed in the cleaned stock dataset."
+
+Purpose:
+This figure supports the interpretation of index concentration and helps explain why some names dominate the rebalancing discussion.
+
+B.3 Summary Dashboard Figure
+
+Suggested path:
+`6_cursor_model/figures/summary/SUMMARY_dashboard.png`
+
+Suggested appendix caption:
+"Integrated dashboard of KSE-30 sector flow, volatility, efficiency, and rebalancing results."
+
+Purpose:
+This is a useful appendix-only figure because it combines several output blocks in one place, but it is too dense to function as a primary main-chapter figure.
+
+B.4 Appendix Figure Placement Rule
+
+If any figure already appears in the main report chapters, do not repeat it again in the appendices. The appendix should prefer supplementary visuals that were not allocated to Chapters 3 to 8.
+
+Appendix C: Variable Definitions and Formulas
+
+This appendix should formally define the main variables used in the final KSE-30 workflow.
+
+C.1 Main Target Variable
+
+Fund flow:
+
+flow_t = AUM_t - AUM_(t-1) * (NAV_t / NAV_(t-1))
+
+Interpretation:
+This formula isolates investor subscriptions and redemptions by removing the portion of AUM change that is explained only by NAV movement.
+
+C.2 Monthly NAV Return
+
+nav_return_m = NAV_end / NAV_start - 1
+
+Interpretation:
+This is the monthly percentage change in fund NAV within each month.
+
+C.3 Aggregate Sector Flow
+
+total_fund_flow = flow_AKD + flow_NBP + flow_NTI
+
+Interpretation:
+This is the main final target variable in `6_cursor_model/`, treated as the aggregate KSE-30 sector flow.
+
+C.4 Flow Normalization
+
+flow_pct_sector = total_fund_flow / sector_aum_prev
+
+Interpretation:
+This expresses sector flow relative to the size of the sector in the previous month.
+
+C.5 Reconstructed KSE-30 Index Return
+
+idx_log_return_t = ln(idx_ff_mcap_total_t / idx_ff_mcap_total_(t-1))
+
+Interpretation:
+This is the daily log return of the reconstructed KSE-30 index built from constituent free-float market capitalization totals.
+
+C.6 Rolling Volatility
+
+rolling_vol_30d = std(log_returns over past 30 days) * sqrt(252)
+
+Interpretation:
+This annualizes 30-day rolling volatility using the standard 252-trading-day convention.
+
+C.7 Selected Forecasting Variables
+
+1. `interest_rate_end`: end-of-month policy rate
+2. `cpi_yoy_end`: end-of-month CPI year-on-year inflation
+3. `oil_return_monthly`: summed monthly oil log return
+4. `usdpkr_return_monthly`: summed monthly exchange-rate log return
+5. `idx_return_monthly`: monthly reconstructed KSE-30 return
+6. `idx_vol_monthly`: month-end 30-day rolling KSE-30 volatility
+
+C.8 Rebalancing Variables
+
+1. `cur_weight`: current constituent weight before the next review
+2. `mom_30`, `mom_60`, `mom_90`: rolling momentum signals
+3. `vol_30`, `vol_60`: rolling volatility measures
+4. `avg_volume`: average trading volume
+5. `mkt_cap_proxy`: market-cap proxy used in the rebalancing panel
+6. `price_to_ma20`, `price_to_ma50`: price relative to moving averages
+7. `wt_drift`: change in weight from its earlier level
+8. `wt_range`: historical range of observed weight
+
+Appendix D: Pipeline Outputs and Logs
+
+This appendix should document the main output files produced by the final workflow and explain how they map to the report.
+
+D.1 Primary Final Pipeline
+
+Primary script:
+`6_cursor_model/pipeline.py`
+
+Upstream support script:
+`5_claude_pipeline/pipeline.py`
+
+D.2 Core Output Files from `6_cursor_model/`
+
+1. `daily_master.csv`
+2. `monthly_master.csv`
+3. `kse30_stocks_clean.csv`
+4. `results_fund_flow.csv`
+5. `results_garch.csv`
+6. `results_efficiency.csv`
+7. `results_rebalancing.csv`
+8. `results_rebalancing_forecast.csv`
+
+D.3 Figure Output Folders
+
+1. `6_cursor_model/figures/eda/`
+2. `6_cursor_model/figures/fund_flow/`
+3. `6_cursor_model/figures/garch/`
+4. `6_cursor_model/figures/efficiency/`
+5. `6_cursor_model/figures/rebalancing/`
+6. `6_cursor_model/figures/summary/`
+
+D.4 Important Reproducibility Note
+
+In the final cleaned workflow, both `5_claude_pipeline/pipeline.py` and `6_cursor_model/pipeline.py` repair an isolated May 2024 raw-data gap in which all three fund sheets briefly recorded zero AUM while NAV continued to change. This correction prevents a false collapse in the AUM and fund-flow graphs and should be acknowledged in the appendix or methodology notes if needed.
+
+D.5 Suggested Appendix Log Note
+
+You may include a short note such as:
+"All final figures and result tables used in the dissertation were regenerated from the final cleaned pipeline on 8 May 2026 using the repository versions of `5_claude_pipeline/pipeline.py`, `6_cursor_model/pipeline.py`, and `report_workspace/generate_additional_report_graphs.py`."
+
+Appendix E: Code Workflow Summary
+
+This appendix should summarize the final workflow in a compact, readable form for examiners and future users of the repository.
+
+E.1 Final Workflow Lineage
+
+1. `4_claude_model/`
+   - modular research scripts for preprocessing, fund-flow prediction, GARCH, efficiency, and rebalancing
+2. `5_claude_pipeline/`
+   - consolidated one-file end-to-end baseline
+3. `6_cursor_model/`
+   - final KSE-30 specific pipeline used for the dissertation narrative
+
+E.2 Practical Execution Order
+
+Recommended order:
+
+1. Run `python 5_claude_pipeline/pipeline.py`
+2. Run `python 6_cursor_model/pipeline.py`
+3. Run `python report_workspace/generate_additional_report_graphs.py`
+
+E.3 Purpose of Each Final Step
+
+1. Folder 5 prepares the cleaned master datasets and full baseline outputs.
+2. Folder 6 converts those prepared inputs into the final KSE-30 centered results.
+3. The report graph generator copies chapter images, creates custom diagrams, and writes graph explanation notes for the report workspace.
+
+E.4 Role of the Report Workspace
+
+The `report_workspace/` folder is the dedicated writing area for the dissertation. It holds:
+
+1. chapter drafts
+2. chapter-specific image folders
+3. graph explanation notes
+4. the final report table of contents
+5. report-only asset generation code
+
+E.5 Suggested Closing Note for the Appendix
+
+The appendices show that the study is not only a conceptual academic exercise but also a reproducible applied workflow. They preserve the link between the dissertation narrative, the generated figures, the result files, and the code that produced them.

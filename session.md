@@ -53,6 +53,10 @@ This file summarizes the current report-writing direction, the canonical pipelin
   - Drafted Chapter 8 using the exact TOC headings from `8.1` to `8.4`.
   - Summarizes the final study, contributions, recommendations, and future research directions.
 
+- `report_workspace/appendices/appendices.txt`
+  - Drafted the appendix section using the exact TOC appendix structure.
+  - Includes Appendix A to Appendix E for additional tables, additional figures, formulas, outputs, and workflow summary.
+
 - `report_workspace/`
   - New root-level report workspace.
   - Contains chapter folders, chapter-specific image folders, the moved TOC, and a copied `session.md`.
@@ -129,6 +133,7 @@ The final Chapter 3 should say:
 - `report_workspace/session.md`
 - `report_workspace/generate_additional_report_graphs.py`
 - `report_workspace/graph_explanations/README.md`
+- `report_workspace/appendices/appendices.txt`
 
 ### Reference PDFs
 

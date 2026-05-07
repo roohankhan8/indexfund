@@ -12,6 +12,7 @@ This folder is the main working area for the final FYP report text files and cha
 - `chapter-06-portfolio-tilt-and-rebalancing-application/`
 - `chapter-07-discussion/`
 - `chapter-08-conclusion-and-recommendations/`
+- `appendices/`
 - `graph_explanations/`
 
 Each chapter folder contains:
