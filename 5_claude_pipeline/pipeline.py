@@ -34,6 +34,8 @@ Deps: numpy, pandas, matplotlib, seaborn, scipy, scikit-learn, openpyxl
 """
 
 import os, warnings
+import matplotlib
+matplotlib.use("Agg")
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -65,6 +67,29 @@ def savefig(subdir, name):
     plt.savefig(path, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"    fig → {path}")
+
+
+def repair_internal_zero_aum(monthly_f, fund_name):
+    """
+    Treat isolated zero-AUM months as missing data when NAV still exists.
+    This avoids impossible full-liquidation spikes caused by source-sheet gaps.
+    """
+    monthly_f = monthly_f.copy()
+    monthly_f["aum_raw"] = monthly_f["aum"]
+    zero_gap = monthly_f["aum"].fillna(0).le(0)
+    has_nav = monthly_f["nav_start"].notna() & monthly_f["nav_end"].notna()
+    repair_mask = zero_gap & has_nav
+    aum_clean = monthly_f["aum"].mask(repair_mask)
+    aum_interp = aum_clean.interpolate(limit_area="inside")
+    repaired_mask = repair_mask & aum_interp.notna()
+    monthly_f["aum"] = aum_clean.where(~repaired_mask, aum_interp)
+    monthly_f["aum_repaired"] = repaired_mask
+    if repaired_mask.any():
+        repaired_months = ", ".join(
+            monthly_f.loc[repaired_mask, "date"].dt.strftime("%Y-%m-%d").tolist()
+        )
+        print(f"  Repaired zero-AUM month(s) for {fund_name}: {repaired_months}")
+    return monthly_f
 
 plt.rcParams.update({"figure.dpi": 150, "axes.titlesize": 12,
                      "axes.labelsize": 10, "legend.fontsize": 9,
@@ -303,6 +328,7 @@ for fund in ["AKD","NBP","NTI"]:
              nav_start=("nav","first"), aum=("aum","last"))
         .reset_index()
     )
+    monthly_f = repair_internal_zero_aum(monthly_f, fund)
     monthly_f["aum_prev"]     = monthly_f["aum"].shift(1)
     monthly_f["nav_return_m"] = monthly_f["nav_end"] / monthly_f["nav_start"] - 1
     monthly_f["fund_flow"]    = (

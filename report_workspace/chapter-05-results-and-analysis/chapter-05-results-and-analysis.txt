@@ -5,14 +5,14 @@ RESULTS AND ANALYSIS
 
 This chapter presents the empirical findings of the study using the final KSE-30 focused workflow in `6_cursor_model/`, with upstream support from `5_claude_pipeline/` where needed. The chapter follows the exact sequence implied by the methodology: exploratory data analysis, fund-flow forecasting, volatility modelling, market-efficiency testing, and a closing synthesis of the main empirical findings.
 
-The results should be interpreted with the final sample structure in mind. The daily KSE-30 master dataset contains 1,300 trading-day observations, while the aggregate monthly fund-flow modelling dataset contains only 59 monthly observations, of which 35 months were used for training and 24 months for out-of-sample testing. This limited monthly sample is important for understanding why directional and comparative evidence is often more meaningful than large positive R-squared values in the forecasting block.
+The results should be interpreted with the final sample structure in mind. The daily KSE-30 master dataset contains 1,300 trading-day observations, while the aggregate monthly fund-flow modelling dataset contains 60 monthly observations, of which 35 months were used for training and 25 months for out-of-sample testing. This limited monthly sample is important for understanding why directional and comparative evidence is often more meaningful than large positive R-squared values in the forecasting block.
 
 5.2 Exploratory Data Analysis Results
 
 The exploratory results confirm that the merged KSE-30 dataset is economically meaningful and that the final pipeline captures distinct patterns in fund size, return behaviour, and capital movement. The daily reconstructed KSE-30 index return series has a mean of 0.0736 percent and a standard deviation of 1.3945 percent, with a minimum daily move of -10.2414 percent on 2 March 2026 and a maximum of 9.3245 percent on 12 May 2025. The Jarque-Bera normality result reported by the pipeline is effectively zero in p-value terms, which indicates that the return distribution is non-normal and fat-tailed. This is consistent with the later use of GARCH-family volatility models.
 
 [Suggested Figure 5.1]
-Existing figure path: `6_cursor_model/figures/eda/E06_index_cumulative_return.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/E06_index_cumulative_return.png`
 Caption idea: "Reconstructed cumulative KSE-30 return over the final analysis period."
 
 5.2.1 AUM Trends
@@ -22,7 +22,7 @@ The AUM trend figure shows that the tracked KSE-30 related fund universe is not 
 At the sector level, the final monthly master dataset reaches an aggregate AUM of 2414.10 million PKR by 30 January 2026. The visual pattern in the AUM plot is therefore more consistent with concentration than with equal contribution across the three funds. This concentration matters later when interpreting aggregate flow shocks, because a large movement in the dominant fund can materially shape the sector-level series.
 
 [Suggested Figure 5.2]
-Existing figure path: `6_cursor_model/figures/eda/E01_aum_trend.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/E01_aum_trend.png`
 Caption idea: "AUM trends of AKD, NBP, and NTI/NIT and their aggregate KSE-30 sector total."
 
 5.2.2 NAV Return Distributions
@@ -32,17 +32,17 @@ The daily NAV return distributions are wide, leptokurtic, and clearly non-normal
 Among the three, NBP is the most volatile by a large margin. This suggests that the underlying fund universe is heterogeneous even before aggregation. However, the final dissertation narrative remains focused on the combined KSE-30 sector-flow signal rather than on separate fund-specific forecasting claims. The distributional evidence is still useful because it justifies the use of robust descriptive interpretation and volatility modelling rather than assuming smooth Gaussian behaviour.
 
 [Suggested Figure 5.3]
-Existing figure path: `6_cursor_model/figures/eda/E02_nav_return_dist.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/E02_nav_return_dist.png`
 Caption idea: "Distribution of daily NAV returns for the KSE-30 related funds."
 
 5.2.3 Fund Flow Behavior
 
-The aggregate fund-flow series is visibly uneven and shock-driven rather than stable around a constant mean. Out of 59 monthly observations, 37 months record positive net flow and 22 months record negative net flow. The median monthly flow is positive at 1.8038 million PKR, but the mean monthly flow is slightly negative at -2.1598 million PKR. This gap between the mean and median is caused by one very large outflow episode.
+The aggregate fund-flow series is visibly uneven and shock-driven rather than stable around a constant mean. Out of 60 monthly observations, 38 months record positive net flow and 22 months record negative net flow. The median monthly flow is positive at 1.8125 million PKR, and the mean monthly flow is also positive at 13.6109 million PKR. This indicates that the sector flow process is skewed upward by a few strong inflow months, even though negative episodes remain economically meaningful.
 
-The most extreme negative month occurs on 31 May 2024, when aggregate flow reaches -846.1858 million PKR. The largest positive month occurs on 31 December 2025, when aggregate flow reaches 233.8581 million PKR. This asymmetry indicates that the series is not simply noisy around zero; rather, it contains occasional large downside shocks that dominate average behaviour. For the report, this point is important because it helps explain why RMSE remains high even when directional accuracy improves.
+The most extreme negative month in the cleaned final series occurs on 31 December 2024, when aggregate flow reaches -44.0068 million PKR. The largest positive month occurs on 31 December 2025, when aggregate flow reaches 234.8581 million PKR. A very sharp apparent collapse that previously appeared around May 2024 was traced to a source-data gap in which all three funds briefly reported zero AUM while NAV continued normally. The final pipeline now repairs that isolated internal zero-AUM month before plotting and modelling, so the current graph should be interpreted as a cleaned empirical series rather than a literal liquidation event.
 
 [Suggested Figure 5.4]
-Existing figure path: `6_cursor_model/figures/eda/E03_fund_flows.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/E03_fund_flows.png`
 Caption idea: "Aggregate monthly KSE-30 sector fund flows showing alternating inflow and outflow episodes."
 
 5.2.4 Correlation Analysis
@@ -52,12 +52,12 @@ The monthly correlation structure is weak overall, which suggests that simple co
 These low correlations do not imply that macroeconomic variables are irrelevant. Instead, they indicate that their usefulness is more likely to appear through lagged or system-based modelling rather than through strong same-period linear association. This observation is consistent with the methodological decision to use lagged ARIMAX and VAR structures in the forecasting stage instead of relying on static descriptive correlation alone.
 
 [Suggested Figure 5.5]
-Existing figure path: `6_cursor_model/figures/eda/E05_monthly_correlation.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/E05_monthly_correlation.png`
 Caption idea: "Monthly correlation matrix for KSE-30 flow, macroeconomic variables, and index measures."
 
 5.3 Fund-Flow Forecasting Results
 
-The forecasting task uses 35 months for training and 24 months for out-of-sample testing. This is a demanding setting because the sample is small, the flow series is shock-prone, and the predictors include both stationary and non-stationary macro series. The purpose of the forecasting block is therefore not to claim highly stable point prediction, but to test whether parsimonious time-series models can improve on the naive benchmark in economically meaningful ways.
+The forecasting task uses 35 months for training and 25 months for out-of-sample testing. This is a demanding setting because the sample is small, the flow series is shock-prone, and the predictors include both stationary and non-stationary macro series. The purpose of the forecasting block is therefore not to claim highly stable point prediction, but to test whether parsimonious time-series models can improve on the naive benchmark in economically meaningful ways.
 
 [Suggested Table 5.1]
 Title: "Aggregate KSE-30 Fund-Flow Forecasting Results"
@@ -67,33 +67,33 @@ Use values from: `6_cursor_model/results_fund_flow.csv`
 
 The simplified ADF-style stationarity results show that `total_fund_flow` is stationary with t = -7.669 and p = 0.0000. Oil return and USD/PKR return are also stationary, with t = -7.336 and p = 0.0000 for oil and t = -8.430 and p = 0.0000 for USD/PKR. By contrast, `interest_rate_end` and `cpi_yoy_end` are non-stationary in level form, with p-values of 0.2516 and 0.3329 respectively.
 
-The lag-1 Granger causality results are weak. Interest rate to flow gives F = 2.648 with p = 0.1094, CPI to flow gives F = 0.406 with p = 0.5265, oil to flow gives F = 0.180 with p = 0.6730, and USD/PKR to flow gives F = 0.012 with p = 0.9121. None of the lag-1 tests are significant at the 5 percent level. The interest-rate result is the closest to relevance, but it remains statistically weak.
+The lag-1 Granger causality results are weak. Interest rate to flow gives F = 0.109 with p = 0.7423, CPI to flow gives F = 3.574 with p = 0.0639, oil to flow gives F = 0.175 with p = 0.6776, and USD/PKR to flow gives F = 0.299 with p = 0.5866. None of the lag-1 tests are significant at the 5 percent level. CPI is the closest to relevance, but it still falls short of conventional significance.
 
 This means that the final monthly aggregate flow series does not display strong one-variable-at-a-time predictive precedence from the selected macro variables. The later gains in ARIMAX and VAR therefore come more from combined dynamic structure and lag use than from a single clearly dominant macro driver.
 
 [Suggested Figure 5.6]
-Existing figure path: `6_cursor_model/figures/fund_flow/FF02_granger.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/FF02_granger.png`
 Caption idea: "Lag-1 Granger causality p-values for macroeconomic variables against aggregate KSE-30 fund flow."
 
 5.3.2 ARIMAX Results
 
-The ARIMAX(1,0,1)-style model materially improves on the naive benchmark. In the final KSE-30 results file, the naive model records RMSE = 261.13, MAE = 118.48, R-squared = -1.0529, and directional accuracy of 26.1 percent. The ARIMAX model reduces RMSE to 190.59 and MAE to 78.09, while improving directional accuracy to 69.6 percent.
+The ARIMAX(1,0,1)-style model materially improves on the naive benchmark. In the final KSE-30 results file, the naive model records RMSE = 83.10, MAE = 51.54, R-squared = -1.4048, and directional accuracy of 37.5 percent. The ARIMAX model reduces RMSE to 58.56 and MAE to 37.35, while improving directional accuracy to 75.0 percent.
 
 Although the out-of-sample R-squared remains slightly negative at -0.0935, this should not be read as failure in the usual classroom sense. In a small-sample, shock-heavy financial series, the more meaningful comparison is relative performance against the naive benchmark and the ability to classify the sign of movement more reliably. On those criteria, ARIMAX performs much better than the random-walk baseline.
 
 The ARIMAX result therefore suggests that lagged flow structure plus macro controls contain useful predictive information, even if that information is not strong enough to produce large positive explanatory power in the traditional regression sense.
 
 [Suggested Figure 5.7]
-Existing figure path: `6_cursor_model/figures/fund_flow/FF01_total_flow_predictions.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/FF01_total_flow_predictions.png`
 Caption idea: "Actual versus predicted aggregate KSE-30 sector flow under ARIMAX and VAR."
 
 5.3.3 VAR Results
 
-The VAR(1) system is the strongest of the retained aggregate-flow models in the final KSE-30 workflow. It records RMSE = 184.70, MAE = 75.49, R-squared = -0.0270, and directional accuracy of 82.6 percent. Relative to ARIMAX, VAR delivers slightly lower forecast errors and a much higher directional hit rate.
+The VAR(1) system remains a useful retained aggregate-flow model in the final KSE-30 workflow, but it is no longer the strongest model after the cleaned rerun. It records RMSE = 63.10, MAE = 39.41, R-squared = -0.3867, and directional accuracy of 75.0 percent. Relative to ARIMAX, VAR now delivers slightly weaker forecast errors and the same directional hit rate.
 
 This result is economically intuitive because VAR allows the flow variable, interest rate, and CPI to evolve jointly rather than treating macroeconomic variables only as one-way external regressors. In other words, the model better reflects the possibility that flow conditions and macro conditions co-move as part of a small system.
 
-Even here, the out-of-sample R-squared is still slightly negative, so the model should not be oversold as a high-precision predictor of monthly PKR magnitudes. However, as a directional and comparative forecasting tool, VAR is the most defensible final model within the adopted KSE-30 aggregate flow framework.
+Even here, the out-of-sample R-squared is still negative, so the model should not be oversold as a high-precision predictor of monthly PKR magnitudes. However, as a system-based comparative model, VAR still supports the broader conclusion that structured dynamics matter. After the repaired data run, ARIMAX is the preferred final model on forecast error, while VAR remains a useful robustness benchmark.
 
 5.3.4 Comparison with Machine Learning Models
 
@@ -118,7 +118,7 @@ The estimated GARCH(1,1) model gives omega = 0.074916, alpha = 0.1284, beta = 0.
 This finding is consistent with what is typically observed in emerging and frontier equity markets, where periods of turbulence can remain elevated for extended stretches rather than disappearing quickly. For the KSE-30, the GARCH result therefore suggests that volatility clustering is a real feature of the market and not just a visual impression from the return plot.
 
 [Suggested Figure 5.8]
-Existing figure path: `6_cursor_model/figures/garch/G01_returns_and_vol.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/G01_returns_and_vol.png`
 Caption idea: "KSE-30 daily returns and model-implied conditional volatility."
 
 5.4.2 EGARCH(1,1) Results
@@ -136,7 +136,7 @@ The Value-at-Risk backtest is based on the best-performing volatility model, whi
 This does not prove that the model is perfect, but it does indicate that the conditional volatility estimates are broadly reasonable in risk-calibration terms. In the report, this subsection should therefore emphasize that the volatility model is not useful only for descriptive persistence analysis; it also produces a plausible downside risk envelope for KSE-30 returns.
 
 [Suggested Figure 5.9]
-Existing figure path: `6_cursor_model/figures/garch/G02_var_backtest.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/G02_var_backtest.png`
 Caption idea: "5 percent VaR backtesting for the preferred KSE-30 volatility model."
 
 5.5 Market Efficiency Results
@@ -160,7 +160,7 @@ The variance ratio results are more supportive of weak-form efficiency. The fina
 The pipeline also reports a sub-period comparison in which VR(2) equals 1.0974 in the high-rate period from April 2022 to December 2023 and 0.9803 in the lower-rate period. Even with this difference, the broader conclusion remains that the variance-ratio evidence alone does not strongly reject efficiency.
 
 [Suggested Figure 5.10]
-Existing figure path: `6_cursor_model/figures/efficiency/EF02_variance_ratio.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/EF02_variance_ratio.png`
 Caption idea: "Variance-ratio evidence for the KSE-30 across alternative lag horizons."
 
 5.5.3 Ljung-Box Test
@@ -176,12 +176,11 @@ The Hurst exponent for the full KSE-30 daily series is 0.6559, and the pipeline 
 The pipeline's sub-period comparison also shows Hurst values above 0.64 in both the high-rate and low-rate segments, which suggests that persistence is not limited to one short episode. The Hurst result therefore reinforces the view that KSE-30 returns are not fully memoryless over the study period.
 
 [Suggested Figure 5.11]
-Existing figure path: `6_cursor_model/figures/efficiency/EF01_acf.png`
+Existing figure path: `report_workspace/chapter-05-results-and-analysis/images/EF01_acf.png`
 Caption idea: "Autocorrelation structure of reconstructed KSE-30 returns."
 
 5.6 Summary of Empirical Findings
 
-The final empirical results can be summarized in five main points. First, the KSE-30 related fund universe is concentrated, with AKD dominating aggregate AUM and with flow behaviour shaped by occasional large negative shocks. Second, aggregate monthly KSE-30 fund flow is forecastable to some extent in directional terms, with ARIMAX and especially VAR improving materially on the naive benchmark even though out-of-sample R-squared remains slightly negative. Third, the KSE-30 exhibits strong volatility persistence, and EGARCH provides the better specification because it captures asymmetric downside effects.
+The final empirical results can be summarized in five main points. First, the KSE-30 related fund universe is concentrated, with AKD dominating aggregate AUM and with flow behaviour shaped by episodic inflow and outflow shocks. Second, aggregate monthly KSE-30 fund flow is forecastable to some extent in directional terms, with ARIMAX and VAR both improving materially on the naive benchmark even though out-of-sample R-squared remains negative. Third, the KSE-30 exhibits strong volatility persistence, and EGARCH provides the better specification because it captures asymmetric downside effects.
 
 Fourth, the market-efficiency evidence is mixed. The runs and variance-ratio tests do not strongly reject efficiency, but the Ljung-Box and Hurst results indicate persistence and serial dependence. The most defensible interpretation is therefore that the KSE-30 is not perfectly weak-form efficient over the study period. Fifth, the combination of moderate flow predictability, persistent volatility, and mixed efficiency evidence supports the practical extension developed in the next chapter: portfolio tilt and rebalancing application.
-

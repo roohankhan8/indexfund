@@ -22,8 +22,7 @@ In `5_claude_pipeline/`, these modules were merged into a single `pipeline.py` f
 In `6_cursor_model/`, the consolidated logic was refined into a more focused KSE-30 pipeline. This final variant reads the prepared data from folder 5 and treats AKD, NBP, and NTI as one aggregate KSE-30 sector flow series. It also shifts the volatility and efficiency emphasis toward a reconstructed KSE-30 index rather than relying mainly on fund-return proxies. For the dissertation, this folder should be treated as the final methodological focus.
 
 [Suggested Figure 3.1]
-Create a workflow diagram:
-`4_claude_model` -> `5_claude_pipeline` -> `6_cursor_model`
+Generated figure path: `report_workspace/chapter-03-methodology/images/C3_01_methodological_progression.png`
 Caption idea: "Final methodological progression adopted for the study."
 
 3.3 Data Sources and Analytical Scope
@@ -52,8 +51,8 @@ For fund data, separate sheets for AKD, NBP, and NTI are loaded and sorted chron
 In `5_claude_pipeline/`, these cleaned sources are merged into `daily_master.csv`, `monthly_master.csv`, and `kse30_stocks_clean.csv`. In `6_cursor_model/`, the cleaned outputs from folder 5 are consumed as the upstream source for the final KSE-30 specific analytics. This upstream-downstream structure should be stated clearly in the report.
 
 [Suggested Figure 3.2]
-Create a custom data-flow diagram:
-KSE-30 stock data + AKD/NBP/NTI fund data + macro data + CPI -> preprocessing in `5_claude_pipeline` -> `daily_master.csv`, `monthly_master.csv`, `kse30_stocks_clean.csv` -> KSE-30 focused analytics in `6_cursor_model`.
+Generated figure path: `report_workspace/chapter-03-methodology/images/C3_02_final_data_flow.png`
+Caption idea: "Final data pipeline from raw KSE-30, fund, macro, and CPI inputs to the final KSE-30 analytics."
 
 3.5 Variable Construction
 
@@ -90,8 +89,7 @@ In methodological terms, this stage serves three purposes. First, it checks whet
 For the dissertation, the figures used in this part should preferably come from `6_cursor_model/` because those outputs are already aligned with the KSE-30 specific framing of the final study.
 
 [Suggested Figure 3.3]
-Create a variable-family diagram with four blocks:
-target flow variable, macroeconomic drivers, KSE-30 market variables, and rebalancing features.
+Generated figure path: `report_workspace/chapter-03-methodology/images/C3_03_variable_families.png`
 Caption idea: "Main variable families used in the final KSE-30 methodology."
 
 3.8 Fund-Flow Forecasting Methodology

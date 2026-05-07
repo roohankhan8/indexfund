@@ -15,6 +15,8 @@ This file summarizes the current report-writing direction, the canonical pipelin
 - Chapter drafts should now be edited from `report_workspace/`, not from `0-docs/reports/`.
 - Do not reuse the same graph in multiple report chapters.
 - Prefer chapter-specific visuals inside each chapter's `images/` folder.
+- The final pipelines now repair an isolated raw-data gap in May 2024 where all three fund sheets briefly recorded zero AUM while NAV continued normally.
+- Use `report_workspace/graph_explanations/` for chapter-wise explanations of every figure used in the report.
 
 ## Files created or updated in this session
 
@@ -33,12 +35,12 @@ This file summarizes the current report-writing direction, the canonical pipelin
   - Table of contents tailored to this project using `FYDP.pdf` as structure reference.
   - Contains placeholder page numbers.
 
-- `0-docs/reports/chapter-05-results-and-analysis.txt`
+- `report_workspace/chapter-05-results-and-analysis/chapter-05-results-and-analysis.txt`
   - Drafted Chapter 5 using the exact TOC headings from `5.1` to `5.6`.
   - Based mainly on `6_cursor_model/` results, with limited upstream support where descriptive context was needed.
   - Includes actual KSE-30 forecasting, GARCH/EGARCH, VaR, efficiency, and EDA findings.
 
-- `0-docs/reports/chapter-06-portfolio-tilt-and-rebalancing-application.txt`
+- `report_workspace/chapter-06-portfolio-tilt-and-rebalancing-application/chapter-06-portfolio-tilt-and-rebalancing-application.txt`
   - Drafted Chapter 6 using the exact TOC headings from `6.1` to `6.9`.
   - Based on `6_cursor_model/results_rebalancing.csv` and `results_rebalancing_forecast.csv`.
   - Includes the final forward rebalancing interpretation for KSE-30 constituents.
@@ -56,8 +58,12 @@ This file summarizes the current report-writing direction, the canonical pipelin
   - Contains chapter folders, chapter-specific image folders, the moved TOC, and a copied `session.md`.
 
 - `report_workspace/generate_additional_report_graphs.py`
-  - New report-specific graph generator.
-  - Reads final pipeline outputs from `6_cursor_model/` and creates fresh non-repeated figures for Chapters 4, 7, and 8.
+  - Report-specific asset generator.
+  - Reads final pipeline outputs from `6_cursor_model/`, syncs copied chapter figures, creates custom diagrams for Chapters 3 and 6, creates fresh non-repeated figures for Chapters 4, 7, and 8, and writes graph explanation notes.
+
+- `report_workspace/graph_explanations/`
+  - Contains chapter-wise explanation files for every figure currently used in the report.
+  - Useful for captions, viva prep, and consistent interpretation.
 
 ## Current Chapter 3 stance
 
@@ -122,6 +128,7 @@ The final Chapter 3 should say:
 - `report_workspace/table-of-contents.txt`
 - `report_workspace/session.md`
 - `report_workspace/generate_additional_report_graphs.py`
+- `report_workspace/graph_explanations/README.md`
 
 ### Reference PDFs
 

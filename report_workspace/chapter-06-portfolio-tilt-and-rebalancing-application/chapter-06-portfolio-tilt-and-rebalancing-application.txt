@@ -29,8 +29,8 @@ The framework defines two separate tasks:
 This two-part structure is useful because rebalancing is not only about entry and exit. Even when a stock remains in the index, the size of its weight can still change in a way that matters for index-tracking portfolios.
 
 [Suggested Figure 6.1]
-Create a simple custom diagram:
-Historical KSE-30 constituent panel -> detect rebalancing dates -> build pre-event feature window -> predict next inclusion and next weight.
+Generated figure path: `report_workspace/chapter-06-portfolio-tilt-and-rebalancing-application/images/C6_01_rebalancing_framework.png`
+Caption idea: "Workflow used to convert historical KSE-30 constituent data into next-period weight and retention forecasts."
 
 6.4 Feature Construction for Rebalancing Prediction
 
@@ -41,42 +41,42 @@ The statistical comparison between retained and dropped names shows that several
 By contrast, short-horizon momentum variables are not strongly significant in the retained-versus-dropped comparison. This suggests that index continuity in the KSE-30 is driven more by size and stability characteristics than by short-run performance alone.
 
 [Suggested Figure 6.2]
-Existing figure path: `6_cursor_model/figures/rebalancing/R02_feature_importances.png`
+Existing figure path: `report_workspace/chapter-06-portfolio-tilt-and-rebalancing-application/images/R02_feature_importances.png`
 Caption idea: "Relative importance of features used in KSE-30 rebalancing prediction."
 
 6.5 Weight Prediction Models
 
-The final pipeline compares three approaches for next-period weight prediction: a naive persistence benchmark, Ridge regression, and Random Forest regression. The naive model records RMSE = 0.5595, MAE = 0.2541, and R-squared = 0.9677. Ridge regression is almost identical in RMSE terms, with RMSE = 0.5590, MAE = 0.2963, and R-squared = 0.9678. Random Forest performs worse, with RMSE = 0.6836, MAE = 0.3571, and R-squared = 0.9518.
+The final pipeline compares three approaches for next-period weight prediction: a naive persistence benchmark, Ridge regression, and Random Forest regression. The naive model records RMSE = 0.5595, MAE = 0.2541, and R-squared = 0.9677. Ridge regression is almost identical in RMSE terms, with RMSE = 0.5590, MAE = 0.2963, and R-squared = 0.9678. Random Forest performs worse, with RMSE = 0.6900, MAE = 0.3553, and R-squared = 0.9509.
 
 The interpretation of these results is important. The very strong naive benchmark already tells us that constituent weights are highly persistent across adjacent rebalancing windows. This is not a weakness of the exercise; it is itself a realistic feature of index composition. Ridge regression offers a very small improvement in RMSE and R-squared, which suggests that the added predictors capture some incremental information beyond simple carry-forward persistence. However, the gain is modest.
 
 Random Forest does not improve on the linear benchmark in the final KSE-30 setup. This implies that, for this relatively small panel and fairly structured target, a simpler linear model is at least as reliable as a more flexible nonlinear model. The report should therefore describe Ridge as the preferred weight model, but also note that weight persistence is so strong that the naive baseline remains difficult to beat by a large margin.
 
 [Suggested Figure 6.3]
-Existing figure path: `6_cursor_model/figures/rebalancing/R03_weight_scatter.png`
+Existing figure path: `report_workspace/chapter-06-portfolio-tilt-and-rebalancing-application/images/R03_weight_scatter.png`
 Caption idea: "Observed versus predicted KSE-30 constituent weights in the test sample."
 
 6.6 Inclusion and Retention Prediction Models
 
 For inclusion and retention, the final pipeline compares a naive "all retained" classifier, Logistic Regression, and Random Forest classification. All three models record the same test accuracy of 0.9655. At first glance, this seems to suggest no meaningful difference between them. However, accuracy is misleading here because the panel is highly imbalanced and the retention rate is already 91.9 percent.
 
-The more informative metric is AUC. Logistic Regression achieves AUC = 0.8214, while Random Forest falls to 0.5536. The naive benchmark has no meaningful discriminatory AUC because it predicts retention for everyone. This means Logistic Regression is the most useful model in ranking stocks by retention probability, even though its raw accuracy is numerically identical to the naive benchmark.
+The more informative metric is AUC. Logistic Regression achieves AUC = 0.8214, while Random Forest falls to 0.5446. The naive benchmark has no meaningful discriminatory AUC because it predicts retention for everyone. This means Logistic Regression is the most useful model in ranking stocks by retention probability, even though its raw accuracy is numerically identical to the naive benchmark.
 
 The confusion-style counts printed by the pipeline also show why caution is necessary. In the test set, the models correctly classify most retained names, but there is little evidence of strong separation on true exclusion cases. Therefore, the correct interpretation is not that the classifier perfectly predicts removals. The stronger claim is narrower: Logistic Regression provides a more informative probability ranking than the naive rule, and that ranking can still be useful for portfolio tilting.
 
 [Suggested Figure 6.4]
-Existing figure path: `6_cursor_model/figures/rebalancing/R01_retention_probability.png`
+Existing figure path: `report_workspace/chapter-06-portfolio-tilt-and-rebalancing-application/images/R01_retention_probability.png`
 Caption idea: "Predicted retention probabilities for KSE-30 constituents under the preferred classification model."
 
 6.7 Forward Rebalancing Forecast
 
 The final pipeline generates a forward-looking forecast for the next rebalancing window, approximately 16 September 2026. The forecast combines the average predicted weight from the Ridge and Random Forest models with the average retention probability from the Logistic and Random Forest classifiers. This produces a practical ranking of expected core names, likely weight gainers, and higher-risk constituents.
 
-The largest predicted weights remain concentrated in established benchmark names. The top forecasted weights are FFC at 12.2882, UBL at 10.6433, ENGROH at 7.7657, MEBL at 5.7052, HUBC at 5.5203, and OGDC at 5.2422. This indicates that the model largely preserves the structure of the index and does not imply unrealistic turnover among dominant stocks.
+The largest predicted weights remain concentrated in established benchmark names. The top forecasted weights are FFC at 12.0857, UBL at 10.6149, ENGROH at 7.8589, MEBL at 5.7242, HUBC at 5.5357, and OGDC at 5.3005. This indicates that the model largely preserves the structure of the index and does not imply unrealistic turnover among dominant stocks.
 
-At the same time, the forecast identifies a smaller set of names with elevated exclusion risk. The highest exclusion-risk stocks are SSGC at 51.81 percent, GHNI at 40.56 percent, GAL at 39.66 percent, PAEL at 34.00 percent, and BOP at 32.16 percent. These names should be interpreted as the most vulnerable positions in the next index review, not as certain removals.
+At the same time, the forecast identifies a smaller set of names with elevated exclusion risk. The highest exclusion-risk stocks are SSGC at 52.89 percent, GAL at 39.59 percent, GHNI at 39.50 percent, PAEL at 33.78 percent, and BOP at 33.17 percent. These names should be interpreted as the most vulnerable positions in the next index review, not as certain removals.
 
-The predicted weight changes are also informative. UBL shows the largest positive predicted change, rising by approximately 0.49 percentage points. POL and NBP also show moderate expected increases. On the downside, FFC is still forecast as the largest constituent but with an expected reduction of roughly 0.99 percentage points, while MEBL, HUBC, HBL, and ENGROH also show moderate expected declines.
+The predicted weight changes are also informative. UBL shows the largest positive predicted change, rising by approximately 0.46 percentage points. POL and NBP also show moderate expected increases. On the downside, FFC is still forecast as the largest constituent but with an expected reduction of roughly 1.19 percentage points, while MEBL, HUBC, HBL, and several low-weight vulnerable names also show meaningful expected declines.
 
 One technical caution should be stated in the report. A few low-weight names, such as SSGC and GAL, receive negative averaged regression weights in the raw forecast file. These should not be interpreted literally as feasible negative portfolio weights. They should instead be read as a signal of near-zero target weight and strong exclusion pressure in the next rebalance.
 
@@ -87,7 +87,7 @@ Suggested columns:
 Symbol | Current weight | Predicted average weight | Average retention probability | Exclusion risk
 
 [Suggested Figure 6.5]
-Existing figure path: `6_cursor_model/figures/rebalancing/R04_weight_changes.png`
+Existing figure path: `report_workspace/chapter-06-portfolio-tilt-and-rebalancing-application/images/R04_weight_changes.png`
 Caption idea: "Distribution of predicted KSE-30 weight changes and associated model error structure."
 
 6.8 Practical Interpretation for Investors
@@ -105,4 +105,3 @@ This kind of signal can support gradual portfolio tilt ahead of the formal KSE-3
 This chapter translated the earlier empirical findings into a practical KSE-30 rebalancing application. Using a panel of 422 stock-window observations across 16 rebalancing periods, the final pipeline predicted both next-period constituent weights and retention probabilities. Ridge regression emerged as the preferred weight model, though it only modestly improved on the already strong naive persistence benchmark. Logistic Regression emerged as the preferred inclusion model because its AUC exceeded both the naive rule and the Random Forest classifier.
 
 The forward forecast indicates that the KSE-30 is likely to remain concentrated in established large-cap names, while a smaller group of low-weight stocks faces elevated exclusion risk. Overall, the rebalancing block shows that the project's earlier flow, volatility, and efficiency insights can be converted into a realistic index-tilt framework, even if the final output should be treated as a probabilistic aid to portfolio positioning rather than as an exact official index simulator.
-
