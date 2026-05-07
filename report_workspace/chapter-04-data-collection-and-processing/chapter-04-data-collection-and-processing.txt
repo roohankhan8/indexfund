@@ -1,0 +1,130 @@
+CHAPTER 04
+DATA COLLECTION AND PROCESSING
+
+4.1 Introduction
+
+This chapter explains how the data used in the study were collected, cleaned, aligned, and transformed into analysis-ready datasets. While Chapter 3 described the overall methodology, the present chapter focuses specifically on the practical data pipeline that produced the final KSE-30 analytical tables used in the report.
+
+The final data workflow is based mainly on `5_claude_pipeline/` and `6_cursor_model/`, with supporting logic inherited from `4_claude_model/`. In this workflow, folder 5 acts as the main preprocessing and consolidation layer, while folder 6 consumes the cleaned outputs and converts them into a KSE-30 focused dataset for volatility analysis, fund-flow modelling, market-efficiency testing, and rebalancing prediction.
+
+The chapter is organized around the exact stages reflected in the final scripts: source identification, cleaning, missing-value handling, calendar alignment, construction of daily and monthly master datasets, and computation of aggregate fund-flow variables.
+
+4.2 Data Sources
+
+The final study uses four principal data sources: KSE-30 constituent-level stock data, mutual fund NAV and AUM data, macroeconomic variables, and CPI data. These inputs were stored locally inside the project and were accessed by the final pipelines through relative paths, which improved portability and reproducibility.
+
+For the final report, the data chapter should be described using the files actually used by the consolidated and KSE-30 focused pipelines rather than older exploratory notebooks. The main inputs are located in `5_claude_pipeline/` and are then consumed by `6_cursor_model/`.
+
+4.2.1 KSE-30 Constituent Data
+
+The KSE-30 stock data are the core market-side input of the project. They contain daily observations for index constituents, including stock symbol, company name, price, index weight, free-float based shares, market capitalization, and trading volume. These data were originally extracted and cleaned through the earlier engineering workflow, but the final reporting version uses the consolidated file `5_claude_pipeline/kse30_daily_data.csv`.
+
+This stock file contains 46,680 raw rows and spans from 1 January 2020 to 30 April 2026. It provides the foundation for the reconstructed KSE-30 index series, stock-level return measures, volatility proxies, and rebalancing features used later in the analysis. It is also the basis for generating the cleaned stock output used in the final KSE-30 pipeline.
+
+In the final scripts, the stock dataset is not used merely as a descriptive table. It is converted into log returns, rolling volatility measures, moving averages, free-float market-cap aggregates, and time-varying weight information. This makes it the most important source for the market side of the dissertation.
+
+4.2.2 Mutual Fund NAV and AUM Data
+
+The fund-side data are stored in `funds_data.xlsx`, which contains separate sheets for AKD, NBP, and NTI. Each sheet includes chronological observations of NAV and AUM. These two variables are essential because the study does not use subscriptions and redemptions directly; instead, it derives net fund flow from changes in AUM after adjusting for NAV performance.
+
+The fund workbook is used in both `5_claude_pipeline/` and `6_cursor_model/`. In folder 5, the three fund series are processed individually and then combined into an aggregate `total_fund_flow` series. In folder 6, the same aggregate is treated explicitly as the KSE-30 sector flow, which becomes the final target variable for the KSE-30 specific analysis.
+
+The use of AKD, NBP, and NTI together is methodologically important. The dissertation is not framed as a single-fund case study. Instead, it treats these funds collectively as a KSE-30 related fund universe and studies their combined behaviour.
+
+4.2.3 Macroeconomic Variables
+
+Macroeconomic data are stored in `macro_data.xlsx`, with separate sheets for oil prices, interest rates, and USD/PKR exchange rates. These variables were selected because they capture broad market conditions that may influence investor allocations, market sentiment, and index behaviour.
+
+Oil prices were used to represent external commodity and global market pressure. Interest rate data were used because monetary policy affects discount rates, asset valuations, and portfolio allocation preferences. USD/PKR was included because exchange-rate instability can influence investor sentiment and capital-market conditions in Pakistan.
+
+These macro variables are not all available in identical time frequencies or publication styles. Therefore, a substantial part of the processing workflow is devoted to converting them into a consistent time framework suitable for financial modelling.
+
+4.2.4 CPI Data
+
+Inflation data are stored separately in `cpi.csv`. CPI was used as a monthly measure of domestic price pressure and macroeconomic conditions. In the final pipeline, CPI is not handled as a daily series in its raw form. Instead, it is parsed from period labels and converted into an end-of-month timestamp format so that it can be merged with the monthly master dataset.
+
+The inclusion of CPI strengthens the macroeconomic side of the study because it adds a domestic inflation indicator alongside market-based and policy-based variables such as oil prices, exchange rates, and interest rates.
+
+4.3 Data Cleaning Procedures
+
+The final data-cleaning logic is implemented mainly in `5_claude_pipeline/pipeline.py` and then reused by `6_cursor_model/pipeline.py`. The first step is column standardization. Variables such as `Date`, `SYMBOL`, `COMPANY`, `PRICE`, `IDX WT %`, and other market fields are renamed into a more consistent lowercase structure. This reduces ambiguity and makes later processing easier.
+
+The stock data also required special handling for volume columns because different source periods used either `Volume` or `VOLUME`. The final pipeline merges these into one unified `volume` field. Company names are normalized using a canonical symbol-to-company mapping so that later merges and comparisons are not distorted by naming inconsistencies.
+
+Numeric cleaning is then applied to share and market-cap fields. Some rows contain dash symbols or placeholder values instead of numbers, especially around abnormal trading periods. These are coerced into numeric form, with invalid values turned into missing values so they can be handled systematically instead of silently contaminating the dataset.
+
+For fund data, the sheets are renamed into a consistent `date`, `nav`, and `aum` structure and are sorted chronologically. Macro and CPI files are also standardized so that date parsing and merging can be performed consistently across the entire workflow.
+
+4.4 Handling Missing Values and Trading Halt Observations
+
+Missing-value handling in the final pipeline is guided by the nature of each series. For the stock data, the most important anomaly is the October 2021 PSX trading halt period. The final scripts identify these rows through a combination of missing free-float share values and zero index weights, then remove them from the dataset. This prevents false zero-information observations from biasing index construction or rebalancing features.
+
+Remaining stale rows with zero weight and zero price are also filtered out. This step is important because such rows do not represent active market information and can distort return calculations and weight statistics.
+
+For macroeconomic data, the handling approach is different. Since variables such as interest rates and CPI do not change every trading day, missing intermediate dates are not treated as true missing information. Instead, they are filled through calendar alignment and forward filling so that the latest valid macro observation remains available until a new official value is observed.
+
+For fund and monthly data, missing values at the start of a derived series are treated according to their economic meaning. For example, the first flow observation cannot be computed without a prior AUM value, so the first month is naturally dropped from the flow dataset rather than filled artificially.
+
+4.5 Time Alignment and Frequency Conversion
+
+One of the most important processing tasks in the study is time alignment. The original inputs do not all share the same observation frequency. The stock data are daily, fund NAV and AUM data are daily but used for monthly flow computation, some macroeconomic variables are irregular or daily, and CPI is monthly. The final scripts therefore convert all relevant sources into a common structure before modelling begins.
+
+In `5_claude_pipeline/`, the trading calendar is taken from the cleaned KSE-30 stock data. Macroeconomic series are first reindexed to a complete daily calendar and then forward-filled and backfilled where necessary before being aligned to actual trading days. This allows oil, interest rate, USD/PKR, and CPI information to be joined to the market data without losing rows from the trading calendar.
+
+The daily master dataset is then converted into a monthly structure by grouping observations by calendar month and taking economically relevant summaries such as end-of-month values, summed monthly returns, or last available monthly levels. This step creates the common monthly table used for fund-flow forecasting.
+
+In `6_cursor_model/`, the same aligned logic is retained, but the exported monthly dataset is narrowed to the variables most relevant for the final KSE-30 specific modelling tasks.
+
+4.6 Construction of Daily and Monthly Master Datasets
+
+The main data-processing outputs are the master datasets. In folder 5, the preprocessing pipeline generates `daily_master.csv`, `monthly_master.csv`, and `kse30_stocks_clean.csv`. These files form the structured foundation of the later analytical stages.
+
+The daily master dataset combines KSE-30 index-level aggregates and aligned macroeconomic variables on the trading calendar. In the final KSE-30 focused folder, `6_cursor_model/daily_master.csv` contains 1,300 daily observations spanning from 4 January 2021 to 30 April 2026. Its columns include index trading volume, number of stocks, free-float market capitalization, reconstructed index log return, rolling index volatility, oil price, oil log return, USD/PKR, USD/PKR log return, interest rate, and CPI.
+
+The monthly master dataset contains month-level aggregates derived from the aligned daily and fund data. In `6_cursor_model/monthly_master.csv`, the final exported table contains 59 observations spanning from 26 February 2021 to 30 January 2026. Its variables include end-of-month oil price, monthly oil return, end-of-month USD/PKR, monthly USD/PKR return, end-of-month interest rate, end-of-month CPI, monthly KSE-30 return, monthly KSE-30 volatility, aggregate sector AUM, aggregate fund flow, normalized sector flow, and a sector flow spike indicator.
+
+The cleaned stock file, `kse30_stocks_clean.csv`, preserves the stock-level panel needed for rebalancing and weight prediction. Together, these files ensure that the analysis does not depend on repeatedly rebuilding raw data from scratch.
+
+[Suggested Figure 4.1]
+Create a small table or diagram listing:
+`kse30_daily_data.csv` -> `kse30_stocks_clean.csv`
+raw macro and fund files -> `daily_master.csv`
+daily + monthly aggregation -> `monthly_master.csv`
+
+4.7 Fund Flow Computation
+
+The key transformation in this chapter is the construction of fund flow. The study uses the following identity:
+
+flow_t = AUM_t - AUM_(t-1) * (NAV_t / NAV_(t-1))
+
+This formula adjusts the change in AUM for the valuation effect caused by NAV movement. If AUM rises only because the fund's underlying assets appreciated, that is not counted as investor inflow. Similarly, if AUM falls only because of poor performance, that is not counted as investor outflow. The resulting variable is therefore a cleaner estimate of actual capital movement.
+
+In the final scripts, the computation is performed separately for AKD, NBP, and NTI after the data are grouped into monthly observations. Monthly NAV return is calculated using start-of-month and end-of-month NAV, while AUM is taken at the month end. After individual fund flows are derived, they are summed to create the aggregate KSE-30 sector flow.
+
+In `6_cursor_model/`, the aggregate flow is further normalized by lagged sector AUM to create `flow_pct_sector`. A binary-style spike indicator, `flow_spike_sector`, is also created to mark unusually large flow months. This allows the final dataset to support both level-based and normalized interpretations of capital movement.
+
+4.8 Summary Statistics of the Final Dataset
+
+The final dataset used for KSE-30 analysis can be summarized at three levels. First, the raw KSE-30 stock source file contains 46,680 observations from 1 January 2020 to 30 April 2026. This is the broadest local market dataset used in the project.
+
+Second, the aligned daily master dataset in `6_cursor_model/` contains 1,300 observations from 4 January 2021 to 30 April 2026. This reflects the effective overlap period after aligning market and macroeconomic information to the common trading calendar.
+
+Third, the final monthly master dataset contains 59 observations from 26 February 2021 to 30 January 2026. This is the effective monthly sample used for aggregate KSE-30 fund-flow modelling. The monthly sample is smaller because it requires both sufficient overlap across sources and a valid previous-period AUM observation for flow computation.
+
+These dataset dimensions are important for interpretation. They show that the study is based on a meaningful but still limited effective monthly sample, which justifies the careful modelling strategy adopted in later chapters.
+
+[Suggested Table 4.1]
+Title: "Summary of Final Datasets Used in the Study"
+Suggested columns:
+Dataset name | Frequency | Start date | End date | Number of observations | Main purpose
+
+Recommended rows:
+`kse30_daily_data.csv`
+`6_cursor_model/daily_master.csv`
+`6_cursor_model/monthly_master.csv`
+
+4.9 Chapter Summary
+
+This chapter described the collection and processing of the data used in the study. The final workflow relies on KSE-30 constituent-level stock data, mutual fund NAV and AUM data for AKD, NBP, and NTI, macroeconomic variables, and CPI. These inputs were standardized, cleaned, aligned to a common calendar, and transformed into daily and monthly master datasets through the preprocessing logic implemented mainly in `5_claude_pipeline/` and finalized for KSE-30 analysis in `6_cursor_model/`.
+
+The chapter also explained the treatment of missing values, removal of trading-halt observations, frequency conversion of macro variables, and the construction of the aggregate fund-flow variable. The resulting processed datasets provide the analytical foundation for the forecasting, volatility, efficiency, and rebalancing results presented in the following chapters.

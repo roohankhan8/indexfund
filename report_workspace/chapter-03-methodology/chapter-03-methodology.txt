@@ -1,0 +1,162 @@
+CHAPTER 03
+METHODOLOGY
+
+This chapter explains the final methodology adopted for this study. The report should not use the older exploratory branches in `2_midyear_model/` and `3_final_model/` as part of the final methodological narrative. Instead, the adopted workflow is based on the merged logic of `4_claude_model/`, `5_claude_pipeline/`, and `6_cursor_model/`, with the strongest emphasis on `6_cursor_model/` because it is the most KSE-30 specific implementation in the repository.
+
+The methodology was finalized in three connected stages. Folder 4 organized the project into modular research scripts. Folder 5 consolidated those modules into a single end-to-end pipeline. Folder 6 then refined the same framework into a final KSE-30 centered pipeline that studies aggregate KSE-30 fund flows, KSE-30 volatility, KSE-30 market efficiency, and KSE-30 rebalancing behaviour.
+
+3.1 Research Design
+
+This study follows a quantitative financial research design based on time-series modelling, statistical testing, and predictive analytics. The purpose of the study is to investigate whether aggregate flows into KSE-30 related mutual funds can be explained or forecast using lagged market and macroeconomic variables, and whether those signals can be translated into a practical index rebalancing or portfolio-tilt application.
+
+The final methodology integrates five analytical layers. First, raw stock, fund, and macroeconomic data are cleaned and aligned. Second, explanatory and target variables are constructed from the cleaned series. Third, fund-flow forecasting models are estimated and compared. Fourth, volatility and market-efficiency tests are applied at the KSE-30 level. Fifth, the extracted information is extended into a rebalancing prediction framework for KSE-30 constituents.
+
+The methodological choice is therefore not limited to pure forecasting. It is a combined framework that links investor flows, market dynamics, and practical index-level decisions.
+
+3.2 Methodological Progression Across Project Folders
+
+The adopted methodology developed progressively across folders 4, 5, and 6 of the repository. In `4_claude_model/`, the project was separated into modular scripts such as preprocessing, fund-flow prediction, GARCH volatility modelling, market-efficiency testing, and rebalancing prediction. This modular arrangement clarified the role of each analytical block and made the workflow easier to inspect and validate.
+
+In `5_claude_pipeline/`, these modules were merged into a single `pipeline.py` file. This created an end-to-end workflow that loads the required files, builds daily and monthly master datasets, generates exploratory visuals, estimates flow models, evaluates volatility and efficiency, and produces rebalancing outputs in one run.
+
+In `6_cursor_model/`, the consolidated logic was refined into a more focused KSE-30 pipeline. This final variant reads the prepared data from folder 5 and treats AKD, NBP, and NTI as one aggregate KSE-30 sector flow series. It also shifts the volatility and efficiency emphasis toward a reconstructed KSE-30 index rather than relying mainly on fund-return proxies. For the dissertation, this folder should be treated as the final methodological focus.
+
+[Suggested Figure 3.1]
+Create a workflow diagram:
+`4_claude_model` -> `5_claude_pipeline` -> `6_cursor_model`
+Caption idea: "Final methodological progression adopted for the study."
+
+3.3 Data Sources and Analytical Scope
+
+The final methodology uses four major data sources. The first is daily KSE-30 constituent data containing stock prices, index weights, shares, market capitalization, and volume. The second is mutual fund data for AKD, NBP, and NTI, including NAV and AUM series. The third is macroeconomic data comprising oil prices, interest rates, and USD/PKR exchange rates. The fourth is CPI data used as a monthly inflation measure.
+
+The analytical scope is intentionally narrow and focused. The final report is not centered on the KSE-100 or on the general mutual fund sector of Pakistan. It focuses on KSE-30 related mutual fund flows and the KSE-30 market environment. Accordingly, the final pipeline in `6_cursor_model/` combines fund-side and market-side information in one framework.
+
+The main variables ultimately analyzed in the final workflow are:
+
+1. Aggregate KSE-30 sector fund flow.
+2. Reconstructed KSE-30 index return and volatility.
+3. Macroeconomic drivers such as oil, interest rate, CPI, and USD/PKR.
+4. Rebalancing-related stock characteristics such as weight, momentum, volatility, and liquidity.
+
+This scope makes the methodology coherent with the topic of the dissertation and avoids the inconsistency of mixing multiple market universes.
+
+3.4 Data Extraction and Preprocessing
+
+The final methodology inherits its preprocessing logic from folders 4 and 5 and applies it in finalized form through folder 6. The KSE-30 stock data are cleaned by standardizing column names, converting date columns, coercing numeric fields, merging duplicate volume columns where needed, and sorting the observations by symbol and date. Rows that correspond to invalid or stale entries are removed. In particular, the October 2021 PSX trading-halt rows are excluded because they contain zero weights and missing share information.
+
+The macroeconomic series are then parsed and aligned to the trading calendar. Oil prices and USD/PKR are transformed into log-return form, while the interest-rate series is forward-filled because rate updates occur at irregular intervals. CPI is converted into a monthly end-of-period format so that it can be merged consistently into the monthly master dataset.
+
+For fund data, separate sheets for AKD, NBP, and NTI are loaded and sorted chronologically. Daily NAV returns and rolling volatilities are computed first. The series are then grouped into monthly observations so that end-of-month AUM and month-level NAV return can be used in fund-flow construction.
+
+In `5_claude_pipeline/`, these cleaned sources are merged into `daily_master.csv`, `monthly_master.csv`, and `kse30_stocks_clean.csv`. In `6_cursor_model/`, the cleaned outputs from folder 5 are consumed as the upstream source for the final KSE-30 specific analytics. This upstream-downstream structure should be stated clearly in the report.
+
+[Suggested Figure 3.2]
+Create a custom data-flow diagram:
+KSE-30 stock data + AKD/NBP/NTI fund data + macro data + CPI -> preprocessing in `5_claude_pipeline` -> `daily_master.csv`, `monthly_master.csv`, `kse30_stocks_clean.csv` -> KSE-30 focused analytics in `6_cursor_model`.
+
+3.5 Variable Construction
+
+The central dependent variable of the study is mutual fund flow. Across folders 4 to 6, the same fund-flow identity is retained:
+
+flow_t = AUM_t - AUM_(t-1) * (NAV_t / NAV_(t-1))
+
+This definition isolates investor inflows and outflows by removing the portion of AUM change that is explained only by NAV appreciation or decline. In the monthly implementation, month-end AUM and monthly NAV return are used to construct this variable. The monthly NAV return is calculated as:
+
+nav_return_m = NAV_end / NAV_start - 1
+
+Separate flow series are first computed for AKD, NBP, and NTI. In `5_claude_pipeline/`, these are summed into `total_fund_flow`. In `6_cursor_model/`, the same aggregate is interpreted explicitly as the KSE-30 sector flow, making it the main target variable for the final dissertation narrative.
+
+Additional variables are also constructed from the stock and index data. Daily stock prices are converted into log returns. Rolling 30-day volatility is annualized using the square-root-of-252 convention. At the index level, a KSE-30 return series is reconstructed from aggregated free-float market capitalization, which then supports index return, index volatility, cumulative return, and efficiency analysis.
+
+The final workflow also constructs normalized flow measures, such as aggregate flow relative to lagged sector AUM, so that the magnitude of capital movement can be interpreted in proportion to the size of the tracked fund universe.
+
+3.6 Feature Engineering
+
+The final feature set combines macro-financial variables and KSE-30 market variables. For the aggregate fund-flow forecasting block, the most important explanatory inputs are interest rate, CPI, oil-return changes, and USD/PKR-return changes. These were retained because they are consistently available and economically interpretable in the context of fund allocation behaviour.
+
+For the rebalancing block, stock-level features are built from rolling windows before each KSE-30 reconstitution event. These include current weight, momentum over 30, 60, and 90 days, volatility over 30 and 60 days, average trading volume, a market-cap proxy, price relative to the 20-day and 50-day moving averages, weight drift, and weight range.
+
+These features reflect the mechanics of KSE-30 composition changes. Weight and inclusion shifts are related to market capitalization, liquidity, and recent performance. Therefore, the selected features are directly connected to how an index such as the KSE-30 is maintained in practice.
+
+The report should emphasize that the final feature engineering strategy is no longer broad or exploratory. It is a focused set of variables chosen to support KSE-30 aggregate fund-flow modelling and KSE-30 rebalancing analysis.
+
+3.7 Exploratory Data Analysis
+
+Before formal modelling, exploratory data analysis is performed to verify that the merged datasets behave plausibly and to identify visible patterns, spikes, and structural irregularities. Across folders 4 to 6, this stage includes AUM trends, NAV return distributions, aggregate flow plots, macro-overview plots, monthly correlation heatmaps, cumulative KSE-30 return charts, and top-weight stock charts.
+
+In methodological terms, this stage serves three purposes. First, it checks whether the integration of stock, fund, and macro data has been performed correctly. Second, it helps identify outliers or unusual periods that may distort estimation. Third, it provides visual justification for later modelling decisions such as lag selection, flow aggregation, and volatility analysis.
+
+For the dissertation, the figures used in this part should preferably come from `6_cursor_model/` because those outputs are already aligned with the KSE-30 specific framing of the final study.
+
+[Suggested Figure 3.3]
+Existing figure path: `6_cursor_model/figures/eda/E05_monthly_correlation.png`
+Caption idea: "Correlation structure between aggregate KSE-30 fund flow and selected macroeconomic and market variables."
+
+3.8 Fund-Flow Forecasting Methodology
+
+The main forecasting task in the final methodology is one-step-ahead prediction of aggregate KSE-30 fund flow. This forecasting logic was developed modularly in folder 4, consolidated in folder 5, and finalized in folder 6.
+
+The forecasting block begins with a stationarity check using a simplified ADF-style routine coded directly in Python. This is followed by Granger causality testing, where interest rate, CPI, oil-return changes, and USD/PKR-return changes are tested for predictive precedence over fund flows through restricted and unrestricted lagged regressions.
+
+Three forecasting approaches are then compared. The first is a naive benchmark that uses the most recent value as the prediction for the next period. The second is a custom ARIMAX(1,0,1)-style model estimated through explicit least-squares regression with one autoregressive lag and macroeconomic exogenous inputs. The third is a custom VAR(1) system in which aggregate fund flow, interest rate, and CPI are treated as endogenous variables, while oil-return and USD/PKR-return terms enter as exogenous predictors.
+
+This should be described transparently in the dissertation. The implementation is custom and not dependent on off-the-shelf `statsmodels` ARIMAX or VAR routines. The final numerical outputs for this block are stored in `6_cursor_model/results_fund_flow.csv`, with folder 5 and `4_claude_model/nb2_fund_flow_prediction.py` serving as supporting methodological references.
+
+3.9 Volatility Modelling
+
+Volatility modelling is another core part of the final methodology. In folder 4, GARCH-family models were first implemented as separate modules. In folder 5 they were integrated into the consolidated pipeline, and in folder 6 they were redirected toward the reconstructed KSE-30 index return series.
+
+The final methodology estimates GARCH(1,1) and EGARCH(1,1) models using custom maximum-likelihood functions optimized with `scipy.optimize.minimize`. GARCH(1,1) is used to measure volatility persistence, while EGARCH(1,1) is used to examine asymmetric shock behaviour. Model comparison is performed using AIC and BIC, and practical risk interpretation is added through Value-at-Risk backtesting.
+
+The final report should highlight that the volatility section is KSE-30 centered in its final form. Rather than relying only on fund NAV returns, folder 6 studies the behaviour of the reconstructed KSE-30 index itself, which strengthens the consistency of the methodology with the dissertation title and scope.
+
+3.10 Market Efficiency Testing
+
+The final methodology also examines whether the KSE-30 displays weak-form market efficiency. To do this, the pipeline applies several complementary statistical tests rather than depending on a single measure.
+
+The runs test evaluates whether the sign sequence of returns appears random. The variance ratio test examines whether multi-period return variance follows the pattern implied by a random walk. The Ljung-Box style autocorrelation test evaluates serial dependence across lags. The Hurst exponent is used to assess persistence or mean reversion, where values near 0.5 indicate random-walk behaviour.
+
+In folder 4, these methods were used in a broader modular setting, including fund-return proxies and stock-level analysis. In folder 6, they are applied directly to the reconstructed KSE-30 index series. This is the version that should be emphasized in the dissertation because it matches the final KSE-30 focus most closely.
+
+The main evidence for this section comes from `6_cursor_model/results_efficiency.csv` and the corresponding figures under `6_cursor_model/figures/efficiency/`.
+
+3.11 Rebalancing and Portfolio-Tilt Method
+
+The final methodological block extends the study from explanation and forecasting into a practical KSE-30 application. In the adopted final workflow, this application is represented through rebalancing prediction rather than through generic portfolio ideas.
+
+Semi-annual KSE-30 reconstitution dates are identified from the observed index history. For each rebalancing window, a panel is created from the period immediately before the event. Two prediction tasks are then defined. The first is weight prediction, where the target is the stock's weight at the next rebalancing date. The second is inclusion prediction, where the target is whether a stock is retained in or removed from the KSE-30.
+
+For weight prediction, the final pipeline applies Ridge regression and Random Forest regression. For inclusion prediction, it applies Logistic Regression and Random Forest classification. Standardization is used before linear modelling, and missing values are handled using medians from the training windows in order to reduce information leakage.
+
+This section should be described as the portfolio-tilt or index-application component of the study. It shows how market information and recent stock behaviour can be used to anticipate future KSE-30 composition and weight outcomes. The main outputs are `6_cursor_model/results_rebalancing.csv` and `6_cursor_model/results_rebalancing_forecast.csv`.
+
+3.12 Validation Strategy and Evaluation Metrics
+
+The final methodology uses time-ordered validation throughout. For the aggregate fund-flow models, the train-test split is chronological, with the training sample ending in December 2023 and the later observations reserved for out-of-sample evaluation. This preserves the time order of financial information and prevents look-ahead bias.
+
+Regression models are evaluated using RMSE, MAE, R-squared, and directional accuracy. Classification models are evaluated using accuracy, ROC-AUC, and confusion-matrix components. GARCH models are evaluated using AIC, BIC, persistence, and VaR backtesting. Market-efficiency blocks are interpreted through their test statistics, p-values, and Hurst measures.
+
+This multi-metric validation framework is necessary because the methodology addresses different tasks. Forecasting, volatility estimation, efficiency testing, and rebalancing prediction cannot be judged with one universal metric, so each block is evaluated using measures appropriate to its purpose.
+
+3.13 Reproducibility and Implementation Transparency
+
+The final methodology is reproducible because it is based on runnable Python scripts rather than notebook-only outputs. For the dissertation, the most important scripts are:
+
+1. `4_claude_model/nb0_preprocessing.py`, `nb2_fund_flow_prediction.py`, `nb3_garch_volatility.py`, `nb5_market_efficiency.py`, and `nb4b_rebalancing_prediction.py` for modular logic.
+2. `5_claude_pipeline/pipeline.py` for consolidated end-to-end processing.
+3. `6_cursor_model/pipeline.py` for the final KSE-30 specific implementation.
+
+The report should state clearly that folder 6 is the primary pipeline for the final empirical narrative, while folders 4 and 5 provide methodological support and development structure. It should also state that several econometric procedures were implemented directly in Python through least-squares estimation and custom likelihood functions rather than relying only on packaged high-level routines.
+
+3.14 Methodological Limitations
+
+One limitation should be stated clearly in this chapter. Even after the workflow was improved and focused on the KSE-30, the effective historical sample remains limited once all stock, fund, and macroeconomic series are aligned. This restricts the reliability of overly complex models and is one reason why the final methodology emphasizes interpretable econometric and classical machine-learning models rather than making strong deep-learning claims.
+
+This limitation does not invalidate the study, but it does mean that the final findings should be interpreted as evidence from a disciplined applied KSE-30 case study rather than as proof of universally stable predictive relationships.
+
+3.15 Chapter Summary
+
+This chapter presented the final methodology adopted for the study. The report methodology is based on the merged logic of folders `4_claude_model/`, `5_claude_pipeline/`, and `6_cursor_model/`, while older exploratory branches are excluded from the final narrative. The chapter described the research design, the progression of the final workflow, the data sources and preprocessing logic, the construction of fund-flow and market variables, the feature-engineering process, the exploratory diagnostics, the forecasting models, the volatility and efficiency methods, the rebalancing application, the evaluation framework, and the key methodological limitations.
+
+Overall, the final adopted methodology is a KSE-30 centered analytical framework that links aggregate mutual fund flows, market behaviour, and index rebalancing into one coherent empirical design.
