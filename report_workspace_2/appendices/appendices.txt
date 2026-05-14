@@ -115,72 +115,40 @@ Appendix B: Additional Figures
 All appendix figures have already been copied to:
 `report_workspace_2/appendices/figures/`
 
-Do not duplicate figures already inserted in main chapters if the chapter already contains the same visual.
+Constraint applied:
+No figure in this appendix overlaps with `.ai-guidance/report-alignment-pack/graphs`.
 
-B.1 Methodology/EDA Supplement Figures (Chapter 3 support)
+B.1 EDA and Context Figures (non-overlapping set)
 
-1. `C3_EDA_01_coverage_and_volume_quality.png`
-Caption: Coverage and volume-quality diagnostics by date; highlights the volume-gap regime explicitly.
+1. `E01_aum_trend.png`
+Caption: AUM trends of KSE-30 related funds and their aggregate movement over time.
 
-2. `C3_EDA_02_volume_gap_heatmap.png`
-Caption: Month-year concentration of zero/missing volume observations.
+2. `E02_nav_return_dist.png`
+Caption: Distributional behavior of daily NAV returns across the selected funds.
 
-3. `C3_EDA_03_market_aggregates.png`
-Caption: Aggregate free-float market cap, volume, and weight-sum diagnostics.
+3. `E03_fund_flows.png`
+Caption: Aggregate monthly KSE-30 sector fund-flow bars (inflow and outflow episodes).
 
-4. `C3_EDA_04_return_distribution_and_qq.png`
-Caption: Distribution and Q-Q normality diagnostics for returns.
+4. `E04_macro_overview.png`
+Caption: Macro-financial environment over the study period (oil, USD/PKR, policy rate).
 
-5. `C3_EDA_06_symbol_risk_return_map.png`
-Caption: Risk-return map by constituent with weight-scaled emphasis.
+5. `E05_monthly_correlation.png`
+Caption: Monthly correlation structure among flow, macro, and index-level variables.
 
-6. `C3_EDA_07_funds_nav_aum.png`
-Caption: NAV and AUM trajectories of AKD, NBP, and NTI.
+6. `E06_index_cumulative_return.png`
+Caption: Reconstructed cumulative KSE-30 return profile for the analysis window.
 
-7. `C3_EDA_08_funds_flow_and_corr.png`
-Caption: Monthly fund-flow behavior and cross-fund flow correlation.
+7. `E07_top_weights.png`
+Caption: Largest KSE-30 constituent weights in the cleaned stock panel.
 
-8. `C3_EDA_ST_01_pvalue_heatmap.png`
-Caption: ADF/PP/KPSS p-value heatmap across tested series.
+8. `18_macro_cpi_levels.png`
+Caption: CPI and macro level series for policy and inflation context.
 
-9. `C3_EDA_ST_03_level_vs_return_examples.png`
-Caption: Visual comparison of level vs transformed series for stationarity motivation.
+9. `19_macro_log_returns.png`
+Caption: Oil and USD/PKR return dynamics in transformed (log-return) form.
 
-
-B.2 Core Model Result Figures (Chapter 5/6 support)
-
-1. `FF01_total_flow_predictions.png`
-Caption: Actual vs predicted aggregate KSE-30 flow under ARIMAX and VAR.
-
-2. `FF02_granger.png`
-Caption: Granger causality p-values for macro variables against sector flow.
-
-3. `G01_returns_and_vol.png`
-Caption: KSE-30 returns and model-implied volatility behavior.
-
-4. `G02_var_backtest.png`
-Caption: 5% VaR backtesting for selected volatility model.
-
-5. `EF01_acf.png`
-Caption: Return autocorrelation diagnostic.
-
-6. `EF02_variance_ratio.png`
-Caption: Variance-ratio evidence across lag horizons.
-
-7. `R01_retention_probability.png`
-Caption: Predicted retention/inclusion probabilities by constituent.
-
-8. `R02_feature_importances.png`
-Caption: Rebalancing model feature importance ranking.
-
-9. `R03_weight_scatter.png`
-Caption: Actual vs predicted constituent weight fit.
-
-10. `R04_weight_changes.png`
-Caption: Predicted direction and magnitude of KSE-30 weight changes.
-
-11. `SUMMARY_dashboard.png`
-Caption: Integrated dashboard of flow, volatility, efficiency, and rebalancing outcomes.
+10. `20_macro_cpi_correlation.png`
+Caption: Correlation heatmap of monthly macro/CPI variables.
 
 
 Appendix C: Variable Definitions and Formulas
