@@ -1,0 +1,269 @@
+APPENDICES
+
+This appendix chapter is finalized for `report_workspace_2` and aligned with the completed implementation outputs. It includes:
+1. additional result tables,
+2. supplementary figures (already copied locally),
+3. variable definitions and formulas,
+4. reproducibility and pipeline output mapping,
+5. compact workflow summary.
+
+All file references below are local to this repository.
+
+Appendix A: Additional Result Tables
+
+A.1 Detailed Aggregate Fund-Flow Forecasting Results
+
+Source file:
+`6_cursor_model/results_fund_flow.csv`
+
+Use columns:
+Model | Target | RMSE | MAE | R-squared | Directional Accuracy | Note
+
+Final values:
+1. Naive (RW): RMSE = 83.10, MAE = 51.54, R-squared = -1.4048, Directional Accuracy = 37.5%
+2. ARIMAX(1,0,1): RMSE = 58.56, MAE = 37.35, R-squared = -0.1944, Directional Accuracy = 75.0%
+3. VAR(1): RMSE = 63.10, MAE = 39.41, R-squared = -0.3867, Directional Accuracy = 75.0%
+
+Interpretation:
+ARIMAX is preferred on RMSE/MAE; ARIMAX and VAR tie on directional accuracy in the final cleaned run.
+
+
+A.2 Detailed Volatility Model Table
+
+Source file:
+`6_cursor_model/results_garch.csv`
+
+Use columns:
+Series | Model | omega | alpha | beta | Persistence | AIC
+
+Final values:
+1. Series = KSE-30
+2. Model = GARCH(1,1)
+3. omega = 0.074916
+4. alpha = 0.1284
+5. beta = 0.8383
+6. persistence = 0.9667
+7. AIC = 4243.43
+
+Note:
+Main chapter already states EGARCH preference from pipeline selection output; this appendix preserves explicit GARCH parameter values from CSV.
+
+
+A.3 Detailed Market Efficiency Diagnostics
+
+Source file:
+`6_cursor_model/results_efficiency.csv`
+
+Use columns:
+Series | N | Runs Z | Runs p | Runs Verdict | VR(2) | VR(2) p | VR(4) | VR Verdict | Ljung-Box p | ACF lag-1 | Hurst H | Hurst Interpretation
+
+Final values:
+1. Runs Z = -1.9106
+2. Runs p = 0.0561
+3. Runs verdict = Efficient
+4. VR(2) = 1.0069
+5. VR(2) p = 0.8752
+6. VR(4) = 0.9106
+7. VR verdict = Efficient
+8. Ljung-Box p = 0.0000
+9. ACF lag-1 = 0.0071
+10. Hurst H = 0.6559
+11. Hurst interpretation = Persistent
+
+
+A.4 Detailed Rebalancing Model Comparison
+
+Source file:
+`6_cursor_model/results_rebalancing.csv`
+
+Use columns:
+Task | Model | RMSE | MAE | R-squared | Accuracy | AUC
+
+Weight prediction:
+1. Naive: RMSE = 0.5595, MAE = 0.2541, R-squared = 0.9677
+2. Ridge: RMSE = 0.5590, MAE = 0.2963, R-squared = 0.9678
+3. Random Forest: RMSE = 0.6900, MAE = 0.3553, R-squared = 0.9509
+
+Inclusion prediction:
+1. Naive: Accuracy = 0.9655
+2. Logistic Regression: Accuracy = 0.9655, AUC = 0.8214
+3. Random Forest: Accuracy = 0.9655, AUC = 0.5446
+
+
+A.5 Forward Rebalancing Forecast Details
+
+Source file:
+`6_cursor_model/results_rebalancing_forecast.csv`
+
+Use columns:
+Symbol | Current Weight | Predicted Average Weight | Average Retention Probability | Exclusion Risk
+
+Recommended presentation:
+1. full table in appendix (preferred), or
+2. top-risk names + top-weight names.
+
+Final top-risk examples:
+1. SSGC
+2. GAL
+3. GHNI
+4. PAEL
+5. BOP
+
+
+Appendix B: Additional Figures
+
+All appendix figures have already been copied to:
+`report_workspace_2/appendices/figures/`
+
+Do not duplicate figures already inserted in main chapters if the chapter already contains the same visual.
+
+B.1 Methodology/EDA Supplement Figures (Chapter 3 support)
+
+1. `C3_EDA_01_coverage_and_volume_quality.png`
+Caption: Coverage and volume-quality diagnostics by date; highlights the volume-gap regime explicitly.
+
+2. `C3_EDA_02_volume_gap_heatmap.png`
+Caption: Month-year concentration of zero/missing volume observations.
+
+3. `C3_EDA_03_market_aggregates.png`
+Caption: Aggregate free-float market cap, volume, and weight-sum diagnostics.
+
+4. `C3_EDA_04_return_distribution_and_qq.png`
+Caption: Distribution and Q-Q normality diagnostics for returns.
+
+5. `C3_EDA_06_symbol_risk_return_map.png`
+Caption: Risk-return map by constituent with weight-scaled emphasis.
+
+6. `C3_EDA_07_funds_nav_aum.png`
+Caption: NAV and AUM trajectories of AKD, NBP, and NTI.
+
+7. `C3_EDA_08_funds_flow_and_corr.png`
+Caption: Monthly fund-flow behavior and cross-fund flow correlation.
+
+8. `C3_EDA_ST_01_pvalue_heatmap.png`
+Caption: ADF/PP/KPSS p-value heatmap across tested series.
+
+9. `C3_EDA_ST_03_level_vs_return_examples.png`
+Caption: Visual comparison of level vs transformed series for stationarity motivation.
+
+
+B.2 Core Model Result Figures (Chapter 5/6 support)
+
+1. `FF01_total_flow_predictions.png`
+Caption: Actual vs predicted aggregate KSE-30 flow under ARIMAX and VAR.
+
+2. `FF02_granger.png`
+Caption: Granger causality p-values for macro variables against sector flow.
+
+3. `G01_returns_and_vol.png`
+Caption: KSE-30 returns and model-implied volatility behavior.
+
+4. `G02_var_backtest.png`
+Caption: 5% VaR backtesting for selected volatility model.
+
+5. `EF01_acf.png`
+Caption: Return autocorrelation diagnostic.
+
+6. `EF02_variance_ratio.png`
+Caption: Variance-ratio evidence across lag horizons.
+
+7. `R01_retention_probability.png`
+Caption: Predicted retention/inclusion probabilities by constituent.
+
+8. `R02_feature_importances.png`
+Caption: Rebalancing model feature importance ranking.
+
+9. `R03_weight_scatter.png`
+Caption: Actual vs predicted constituent weight fit.
+
+10. `R04_weight_changes.png`
+Caption: Predicted direction and magnitude of KSE-30 weight changes.
+
+11. `SUMMARY_dashboard.png`
+Caption: Integrated dashboard of flow, volatility, efficiency, and rebalancing outcomes.
+
+
+Appendix C: Variable Definitions and Formulas
+
+C.1 Fund flow identity
+`flow_t = AUM_t - AUM_(t-1) * (NAV_t / NAV_(t-1))`
+
+C.2 Monthly NAV return
+`nav_return_m = NAV_end / NAV_start - 1`
+
+C.3 Aggregate sector flow
+`total_fund_flow = flow_AKD + flow_NBP + flow_NTI`
+
+C.4 Flow normalization
+`flow_pct_sector = total_fund_flow / sector_aum_prev`
+
+C.5 Reconstructed KSE-30 index return
+`idx_log_return_t = ln(idx_ff_mcap_total_t / idx_ff_mcap_total_(t-1))`
+
+C.6 Rolling volatility
+`rolling_vol_30d = std(log_returns over past 30 days) * sqrt(252)`
+
+C.7 Forecasting variables used in final index-focused pipeline
+1. `interest_rate_end`
+2. `cpi_yoy_end`
+3. `oil_return_monthly`
+4. `usdpkr_return_monthly`
+5. `idx_return_monthly`
+6. `idx_vol_monthly`
+
+C.8 Rebalancing features
+1. `cur_weight`
+2. `mom_30`, `mom_60`, `mom_90`
+3. `vol_30`, `vol_60`
+4. `avg_volume`
+5. `mkt_cap_proxy`
+6. `price_to_ma20`, `price_to_ma50`
+7. `wt_drift`
+8. `wt_range`
+
+
+Appendix D: Pipeline Outputs and Logs
+
+D.1 Primary final scripts
+1. `5_claude_pipeline/pipeline.py`
+2. `6_cursor_model/pipeline.py`
+
+D.2 Core output files from `6_cursor_model`
+1. `daily_master.csv`
+2. `monthly_master.csv`
+3. `kse30_stocks_clean.csv`
+4. `results_fund_flow.csv`
+5. `results_garch.csv`
+6. `results_efficiency.csv`
+7. `results_rebalancing.csv`
+8. `results_rebalancing_forecast.csv`
+
+D.3 Figure folders
+1. `6_cursor_model/figures/eda/`
+2. `6_cursor_model/figures/fund_flow/`
+3. `6_cursor_model/figures/garch/`
+4. `6_cursor_model/figures/efficiency/`
+5. `6_cursor_model/figures/rebalancing/`
+6. `6_cursor_model/figures/summary/`
+
+D.4 Reproducibility note
+Final cleaned workflows include repair logic for isolated May 2024 AUM zero-gap records while NAV changed; this prevents false collapse artifacts in AUM/flow visuals.
+
+
+Appendix E: Code Workflow Summary
+
+E.1 Final lineage
+1. `4_claude_model/` modular research scripts
+2. `5_claude_pipeline/` consolidated baseline
+3. `6_cursor_model/` final KSE-30 narrative pipeline
+
+E.2 Practical run order
+1. `python 5_claude_pipeline/pipeline.py`
+2. `python 6_cursor_model/pipeline.py`
+3. `python report_workspace/generate_additional_report_graphs.py`
+
+E.3 Report workspace role
+`report_workspace/` and `report_workspace_2/` store chapter drafts, chapter images, TOC files, and report-only graph generation assets.
+
+Closing note:
+This appendix chapter binds narrative claims to concrete files, figures, and reproducible pipeline outputs so examiners can trace each reported result back to generated artifacts.
