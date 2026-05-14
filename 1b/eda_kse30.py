@@ -32,6 +32,8 @@ BASE_DIR = Path(__file__).resolve().parent
 RAW_PATH = BASE_DIR / "kse30_daily_data.csv"
 CLEAN_PATH = BASE_DIR / "kse30_stocks_clean.csv"
 FUNDS_PATH = BASE_DIR / "funds_data.xlsx"
+MACRO_PATH = BASE_DIR.parent / "5_claude_pipeline" / "macro_data.xlsx"
+CPI_PATH = BASE_DIR.parent / "5_claude_pipeline" / "cpi.csv"
 OUTPUT_DIR = BASE_DIR / "figures"
 OUTPUT_DIR.mkdir(exist_ok=True)
 
@@ -537,6 +539,134 @@ def plot_funds_missingness(funds):
     savefig("17_funds_missingness.png")
 
 
+def read_macro_cpi(macro_path, cpi_path):
+    oil = pd.read_excel(macro_path, sheet_name="OIL").rename(columns={"DATE": "date", "PRICE": "oil_price"})
+    ir = pd.read_excel(macro_path, sheet_name="IR").rename(columns={"DATE": "date", "RATE": "interest_rate"})
+    usd = pd.read_excel(macro_path, sheet_name="USD").rename(columns={"DATE": "date", "USD": "usdpkr"})
+
+    for df in [oil, ir, usd]:
+        df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    oil["oil_price"] = pd.to_numeric(oil["oil_price"], errors="coerce")
+    ir["interest_rate"] = pd.to_numeric(ir["interest_rate"], errors="coerce")
+    usd["usdpkr"] = pd.to_numeric(usd["usdpkr"], errors="coerce")
+
+    oil = oil.sort_values("date").drop_duplicates(subset="date", keep="last")
+    ir = ir.sort_values("date").drop_duplicates(subset="date", keep="last")
+    usd = usd.sort_values("date").drop_duplicates(subset="date", keep="last")
+
+    oil["oil_log_return"] = np.log(oil["oil_price"] / oil["oil_price"].shift(1))
+    usd["usdpkr_log_return"] = np.log(usd["usdpkr"] / usd["usdpkr"].shift(1))
+
+    cpi = pd.read_csv(cpi_path, skiprows=1, header=0)
+    cpi.columns = ["period_str", "cpi_yoy"]
+    cpi = cpi.dropna()
+    cpi["cpi_yoy"] = pd.to_numeric(cpi["cpi_yoy"], errors="coerce")
+
+    month_map = {
+        "January": "Jan", "February": "Feb", "March": "Mar", "April": "Apr",
+        "May": "May", "June": "Jun", "July": "Jul", "August": "Aug",
+        "September": "Sep", "October": "Oct", "November": "Nov", "December": "Dec",
+    }
+
+    def normalize_month(x):
+        s = str(x)
+        for full, abbr in month_map.items():
+            if s.startswith(full):
+                return s.replace(full, abbr, 1)
+        return s
+
+    cpi["period_str"] = cpi["period_str"].apply(normalize_month)
+    cpi["date"] = pd.to_datetime(cpi["period_str"], format="%b-%y", errors="coerce") + pd.offsets.MonthEnd(0)
+    cpi = cpi[["date", "cpi_yoy"]].dropna().sort_values("date").reset_index(drop=True)
+
+    return oil.reset_index(drop=True), ir.reset_index(drop=True), usd.reset_index(drop=True), cpi
+
+
+def save_macro_summary(oil, ir, usd, cpi):
+    summary = pd.DataFrame(
+        [
+            {"series": "oil_price", "start": oil["date"].min(), "end": oil["date"].max(), "n_obs": len(oil), "mean": oil["oil_price"].mean(), "std": oil["oil_price"].std()},
+            {"series": "interest_rate", "start": ir["date"].min(), "end": ir["date"].max(), "n_obs": len(ir), "mean": ir["interest_rate"].mean(), "std": ir["interest_rate"].std()},
+            {"series": "usdpkr", "start": usd["date"].min(), "end": usd["date"].max(), "n_obs": len(usd), "mean": usd["usdpkr"].mean(), "std": usd["usdpkr"].std()},
+            {"series": "cpi_yoy", "start": cpi["date"].min(), "end": cpi["date"].max(), "n_obs": len(cpi), "mean": cpi["cpi_yoy"].mean(), "std": cpi["cpi_yoy"].std()},
+        ]
+    )
+    summary.to_csv(OUTPUT_DIR / "macro_cpi_summary.csv", index=False)
+    print("Saved macro_cpi_summary.csv")
+
+
+def plot_macro_levels(oil, ir, usd, cpi):
+    fig, axes = plt.subplots(4, 1, figsize=(13, 10), sharex=False)
+
+    axes[0].plot(oil["date"], oil["oil_price"], color="#c0392b", linewidth=1.2)
+    axes[0].set_title("Brent Oil Price")
+    axes[0].set_ylabel("USD/bbl")
+
+    axes[1].plot(usd["date"], usd["usdpkr"], color="#8e44ad", linewidth=1.2)
+    axes[1].set_title("USD/PKR")
+    axes[1].set_ylabel("PKR per USD")
+
+    axes[2].step(ir["date"], ir["interest_rate"], where="post", color="#16a085", linewidth=1.3)
+    axes[2].set_title("Policy Interest Rate")
+    axes[2].set_ylabel("%")
+
+    axes[3].plot(cpi["date"], cpi["cpi_yoy"], color="#2d3436", linewidth=1.3)
+    axes[3].set_title("CPI YoY")
+    axes[3].set_ylabel("%")
+    axes[3].set_xlabel("Date")
+    axes[3].xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
+    axes[3].xaxis.set_major_locator(mdates.MonthLocator(interval=6))
+
+    fig.autofmt_xdate(rotation=30)
+    savefig("18_macro_cpi_levels.png")
+
+
+def plot_macro_returns(oil, usd):
+    fig, axes = plt.subplots(2, 1, figsize=(13, 6), sharex=True)
+
+    axes[0].plot(oil["date"], oil["oil_log_return"], color="#c0392b", linewidth=0.9)
+    axes[0].axhline(0, color="black", linewidth=0.8)
+    axes[0].set_title("Oil Daily Log Return")
+    axes[0].set_ylabel("Log return")
+
+    axes[1].plot(usd["date"], usd["usdpkr_log_return"], color="#8e44ad", linewidth=0.9)
+    axes[1].axhline(0, color="black", linewidth=0.8)
+    axes[1].set_title("USD/PKR Daily Log Return")
+    axes[1].set_ylabel("Log return")
+    axes[1].set_xlabel("Date")
+    axes[1].xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
+    axes[1].xaxis.set_major_locator(mdates.MonthLocator(interval=6))
+
+    fig.autofmt_xdate(rotation=30)
+    savefig("19_macro_log_returns.png")
+
+
+def plot_macro_cpi_correlation(oil, ir, usd, cpi):
+    monthly = (
+        oil.set_index("date")[["oil_log_return"]]
+        .resample("ME").sum()
+        .rename(columns={"oil_log_return": "oil_return_monthly"})
+    )
+    usd_m = (
+        usd.set_index("date")[["usdpkr_log_return"]]
+        .resample("ME").sum()
+        .rename(columns={"usdpkr_log_return": "usdpkr_return_monthly"})
+    )
+    ir_m = ir.set_index("date")[["interest_rate"]].resample("ME").last().rename(columns={"interest_rate": "interest_rate_end"})
+    cpi_m = cpi.set_index("date")[["cpi_yoy"]]
+
+    m = monthly.join([usd_m, ir_m, cpi_m], how="inner").dropna()
+    corr = m.corr()
+
+    fig, ax = plt.subplots(figsize=(7, 5))
+    sns.heatmap(corr, annot=True, fmt=".2f", cmap="RdYlGn", center=0, vmin=-1, vmax=1, ax=ax)
+    ax.set_title("Monthly Macro/CPI Correlation")
+    savefig("20_macro_cpi_correlation.png")
+
+    m.to_csv(OUTPUT_DIR / "macro_cpi_monthly_panel.csv", index=True)
+    print("Saved macro_cpi_monthly_panel.csv")
+
+
 def main():
     print("Loading KSE-30 data from 1b...")
     raw = read_panel(RAW_PATH, RAW_RENAME)
@@ -568,6 +698,17 @@ def main():
     plot_funds_rolling_volatility(funds)
     plot_funds_monthly_flows(funds)
     plot_funds_missingness(funds)
+
+    if MACRO_PATH.exists() and CPI_PATH.exists():
+        print_section("MACRO + CPI EDA")
+        oil, ir, usd, cpi = read_macro_cpi(MACRO_PATH, CPI_PATH)
+        save_macro_summary(oil, ir, usd, cpi)
+        plot_macro_levels(oil, ir, usd, cpi)
+        plot_macro_returns(oil, usd)
+        plot_macro_cpi_correlation(oil, ir, usd, cpi)
+    else:
+        print_section("MACRO + CPI EDA")
+        print(f"Skipped macro/CPI plots. Missing files: {MACRO_PATH} or {CPI_PATH}")
 
     print(f"\nDone. Figures and summary tables saved to: {OUTPUT_DIR}")
 

@@ -1,0 +1,28 @@
+• Across your project, these are the models/methods you used:
+                                                                                                                       
+  1. Ridge Regression                                                                                                  
+  2. ElasticNet Regression                                                                                             
+  3. GradientBoostingRegressor (in final-model track)                                                                  
+  4. XGBoost Regressor (XGBRegressor)                                                                                  
+  5. LightGBM Regressor (when installed)                                                                               
+  6. RandomForestRegressor                                                                                             
+  7. RandomForestClassifier                                                                                            
+  8. LogisticRegression                                                                                                
+  9. ARIMAX(1,0,1) (custom OLS-style implementation in pipeline tracks)                                                
+  10. VAR(1)                                                                                                           
+  11. GARCH(1,1)                                                                                                       
+  12. EGARCH(1,1)                                                                                                      
+                                                                                                                       
+  Also used as statistical diagnostics/tests (not predictive ML models):                                               
+                                                                                                                       
+  - Granger causality                                                                                                  
+  - ADF, KPSS, PP stationarity tests                                                                                   
+  - Runs test                                                                                                          
+  - Variance Ratio                                                                                                     
+  - Ljung-Box style autocorrelation test                                                                               
+  - Hurst exponent                                                                                                     
+                                                                                                                       
+  Earlier/experimental (midyear):                                                                                      
+                                                                                                                       
+  - XGBoost Classifier                                                                                                 
+  - Early LSTM attempt (documented as dropped)
