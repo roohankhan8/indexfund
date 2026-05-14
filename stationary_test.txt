@@ -1,0 +1,31 @@
+Your data is mixed, which is expected for financial panels.
+                                                                                                                       
+  - Mostly non-stationary: level series (market cap levels, average price levels, NAV levels).                         
+  - Mostly stationary: transformed series (log returns, flow percentages, several monthly flow series).                
+  - Borderline/mixed: a few series where ADF/PP and KPSS disagree (common in short/noisy macro-financial samples).     
+                                                                                                                       
+  What this means:                                                                                                     
+                                                                                                                       
+  - Raw levels usually have trend/unit root, so modeling them directly can create spurious relationships.              
+  - Returns/differences/flow rates are safer for regression and forecasting because they are closer to stable mean/    
+    variance behavior.                                                                                                 
+  - Your stationarity results support the modeling choice already used in your pipeline: returns and lagged transformed
+    features for prediction.                                                                                           
+                                                                                                                       
+  Impact on your model:                                                                                                
+                                                                                                                       
+  1. If you use non-stationary levels directly: coefficients can look significant but be misleading; out-of-sample     
+     performance becomes unstable.                                                                                     
+  2. If you use stationary transforms: estimates are more reliable, diagnostics are meaningful, and forecast behavior  
+     is more robust.                                                                                                   
+  3. For mixed cases: use conservative handling (difference/log-difference, include lags, and keep train/test split    
+     strictly time-ordered).                                                                                           
+                                                                                                                       
+  Practical rule for your thesis model:                                                                                
+                                                                                                                       
+  - Keep NAV/price/mcap in returns or growth form for predictive blocks.                                               
+  - Keep flows as percent of prior AUM when possible.                                                                  
+  - Use level series only when there is a strong reason and then test residual stationarity/cointegration first.       
+                                                                                                                       
+  Given your current results, your dataset is suitable for modeling, but only after transformation. The transformed    
+  feature space is largely stationary, which is the right setup for your fund-flow and rebalancing models.
