@@ -18,7 +18,7 @@
       "mae": 37.35,
       "r2": -0.1944,
       "dir_accuracy": 0.75,
-      "note": "Primary"
+      "note": "Primary (Base)"
     },
     {
       "model": "VAR(1)",
@@ -56,9 +56,29 @@
     },
     {
       "model": "RandomForest",
-      "rmse": 0.69,
-      "mae": 0.3553,
-      "r2": 0.9509
+      "rmse": 0.6867,
+      "mae": 0.3573,
+      "r2": 0.9514
+    }
+  ],
+  "rebalancing_weight_cv_oof": [
+    {
+      "model": "Naive",
+      "rmse": 0.841,
+      "mae": 0.5211,
+      "r2": 0.9023
+    },
+    {
+      "model": "Ridge",
+      "rmse": 0.8781,
+      "mae": 0.5707,
+      "r2": 0.8935
+    },
+    {
+      "model": "RandomForest",
+      "rmse": 0.9538,
+      "mae": 0.6095,
+      "r2": 0.8744
     }
   ],
   "rebalancing_inclusion_models": [
@@ -75,7 +95,7 @@
     {
       "model": "RandomForest",
       "accuracy": 0.9655,
-      "auc": 0.5446
+      "auc": 0.5982
     }
   ]
 }

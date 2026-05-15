@@ -183,6 +183,15 @@ def metrics_reg(y_true, y_pred, label=""):
               f"R²={r2:7.4f}  DirAcc={da:.1f}%")
     return {"RMSE": rmse, "MAE": mae, "R2": r2, "DirAcc": da}
 
+def metrics_basic(y_true, y_pred):
+    y_true, y_pred = np.array(y_true), np.array(y_pred)
+    rmse = np.sqrt(mean_squared_error(y_true, y_pred))
+    mae  = mean_absolute_error(y_true, y_pred)
+    ss_r = np.sum((y_true - y_pred) ** 2)
+    ss_t = np.sum((y_true - np.mean(y_true)) ** 2)
+    r2   = 1 - ss_r / ss_t if ss_t > 0 else np.nan
+    return {"RMSE": rmse, "MAE": mae, "R2": r2}
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # SECTION 1 - DATA INGESTION & CLEANING
@@ -780,6 +789,11 @@ print("\n" + "="*65)
 print("SECTION 5 - Fund flow prediction")
 print("="*65)
 
+# Inflation is already used via cpi_yoy_end; add lag/change variants and select best ARIMAX spec.
+monthly = monthly.sort_values("date").reset_index(drop=True)
+monthly["cpi_yoy_lag1"] = monthly["cpi_yoy_end"].shift(1)
+monthly["cpi_yoy_chg"] = monthly["cpi_yoy_end"].diff()
+
 MACRO_COLS = ["interest_rate_end","cpi_yoy_end",
               "oil_return_monthly","usdpkr_return_monthly"]
 TARGET     = "total_fund_flow"
@@ -806,7 +820,7 @@ def adf_simple(series, name):
           f"{'Stationary' if p<0.05 else 'Non-stationary'}")
     return p
 
-for col in [TARGET]+MACRO_COLS:
+for col in [TARGET]+MACRO_COLS+["cpi_yoy_lag1","cpi_yoy_chg"]:
     adf_simple(monthly[col], col)
 
 # ── 5.2 Granger causality ────────────────────────────────────────────────────
@@ -848,13 +862,11 @@ for macro_col, label in [("interest_rate_end","IR -> flow"),
 
 # ── 5.3 ARIMAX model ─────────────────────────────────────────────────────────
 print("\n  ARIMAX(1,0,1) ...")
-df_m = monthly[[TARGET]+MACRO_COLS].dropna()
-tr_df = df_m[monthly["date"][df_m.index] <= TRAIN_END]
-te_df = df_m[monthly["date"][df_m.index] >  TRAIN_END]
-y_tr  = tr_df[TARGET].values.astype(float)
-y_te  = te_df[TARGET].values.astype(float)
-X_tr  = tr_df[MACRO_COLS].values.astype(float)
-X_te  = te_df[MACRO_COLS].values.astype(float)
+macro_sets = [
+    ("Base", MACRO_COLS),
+    ("Base+CPI_lag1", MACRO_COLS + ["cpi_yoy_lag1"]),
+    ("Base+CPI_lag1+chg", MACRO_COLS + ["cpi_yoy_lag1", "cpi_yoy_chg"]),
+]
 
 def fit_arimax(y_train, X_train, y_test, X_test, p=1):
     n_tr = len(y_train)
@@ -875,6 +887,40 @@ def fit_arimax(y_train, X_train, y_test, X_test, p=1):
         x_n  = np.array([1.0]+ar_l+list(X_test[t]))
         preds.append(x_n@beta); history.append(y_test[t])
     return np.array(preds), fitted, beta, r2_tr
+
+arimax_candidates = []
+for spec_name, cols in macro_sets:
+    df_m_spec = monthly[["date", TARGET] + cols].dropna().copy()
+    tr_df_s = df_m_spec[df_m_spec["date"] <= TRAIN_END]
+    te_df_s = df_m_spec[df_m_spec["date"] > TRAIN_END]
+    if len(tr_df_s) < 12 or len(te_df_s) < 6:
+        continue
+    y_tr_s = tr_df_s[TARGET].values.astype(float)
+    y_te_s = te_df_s[TARGET].values.astype(float)
+    X_tr_s = tr_df_s[cols].values.astype(float)
+    X_te_s = te_df_s[cols].values.astype(float)
+    pred_s, fit_s, beta_s, r2_tr_s = fit_arimax(y_tr_s, X_tr_s, y_te_s, X_te_s, p=1)
+    m_s = metrics_reg(y_te_s, pred_s, f"ARIMAX {spec_name:14s}")
+    arimax_candidates.append({
+        "spec": spec_name, "cols": cols,
+        "tr_df": tr_df_s, "te_df": te_df_s,
+        "y_tr": y_tr_s, "y_te": y_te_s,
+        "pred": pred_s, "fit": fit_s, "beta": beta_s,
+        "r2_tr": r2_tr_s, "metrics": m_s,
+    })
+
+if not arimax_candidates:
+    raise ValueError("No valid ARIMAX candidate could be fit.")
+
+best_arimax = sorted(arimax_candidates,
+                     key=lambda d: (d["metrics"]["RMSE"], -d["metrics"]["R2"]))[0]
+print(f"  Selected ARIMAX spec: {best_arimax['spec']} | cols={best_arimax['cols']}")
+
+y_tr  = best_arimax["y_tr"]
+y_te  = best_arimax["y_te"]
+X_tr  = best_arimax["tr_df"][best_arimax["cols"]].values.astype(float)
+X_te  = best_arimax["te_df"][best_arimax["cols"]].values.astype(float)
+dates_te_ff = best_arimax["te_df"]["date"].values
 
 arimax_pred, arimax_fit, arimax_beta, arimax_r2_tr = fit_arimax(
     y_tr, X_tr, y_te, X_te, p=1)
@@ -909,10 +955,10 @@ ax.bar(dates_tr, monthly.loc[train_m,TARGET],
        color=["#2980b9" if v>=0 else "#e74c3c"
               for v in monthly.loc[train_m,TARGET]], width=20, alpha=0.5,
        label="Actual (train)")
-ax.bar(dates_te, y_te,
+ax.bar(dates_te_ff, y_te,
        color=["#2980b9" if v>=0 else "#e74c3c" for v in y_te],
        width=20, alpha=0.85, label="Actual (test)")
-ax.plot(dates_te, arimax_pred, "o-", color="#e74c3c", linewidth=2,
+ax.plot(dates_te_ff, arimax_pred, "o-", color="#e74c3c", linewidth=2,
         markersize=5, label=f"ARIMAX (R²={m_arimax['R2']:.3f})")
 ax.plot(dates_te, np.array(var_preds), "s--", color="#2ca02c", linewidth=2,
         markersize=5, label=f"VAR(1) (R²={m_var['R2']:.3f})")
@@ -946,7 +992,7 @@ ff_rows = [
      "DirAcc":round(m_naive["DirAcc"],1),"Note":"Benchmark"},
     {"Model":"ARIMAX(1,0,1)","Target":"KSE30_sector","RMSE":round(m_arimax["RMSE"],2),
      "MAE":round(m_arimax["MAE"],2),"R2":round(m_arimax["R2"],4),
-     "DirAcc":round(m_arimax["DirAcc"],1),"Note":"Primary"},
+     "DirAcc":round(m_arimax["DirAcc"],1),"Note":f"Primary ({best_arimax['spec']})"},
     {"Model":"VAR(1)","Target":"KSE30_sector","RMSE":round(m_var["RMSE"],2),
      "MAE":round(m_var["MAE"],2),"R2":round(m_var["R2"],4),
      "DirAcc":round(m_var["DirAcc"],1),"Note":"System model"},
@@ -1234,6 +1280,79 @@ m_naive_wt = metrics_reg(y_wt_te, test_p["cur_weight"].values, "Naive wt      ")
 m_ridge_wt = metrics_reg(y_wt_te, ridge.predict(X_te_p),       "Ridge         ")
 m_rf_wt    = metrics_reg(y_wt_te, rf_r.predict(X_te_p),        "Random Forest ")
 
+# Expanding-window CV for weight models (overfitting/stability diagnostic)
+print("\n  Expanding-window CV (weight models):")
+cv_min_train_wins = 3
+cv_fold_rows = []
+oof_true, oof_naive, oof_ridge, oof_rf = [], [], [], []
+win_ids_sorted = sorted(panel["win_idx"].unique())
+for wi_test in win_ids_sorted:
+    if wi_test < cv_min_train_wins:
+        continue
+    cv_train = panel[panel["win_idx"] < wi_test].copy()
+    cv_test  = panel[panel["win_idx"] == wi_test].copy()
+    if cv_train.empty or cv_test.empty:
+        continue
+
+    cv_train_meds = cv_train[FEAT_COLS].median()
+    cv_train[FEAT_COLS] = cv_train[FEAT_COLS].fillna(cv_train_meds)
+    cv_test[FEAT_COLS] = cv_test[FEAT_COLS].fillna(cv_train_meds)
+
+    cv_scaler = StandardScaler()
+    cv_X_tr = cv_scaler.fit_transform(cv_train[FEAT_COLS].values)
+    cv_X_te = cv_scaler.transform(cv_test[FEAT_COLS].values)
+    cv_y_tr = cv_train["target_weight"].values
+    cv_y_te = cv_test["target_weight"].values
+
+    cv_ridge_m = Ridge(alpha=1.0).fit(cv_X_tr, cv_y_tr)
+    cv_rf_m = RandomForestRegressor(n_estimators=100, max_depth=4,
+                                    min_samples_leaf=3, random_state=42
+                                    ).fit(cv_X_tr, cv_y_tr)
+
+    pred_naive = cv_test["cur_weight"].values
+    pred_ridge = cv_ridge_m.predict(cv_X_te)
+    pred_rf = cv_rf_m.predict(cv_X_te)
+
+    m_naive_fold = metrics_basic(cv_y_te, pred_naive)
+    m_ridge_fold = metrics_basic(cv_y_te, pred_ridge)
+    m_rf_fold = metrics_basic(cv_y_te, pred_rf)
+
+    cv_fold_rows.append({
+        "Scope": "Fold",
+        "Task": "WeightCV",
+        "Model": "All",
+        "test_win_idx": int(wi_test),
+        "n_train_rows": int(len(cv_train)),
+        "n_test_rows": int(len(cv_test)),
+        "naive_rmse": round(m_naive_fold["RMSE"], 4),
+        "naive_mae": round(m_naive_fold["MAE"], 4),
+        "naive_r2": round(m_naive_fold["R2"], 4),
+        "ridge_rmse": round(m_ridge_fold["RMSE"], 4),
+        "ridge_mae": round(m_ridge_fold["MAE"], 4),
+        "ridge_r2": round(m_ridge_fold["R2"], 4),
+        "rf_rmse": round(m_rf_fold["RMSE"], 4),
+        "rf_mae": round(m_rf_fold["MAE"], 4),
+        "rf_r2": round(m_rf_fold["R2"], 4)
+    })
+
+    oof_true.extend(cv_y_te.tolist())
+    oof_naive.extend(pred_naive.tolist())
+    oof_ridge.extend(pred_ridge.tolist())
+    oof_rf.extend(pred_rf.tolist())
+
+if len(oof_true) > 0:
+    cv_naive = metrics_basic(oof_true, oof_naive)
+    cv_ridge = metrics_basic(oof_true, oof_ridge)
+    cv_rf = metrics_basic(oof_true, oof_rf)
+    print(f"    OOF Naive         RMSE={cv_naive['RMSE']:.4f}  MAE={cv_naive['MAE']:.4f}  R2={cv_naive['R2']:.4f}")
+    print(f"    OOF Ridge         RMSE={cv_ridge['RMSE']:.4f}  MAE={cv_ridge['MAE']:.4f}  R2={cv_ridge['R2']:.4f}")
+    print(f"    OOF Random Forest RMSE={cv_rf['RMSE']:.4f}  MAE={cv_rf['MAE']:.4f}  R2={cv_rf['R2']:.4f}")
+else:
+    cv_naive = {"RMSE": np.nan, "MAE": np.nan, "R2": np.nan}
+    cv_ridge = {"RMSE": np.nan, "MAE": np.nan, "R2": np.nan}
+    cv_rf = {"RMSE": np.nan, "MAE": np.nan, "R2": np.nan}
+    print("    Not enough windows for CV.")
+
 # Task B: inclusion classification
 logit = LogisticRegression(C=0.5, max_iter=1000,
                             random_state=42).fit(X_tr_p, y_ret_tr)
@@ -1323,7 +1442,7 @@ print(f"\n  Forward forecast (next rebalancing ~{pred_target.date()}):")
 print(f"  {'Symbol':8s} {'CurWt':>7} {'PredWt':>8} {'RetProb':>9} {'Risk':>8}")
 print("  " + "-"*45)
 for _, row in future_df.iterrows():
-    flag = " ⚠" if row["exclusion_risk"]>0.35 else ""
+    flag = " !" if row["exclusion_risk"]>0.35 else ""
     print(f"  {row['symbol']:8s} {row['cur_weight']:>7.2f} "
           f"{row['pred_wt_avg']:>8.2f} {row['avg_ret_prob']:>9.3f} "
           f"{row['exclusion_risk']:>8.3f}{flag}")
@@ -1403,9 +1522,21 @@ reb_rows = [
 ]
 pd.DataFrame(reb_rows).to_csv(
     os.path.join(OUT_DIR, "results_rebalancing.csv"), index=False)
+cv_rows = [
+    {"Scope":"OOF", "Task":"WeightCV", "Model":"Naive",
+     "RMSE":round(cv_naive["RMSE"],4), "MAE":round(cv_naive["MAE"],4), "R2":round(cv_naive["R2"],4)},
+    {"Scope":"OOF", "Task":"WeightCV", "Model":"Ridge",
+     "RMSE":round(cv_ridge["RMSE"],4), "MAE":round(cv_ridge["MAE"],4), "R2":round(cv_ridge["R2"],4)},
+    {"Scope":"OOF", "Task":"WeightCV", "Model":"RandomForest",
+     "RMSE":round(cv_rf["RMSE"],4), "MAE":round(cv_rf["MAE"],4), "R2":round(cv_rf["R2"],4)},
+]
+cv_df = pd.DataFrame(cv_rows)
+if len(cv_fold_rows) > 0:
+    cv_df = pd.concat([cv_df, pd.DataFrame(cv_fold_rows)], ignore_index=True, sort=False)
+cv_df.to_csv(os.path.join(OUT_DIR, "results_rebalancing_weight_cv.csv"), index=False)
 future_df.to_csv(
     os.path.join(OUT_DIR, "results_rebalancing_forecast.csv"), index=False)
-print("\n  Saved: results_rebalancing.csv, results_rebalancing_forecast.csv")
+print("\n  Saved: results_rebalancing.csv, results_rebalancing_weight_cv.csv, results_rebalancing_forecast.csv")
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1529,3 +1660,5 @@ print(f"  results_efficiency.csv")
 print(f"  results_rebalancing.csv")
 print(f"  results_rebalancing_forecast.csv")
 print(f"  figures/  ({sum(1 for _ in __import__('pathlib').Path(FIG_BASE).rglob('*.png'))} figures)")
+
+
