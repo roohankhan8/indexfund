@@ -947,17 +947,19 @@ for t in range(len(Y_te)):
 m_var = metrics_reg(y_te, np.array(var_preds), "VAR(1)         ")
 
 # ── 5.5 Fund flow figures ─────────────────────────────────────────────────────
-dates_tr = monthly.loc[train_m,"date"].values
-dates_te = monthly.loc[test_m, "date"].values
+plot_df = monthly[["date", TARGET]].dropna().sort_values("date").copy()
+plot_train = plot_df["date"] <= pd.Timestamp(TRAIN_END)
+plot_test = ~plot_train
+dates_tr = plot_df.loc[plot_train, "date"].values
+vals_tr = plot_df.loc[plot_train, TARGET].values
+dates_te = plot_df.loc[plot_test, "date"].values
+vals_te = plot_df.loc[plot_test, TARGET].values
 
 fig, ax = plt.subplots(figsize=(13,5))
-ax.bar(dates_tr, monthly.loc[train_m,TARGET],
-       color=["#2980b9" if v>=0 else "#e74c3c"
-              for v in monthly.loc[train_m,TARGET]], width=20, alpha=0.5,
-       label="Actual (train)")
-ax.bar(dates_te_ff, y_te,
-       color=["#2980b9" if v>=0 else "#e74c3c" for v in y_te],
-       width=20, alpha=0.85, label="Actual (test)")
+ax.plot(dates_tr, vals_tr, "o-", color="#1f77b4", linewidth=2.2, markersize=4.5,
+        alpha=0.95, label="Actual (train)")
+ax.plot(dates_te, vals_te, "o-", color="#111111", linewidth=2.2, markersize=4.5,
+        alpha=0.95, label="Actual (test)")
 ax.plot(dates_te_ff, arimax_pred, "o-", color="#e74c3c", linewidth=2,
         markersize=5, label=f"ARIMAX (R²={m_arimax['R2']:.3f})")
 ax.plot(dates_te, np.array(var_preds), "s--", color="#2ca02c", linewidth=2,
