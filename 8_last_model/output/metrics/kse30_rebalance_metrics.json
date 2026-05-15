@@ -12,132 +12,132 @@
     "positive_rate_pred": 0.9855072463768116
   },
   "regression": {
-    "rmse": 0.8623126115094453,
-    "mae": 0.5977945702959272,
-    "r2": -0.37075271815153177
+    "rmse": 0.8613364526995912,
+    "mae": 0.59722743486909,
+    "r2": -0.3676510240352253
   },
   "top_features_classifier": [
     {
       "feature": "wt_rank",
-      "importance": 0.3549425658075371
+      "importance": 0.33861735958995176
     },
     {
       "feature": "ret_21d",
-      "importance": 0.18252942286699375
+      "importance": 0.19568247092209162
     },
     {
       "feature": "vol_63d",
-      "importance": 0.17151405549604354
+      "importance": 0.174586305002637
     },
     {
       "feature": "turn_63d",
-      "importance": 0.08857967031616627
+      "importance": 0.09399929724203626
     },
     {
       "feature": "AUM_NTI",
-      "importance": 0.010903557152021947
-    },
-    {
-      "feature": "AUM_TOTAL_lag1",
-      "importance": 0.00965695336400387
-    },
-    {
-      "feature": "NAV_NTI",
-      "importance": 0.009351628456779167
-    },
-    {
-      "feature": "FLOW_TOTAL_lag2",
-      "importance": 0.009085949335175146
-    },
-    {
-      "feature": "NAV_TOTAL",
-      "importance": 0.009022011786094243
-    },
-    {
-      "feature": "FLOW_AKD_lag2",
-      "importance": 0.007799248577730132
+      "importance": 0.010622451490212277
     },
     {
       "feature": "AUM_TOTAL",
-      "importance": 0.007176886197483779
+      "importance": 0.009386466461787491
     },
     {
-      "feature": "FLOW_NBP_lag1",
-      "importance": 0.006250129474360407
+      "feature": "NAV_NTI",
+      "importance": 0.009374551118948438
     },
     {
-      "feature": "flow_to_aum",
-      "importance": 0.006200129322289821
+      "feature": "FLOW_TOTAL_lag2",
+      "importance": 0.008287790721697845
+    },
+    {
+      "feature": "FLOW_AKD_lag2",
+      "importance": 0.007621238245933673
+    },
+    {
+      "feature": "NAV_TOTAL",
+      "importance": 0.007435753551152909
+    },
+    {
+      "feature": "aum_nav_ratio",
+      "importance": 0.006206277907281013
+    },
+    {
+      "feature": "AUM_TOTAL_lag1",
+      "importance": 0.00597380936736093
     },
     {
       "feature": "NAV_TOTAL_lag1",
-      "importance": 0.006018921502745705
+      "importance": 0.005578721017819502
     },
     {
-      "feature": "FLOW_NTI_lag1",
-      "importance": 0.005899539225205149
+      "feature": "NAV_AKD_lag1",
+      "importance": 0.005241174692571654
+    },
+    {
+      "feature": "FLOW_NBP_lag1",
+      "importance": 0.0050854364459791065
     }
   ],
   "top_features_regressor": [
     {
       "feature": "wt_rank",
-      "importance": 0.26433194026416346
+      "importance": 0.26427817491982675
     },
     {
       "feature": "vol_63d",
-      "importance": 0.2089471997403004
+      "importance": 0.2076711478060383
     },
     {
       "feature": "ret_21d",
-      "importance": 0.1895606783989061
+      "importance": 0.18998727240538768
     },
     {
       "feature": "turn_63d",
-      "importance": 0.10436685950341251
-    },
-    {
-      "feature": "FLOW_NTI_lag2",
-      "importance": 0.017881506634524747
+      "importance": 0.10400921451157252
     },
     {
       "feature": "FLOW_TOTAL_lag2",
-      "importance": 0.01626570621560048
+      "importance": 0.017166683961596225
+    },
+    {
+      "feature": "FLOW_NTI_lag2",
+      "importance": 0.0162021467118926
     },
     {
       "feature": "AUM_NBP_lag2",
-      "importance": 0.014545124353619222
+      "importance": 0.01374392711147685
     },
     {
       "feature": "flow_to_aum",
-      "importance": 0.013799015264461492
-    },
-    {
-      "feature": "FLOW_AKD_lag2",
-      "importance": 0.012406159206476523
+      "importance": 0.012735370902319123
     },
     {
       "feature": "FLOW_NTI",
-      "importance": 0.012336485662467284
+      "importance": 0.012006665760454218
     },
     {
-      "feature": "FLOW_TOTAL",
-      "importance": 0.00894485551983498
+      "feature": "FLOW_AKD_lag2",
+      "importance": 0.010749233713074773
     },
     {
       "feature": "AUM_NTI_lag2",
-      "importance": 0.008280973358511006
+      "importance": 0.008707972506097334
     },
     {
       "feature": "FLOW_NBP_lag2",
-      "importance": 0.008258363710164952
-    },
-    {
-      "feature": "FLOW_NBP",
-      "importance": 0.008176212130249159
+      "importance": 0.008439063719442353
     },
     {
       "feature": "FLOW_TOTAL_lag1",
-      "importance": 0.008036677044648385
+      "importance": 0.007749709269949391
+    },
+    {
+      "feature": "FLOW_TOTAL",
+      "importance": 0.007355191907980785
+    },
+    {
+      "feature": "FLOW_NBP_lag1",
+      "importance": 0.00682130928510819
     }
   ]
 }

@@ -62,6 +62,30 @@ def load_fund_features() -> pd.DataFrame:
     return out
 
 
+def load_inflation_features() -> pd.DataFrame:
+    p = DATA_DIR / "inflation.xlsx"
+    if not p.exists():
+        return pd.DataFrame(columns=["year", "inflation_annual", "inflation_lag1", "inflation_lag2", "inflation_chg"])
+
+    df = pd.read_excel(p, sheet_name=0)
+    df = df[df["Country Code"].astype(str).str.upper() == "PAK"].copy()
+    if df.empty:
+        return pd.DataFrame(columns=["year", "inflation_annual", "inflation_lag1", "inflation_lag2", "inflation_chg"])
+
+    row = df.iloc[0]
+    year_cols = [c for c in df.columns if isinstance(c, (int, np.integer)) or (isinstance(c, str) and str(c).isdigit())]
+
+    vals = []
+    for c in year_cols:
+        vals.append((int(c), pd.to_numeric(row[c], errors="coerce")))
+
+    out = pd.DataFrame(vals, columns=["year", "inflation_annual"]).sort_values("year")
+    out["inflation_lag1"] = out["inflation_annual"].shift(1)
+    out["inflation_lag2"] = out["inflation_annual"].shift(2)
+    out["inflation_chg"] = out["inflation_annual"].diff()
+    return out
+
+
 def build_rebalance_panel() -> pd.DataFrame:
     df = pd.read_csv(DATA_DIR / "kse30_daily_data.csv")
     df["Date"] = pd.to_datetime(df["Date"])
@@ -128,6 +152,13 @@ def attach_fund_features(ds: pd.DataFrame, fund_feats: pd.DataFrame) -> pd.DataF
     if "Date" not in ff.columns:
         ff = ff.rename(columns={ff.columns[0]: "Date"})
     out = ds.merge(ff, on="Date", how="left")
+    return out
+
+
+def attach_inflation_features(ds: pd.DataFrame, inflation_feats: pd.DataFrame) -> pd.DataFrame:
+    out = ds.copy()
+    out["year"] = out["Date"].dt.year
+    out = out.merge(inflation_feats, on="year", how="left")
     return out
 
 
@@ -324,9 +355,11 @@ def main() -> None:
     ensure_dirs()
 
     fund = load_fund_features()
+    inflation = load_inflation_features()
     panel = build_rebalance_panel()
     labeled = build_targets(panel)
     labeled = attach_fund_features(labeled, fund)
+    labeled = attach_inflation_features(labeled, inflation)
 
     pred_test, metrics, feature_cols, cls_importance, reg_importance = train_and_evaluate(labeled)
 
@@ -336,7 +369,9 @@ def main() -> None:
     latest["next_weight"] = np.nan
     latest["stay_next"] = np.nan
     latest["weight_change_next"] = np.nan
-    full = pd.concat([labeled, attach_fund_features(latest, fund)], ignore_index=True, sort=False)
+    latest = attach_fund_features(latest, fund)
+    latest = attach_inflation_features(latest, inflation)
+    full = pd.concat([labeled, latest], ignore_index=True, sort=False)
 
     forecast_next = score_latest_unlabeled(
         full,
