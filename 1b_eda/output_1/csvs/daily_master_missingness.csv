@@ -1,0 +1,13 @@
+column,missing_count,missing_pct
+date,0,0.0
+idx_total_volume,0,0.0
+idx_n_stocks,0,0.0
+idx_ff_mcap_total,0,0.0
+idx_log_return,0,0.0
+idx_rolling_vol_30d,0,0.0
+oil_price,0,0.0
+oil_log_return,0,0.0
+usdpkr,0,0.0
+usdpkr_log_return,0,0.0
+interest_rate,0,0.0
+cpi_yoy,0,0.0
