@@ -946,6 +946,11 @@ for t in range(len(Y_te)):
     var_preds.append(z @ betas_var[0]); history_Y.append(Y_te[t])
 m_var = metrics_reg(y_te, np.array(var_preds), "VAR(1)         ")
 
+# In-sample fitted values for train-period visual diagnostics
+dates_tr_arimax_fit = best_arimax["tr_df"]["date"].values[1:]
+dates_tr_var_fit = monthly.loc[(monthly["date"]<=TRAIN_END), "date"].dropna().values[1:]
+var_fit_train = Z_tr @ betas_var[0]
+
 # ── 5.5 Fund flow figures ─────────────────────────────────────────────────────
 plot_df = monthly[["date", TARGET]].dropna().sort_values("date").copy()
 plot_train = plot_df["date"] <= pd.Timestamp(TRAIN_END)
@@ -960,6 +965,10 @@ ax.plot(dates_tr, vals_tr, "o-", color="#1f77b4", linewidth=2.2, markersize=4.5,
         alpha=0.95, label="Actual (train)")
 ax.plot(dates_te, vals_te, "o-", color="#111111", linewidth=2.2, markersize=4.5,
         alpha=0.95, label="Actual (test)")
+ax.plot(dates_tr_arimax_fit, arimax_fit, "-", color="#e74c3c", linewidth=1.6,
+        alpha=0.45, label="ARIMAX fit (train)")
+ax.plot(dates_tr_var_fit, var_fit_train, "--", color="#2ca02c", linewidth=1.6,
+        alpha=0.45, label="VAR fit (train)")
 ax.plot(dates_te_ff, arimax_pred, "o-", color="#e74c3c", linewidth=2,
         markersize=5, label=f"ARIMAX (R²={m_arimax['R2']:.3f})")
 ax.plot(dates_te, np.array(var_preds), "s--", color="#2ca02c", linewidth=2,

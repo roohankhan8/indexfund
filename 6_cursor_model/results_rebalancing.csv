@@ -1,7 +1,7 @@
 Task,Model,RMSE,MAE,R2,Accuracy,AUC
 Weight,Naive,0.5595,0.2541,0.9677,,
 Weight,Ridge,0.559,0.2963,0.9678,,
-Weight,RandomForest,0.6834,0.3602,0.9519,,
+Weight,RandomForest,0.6814,0.352,0.9521,,
 Inclusion,Naive,,,,0.9655,
 Inclusion,Logistic,,,,0.9655,0.8214
-Inclusion,RandomForest,,,,0.9655,0.5625
+Inclusion,RandomForest,,,,0.9655,0.5714
