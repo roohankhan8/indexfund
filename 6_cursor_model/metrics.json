@@ -14,18 +14,18 @@
     {
       "model": "ARIMAX(1,0,1)",
       "target": "KSE30_sector",
-      "rmse": 58.56,
-      "mae": 37.35,
-      "r2": -0.1944,
-      "dir_accuracy": 0.75,
+      "rmse": 58.69,
+      "mae": 37.26,
+      "r2": -0.1994,
+      "dir_accuracy": 0.792,
       "note": "Primary (Base)"
     },
     {
       "model": "VAR(1)",
       "target": "KSE30_sector",
-      "rmse": 63.1,
-      "mae": 39.41,
-      "r2": -0.3867,
+      "rmse": 62.29,
+      "mae": 38.69,
+      "r2": -0.351,
       "dir_accuracy": 0.75,
       "note": "System model"
     }
@@ -56,9 +56,9 @@
     },
     {
       "model": "RandomForest",
-      "rmse": 0.6867,
-      "mae": 0.3573,
-      "r2": 0.9514
+      "rmse": 0.6756,
+      "mae": 0.3524,
+      "r2": 0.9529
     }
   ],
   "rebalancing_weight_cv_oof": [
@@ -76,9 +76,9 @@
     },
     {
       "model": "RandomForest",
-      "rmse": 0.9538,
-      "mae": 0.6095,
-      "r2": 0.8744
+      "rmse": 0.9749,
+      "mae": 0.6206,
+      "r2": 0.8688
     }
   ],
   "rebalancing_inclusion_models": [
@@ -95,7 +95,7 @@
     {
       "model": "RandomForest",
       "accuracy": 0.9655,
-      "auc": 0.5982
+      "auc": 0.5446
     }
   ]
 }

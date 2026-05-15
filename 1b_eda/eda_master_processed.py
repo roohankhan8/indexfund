@@ -32,6 +32,8 @@ warnings.filterwarnings("ignore")
 BASE_DIR = Path(__file__).resolve().parent
 DAILY_PATH = BASE_DIR / "daily_master.csv"
 MONTHLY_PATH = BASE_DIR / "monthly_master.csv"
+GOLD_PATH = BASE_DIR / "gold.csv"
+GDP_PATH = BASE_DIR / "gdp.xls"
 OUTPUT_DIR = BASE_DIR / "output"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -65,6 +67,55 @@ def load_master(path: Path) -> pd.DataFrame:
                 continue
             df[col] = pd.to_numeric(cleaned, errors="ignore")
     return df.sort_values("date").reset_index(drop=True) if "date" in df.columns else df
+
+
+def _parse_human_volume(value: object) -> float:
+    if pd.isna(value):
+        return np.nan
+    s = str(value).strip().upper().replace(",", "")
+    if s.endswith("K"):
+        return float(s[:-1]) * 1_000
+    if s.endswith("M"):
+        return float(s[:-1]) * 1_000_000
+    if s.endswith("B"):
+        return float(s[:-1]) * 1_000_000_000
+    try:
+        return float(s)
+    except ValueError:
+        return np.nan
+
+
+def load_gold(path: Path) -> pd.DataFrame:
+    df = pd.read_csv(path)
+    df = df.rename(columns={"Date": "date", "Price": "gold_price", "Vol.": "gold_volume", "Change %": "gold_change_pct"})
+    df["date"] = pd.to_datetime(df["date"], errors="coerce")
+    for col in ["gold_price", "Open", "High", "Low"]:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col].astype(str).str.replace(",", "", regex=False), errors="coerce")
+    if "gold_change_pct" in df.columns:
+        df["gold_change_pct"] = pd.to_numeric(df["gold_change_pct"].astype(str).str.replace("%", "", regex=False), errors="coerce") / 100.0
+    if "gold_volume" in df.columns:
+        df["gold_volume"] = df["gold_volume"].map(_parse_human_volume)
+    df = df.sort_values("date").reset_index(drop=True)
+    df["gold_log_return"] = np.log(df["gold_price"] / df["gold_price"].shift(1))
+    return df
+
+
+def load_gdp(path: Path) -> pd.DataFrame:
+    raw = pd.read_excel(path)
+    if raw.empty:
+        return pd.DataFrame(columns=["date", "gdp_usd"])
+    pak = raw.loc[raw["Country Code"].astype(str).str.upper() == "PAK"].copy()
+    if pak.empty:
+        pak = raw.iloc[[0]].copy()
+    year_cols = [c for c in pak.columns if str(c).isdigit()]
+    long = pak.melt(value_vars=year_cols, var_name="year", value_name="gdp_usd")
+    long["year"] = pd.to_numeric(long["year"], errors="coerce")
+    long["gdp_usd"] = pd.to_numeric(long["gdp_usd"], errors="coerce")
+    long = long.dropna(subset=["year"]).sort_values("year")
+    long["date"] = pd.to_datetime(long["year"].astype(int).astype(str) + "-12-31", errors="coerce")
+    long["gdp_yoy"] = long["gdp_usd"].pct_change()
+    return long[["date", "gdp_usd", "gdp_yoy"]].reset_index(drop=True)
 
 
 def save_overview(df: pd.DataFrame, name: str) -> None:
@@ -182,6 +233,50 @@ def monthly_specific_checks(monthly: pd.DataFrame) -> None:
         plt.close()
 
 
+def external_macro_eda(daily: pd.DataFrame, monthly: pd.DataFrame) -> None:
+    if GOLD_PATH.exists():
+        gold = load_gold(GOLD_PATH)
+        save_overview(gold, "gold")
+        save_missingness(gold, "gold")
+        gold_num = save_numeric_summary(gold, "gold")
+        plot_correlation(gold_num, "gold")
+
+        plot_time_series(gold, ["gold_price", "gold_volume", "gold_log_return"], "gold", "gold_key_timeseries.png")
+
+        if "date" in daily.columns:
+            daily_gold = daily.merge(gold[["date", "gold_price", "gold_log_return"]], on="date", how="left")
+            save_missingness(daily_gold, "daily_master_with_gold")
+            daily_gold_num = daily_gold.select_dtypes(include=[np.number])
+            plot_correlation(daily_gold_num, "daily_master_with_gold")
+
+        if "date" in monthly.columns:
+            monthly_gold = (
+                gold.set_index("date")
+                .resample("ME")
+                .agg(gold_price_end=("gold_price", "last"), gold_return_monthly=("gold_price", lambda x: x.iloc[-1] / x.iloc[0] - 1 if len(x) > 1 else np.nan))
+                .reset_index()
+            )
+            merged = monthly.merge(monthly_gold.rename(columns={"date": "date"}), on="date", how="left")
+            save_missingness(merged, "monthly_master_with_gold")
+            plot_correlation(merged.select_dtypes(include=[np.number]), "monthly_master_with_gold")
+
+    if GDP_PATH.exists():
+        gdp = load_gdp(GDP_PATH)
+        save_overview(gdp, "gdp")
+        save_missingness(gdp, "gdp")
+        gdp_num = save_numeric_summary(gdp, "gdp")
+        plot_correlation(gdp_num, "gdp")
+        plot_time_series(gdp, ["gdp_usd", "gdp_yoy"], "gdp", "gdp_key_timeseries.png")
+
+        if "date" in monthly.columns:
+            monthly_gdp = monthly.copy().sort_values("date")
+            gdp_monthly = gdp.set_index("date").resample("ME").ffill().reset_index()
+            merged = monthly_gdp.merge(gdp_monthly, on="date", how="left")
+            merged[["gdp_usd", "gdp_yoy"]] = merged[["gdp_usd", "gdp_yoy"]].ffill()
+            save_missingness(merged, "monthly_master_with_gdp")
+            plot_correlation(merged.select_dtypes(include=[np.number]), "monthly_master_with_gdp")
+
+
 def main() -> None:
     print("Loading processed masters...")
     daily = load_master(DAILY_PATH)
@@ -213,6 +308,7 @@ def main() -> None:
         "monthly_master_key_timeseries.png",
     )
     monthly_specific_checks(monthly)
+    external_macro_eda(daily, monthly)
 
     print(f"EDA complete. Outputs saved to: {OUTPUT_DIR}")
 

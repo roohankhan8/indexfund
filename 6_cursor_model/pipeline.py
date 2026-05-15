@@ -301,6 +301,53 @@ df_usd["date"] = pd.to_datetime(df_usd["date"])
 df_usd = df_usd.sort_values("date").drop_duplicates(subset="date", keep="last").reset_index(drop=True)
 df_usd["usdpkr_log_return"] = np.log(df_usd["usdpkr"] / df_usd["usdpkr"].shift(1))
 
+# Gold (daily): prefer local 6_cursor_model copy, fallback to shared folder
+gold_path_local = os.path.join(_SCRIPT_DIR, "gold.csv")
+gold_path_fallback = os.path.join(DATA_DIR, "gold.csv")
+gold_path = gold_path_local if os.path.exists(gold_path_local) else gold_path_fallback
+if os.path.exists(gold_path):
+    df_gold = pd.read_csv(gold_path)
+    df_gold = df_gold.rename(columns={"Date": "date", "Price": "gold_price"})
+    df_gold["date"] = pd.to_datetime(df_gold["date"], errors="coerce")
+    df_gold["gold_price"] = pd.to_numeric(
+        df_gold["gold_price"].astype(str).str.replace(",", "", regex=False), errors="coerce"
+    )
+    df_gold = df_gold.dropna(subset=["date", "gold_price"]).sort_values("date")
+    df_gold = df_gold.drop_duplicates(subset="date", keep="last").reset_index(drop=True)
+    df_gold["gold_log_return"] = np.log(df_gold["gold_price"] / df_gold["gold_price"].shift(1))
+else:
+    print("  Gold file not found; continuing without gold features.")
+    df_gold = pd.DataFrame(columns=["date", "gold_price", "gold_log_return"])
+
+# GDP (annual wide): map annual levels and YoY growth to monthly timeline
+gdp_path_local = os.path.join(_SCRIPT_DIR, "gdp.xls")
+gdp_path_fallback = os.path.join(DATA_DIR, "gdp.xls")
+gdp_path = gdp_path_local if os.path.exists(gdp_path_local) else gdp_path_fallback
+if os.path.exists(gdp_path):
+    gdp_raw = pd.read_excel(gdp_path)
+    gdp_row = gdp_raw[gdp_raw["Country Code"].astype(str).str.upper().eq("PAK")]
+    if gdp_row.empty:
+        gdp_row = gdp_raw.iloc[[0]]
+    gdp_row = gdp_row.iloc[0]
+    gdp_pairs = []
+    for c in gdp_raw.columns:
+        cs = str(c)
+        if cs.isdigit():
+            val = pd.to_numeric(gdp_row[c], errors="coerce")
+            gdp_pairs.append((int(cs), val))
+    df_gdp_annual = pd.DataFrame(gdp_pairs, columns=["year", "gdp_usd"]).dropna()
+    df_gdp_annual = df_gdp_annual.sort_values("year").reset_index(drop=True)
+    df_gdp_annual["gdp_yoy"] = df_gdp_annual["gdp_usd"].pct_change()
+    gdp_monthly_dates = pd.date_range(raw["date"].min(), raw["date"].max(), freq="ME")
+    df_gdp_monthly = pd.DataFrame({"date": gdp_monthly_dates})
+    df_gdp_monthly["year"] = df_gdp_monthly["date"].dt.year
+    df_gdp_monthly = df_gdp_monthly.merge(df_gdp_annual, on="year", how="left")
+    df_gdp_monthly[["gdp_usd", "gdp_yoy"]] = df_gdp_monthly[["gdp_usd", "gdp_yoy"]].ffill().bfill()
+    df_gdp_monthly = df_gdp_monthly[["date", "gdp_usd", "gdp_yoy"]]
+else:
+    print("  GDP file not found; continuing without GDP features.")
+    df_gdp_monthly = pd.DataFrame(columns=["date", "gdp_usd", "gdp_yoy"])
+
 # CPI
 df_cpi = pd.read_csv(os.path.join(DATA_DIR, "cpi.csv"), skiprows=1, header=0)
 df_cpi.columns = ["period_str", "cpi_yoy"]
@@ -394,6 +441,15 @@ cpi_daily = cpi_base.reindex(trading_days.values).reset_index().rename(
     columns={"index":"date"}
 )
 macro_daily = macro_daily.merge(cpi_daily, on="date", how="left")
+if not df_gold.empty:
+    macro_daily = macro_daily.merge(
+        daily_fill(df_gold, "date", ["gold_price", "gold_log_return"]),
+        on="date", how="left"
+    )
+if not df_gdp_monthly.empty:
+    gdp_base = df_gdp_monthly.set_index("date").reindex(all_days).ffill().bfill()
+    gdp_daily = gdp_base.reindex(trading_days.values).reset_index().rename(columns={"index": "date"})
+    macro_daily = macro_daily.merge(gdp_daily, on="date", how="left")
 
 # ── KSE-30 index-level aggregates (from constituent data) ────────────────────
 # Weight-sum sanity: fill weight_pct=0 with NaN then ffill within symbol
@@ -441,6 +497,10 @@ monthly = (
         usdpkr_return_monthly = ("usdpkr_log_return",  "sum"),
         interest_rate_end     = ("interest_rate",      "last"),
         cpi_yoy_end           = ("cpi_yoy",            "last"),
+        gold_price_end        = ("gold_price",         "last"),
+        gold_return_monthly   = ("gold_log_return",    "sum"),
+        gdp_usd_end           = ("gdp_usd",            "last"),
+        gdp_yoy_end           = ("gdp_yoy",            "last"),
         idx_return_monthly    = ("idx_log_return",     "sum"),
         idx_vol_monthly       = ("idx_rolling_vol_30d","last"),
     ).reset_index()
@@ -497,6 +557,7 @@ daily.drop(columns=["month"]).to_csv(
 MONTHLY_EXPORT_COLS = [
     "date", "oil_price_end", "oil_return_monthly", "usdpkr_end",
     "usdpkr_return_monthly", "interest_rate_end", "cpi_yoy_end",
+    "gold_price_end", "gold_return_monthly", "gdp_usd_end", "gdp_yoy_end",
     "idx_return_monthly", "idx_vol_monthly",
     "sector_aum_mn", "total_fund_flow", "flow_pct_sector", "flow_spike_sector",
 ]
@@ -795,7 +856,8 @@ monthly["cpi_yoy_lag1"] = monthly["cpi_yoy_end"].shift(1)
 monthly["cpi_yoy_chg"] = monthly["cpi_yoy_end"].diff()
 
 MACRO_COLS = ["interest_rate_end","cpi_yoy_end",
-              "oil_return_monthly","usdpkr_return_monthly"]
+              "oil_return_monthly","usdpkr_return_monthly",
+              "gold_return_monthly","gdp_yoy_end"]
 TARGET     = "total_fund_flow"
 
 train_m = monthly["date"] <= TRAIN_END
@@ -852,6 +914,8 @@ def granger_test(y, x, lags=3, label=""):
 y_flow = monthly[TARGET].values
 for macro_col, label in [("interest_rate_end","IR -> flow"),
                           ("cpi_yoy_end","CPI -> flow"),
+                          ("gold_return_monthly","Gold -> flow"),
+                          ("gdp_yoy_end","GDP YoY -> flow"),
                           ("oil_return_monthly","Oil -> flow"),
                           ("usdpkr_return_monthly","USD/PKR -> flow")]:
     res = granger_test(y_flow, monthly[macro_col].values, lags=3, label=label)
@@ -930,7 +994,7 @@ m_naive  = metrics_reg(y_te, [y_tr[-1]]+list(y_te[:-1]), "Naive (RW)     ")
 # ── 5.4 VAR(1) model ─────────────────────────────────────────────────────────
 print("  VAR(1) ...")
 ENDO = ["total_fund_flow","interest_rate_end","cpi_yoy_end"]
-EXOG = ["oil_return_monthly","usdpkr_return_monthly"]
+EXOG = ["oil_return_monthly","usdpkr_return_monthly","gold_return_monthly","gdp_yoy_end"]
 var_tr = monthly[monthly["date"]<=TRAIN_END][ENDO+EXOG].dropna()
 var_te = monthly[monthly["date"]>TRAIN_END][ENDO+EXOG].dropna()
 Y_tr = var_tr[ENDO].values.astype(float)
