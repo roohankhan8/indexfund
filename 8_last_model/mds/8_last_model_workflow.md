@@ -1,30 +1,40 @@
 ﻿# 8_last_model Workflow Notes
 
-## Objective
-Build an end-to-end monthly fund-flow prediction and portfolio-tilt workflow for KSE-30 index funds (AKD, NBP, NTI) using market and macro lagged signals.
+## Primary Objective
+Predict for each current KSE-30 company at rebalance date:
+1. Whether it will **stay** in KSE-30 at next rebalance (or be excluded)
+2. Expected **change in index weight** at next rebalance
 
-## Run
+NAV/AUM data from AKD, NBP, and NTI funds are mandatory model features.
+
+## Main Script
 ```powershell
-python pipeline.py
+python kse30_rebalance_pipeline.py
 ```
 
 ## Inputs
-- `data/funds_data.xlsx` (sheets: AKD, NBP, NTI)
 - `data/kse30_daily_data.csv`
-- `data/macro_data.xlsx` (OIL, IR, USD)
-- `data/cpi.csv`
+- `data/funds_data.xlsx` (AKD, NBP, NTI)
+
+## Target Construction
+- Rebalance snapshots are taken at **March and September month-end**.
+- For each symbol in snapshot `t`:
+  - `stay_next = 1` if symbol appears in snapshot `t+1`, else `0`
+  - `weight_change_next = next_weight - current_weight` (next weight is `0` if excluded)
+
+## Feature Groups
+- Symbol-level market features:
+  - current index weight and rank
+  - 21-day return proxy
+  - 63-day volatility and turnover proxies
+- Fund features (AKD/NBP/NTI):
+  - NAV, AUM, and flow (current + lags)
+  - totals across funds
+  - derived ratios (`aum_nav_ratio`, `flow_to_aum`)
 
 ## Outputs
-- `output/tables/model_frame_monthly.csv`
-- `output/tables/test_predictions.csv`
-- `output/tables/strategy_backtest.csv`
-- `output/metrics/metrics_summary.json`
-- `output/figures/strategy_cumulative_return.png`
-
-## Method summary
-1. Compute monthly flow using: `flow_t = AUM_t - AUM_(t-1) * (NAV_t / NAV_(t-1))`
-2. Build monthly market features from KSE-30 constituents.
-3. Build monthly macro features with forward-filled level series and transformed changes.
-4. Create lagged predictors (1,2,3 months).
-5. Forecast next-month fund flows and directions (RandomForest regressor/classifier).
-6. Convert predicted flows into positive-score portfolio tilts; compare with equal-weight baseline.
+- `output/tables/kse30_rebalance_training_panel.csv`
+- `output/tables/kse30_rebalance_test_predictions.csv`
+- `output/tables/kse30_next_rebalance_forecast.csv`
+- `output/metrics/kse30_rebalance_metrics.json`
+- `output/figures/kse30_stay_rate_actual_vs_pred.png`

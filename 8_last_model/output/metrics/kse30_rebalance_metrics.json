@@ -1,0 +1,143 @@
+{
+  "n_train": 345,
+  "n_test": 69,
+  "test_dates": [
+    "2025-03-31",
+    "2025-09-30"
+  ],
+  "classification": {
+    "accuracy": 0.927536231884058,
+    "f1": 0.9618320610687023,
+    "positive_rate_actual": 0.9130434782608695,
+    "positive_rate_pred": 0.9855072463768116
+  },
+  "regression": {
+    "rmse": 0.8623126115094453,
+    "mae": 0.5977945702959272,
+    "r2": -0.37075271815153177
+  },
+  "top_features_classifier": [
+    {
+      "feature": "wt_rank",
+      "importance": 0.3549425658075371
+    },
+    {
+      "feature": "ret_21d",
+      "importance": 0.18252942286699375
+    },
+    {
+      "feature": "vol_63d",
+      "importance": 0.17151405549604354
+    },
+    {
+      "feature": "turn_63d",
+      "importance": 0.08857967031616627
+    },
+    {
+      "feature": "AUM_NTI",
+      "importance": 0.010903557152021947
+    },
+    {
+      "feature": "AUM_TOTAL_lag1",
+      "importance": 0.00965695336400387
+    },
+    {
+      "feature": "NAV_NTI",
+      "importance": 0.009351628456779167
+    },
+    {
+      "feature": "FLOW_TOTAL_lag2",
+      "importance": 0.009085949335175146
+    },
+    {
+      "feature": "NAV_TOTAL",
+      "importance": 0.009022011786094243
+    },
+    {
+      "feature": "FLOW_AKD_lag2",
+      "importance": 0.007799248577730132
+    },
+    {
+      "feature": "AUM_TOTAL",
+      "importance": 0.007176886197483779
+    },
+    {
+      "feature": "FLOW_NBP_lag1",
+      "importance": 0.006250129474360407
+    },
+    {
+      "feature": "flow_to_aum",
+      "importance": 0.006200129322289821
+    },
+    {
+      "feature": "NAV_TOTAL_lag1",
+      "importance": 0.006018921502745705
+    },
+    {
+      "feature": "FLOW_NTI_lag1",
+      "importance": 0.005899539225205149
+    }
+  ],
+  "top_features_regressor": [
+    {
+      "feature": "wt_rank",
+      "importance": 0.26433194026416346
+    },
+    {
+      "feature": "vol_63d",
+      "importance": 0.2089471997403004
+    },
+    {
+      "feature": "ret_21d",
+      "importance": 0.1895606783989061
+    },
+    {
+      "feature": "turn_63d",
+      "importance": 0.10436685950341251
+    },
+    {
+      "feature": "FLOW_NTI_lag2",
+      "importance": 0.017881506634524747
+    },
+    {
+      "feature": "FLOW_TOTAL_lag2",
+      "importance": 0.01626570621560048
+    },
+    {
+      "feature": "AUM_NBP_lag2",
+      "importance": 0.014545124353619222
+    },
+    {
+      "feature": "flow_to_aum",
+      "importance": 0.013799015264461492
+    },
+    {
+      "feature": "FLOW_AKD_lag2",
+      "importance": 0.012406159206476523
+    },
+    {
+      "feature": "FLOW_NTI",
+      "importance": 0.012336485662467284
+    },
+    {
+      "feature": "FLOW_TOTAL",
+      "importance": 0.00894485551983498
+    },
+    {
+      "feature": "AUM_NTI_lag2",
+      "importance": 0.008280973358511006
+    },
+    {
+      "feature": "FLOW_NBP_lag2",
+      "importance": 0.008258363710164952
+    },
+    {
+      "feature": "FLOW_NBP",
+      "importance": 0.008176212130249159
+    },
+    {
+      "feature": "FLOW_TOTAL_lag1",
+      "importance": 0.008036677044648385
+    }
+  ]
+}
