@@ -656,13 +656,13 @@ savefig("eda", "E04_macro_overview.png")
 
 # ── 3.6 Monthly correlation heatmap ──────────────────────────────────────────
 corr_cols = ["oil_return_monthly","usdpkr_return_monthly","interest_rate_end",
-             "cpi_yoy_end","idx_return_monthly","idx_vol_monthly",
-             "flow_pct_sector"]
-corr_labels = ["Oil ret","USD/PKR ret","Int rate","CPI YoY",
-               "KSE-30 ret","KSE-30 vol","Sector flow %"]
+             "cpi_yoy_end","gold_return_monthly","gdp_yoy_end",
+             "idx_return_monthly","idx_vol_monthly","flow_pct_sector"]
+corr_labels = ["Oil ret","USD/PKR ret","Int rate","CPI YoY","Gold ret",
+               "GDP YoY","KSE-30 ret","KSE-30 vol","Sector flow %"]
 corr_m = monthly[corr_cols].dropna().corr()
 corr_m.index = corr_m.columns = corr_labels
-fig, ax = plt.subplots(figsize=(11, 8))
+fig, ax = plt.subplots(figsize=(12, 9))
 mask = np.triu(np.ones_like(corr_m, dtype=bool), k=1)
 sns.heatmap(corr_m, annot=True, fmt=".2f", cmap="RdYlGn", center=0,
             vmin=-1, vmax=1, mask=mask, linewidths=0.5, ax=ax,
