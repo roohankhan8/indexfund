@@ -1,0 +1,101 @@
+{
+  "months_in_model_frame": 60,
+  "months_in_test": 25,
+  "fund_flow_models": [
+    {
+      "model": "Naive (RW)",
+      "target": "KSE30_sector",
+      "rmse": 83.1,
+      "mae": 51.54,
+      "r2": -1.4048,
+      "dir_accuracy": 0.375,
+      "note": "Benchmark"
+    },
+    {
+      "model": "ARIMAX(1,0,1)",
+      "target": "KSE30_sector",
+      "rmse": 59.89,
+      "mae": 36.65,
+      "r2": -0.249,
+      "dir_accuracy": 0.667,
+      "note": "Primary (Base+CPI_lag1+chg)"
+    },
+    {
+      "model": "VAR(1)",
+      "target": "KSE30_sector",
+      "rmse": 61.8,
+      "mae": 37.86,
+      "r2": -0.3302,
+      "dir_accuracy": 0.708,
+      "note": "System model"
+    }
+  ],
+  "garch_models": [
+    {
+      "series": "KSE-30",
+      "model": "GARCH(1,1)",
+      "omega": 0.074916,
+      "alpha": 0.1284,
+      "beta": 0.8383,
+      "persistence": 0.9667,
+      "aic": 4243.43
+    }
+  ],
+  "rebalancing_weight_models": [
+    {
+      "model": "Naive",
+      "rmse": 0.5595,
+      "mae": 0.2541,
+      "r2": 0.9677
+    },
+    {
+      "model": "Ridge",
+      "rmse": 0.559,
+      "mae": 0.2963,
+      "r2": 0.9678
+    },
+    {
+      "model": "RandomForest",
+      "rmse": 0.6797,
+      "mae": 0.361,
+      "r2": 0.9524
+    }
+  ],
+  "rebalancing_weight_cv_oof": [
+    {
+      "model": "Naive",
+      "rmse": 0.841,
+      "mae": 0.5211,
+      "r2": 0.9023
+    },
+    {
+      "model": "Ridge",
+      "rmse": 0.8781,
+      "mae": 0.5707,
+      "r2": 0.8935
+    },
+    {
+      "model": "RandomForest",
+      "rmse": 0.9688,
+      "mae": 0.6185,
+      "r2": 0.8704
+    }
+  ],
+  "rebalancing_inclusion_models": [
+    {
+      "model": "Naive",
+      "accuracy": 0.9655,
+      "auc": null
+    },
+    {
+      "model": "Logistic",
+      "accuracy": 0.9655,
+      "auc": 0.8214
+    },
+    {
+      "model": "RandomForest",
+      "accuracy": 0.9655,
+      "auc": 0.5714
+    }
+  ]
+}

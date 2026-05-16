@@ -639,7 +639,7 @@ plt.tight_layout()
 savefig("eda", "E03_fund_flows.png")
 
 # ── 3.5 Macro overview ────────────────────────────────────────────────────────
-fig, axes = plt.subplots(3, 1, figsize=(13, 8), sharex=True)
+fig, axes = plt.subplots(5, 1, figsize=(13, 12), sharex=True)
 fig.suptitle("Macro Indicators", fontweight="bold")
 axes[0].plot(daily["date"], daily["oil_price"], color="#c0392b", linewidth=1)
 axes[0].set_ylabel("Brent (USD/bbl)")
@@ -648,8 +648,26 @@ axes[1].set_ylabel("PKR/USD")
 axes[2].step(daily["date"], daily["interest_rate"], color="#16a085",
              linewidth=1.5, where="post")
 axes[2].set_ylabel("SBP Rate (%)")
-axes[2].xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
-axes[2].xaxis.set_major_locator(mdates.MonthLocator(interval=6))
+if "gold_price" in daily.columns:
+    axes[3].plot(daily["date"], daily["gold_price"], color="#d4ac0d", linewidth=1)
+    axes[3].set_ylabel("Gold (USD/oz)")
+else:
+    axes[3].text(0.5, 0.5, "Gold series unavailable", ha="center", va="center", transform=axes[3].transAxes)
+
+if "gdp_yoy" in daily.columns:
+    axes[4].step(daily["date"], daily["gdp_yoy"] * 100, color="#2980b9", linewidth=1.5, where="post")
+    axes[4].set_ylabel("GDP YoY (%)")
+elif "gdp_yoy_end" in daily.columns:
+    axes[4].step(daily["date"], daily["gdp_yoy_end"] * 100, color="#2980b9", linewidth=1.5, where="post")
+    axes[4].set_ylabel("GDP YoY (%)")
+elif "gdp_usd" in daily.columns:
+    axes[4].step(daily["date"], daily["gdp_usd"] / 1e9, color="#2980b9", linewidth=1.5, where="post")
+    axes[4].set_ylabel("GDP (USD bn)")
+else:
+    axes[4].text(0.5, 0.5, "GDP series unavailable", ha="center", va="center", transform=axes[4].transAxes)
+
+axes[4].xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
+axes[4].xaxis.set_major_locator(mdates.MonthLocator(interval=6))
 fig.autofmt_xdate(rotation=30)
 plt.tight_layout()
 savefig("eda", "E04_macro_overview.png")
@@ -859,6 +877,7 @@ MACRO_COLS = ["interest_rate_end","cpi_yoy_end",
               "oil_return_monthly","usdpkr_return_monthly",
               "gold_return_monthly","gdp_yoy_end"]
 TARGET     = "total_fund_flow"
+MODEL_TARGET = f"{TARGET}__st"
 
 train_m = monthly["date"] <= TRAIN_END
 test_m  = ~train_m
@@ -882,8 +901,31 @@ def adf_simple(series, name):
           f"{'Stationary' if p<0.05 else 'Non-stationary'}")
     return p
 
+def to_stationary_series(df, col, train_mask, p_cut=0.05):
+    tr = df.loc[train_mask, col]
+    p = adf_simple(tr, f"{col} (train)")
+    out = df[col].astype(float).copy()
+    mode = "none"
+    if p >= p_cut:
+        positive = (df[col].dropna() > 0).all()
+        level_like = col.endswith("_end") or col in ["interest_rate_end", "cpi_yoy_end", "gdp_yoy_end"]
+        if positive and level_like:
+            out = np.log(df[col]).diff()
+            mode = "logdiff"
+        else:
+            out = df[col].diff()
+            mode = "diff"
+    return out, {"variable": col, "adf_p_train": float(p), "transform": mode}
+
+model_monthly = monthly.copy()
+stationarity_meta = []
 for col in [TARGET]+MACRO_COLS+["cpi_yoy_lag1","cpi_yoy_chg"]:
-    adf_simple(monthly[col], col)
+    model_monthly[f"{col}__st"], meta = to_stationary_series(monthly, col, train_m)
+    stationarity_meta.append(meta)
+
+print("\n  Stationarity transforms used:")
+for r in stationarity_meta:
+    print(f"    {r['variable']:30s}  p={r['adf_p_train']:.4f}  -> {r['transform']}")
 
 # ── 5.2 Granger causality ────────────────────────────────────────────────────
 print("\n  Granger causality (macro -> fund flow):")
@@ -911,14 +953,14 @@ def granger_test(y, x, lags=3, label=""):
         results.append((lag,F,p))
     return results
 
-y_flow = monthly[TARGET].values
+y_flow = model_monthly[MODEL_TARGET].values
 for macro_col, label in [("interest_rate_end","IR -> flow"),
                           ("cpi_yoy_end","CPI -> flow"),
                           ("gold_return_monthly","Gold -> flow"),
                           ("gdp_yoy_end","GDP YoY -> flow"),
                           ("oil_return_monthly","Oil -> flow"),
                           ("usdpkr_return_monthly","USD/PKR -> flow")]:
-    res = granger_test(y_flow, monthly[macro_col].values, lags=3, label=label)
+    res = granger_test(y_flow, model_monthly[f"{macro_col}__st"].values, lags=3, label=label)
     for lag, F, p in res[:1]:
         sig = "**" if p<0.05 else ("*" if p<0.10 else "ns")
         print(f"    {label:20s} lag={lag}: F={F:.3f}  p={p:.4f}  {sig}")
@@ -931,6 +973,7 @@ macro_sets = [
     ("Base+CPI_lag1", MACRO_COLS + ["cpi_yoy_lag1"]),
     ("Base+CPI_lag1+chg", MACRO_COLS + ["cpi_yoy_lag1", "cpi_yoy_chg"]),
 ]
+macro_sets_st = [(name, [f"{c}__st" for c in cols]) for name, cols in macro_sets]
 
 def fit_arimax(y_train, X_train, y_test, X_test, p=1):
     n_tr = len(y_train)
@@ -953,20 +996,20 @@ def fit_arimax(y_train, X_train, y_test, X_test, p=1):
     return np.array(preds), fitted, beta, r2_tr
 
 arimax_candidates = []
-for spec_name, cols in macro_sets:
-    df_m_spec = monthly[["date", TARGET] + cols].dropna().copy()
+for spec_name, cols_st in macro_sets_st:
+    df_m_spec = model_monthly[["date", MODEL_TARGET] + cols_st].dropna().copy()
     tr_df_s = df_m_spec[df_m_spec["date"] <= TRAIN_END]
     te_df_s = df_m_spec[df_m_spec["date"] > TRAIN_END]
     if len(tr_df_s) < 12 or len(te_df_s) < 6:
         continue
-    y_tr_s = tr_df_s[TARGET].values.astype(float)
-    y_te_s = te_df_s[TARGET].values.astype(float)
-    X_tr_s = tr_df_s[cols].values.astype(float)
-    X_te_s = te_df_s[cols].values.astype(float)
+    y_tr_s = tr_df_s[MODEL_TARGET].values.astype(float)
+    y_te_s = te_df_s[MODEL_TARGET].values.astype(float)
+    X_tr_s = tr_df_s[cols_st].values.astype(float)
+    X_te_s = te_df_s[cols_st].values.astype(float)
     pred_s, fit_s, beta_s, r2_tr_s = fit_arimax(y_tr_s, X_tr_s, y_te_s, X_te_s, p=1)
     m_s = metrics_reg(y_te_s, pred_s, f"ARIMAX {spec_name:14s}")
     arimax_candidates.append({
-        "spec": spec_name, "cols": cols,
+        "spec": spec_name, "cols_st": cols_st,
         "tr_df": tr_df_s, "te_df": te_df_s,
         "y_tr": y_tr_s, "y_te": y_te_s,
         "pred": pred_s, "fit": fit_s, "beta": beta_s,
@@ -978,12 +1021,12 @@ if not arimax_candidates:
 
 best_arimax = sorted(arimax_candidates,
                      key=lambda d: (d["metrics"]["RMSE"], -d["metrics"]["R2"]))[0]
-print(f"  Selected ARIMAX spec: {best_arimax['spec']} | cols={best_arimax['cols']}")
+print(f"  Selected ARIMAX spec: {best_arimax['spec']} | cols={best_arimax['cols_st']}")
 
 y_tr  = best_arimax["y_tr"]
 y_te  = best_arimax["y_te"]
-X_tr  = best_arimax["tr_df"][best_arimax["cols"]].values.astype(float)
-X_te  = best_arimax["te_df"][best_arimax["cols"]].values.astype(float)
+X_tr  = best_arimax["tr_df"][best_arimax["cols_st"]].values.astype(float)
+X_te  = best_arimax["te_df"][best_arimax["cols_st"]].values.astype(float)
 dates_te_ff = best_arimax["te_df"]["date"].values
 
 arimax_pred, arimax_fit, arimax_beta, arimax_r2_tr = fit_arimax(
@@ -993,10 +1036,10 @@ m_naive  = metrics_reg(y_te, [y_tr[-1]]+list(y_te[:-1]), "Naive (RW)     ")
 
 # ── 5.4 VAR(1) model ─────────────────────────────────────────────────────────
 print("  VAR(1) ...")
-ENDO = ["total_fund_flow","interest_rate_end","cpi_yoy_end"]
-EXOG = ["oil_return_monthly","usdpkr_return_monthly","gold_return_monthly","gdp_yoy_end"]
-var_tr = monthly[monthly["date"]<=TRAIN_END][ENDO+EXOG].dropna()
-var_te = monthly[monthly["date"]>TRAIN_END][ENDO+EXOG].dropna()
+ENDO = [f"{TARGET}__st","interest_rate_end__st","cpi_yoy_end__st"]
+EXOG = ["oil_return_monthly__st","usdpkr_return_monthly__st","gold_return_monthly__st","gdp_yoy_end__st"]
+var_tr = model_monthly[model_monthly["date"]<=TRAIN_END][ENDO+EXOG].dropna()
+var_te = model_monthly[model_monthly["date"]>TRAIN_END][ENDO+EXOG].dropna()
 Y_tr = var_tr[ENDO].values.astype(float)
 X_tr_v = var_tr[EXOG].values.astype(float)
 Y_te = var_te[ENDO].values.astype(float)
@@ -1012,17 +1055,17 @@ m_var = metrics_reg(y_te, np.array(var_preds), "VAR(1)         ")
 
 # In-sample fitted values for train-period visual diagnostics
 dates_tr_arimax_fit = best_arimax["tr_df"]["date"].values[1:]
-dates_tr_var_fit = monthly.loc[(monthly["date"]<=TRAIN_END), "date"].dropna().values[1:]
+dates_tr_var_fit = model_monthly[model_monthly["date"]<=TRAIN_END][["date"] + ENDO + EXOG].dropna()["date"].values[1:]
 var_fit_train = Z_tr @ betas_var[0]
 
 # ── 5.5 Fund flow figures ─────────────────────────────────────────────────────
-plot_df = monthly[["date", TARGET]].dropna().sort_values("date").copy()
+plot_df = model_monthly[["date", MODEL_TARGET]].dropna().sort_values("date").copy()
 plot_train = plot_df["date"] <= pd.Timestamp(TRAIN_END)
 plot_test = ~plot_train
 dates_tr = plot_df.loc[plot_train, "date"].values
-vals_tr = plot_df.loc[plot_train, TARGET].values
+vals_tr = plot_df.loc[plot_train, MODEL_TARGET].values
 dates_te = plot_df.loc[plot_test, "date"].values
-vals_te = plot_df.loc[plot_test, TARGET].values
+vals_te = plot_df.loc[plot_test, MODEL_TARGET].values
 
 fig, ax = plt.subplots(figsize=(13,5))
 ax.plot(dates_tr, vals_tr, "o-", color="#1f77b4", linewidth=2.2, markersize=4.5,
@@ -1039,8 +1082,8 @@ ax.plot(dates_te, np.array(var_preds), "s--", color="#2ca02c", linewidth=2,
         markersize=5, label=f"VAR(1) (R²={m_var['R2']:.3f})")
 ax.axvline(pd.Timestamp(TRAIN_END), color="gray", linestyle=":", linewidth=1.5)
 ax.axhline(0, color="black", linewidth=0.5)
-ax.set_title("KSE-30 sector net flow - Actual vs ARIMAX vs VAR(1) (PKR Millions)")
-ax.set_ylabel("Flow (PKR mn)"); ax.legend(fontsize=8)
+ax.set_title("KSE-30 sector net flow (stationarity-transformed) - Actual vs ARIMAX vs VAR(1)")
+ax.set_ylabel("Transformed flow"); ax.legend(fontsize=8)
 ax.xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=4))
 fig.autofmt_xdate(rotation=30)
