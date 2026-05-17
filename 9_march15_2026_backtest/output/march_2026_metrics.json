@@ -1,0 +1,149 @@
+{
+  "assumptions": {
+    "rebalance_event_requested": "2026-03-15",
+    "rebalance_proxy_in_data": "2026-03-31",
+    "training_cutoff": "2025-12-31",
+    "feature_snapshot_date_for_this_cycle": "2025-09-30",
+    "max_training_feature_date": "2025-03-31",
+    "max_target_feature_date": "2025-09-30"
+  },
+  "sample_sizes": {
+    "n_train": 380,
+    "n_target_cycle": 34
+  },
+  "classification": {
+    "accuracy": 0.9117647058823529,
+    "f1": 0.9538461538461539,
+    "actual_stay_rate": 0.9117647058823529,
+    "predicted_stay_rate": 1.0
+  },
+  "regression": {
+    "rmse": 0.7491610126248389,
+    "mae": 0.46988583818072194,
+    "r2": -0.21783724116778602
+  },
+  "top_features_classifier": [
+    {
+      "feature": "wt_rank",
+      "importance": 0.09815561608871938
+    },
+    {
+      "feature": "ord_mcap",
+      "importance": 0.08972565360556871
+    },
+    {
+      "feature": "ff_mcap",
+      "importance": 0.08490683385839347
+    },
+    {
+      "feature": "ff_mcap_computed",
+      "importance": 0.0825398952012845
+    },
+    {
+      "feature": "ma_50",
+      "importance": 0.05144978548609844
+    },
+    {
+      "feature": "rolling_vol_30d",
+      "importance": 0.048766533599084345
+    },
+    {
+      "feature": "price",
+      "importance": 0.04791313275215432
+    },
+    {
+      "feature": "log_return",
+      "importance": 0.04765047041032463
+    },
+    {
+      "feature": "ret_21d",
+      "importance": 0.04596529971719999
+    },
+    {
+      "feature": "ma_20",
+      "importance": 0.04421171095641277
+    },
+    {
+      "feature": "vol_63d",
+      "importance": 0.04369045991582773
+    },
+    {
+      "feature": "ff_shares",
+      "importance": 0.033890584044420045
+    },
+    {
+      "feature": "ord_shares",
+      "importance": 0.03206863851025414
+    },
+    {
+      "feature": "volume",
+      "importance": 0.03204442123477875
+    },
+    {
+      "feature": "turn_63d",
+      "importance": 0.016840909826543897
+    }
+  ],
+  "top_features_regressor": [
+    {
+      "feature": "wt_rank",
+      "importance": 0.10175157557325021
+    },
+    {
+      "feature": "vol_63d",
+      "importance": 0.09992386563560893
+    },
+    {
+      "feature": "log_return",
+      "importance": 0.08224176861257487
+    },
+    {
+      "feature": "ret_21d",
+      "importance": 0.07997891768782978
+    },
+    {
+      "feature": "rolling_vol_30d",
+      "importance": 0.07531258622054927
+    },
+    {
+      "feature": "ord_mcap",
+      "importance": 0.0572591626019102
+    },
+    {
+      "feature": "ff_mcap_computed",
+      "importance": 0.0534654972296915
+    },
+    {
+      "feature": "ff_mcap",
+      "importance": 0.05156184364318085
+    },
+    {
+      "feature": "turn_63d",
+      "importance": 0.05126203167695046
+    },
+    {
+      "feature": "volume",
+      "importance": 0.0447944847303202
+    },
+    {
+      "feature": "ma_50",
+      "importance": 0.04184399264661173
+    },
+    {
+      "feature": "ma_20",
+      "importance": 0.031976487242879714
+    },
+    {
+      "feature": "price",
+      "importance": 0.02613418039336286
+    },
+    {
+      "feature": "ord_shares",
+      "importance": 0.02552116315120228
+    },
+    {
+      "feature": "ff_shares",
+      "importance": 0.023953142064044506
+    }
+  ]
+}
