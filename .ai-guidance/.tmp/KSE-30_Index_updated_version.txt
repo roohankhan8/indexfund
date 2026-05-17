@@ -1,0 +1,927 @@
+
+
+===== PAGE 1 =====
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+KSE - 30 INDEX 
+BASED ON FREE-FLOAT 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Pakistan Stock Exchange Limited 
+Stock Exchange Building, Stock Exchange Road, Karachi-74000 
+UAN: 111-00-11-22, Fax: (92-21) 32462640,  
+E-mail: info@psx.com.pk, Web-site: http://www.psx.com.pk 
+ 
+ 
+ 
+
+===== PAGE 2 =====
+  
+ 
+ 
+ 
+ 
+TABLE OF CONTENTS 
+ 
+ 
+ 
+ 
+  Sr.  Contents   Page 
+  No.                                         No. 
+ 
+1. Brief of PSX Indices 1 
+2. Introduction of KSE-30 Index 2 
+3. Free-Float Methodology 3 
+4. Pre-Requisites to Qualify for Inclusion in KSE-30 Index 5 
+5. Selection Criteria 6 
+6. Base Period 7 
+7. Maintenance of KSE-30 Index 8 
+8. Review Period 8 
+9. On-line Computation of the Index 8 
+10. Adjustment for Cash Dividend, Bonus, Right and Newly Issued 8 
+ Capital 
+11. Updation of Free Float 17 
+12. KSE-30 Index Composition based on June 30, 2005 18 
+ 
+ 
+  
+
+===== PAGE 3 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 1 of 18 
+ 
+ 
+ 
+ 
+1. BRIEF OF PSX INDICES 
+ 
+ 
+The Pakistan Stock Exchange is m aintaining two indices, which are in place 
+i.e. KSE 100 Index and KSE All Share Index. Both the said indices are market 
+capitalization-based indices. The KSE 100 Index was introduced in 1991 and 
+comprises of 100 companies selected on the basis of sector representation and 
+highest market capitalization, which captures over 80% of the total market 
+capitalization of the companies listed on the Exchange. Out of 35 Sectors, 34 
+companies are selected i.e., one company from each Sector (excluding Open-
+End Mutual F und) on the basis of the large market cap italization and the 
+remaining 66 companies are selected on the basis of highest market 
+capitalization. This is a total return index i.e. dividend, bonus and rights are 
+adjusted. The same methodology is applicable in the case of All Share Index, 
+which includes all the listed companies, (except Open-End Mutual Funds).  
+  
+
+===== PAGE 4 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 2 of 18 
+ 
+ 
+ 
+ 
+2. INTRODUCTION OF KSE-30 INDEX 
+ 
+The primary objective of the KSE -30 Index is to have a benchmark by which 
+the stock price performance can be comp ared to over a period of time. In 
+particular, the KSE-30 Index is designed to provide investors with a sense of 
+how large company’s scrips of the Pakistan’s equity marke t are performing. 
+Thus, the KSE -30 Index will be similar to other indicators that track  various 
+sectors of country’s economic activity such as the gross national product, 
+consumer price index, etc. 
+ 
+Globally, the Free-float Methodology of index construction is considered to be 
+an industry best practice and all major index providers like MSCI, FTSE, S&P, 
+STOXX and SENSEX have adopted the same. MSCI, a leading global index 
+provider, shifted all its indices to the Free-float Methodology in 2002.  
+ 
+KSE-30 Index is calculated using the “Free -Float Market Capitalization” 
+methodology. In accordance with methodology, the level of index at any point 
+of time, reflects the free -float market value of 30 companies in relation to the 
+base period.  The free -float methodology refers to an index construction 
+methodology that takes into account only the market capitalization of free-float 
+shares of a company for the purpose of index calculation.  
+ 
+Free-float Methodology improves index flexibility in terms of inclusion any stock 
+from all the listed stocks. This improves market coverage and sector coverage 
+of the index. For example, under a Full -Market Capitalization Methodology, 
+companies with large market capitalization and low free -float can be included 
+in the Index. However, under the Free -float Methodology, since only the free -
+float market capitalization of each company is considered for index calculation, 
+it becomes difficult to include closely held companies in the index while at the 
+same time preventing their undue influence on the index movement.  
+  
+
+===== PAGE 5 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 3 of 18 
+ 
+ 
+ 
+3. FREE - FLOAT METHODOLOGY 
+ 
+Free-Float means proportio n of total shares issued by a company that are 
+readily available for trading at the Stock Exchange. It generally excludes the 
+shares held by controlling directors  / sponsors / promoters, government and 
+other locked-in shares not available for trading in the normal course.  
+ 
+3.1 Objective and Description: 
+ Free-Float calculation can be used to construct stock indices for better 
+market representation than those constructed on the basis of total 
+market capitalization of companies.  
+ 
+ It gives weight for constituent companies as per their actual liquidity in 
+the market and is not unduly influenced by tightly held large -cap 
+companies. 
+ 
+ Free-Float can be used by the Exchange for regulatory purposes such 
+as risk management and market surveillance. 
+ 
+ 
+3.2 Free-Float Calculation Methodology: 
+ 
+Total Outstanding Shares  XXX 
+Less:  Government Holdings XXX  
+ Shares held by Directors / Sponsors /  
+ Senior Management Officers and their  
+ Associates XXX 
+ Shares in Physical Form XXX 
+ Shares held by Associate Companies / 
+ Group Companies (Cross Holdings) XXX 
+ Shares issued under Employees Stock 
+ Option Scheme that cannot be sold in the 
+ Open market in normal course XXX 
+ Treasury Shares XXX 
+ Any other category that are barred from   
+ Selling at the review date XXX XXX 
+   _______ 
+ Free-Float:  XXX 
+      _______ 
+Notwithstanding to the above calculations, under no circumstances, 
+free-float of a scrip shall exceed its book entry shares, available in the 
+Central Depository System. 
+
+===== PAGE 6 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 4 of 18 
+  
+“Sponsor” has the same meaning as defined in The Companies (Issue 
+of Capital) Rules, 1996 
+ 
+“Senior Management Officer” and “Associate” have the same meaning 
+as defined in the Securities Act, 2015 
+ 
+  
+3.3 Determining Free-Float Factor: 
+The listed companies shall submit their pattern of shareholding, in the 
+prescribed manner, to the Exchange. The Exchange will determine the 
+Free-Float Factor for each such company. Free -Float Factor is a 
+multiple with which the total market capitalization of a company is 
+adjusted to arrive at the Free -Float market c apitalization. O nce the 
+Free-Float of a company is determined, it is rounded -off to the higher 
+multiple of 5 and each company is categorized into one of the 20 bands 
+given below. 
+3.4 Free-Float Bands:  
+% Free-Float Free-Float Factor 
+>0 – 5% 0.05 
+>5 – 10% 0.10 
+>10 – 15% 0.15 
+>15 – 20% 0.20 
+>20 – 25% 0.25 
+>25 – 30% 0.30 
+>30 – 35% 0.35 
+>35 – 40% 0.40 
+>40 – 45% 0.45 
+>45 – 50% 0.50 
+>50 – 55% 0.55 
+>55 – 60% 0.60 
+>60 – 65% 0.65 
+>65 – 70% 0.70 
+>70 – 75% 0.75 
+>75 – 80% 0.80 
+>80 – 85% 0.85 
+>85 – 90% 0.90 
+>90 – 95% 0.95 
+>95 – 100% 1.00 
+ 
+
+===== PAGE 7 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 5 of 18 
+ 
+4. PRE - REQUISITES TO QUALIFY FOR INCLUSION IN 
+KSE-30 INDEX 
+ 
+ 
+4.1 The Company which is on the Defaulters’ Segment and/or its trading is 
+suspended, declared Non -Tradable (i.e. NT) in preceding 6 months 
+from the date of recomposition shall not be considered for inclusion in 
+KSE-30 Index; 
+ 
+4.2 The C ompany will be eligible for KSE -30 Index if its securities are 
+available in the Central Depository System; 
+ 
+4.3 The Company should have a formal listing history of at least two months 
+on PSX; 
+ 
+4.4 The company must have an operational track record of at least one 
+financial year; 
+ 
+4.5 The Company should have minimum free -float shares of 5% of total 
+outstanding shares; 
+ 
+4.6 The Company will be eligible for KSE-30 Index if its securities are traded 
+for 75% of the total trading days; 
+ 
+4.7 The company should have an Average Impact Cost of equal to or less 
+than 1.5%; 
+ 
+ 
+4.8 The Open-End and Closed -End Mutual Funds will not be eligible for 
+inclusion in the KSE-30 Index; 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+
+===== PAGE 8 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 6 of 18 
+ 
+5. SELECTION CRITERIA 
+ 
+The companies which qualify the prerequisites will be selected on the basis of 
+highest marks obtained as per the following criteria: 
+ 
+5.1 Free-Float Market Capitalization 
+ 
+The scrip should include in the Top Companies, ranked on the basis of 
+free-float market capitalization. 
+ 
+The free-float market capitalization for each company is calculated by 
+multiplying its total outstanding free-float shares with the closing market 
+price on the day of composition / re-composition. 
+ 
+5.2 Liquidity 
+ 
+The scrip included i n the top companies should also be characterized 
+by adequate liquidity i.e. transaction cost and one of the practical, 
+realistic and accurate measures of market liquidity is Impact Cost. It is 
+defined as the cost of executing a transaction in a given stock  for a 
+specific predefined order size of fixed rupee amount (currently set to 
+Rs. 500,000). The transaction cost referred here is not the fixed cost 
+typically incurred in terms of transaction charges or cost arising through 
+CDC, rather it is the cost attri butable to the market liquidity, which 
+comes from buyers and sellers in the market. Average of the best bid 
+price and the best offer price of a scrip at any time, called ideal price, is 
+considered as the best price to trade in that particular scrip at that time. 
+However, every buyer/seller suffers a cost in excess of this ideal price 
+while actually executing a transaction (buy or sell). This price movement 
+from the ideal price is known as the transaction cost and when 
+measured as the percentage of ideal price is called Impact Cost. 
+ 
+Under impact cost analysis high liquidity is represented by low impact 
+cost. A stock with high market capitalization cannot be assumed to be 
+liquid just because of its sheer size. Some large market capitalization 
+stocks are in re ality very illiquid. Similarly, high trading volumes, in 
+themselves, are not enough to confirm consistent liquidity of a stock. 
+ 
+Impact cost analysis looks at the order book of each stock throughout 
+the whole trading day and based on the bids and offers ca lculates 
+impact costs in terms of percentages for each instance of the order 
+book. 
+ 
+The Impact Cost of each security is calculated as described hereunder: 
+
+===== PAGE 9 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 7 of 18 
+ 
+ First the impact cost is calculated separately for the buy and the 
+sell side in each order book for past six months. 
+ 
+ The buy side impact cost (or the sell side impact cost) is the 
+simple average of the buy side impact cost (or the sell side 
+impact cost) computed in the last six months. 
+ 
+ Impact Cost reckoned for the purpose of all computation is the 
+mean of such buy side impact cost and sell side impact cost.  
+ 
+5.3 Final Rank 
+ 
+The scrip should include in Top 30 companies  on the basis of final 
+ranking. The final rank is arrive d by assigning 50% weightage on the 
+basis of free-float market capitalization and  50% weightage to the 
+liquidity based on Impact Cost  of the securities. The security having 
+highest free -float market capitalization and lowest Impact cost is 
+assigned full marks and the marks for rest of the securities are 
+calculated proportionately. 
+ 
+5.4 Selection of 30 companies for inclusion in the KSE-30 Index 
+ 
+The companies selected for inclusion in the KSE -30 Index are 
+determined on the basis of "Free-Float Market Capitalization" 
+methodology. As per this methodology, the level of Index at any point 
+of time reflects the free -float market value of 30 component stocks 
+relative to a base period. The market capitalization of a company is 
+determined by multiplying the price of its stock by the number of free-
+float shares determined for the purpose.  
+ 
+ 
+6. BASE PERIOD 
+ 
+The base period of KSE -30 Index is June 2005 and the base value is 10,000 
+index points. This is indicated by the notation 2005 = 1 0,000. The calculation 
+of KSE -30 Index  involves dividing the free-float market capitalization of 30 
+companies in the Index by a number called the Index Divisor. The Divisor is the 
+only link to the original base period value of the KSE-30 Index. It will keep the 
+Index comparable over a period of time and will also be the adjustment point 
+for all future corporate actions, replacement of scrips etc. 
+ 
+ 
+ 
+ 
+
+===== PAGE 10 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 8 of 18 
+7. MAINTENANCE OF KSE-30 INDEX  
+ 
+The day-to-day maintenance of the Index will be carried out within the Broad 
+Index Policy Framework set by the Exchange. The Management will ensure 
+that KSE -30 Index and all the other KSE ind ices maintain their benchmark 
+properties by striking a balance between frequent replacements in indices and 
+maintaining their historical continuity.  
+ 
+ 
+8. REVIEW PERIOD / RECOMPOSITION 
+ 
+The index will be re-composed on semi-annual basis as follows: 
+ 
+Basis  Revision 
+June  30 September  15  
+December  31 March  15 
+ 
+ 
+9. ON - LINE COMPUTATION OF THE INDEX 
+ 
+During market hours, prices of the Index  scrips at which trades are executed, 
+are automatically used by the trading computer to calculate the KSE-30 Index 
+and continuously make updations on all trading workstations connected to the 
+PSX trading computers on real time basis. 
+ 
+ 
+10. ADJUSTMENT FOR CASH DIVIDEND, BONUS, RIGHT  
+AND NEWLY ISSUED CAPITAL  
+ 
+The arithmetic calculat ion involved in calculating KSE -30 Index  is simple, 
+however the issue arises when one of the component stocks pays a bonus or 
+issues rights shares. If no adjustments were made, a discontinuity would arise 
+between the current value of the index and its previous value despite the non-
+occurrence of any economic activity of substance. At the Exchange, the base 
+value will be  adjusted, which is used to alter market capitalization of the 
+component stocks to arrive at the KSE -30 Index  value. In line with the 
+international practices the adjustment for corp orate actions will be made as 
+given under: 
+ 
+The determination of Ex price of a security is mentioned in Rule 10.6 of PSX 
+Rule Book that: “If the Books of a Security are closed for determining any 
+entitlement for its shareholders by the Company, the Exchange shall determine 
+the ex -price based on the mechanism prescribed by the Exchange, as an 
+opening price for the Trading Day falling on two Settlement Day before its 
+Books Closure starting date”. 
+
+===== PAGE 11 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 9 of 18 
+New Divisor shall be calculated due to corporate action at the end of T-3 days 
+of its Book Closure starting date. E.g. Starting day of Book Closure = Friday, 
+new divisor shall be calculated at day end of Tuesday. 
+ 
+The adjustment for corporate actions will be made as given under:     
+ 
+10.1 ADJUSTMENT FOR CASH DIVIDEND 
+ No adjustment of cash dividend will be made contrary to the practice 
+applicable in KSE-100 Index. 
+ 
+ 
+10.2 ADJUSTMENT FOR BONUS SHARES 
+If company A has declared 10% bonus shares i ts book closure date 
+commence from day 4 then it will be adjusted after the close of Day 3.  
+ 
+KSE-30 Index as on Day 3 = 1120 
+KSE-30 Index free-float market capitalization on Day 3 = 13,950,000,000 
+Divisor as on Day 3 = 12,455,357 
+ 
+Step 1 
+Determine the Ex-Bonus Price of the stock A to calculate the revised free-float 
+market capitalization and a new divisor for the next day i.e. Day 4. 
+ 
+Stock A 
+Market value on Day 3: Rs 22.50 
+Bonus: 10 % 
+ 
+For simplicity in working, we will calculate the Ex-bonus price on the basis of a 
+lot of 100 shares. 
+ 
+i. Total free-float shares after the Bonus issue  
+100 shares + (100 shares x 10 % Bonus) = 110 shares  
+ 
+ii. Cost of a lot (100 shares)  
+100 shares x market price of A 
+= 100 x 22.50 
+= Rs. 2250 
+ 
+iii. Ex- Bonus price per share = 2250/110 
+  = Rs. 20.45 
+ 
+Step 2 
+Calculation the total number of free-float shares after the Bonus issue. 
+ 
+Total number of free-float shares on Day 3 + (Bonus % x total number of free-
+float shares on Day 3) 
+
+===== PAGE 12 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 10 of 18 
+= 50,000,000 + (10% x 50,000,000) 
+= 55,000,000 shares 
+ 
+Step 3 
+ 
+Share price and the total number of free-float shares of A is adjusted after the 
+close of Day 3 to calculate the New Divisor for the next day (i.e. Day 4). 
+   
+TABLE 1 
+ Stock  Share Price Number of Market Value 
+  (in Rs.) Free-float Shares  (in Rs.) 
+ A. 20.45  55,000,000 1,125,000,000 
+ B. 41.00 150,000,000 6,150,000,000 
+ C. 44.50 150,000,000 6,675,000,000 
+    —————————— 
+Revised free-float Market Capitalization   13,950,000,000 
+    —————————— 
+New Divisor =         Revised Market Cap.   
+                       Index point as on Day 3 
+ 
+                         13,950,000,000 
+New Divisor = ————————————— = 12,455,357 
+             1120 
+ 
+Step 4 
+Index Value as on Day 4.   
+ 
+ 
+TABLE 2 
+Stock  Share Price on day 4 Number of Market Value 
+ (in Rs.) Free-float Shares  (in Rs.) 
+ 
+A. 21.00   55,000,000 1,155,000,000 
+B. 41.00 150,000,000 6,150,000,000 
+C. 44.50 150,000,000 6,675,000,000 
+   ———————— 
+ Free-float Market Capitalization   13,980,000,000 
+   ———————— 
+Index =          Market Capitalization        
+                                       New Divisor 
+ 
+              13,980,000,000 
+Index =——————————————  = 1122.41 
+            12,455,357 
+ 
+ 
+ 
+ 
+
+===== PAGE 13 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 11 of 18 
+10.3 ADJUSTMENT FOR RIGHT SHARES 
+ 
+The Right issues of the companies which constitute the KSE 30 Index 
+are adjusted in two stages. At first stage the Ex-Right price is adjusted 
+and at the second stage the capital ( free-float shares) are adjusted. A 
+brief detail about the right issues is mentioned below: 
+ 
+The company which declares Right shares has to close its books (share 
+holders register) to determine entitlement with in 30  days of its 
+declaration. 
+ 
+At the date of book closure, the Ex–Right price is ascertained and if the 
+company belongs to the KSE 30 Index then the Divisor is adjusted due 
+to the Ex-Right price of the company. 
+ 
+When the company informs the Exchange that it has dispatched Letter 
+of Rights Offer to the shareholders , the trading in the Letter of Rights 
+Offer (Un- paid) are commenced. A  separate block of capital, Un-Paid-
+Right, is formed equal to amount of  ri ght issue  and th e trading 
+continues till next 30 days or till the last date of payment. 
+ 
+After the last  date of payment the trading in Un -Paid-Right (Letter of 
+Rights Offer) is discontinued. 
+ 
+By the end of 30th day of the last date of payment or earlier, the company 
+informs that shares certificates are  ready for exchange with  Right 
+Allotment Letter (RAL) or credited in the CDS, the capital of the RAL is 
+merged with the company. At this stage the Divisor of the KSE 30 Index 
+is adjusted for the increase in the number of shares of the company. 
+ 
+A) Right issue without premium 
+ 
+If Company A has issued 10 % right shares and its Book Closure 
+Date starts from day 4 then it will be adjusted after the close of 
+Day 3.  
+ 
+KSE-30 Index as on Day 3  =  1120 
+KSE-30 Index Market Capitalization  
+On Day 3  =  13,950,000,000 
+Divisor as on Day 3  =  12,455,357 
+ 
+ 
+ 
+ 
+ 
+
+===== PAGE 14 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 12 of 18 
+FIRST STAGE  
+ 
+Step 1 
+ 
+Determine the Ex-Right price of the stock A to calculate the revised free-float 
+market capitalization and a new divisor for the next day i.e. Day 4. 
+           Stock A  
+Market value on Day 3: Rs 22.50 
+Right: 10 % 
+ 
+For simplicity in working, we will calculate the Ex-Right price on the basis of a 
+lot of 100 shares. 
+ 
+i. Total free-float shares after the Right issue  
+ 100 shares + (100 shares x 10 % Right) = 110 shares 
+ 
+ii. Cost of a lot ( 100 shares)  
+ 100 shares x market price of A + 10 right shares x par value 
+ = 100 x 22.50+ 10 x 10 
+ = Rs 2350 
+ 
+iii. Ex- Right  price per share = 2350/110 
+ = Rs 21.36 
+ 
+Step 2 
+ 
+Share price of A is adjusted after the close of Day 3 to calculate the New Divisor 
+for the next day (i.e. Day 4)  
+    
+ 
+  TABLE 3 
+ 
+ Stock  Share Price Number of Market Value 
+  (in Rs.) Free-float Shares  (in Rs.) 
+ 
+ A. 21.36  50,000,000 1,068,000,000 
+ B. 41.00 150,000,000 6,150,000,000 
+ C. 44.50 150,000,000 6,675,000,000 
+    ——————————— 
+Revised free-float Market Capitalization   13,893,000,000 
+    ——————————— 
+New Divisor =   Revised Market Cap.  
+             Index as on Day 3 
+ 
+                     13,893,000,000 
+New Divisor = ————————————— = 12,404,464 
+                 1120 
+ 
+
+===== PAGE 15 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 13 of 18 
+Step 4 
+ 
+Index Value as on Day 4.                 
+ 
+TABLE 4 
+ 
+Stock  Share Price Number of Market Value 
+  (Rs.) Free-Float Shares  (in Rs.) 
+ 
+ A. 22.00   50,000,000 1,100,000,000 
+ B. 41.00 150,000,000 6,150,000,000 
+ C. 44.50 150,000,000 6,675,000,000 
+    —————————— 
+  Free-float Market Capitalization   13,925,000,000 
+    —————————— 
+ 
+Index =       Market Capitalization   
+                            New Divisor 
+ 
+                      13,925,000,000 
+Index =        —————————— = 1122.57 
+                    12,404,464 
+ 
+ 
+SECOND STAGE 
+  
+After 15 days of the last date of payment the company confirm the subscription 
+amount, accordingly the capital of RAL is merged with the company and the 
+Divisor is adjusted for the increase in number of free-float shares. 
+ 
+Step 1 
+ 
+i. Calculate the total number of free-float shares of the RAL: 
+ 
+   Total number of free-float shares on Day 3 x Right issue   % 
+      = 50,000,000 x 10 %  
+      =   5,000,000 shares 
+ 
+ii. Total number of free-float shares after the merger of RAL capital with 
+the company’s capital. 
+   
+  Total number of free-float shares on Day 3 + RAL Capital  
+ = 50,000,000 + 5,000,000 
+ = 55,000,000 shares 
+ 
+
+===== PAGE 16 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 14 of 18 
+ 
+Step 2 
+ 
+Increase the number of free-float shares of company A to calculate the New  
+Divisor for the next day  
+        
+TABLE 5 
+ 
+Stock  Share Price Number of Market Value 
+ (in Rs.) Free-float Shares  (in Rs.) 
+ 
+A. 21.00  55,000,000 1,155,000,000 
+B. 42.00 150,000,000 6,300,000,000 
+C. 45.00 150,000,000 6,750,000,000 
+   —————————— 
+Revised free-float Market Capitalization   14,205,000,000 
+   —————————— 
+New Divisor =       Revised Market Cap.   
+                       Index as on Day 14 
+ 
+                       14,205,000,000 
+New Divisor = ————————————— = 12,504,401 
+                       1136 
+ 
+Step 3 
+ 
+Index Value as on Day 15               
+      
+TABLE 6 
+ 
+Stock  Share Price Number of Market Value 
+ (in Rs.) free-float Shares  (in Rs.) 
+ 
+A. 22.00   55,000,000 1,210,000,000 
+B. 41.50 150,000,000 6,225,000,000 
+C. 44.00 150,000,000 6,600,000,000 
+   —————————— 
+Free-float Market Capitalization   14,035,000,000 
+   —————————— 
+ 
+Index =           Market Capitalization  
+                            New Divisor 
+ 
+               14,035,000,000 
+Index =   ——————————————  = 1122.40 
+            12,504,401 
+
+===== PAGE 17 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 15 of 18 
+ 
+ 
+ 
+B)  Right issue with premium  
+ 
+If Company A has announced 10 % Right issue with a premium of Rs 
+10 per share. 
+ 
+Step 1 
+ 
+Determine the Ex-Right price of the stock A. 
+ 
+Stock A 
+Market value on Day 3: Rs 22.50 
+Right: 10 % 
+Premium: Rs 10 per right share 
+ 
+For simplicity in working, we will calculate the Ex-Right price on the basis of a 
+lot of 100 shares. 
+ 
+ 
+i. Total shares after the Right issue  
+ 100 shares + (100 shares x 10 % Right)   
+ = 110 shares  
+ 
+ii. Cost of a lot ( 100 shares)  
+100 shares x market price of A + {10 right shares x (par value + 
+premium)} 
+ = 100 x 22.50+ 10 x (10+10) 
+ = Rs 2450 
+ 
+iii. Ex- Right  price per share = 2450/110 
+ =Rs  22.27 
+ 
+Note: The rest of the working would be same as mentioned in part A. 
+ 
+BONUS & RIGHT ISSUE ADJUSTMENT (SIMULTANEOUSLY) 
+ 
+If Company A has announced; 
+ 
+Bonus: 10% 
+Right: 10% at a Premium of Rs 10 per share 
+ 
+Its Book Closure Date starts from Day 4 then it will be adjusted after the close 
+of Day 3.  
+ 
+KSE-30 Index as on Day 3 = 1120 
+KSE-30 Index Market Capitalization on Day 3 = 13,950,000,000 
+Divisor as on Day 3 = 12,454,357 
+ 
+ 
+
+===== PAGE 18 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 16 of 18 
+ 
+ 
+Step 1 
+ 
+Calculate the Ex-Bonus and Ex- Right price of the stock A: 
+ 
+ Calculate the Ex- Bonus and Ex – Right price: 
+ For simplicity we will calculate its price on the basis of a lot of 100 
+shares. 
+ 
+i) Total shares after the Right issue and Bonus  
+ 100 shares + (100 shares x 10 % Right) + (100 shares x 10% 
+Bonus) 
+ 100+ 10 +10 
+ = 120 shares  
+ 
+ii) Cost of a lot ( 100 shares)  
+ 100 shares x market price of A + {10 right shares x (par value + 
+premium)} 
+ = 100 x 22.50+ 10 x (10+10) 
+ = Rs 2450 
+ 
+iii) Ex-Bonus and Ex- Right price per share = 2450/120 
+ = Rs 20.42 
+ 
+ 
+Step 2 
+ 
+Calculate the total number of free-float shares after the Bonus issue. 
+ 
+Total number of shares + Total number of shares x Bonus % 
+= 50,000,000 + 50,000,000 x 10% Bonus  
+= 55,000,000 shares 
+ 
+Step 3 
+ 
+Share price and the total number of free-float shares of A shall be adjusted 
+after the close of Day 3 to calculate the New Divisor for the next day (i.e. Day 
+4)  
+                
+TABLE 7 
+ 
+Stock  Share Price Number of Market Value 
+ (in Rs.) Free-float Shares  (in Rs.) 
+ 
+A. 20.42  55,000,000 1,123,100,000 
+B. 41.00 150,000,000 6,150,000,000 
+C. 44.50 150,000,000 6,675,000,000 
+   ——————————— 
+Revised free-float Market Capitalization   13,948,100,000 
+   ——————————— 
+New Divisor =         Revised Market Cap.     
+                        Index as on Day 3 
+ 
+New Divisor = 13,948,100,000    =   12,453,661 
+                 1120 
+ 
+
+===== PAGE 19 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 17 of 18 
+ 
+Step 4 
+ 
+Index Value as on Day 4.  
+ 
+TABLE 8 
+ 
+Stock  Share Price Number of Market Value 
+ (in Rs.) Free-float Shares  (in Rs.) 
+ 
+A. 21.00   55,000,000 1,155,000,000 
+B. 41.00 150,000,000 6,150,000,000 
+C. 44.50 150,000,000 6,675,000,000 
+   ——————————— 
+Free-float Market Capitalization   13,980,000,000 
+   ——————————— 
+Index =          Market Capitalization  
+                            New Divisor 
+ 
+Index =  13,980,000,000    =  1122.56 
+              12,453,661 
+ 
+The working for the Second Stage would be same as mentioned in (A) above. 
+ 
+11. Updation of Free Float 
+ 
+Listed companies submitted quarterly free float to the Exchange. In line with PSX 
+trading system free float of scrips in Index will also be updated     
+ 
+ 
+  
+
+===== PAGE 20 =====
+KSE-30 Index 
+Pakistan Stock Exchange Limited Page 18 of 18 
+12. KSE-30 INDEX COMPOSITION BASED ON JUNE 30, 2005 
+ 
+ 
+ 
+1 PTC Pakistan Telecommunication Company Limited 577,089,526     65.95 38,059,054,240           13.12%
+2 PSO Pakistan State Oil Company Limited 66,301,754       386.00 25,592,477,044           8.82%
+3 PPL Pakistan Petroleum Limited 102,873,209     215.10 22,128,027,256           7.63%
+4 OGDC Oil & Gas Development Company Limited 198,168,280     105.30 20,867,119,884           7.19%
+5 FFC Fauji Fertilizer Company Limited 156,039,282     121.35 18,935,366,871           6.53%
+6 HUBC The Hub Power Company Limited 686,670,422     26.40 18,128,099,141           6.25%
+7 MCB MCB Bank Limited 222,538,822     79.30 17,647,328,585           6.08%
+8 POL Pakistan Oilfields Limited 58,988,175       281.40 16,599,272,445           5.72%
+9 NBP National Bank of Pakistan 118,178,549     107.95 12,757,374,365           4.40%
+10 SNGP Sui Northern Gas Pipelines Limited 199,674,669     61.30 12,240,057,210           4.22%
+11 ENGRO Engro Chemical Pakistan Limited 61,176,032       115.25 7,050,537,688             2.43%
+12 PICIC P.I.C.I.C 95,747,819       70.00 6,702,347,330             2.31%
+13 FFBL Fauji Fertilizer Bin Qasim Limited 233,527,500     26.90 6,281,889,750             2.16%
+14 DGKC D. G. Khan Cement Co. Limited 110,636,141     55.75 6,167,964,861             2.13%
+15 BOP The Bank of Punjab 73,242,223       83.75 6,134,036,176             2.11%
+16 ACBL Askari Commercial Bank Limited 75,350,842       78.00 5,877,365,676             2.03%
+17 NML Nishat Mills Limited 72,629,872       76.00 5,519,870,272             1.90%
+18 FABL Faysal Bank Limited 96,116,955       53.80 5,171,092,179             1.78%
+19 SSGC Sui Southern Gas Company Limited 167,793,583     23.15 3,884,421,446             1.34%
+20 SNBL Soneri Bank Limited 115,744,534     32.00 3,703,825,088             1.28%
+21 ULEVER Unilever Pakistan Limited 2,566,391         1,410.00 3,618,611,310             1.25%
+22 LUCK Lucky Cement Limited 79,012,500       45.50 3,595,068,750             1.24%
+23 KAPCO Kot Addu Power Company Limited 93,592,700       37.75 3,533,124,425             1.22%
+24 UNBL Union Bank Limited 85,820,735       39.50 3,389,919,033             1.17%
+25 NRL National Refinery Limited 9,995,820         316.30 3,161,677,866             1.09%
+26 BAFL Bank Al-Falah Limited 74,995,000       40.75 3,056,046,250             1.05%
+27 PPTA Pakistan PTA Limited 378,551,802     8.00 3,028,414,416             1.04%
+28 AICL Adamjee Insurance Company Limited 41,307,135       66.75 2,757,251,261             0.95%
+29 FCCL Fauji Cement Company Limited 185,371,524     12.80 2,372,755,507             0.82%
+30 ICI I.C.I Pakistan Limited 28,346,381       77.50 2,196,844,528             0.76%
+4,468,048,177 290,157,240,851         100%
+Free-Float Market 
+Capitalization               
+(Rs.)
+Weightage of 
+Free-Float 
+Market 
+Capitalization 
+(%)
+Price  
+(Rs.)
+Free-Float 
+Shares
+Name of CompanySymbolSr. 
+No.
+TOTAL

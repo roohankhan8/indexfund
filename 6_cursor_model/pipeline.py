@@ -35,7 +35,7 @@ Alternatively: python 6_cursor_model/run_pipeline.py
 Deps: numpy, pandas, matplotlib, seaborn, scipy, scikit-learn, openpyxl
 """
 
-import os, warnings
+import os, warnings, shutil, runpy
 import matplotlib
 matplotlib.use("Agg")
 import numpy as np
@@ -67,12 +67,46 @@ os.makedirs(OUT_DIR, exist_ok=True)
 FIG_BASE = os.path.join(OUT_DIR, "figures")
 for sub in ["eda","garch","fund_flow","efficiency","rebalancing","summary"]:
     os.makedirs(os.path.join(FIG_BASE, sub), exist_ok=True)
+METHODOLOGY_RESULTS_DIR = os.path.join(OUT_DIR, "kse-30-methodology-results")
 
 def savefig(subdir, name):
     path = os.path.join(FIG_BASE, subdir, name)
     plt.savefig(path, dpi=150, bbox_inches="tight")
     plt.close()
     print(f"    fig -> {path}")
+
+def run_kse30_methodology_sidecar():
+    """
+    Run methodology-concept recomposition/prediction sidecar and store
+    its outputs in a dedicated folder, without changing core pipeline logic.
+    """
+    script_path = os.path.join(OUT_DIR, "kse-30", "recomposition_pipeline_kse30.py")
+    if not os.path.exists(script_path):
+        print("  [Sidecar] Skipped: kse-30/recomposition_pipeline_kse30.py not found.")
+        return
+
+    print("\n[Sidecar] Running KSE-30 methodology-concept pipeline ...")
+    runpy.run_path(script_path, run_name="__main__")
+
+    src_csv = os.path.join(OUT_DIR, "kse-30", "csvs")
+    src_fig = os.path.join(OUT_DIR, "kse-30", "figs")
+    dst_csv = os.path.join(METHODOLOGY_RESULTS_DIR, "csvs")
+    dst_fig = os.path.join(METHODOLOGY_RESULTS_DIR, "figs")
+    os.makedirs(dst_csv, exist_ok=True)
+    os.makedirs(dst_fig, exist_ok=True)
+
+    if os.path.isdir(src_csv):
+        for fn in os.listdir(src_csv):
+            src = os.path.join(src_csv, fn)
+            if os.path.isfile(src):
+                shutil.copy2(src, os.path.join(dst_csv, fn))
+    if os.path.isdir(src_fig):
+        for fn in os.listdir(src_fig):
+            src = os.path.join(src_fig, fn)
+            if os.path.isfile(src):
+                shutil.copy2(src, os.path.join(dst_fig, fn))
+
+    print(f"  [Sidecar] Copied methodology outputs -> {METHODOLOGY_RESULTS_DIR}")
 
 
 def repair_internal_zero_aum(monthly_f, fund_name):
@@ -570,6 +604,7 @@ monthly_saved.to_csv(
 raw_out = raw.drop(columns=["weight_pct_clean"], errors="ignore")
 raw_out.to_csv(os.path.join(OUT_DIR, "kse30_stocks_clean.csv"), index=False)
 print("Saved: daily_master.csv, monthly_master.csv, kse30_stocks_clean.csv")
+run_kse30_methodology_sidecar()
 
 
 # ═══════════════════════════════════════════════════════════════════════════
@@ -1778,5 +1813,6 @@ print(f"  results_efficiency.csv")
 print(f"  results_rebalancing.csv")
 print(f"  results_rebalancing_forecast.csv")
 print(f"  figures/  ({sum(1 for _ in __import__('pathlib').Path(FIG_BASE).rglob('*.png'))} figures)")
+print(f"  kse-30-methodology-results/  (methodology-concept sidecar outputs)")
 
 

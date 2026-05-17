@@ -1,4 +1,4 @@
 Model,Target,RMSE,MAE,R2,DirAcc,Note
 Naive (RW),KSE30_sector,83.1,51.54,-1.4048,37.5,Benchmark
-"ARIMAX(1,0,1)",KSE30_sector,58.69,37.26,-0.1994,79.2,Primary (Base)
-VAR(1),KSE30_sector,62.29,38.69,-0.351,75.0,System model
+"ARIMAX(1,0,1)",KSE30_sector,59.89,36.65,-0.249,66.7,Primary (Base+CPI_lag1+chg)
+VAR(1),KSE30_sector,61.8,37.86,-0.3302,70.8,System model

@@ -1,0 +1,17 @@
+﻿{
+  "model_scope": "kse-30 proxy inclusion and weight prediction",
+  "as_of_run_date": "2026-05-16",
+  "evaluation_source": "6_cursor_model/kse-30/csvs/results_inclusion_weight_eval.csv",
+  "models": {
+    "inclusion": {
+      "model": "avg(logit,rf)",
+      "accuracy": 0.9,
+      "auc": 0.7841
+    },
+    "weight": {
+      "model": "avg(ridge,rf)",
+      "rmse": 1.3017,
+      "mae": 0.815
+    }
+  }
+}
