@@ -57,10 +57,10 @@ We answer questions like:
 |-------|------|--------------|----------------|
 | **Preprocessing** | nb0_preprocessing.py | Cleans data, creates daily/monthly master tables | Foundation for all analysis |
 | **EDA** | nb1_eda.py | Explores data patterns visually | Understands fund behavior |
-| **Fund Flow Prediction** | nb2_fund_flow_prediction.py | Predicts KSE-30 fund flows using market indicators | Uses mutual fund data (AKD/NBP/NTI) as external variables since their flows reflect KSE-30 flows |
+| **Fund Flow Prediction** | nb7_kse30_fund_flow_prediction.py | Predicts KSE-30 fund flows using ARIMAX + VAR models | Uses mutual fund data (AKD/NBP/NTI) as external variables since their flows reflect KSE-30 flows |
 | **Volatility Modeling** | nb3_garch_volatility.py | Models market volatility using GARCH | Captures risk clustering |
 | **Portfolio Optimization** | nb4_portfolio_optimisation.py | Mean-variance optimization (Markowitz) | Shows optimal stock weights |
-| **Rebalancing Prediction** | nb4b_rebalancing_prediction.py | Predicts when/how to rebalance portfolio | Key for index tracking |
+| **Rebalancing Prediction** | nb4b_rebalancing_prediction.py | Predicts rebalancing using Random Forest (Regressor + Classifier) | Key for index tracking |
 | **Market Efficiency** | nb5_market_efficiency.py | Tests if prices follow random walk (variance ratio, Granger causality) | Validates predictability |
 | **Summary** | nb6_results_summary.py | Aggregates all results | Final report generation |
 
