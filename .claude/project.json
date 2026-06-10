@@ -1,0 +1,4 @@
+{
+  "model": "anthropic/claude-3.5-sonnet",
+  "apiBaseUrl": "https://openrouter.ai/api/v1"
+}
