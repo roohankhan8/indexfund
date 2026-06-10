@@ -325,16 +325,6 @@ This section maps each visualization to the research questions it answers.
 
 ---
 
-### Backtest Results (Folder 9)
-
-| Figure | File | Question Answered |
-|--------|------|-------------------|
-| **Weight Change Scatter** | `march_2026_weight_change_scatter.png` | How accurate were weight predictions on new data? |
-| **Top Weight Errors** | `march_2026_top_weight_errors.png` | Which stocks had largest prediction errors? |
-| **Retention Probability** | `march_2026_retention_probability.png` | How well did retention model work on new data? |
-
----
-
 ## Presentation Summary
 
 ### The Problem We Solved
