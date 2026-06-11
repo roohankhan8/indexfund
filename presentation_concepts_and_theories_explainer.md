@@ -1,355 +1,723 @@
-# Concepts & Theories Explainer (Report + PPT)
+# Presentation Concepts, Theories, Symbols, and Models Explainer
 
-This file explains the main **finance theories, econometric/statistical concepts, and ML modeling ideas** referenced across:
-- `FYP REPORT FINAL.pdf`
+This file explains the concepts, theories, formulas, symbols, models, and evaluation terms used across:
+
 - `Analyzing Fundflow patterns - Presentation.pdf.pdf`
+- `FYP REPORT FINAL (1).docx`
 
-It is written for team members who need conceptual understanding (no code required).
+It is written as a speaking and revision companion for the viva/presentation.
 
----
+## 1. Big Picture of the Project
 
-## 1) Core Concepts: Fund Flows and Investor Behavior
+The project combines three layers of analysis:
 
-### 1.1 Fund flows
-**Definition:** Net movement of money into or out of an investment fund over a period.
+1. **Fund-flow analysis**
+   To understand how money moves into and out of KSE-30-related funds.
+2. **Market efficiency and volatility analysis**
+   To test whether the KSE-30 behaves like a random walk and to model its risk dynamics.
+3. **Portfolio rebalancing prediction**
+   To predict which stocks are likely to remain in the KSE-30 and what their future weights may be.
 
-- **Positive flow (inflow):** New subscriptions exceed redemptions → investors show confidence/demand.
-- **Negative flow (outflow):** Redemptions exceed subscriptions → investors reduce exposure / show risk aversion.
+The practical logic is:
 
-**Why it matters in a market:**
-- Fund flows change liquidity demand/supply.
-- Large inflows/outflows can influence price pressure (especially in tracking funds that hold index constituents).
+- If flows contain directional information,
+- and market behavior is not perfectly random,
+- and future rebalancing changes can be estimated,
+- then investors can build a probabilistic decision-support framework.
 
-### 1.2 NAV and AUM relationship
-- **NAV (Net Asset Value):** “Price” of the fund unit; changes reflect fund return.
-- **AUM (Assets Under Management):** Total market value of assets held by the fund.
+## 2. Core Finance Concepts
 
-**Flow intuition from NAV & AUM:**
-If AUM rises more than can be explained by NAV return, money likely entered the fund (net inflow). If AUM falls more than explained by NAV return, money likely exited (net outflow).
+### 2.1 Fund Flow
 
----
+**Fund flow** means net money entering or leaving a fund over a period.
 
-## 2) Market Efficiency Theory
+- Positive flow = net inflow
+- Negative flow = net outflow
 
-### 2.1 Efficient Market Hypothesis (EMH)
-**Core idea:** Prices fully and quickly reflect information. If true:
-- it’s hard to consistently earn abnormal profits using publicly available information.
+Interpretation:
 
-**Forms:**
-- **Weak-form:** Past prices/volume are reflected in current prices.
-- **Semi-strong:** All public information is reflected.
-- **Strong-form:** Even private information is reflected.
+- Inflows usually suggest stronger investor demand or confidence.
+- Outflows usually suggest redemptions, caution, or risk aversion.
 
-### 2.2 Weak-form efficiency and random walk
-In weak-form EMH, returns behave like a **random walk**:
-- Future returns are not predictable from past returns/signs/variances.
+### 2.2 NAV
 
-### 2.3 Why “efficiency can be mixed” in emerging markets
-Emerging markets can exhibit:
-- liquidity constraints
-- information asymmetry
-- behavioral bias / delayed reaction
+**NAV** means **Net Asset Value**.
 
-So instead of perfect randomness, you can see:
-- persistence (memory)
-- serial correlation at certain lags
-- conditional volatility clustering
+It is the value per unit of the mutual fund and changes with the value of the underlying holdings.
 
-That motivates using multiple statistical tests.
+### 2.3 AUM
 
----
+**AUM** means **Assets Under Management**.
 
-## 3) Stationarity and Time-Series Transformations
+It is the total market value of assets managed by the fund.
 
-### 3.1 Stationarity
-**Definition:** Statistical properties of a series (mean/variance) do not change over time.
+### 2.4 Why NAV and AUM are used to derive flows
 
-Many models assume stationarity. Non-stationary series can create spurious results.
+If AUM changes, that change can happen for two reasons:
 
-### 3.2 ADF and KPSS
-- **ADF (Augmented Dickey–Fuller):** tests for a **unit root** (non-stationary). 
-  - If p-value < threshold → likely stationary.
-- **KPSS (Kwiatkowski–Phillips–Schmidt–Shin):** tests stationarity around a mean.
-  - If p-value > threshold → likely non-stationary.
+- the fund's holdings changed in value because NAV changed
+- investors added or withdrew money
 
-### 3.3 Price levels vs returns (log returns)
-- **Price levels:** typically trend → non-stationary.
-- **Returns/log returns:** often more stable → closer to stationary.
+So the report uses a flow identity to isolate the investor-money component.
 
-That’s why the pipeline uses log returns for ARIMA/GARCH/efficiency diagnostics.
+### 2.5 Fund Flow Identity
 
----
+From the report:
 
-## 4) Econometric Models for Forecasting
+`flow(t) = AUM(t) - AUM(t-1) × [ NAV(t) / NAV(t-1) ]`
 
-### 4.1 ARIMA
-**ARIMA** = Autoregressive + Integrated (differencing) + Moving Average.
+Meaning:
 
-- Captures linear patterns and autocorrelation in time series.
+- `AUM(t)` = current period assets under management
+- `AUM(t-1)` = previous period AUM
+- `NAV(t) / NAV(t-1)` = growth in fund value due to market performance
 
-### 4.2 ARIMAX
-**ARIMAX** is ARIMA with **exogenous variables** (macro variables like interest rate, oil return, exchange rate, CPI).
+Interpretation:
 
-- Goal: explain/forecast flow dynamics using lagged relationships between flow and macro.
+- If actual AUM is higher than the market-performance-adjusted AUM, the difference is net inflow.
+- If actual AUM is lower, the difference is net outflow.
 
-### 4.3 VAR (Vector AutoRegression)
-**VAR** models multiple time series jointly, where each series is predicted by its own lags and the lags of other series.
+### 2.6 Aggregate Sector Fund Flow
 
-Why it’s used:
-- allows interdependencies between flow and macro variables
-- avoids forcing all influence through one isolated factor
+The project tracks three funds: **AKD, NBP, and NTI**.
 
----
+Their flows are aggregated as:
 
-## 5) Volatility Modeling: ARCH/GARCH Family
+`total_fund_flow(t) = flow_AKD(t) + flow_NBP(t) + flow_NTI(t)`
 
-### 5.1 Volatility clustering
-Financial markets often show:
-- big moves cluster together
-- calm periods cluster together
+So the study does not use one official observed "KSE-30 fund flow" series. It builds a **proxy aggregate sector flow** from these three tracked funds.
 
-This means variance is not constant.
+### 2.7 Flow Normalization
 
-### 5.2 ARCH and GARCH
-- **ARCH:** current volatility depends on past squared errors.
-- **GARCH(1,1):** most common form:
-  - Conditional variance = constant + alpha * yesterday’s shock^2 + beta * yesterday’s variance.
+From the report:
 
-### 5.3 Interpreting GARCH parameters
-- **alpha (α):** sensitivity to recent shocks.
-- **beta (β):** persistence of volatility.
-- **alpha + beta:** how long volatility shocks last.
-  - close to 1 → shocks decay slowly (high persistence).
+`flow_pct_sector(t) = total_fund_flow(t) / sector_aum(t-1)`
 
-### 5.4 EGARCH (asymmetric volatility / leverage effect)
-**EGARCH** models log variance and can capture asymmetry:
-- **leverage effect:** negative news increases volatility more than positive news of the same size.
+This expresses flow relative to sector size, which makes comparison easier across periods.
 
-In the report/ppt, the key statement is:
-- EGARCH had significant leverage (negative gamma term).
+## 3. Market Efficiency Theory
 
----
+### 3.1 Efficient Market Hypothesis
 
-## 6) VaR Backtesting
+The central theory behind the efficiency part is the **Efficient Market Hypothesis (EMH)**.
 
-### 6.1 Value at Risk (VaR)
-**VaR at 5%:** an estimate of the loss threshold such that losses worse than VaR should occur about 5% of the time under the model.
+It says that prices reflect available information quickly.
 
-### 6.2 Backtesting logic
-If the model is calibrated:
-- about 5% of observed outcomes should breach the VaR threshold.
+If that is fully true, it becomes very difficult to earn abnormal returns using public information.
 
-In your results, the backtest exceedance rate is close to nominal, supporting that the volatility model is reasonably calibrated.
+### 3.2 Weak-form efficiency
 
----
+The report mainly deals with **weak-form efficiency**.
 
-## 7) Market Efficiency Tests Used in the Project
+Weak-form efficiency means:
 
-Your project uses several complementary tests because each test measures a different aspect of efficiency.
+- past price and return information is already incorporated in current prices
+- future returns should not be predictably derived from past return patterns alone
 
-### 7.1 Runs test
-**Purpose:** checks whether the signs of returns are random.
-- If return signs show non-random clustering, it contradicts random walk behavior.
+### 3.3 Random Walk
 
-### 7.2 Variance Ratio (VR) test
-**Purpose:** compares multi-period variance to what’s expected under a random walk.
+A **random walk** means future price changes are not systematically predictable from past price changes.
 
-- VR(k) ≈ 1 supports random walk.
-- VR(k) > 1 suggests momentum behavior.
-- VR(k) < 1 suggests mean reversion.
+In a strict weak-form efficient market:
 
-### 7.3 Ljung–Box Q test
-**Purpose:** tests whether there is serial correlation in returns.
-- If p-value is small → reject “no autocorrelation”.
+- return signs should look random
+- serial correlation should be absent
+- variance should scale in a random-walk-like way
+- long memory should not exist
 
-### 7.4 Hurst exponent
-**Purpose:** measures long-memory / persistence.
-- H ≈ 0.5 → random walk
-- H > 0.5 → persistence (trend-like memory)
-- H < 0.5 → mean reversion
+### 3.4 Why mixed efficiency matters here
 
-### 7.5 Why tests conflict (mixed efficiency)
-- A market can look random under some tests/horizons but show dependence under others.
-- Hence “mixed” efficiency is a correct academic framing.
+Your findings do not support a simple "efficient" or "inefficient" label.
 
----
+Instead, KSE-30 appears **mixed**:
 
-## 8) Machine Learning Concepts Used in Rebalancing
+- some tests support random-walk behavior over short horizons
+- other tests show persistence and serial dependence
 
-### 8.1 Logistic Regression (classification)
-**Task:** predict probability that a stock will be **retained/included** after a recomposition.
+That is an academically strong conclusion, especially for an emerging market.
 
-- Outputs a score interpretable as a probability-like value.
+## 4. Time-Series Concepts
 
-### 8.2 Ridge Regression (regression with L2 regularization)
-**Task:** predict constituent weights.
+### 4.1 Stationarity
 
-- Ridge reduces overfitting by shrinking coefficients.
-- Particularly useful when features are correlated or high-dimensional.
+**Stationarity** means that the statistical properties of a series, such as mean and variance, stay broadly stable over time.
 
-### 8.3 Random Forest (ensemble learning)
-**Task:** used as a competitor model for both regression and classification.
+Why it matters:
 
-- Built from many decision trees.
-- Typically robust to non-linearities.
+- many econometric models assume stationarity
+- non-stationary data can produce misleading or spurious results
 
-### 8.4 Why AUC matters when accuracy is high
-If most stocks are retained most of the time, a naive classifier can achieve high **accuracy** by predicting “retain” always.
+### 4.2 Differencing
 
-AUC (Area Under ROC Curve) is better because it measures ranking quality:
-- how well the model separates likely retained vs likely excluded stocks.
+**Differencing** is a transformation used to remove trends and make a series more stationary.
 
----
+If a variable has a unit root or trend, first differencing is often applied.
 
-## 9) Portfolio Tilt & Rebalancing Framework
+### 4.3 Log Return
 
-### 9.1 Inclusion/Exclusion Risk ranking
-- **Retention probability** estimates “stays in the index”.
-- **Exclusion risk** can be computed as 1 − retention probability.
+From the report:
 
-### 9.2 Weight change prediction
-Using weight forecasts to estimate how portfolio weights might drift at next rebalance.
+`idx_log_return(t) = ln[ idx_ff_mcap_total(t) / idx_ff_mcap_total(t-1) ]`
 
-### 9.3 Integrated strategy logic
-The overall decision-support strategy combines:
-1) **Directional flow signals** (ARIMAX/VAR)
-2) **Risk scaling** from EGARCH volatility and VaR calibration
-3) **Rebalancing signals** (retention probability, predicted weight changes)
+Meaning:
 
-### 9.4 Important realism disclaimer (as stated in report)
-Your report emphasizes:
-- no transaction cost model
-- not a fully validated live trading backtest
+- `ln` is the natural logarithm
+- the formula measures continuously compounded return
 
-So the strategy is best described as **decision support / probabilistic tilt**, not a ready-to-deploy trading algorithm.
+Why log returns are used:
 
----
+- they are usually more stable than price levels
+- they are standard in finance
+- they work well in volatility models
 
-## 10) “Proxy aggregate sector flow” concept (important for presentation)
-In your project, the “flow” variable is not directly observed as one official KSE-30 flow series.
+### 4.4 ADF Test
 
-Instead:
-- it is derived as an aggregate sector flow proxy from fund-level NAV and AUM dynamics of AKD + NBP + NTI.
+**ADF** means **Augmented Dickey-Fuller** test.
 
-This is crucial to keep the research framing consistent.
+Purpose:
 
----
+- to test for a unit root
+- to assess whether a time series is non-stationary
 
-## Quick Summary (for team speaking)
-- **Flows** capture investor behavior.
-- **Efficiency** tells whether predictability exists.
-- **Stationarity** ensures time-series models are applied correctly.
-- **ARIMAX/VAR** forecast flow direction using lagged joint dynamics.
-- **GARCH/EGARCH** model volatility clustering and leverage.
-- **VaR backtest** validates risk calibration.
-- **Runs/VR/Ljung–Box/Hurst** diagnose mixed efficiency.
-- **Logistic/Ridge/RandomForest** translate predictions into rebalancing decisions.
+In plain language:
 
----
+- low p-value generally supports stationarity
 
-## Extended Concept Notes (More Detail for Team)
+### 4.5 KPSS Test
 
-### A) Why “directional accuracy” can be more meaningful than point prediction (flow R² can be negative)
-Financial flows are noisy and jumpy—think of them like the movement of a crowd in a stadium.
+**KPSS** means **Kwiatkowski-Phillips-Schmidt-Shin** test.
 
-- You can easily be off on the *exact* number of people entering this minute.
-- But you can still correctly predict whether the crowd is generally **moving in** or **moving out**.
+It complements ADF.
 
-If you predict exact PKR amounts month-by-month, the exact numbers are often too volatile, so you may get poor (or even negative) **R²** even when the *direction* is right.
+Why both are useful:
 
-- **Directional accuracy** (inflow vs outflow) tests whether the model gets the *regime* right.
-- A **negative R²** means the point forecast is worse than a simple baseline (or not much better than the mean), but that does not invalidate the sign-based “inflow vs outflow” signal.
+- ADF and KPSS test stationarity from opposite angles
+- using both gives stronger evidence for whether transformations are appropriate
 
-Team framing:
-- “We treat flow models like a weather-vane: useful for direction/regime, not for predicting the exact rainfall amount.”
+## 5. Forecasting Models in the Project
 
+### 5.1 Naive Random Walk Benchmark
 
-### B) ARIMAX / VAR intuition with lags
-Econometric models use a simple “after-effects” idea: today’s outcome is often influenced by what happened earlier.
+The **naive** model assumes the next value is essentially the same as the current value.
 
-Think of it like **echoes in a canyon**:
-- you shout (a macro change / earlier flow),
-- and you hear something back later (a lagged response in flows).
+Why it matters:
 
-- **ARIMAX**: predicts today’s flow using (1) its own past flow values and (2) past macro inputs (**X**).
-  - Analogy: “Using yesterday’s crowd movement plus yesterday’s news about the stadium to guess this minute’s direction.”
-- **VAR**: models multiple series together so each one can help forecast the other.
-  - Analogy: “Not only crowds respond to news, but news can also be influenced by market mood—VAR lets both interact through lags.”
+- it is the baseline
+- if a more advanced model cannot beat the naive benchmark, it is not very useful
 
-This matches your report’s observation:
-- **contemporaneous** correlation can be weak (same-month overlap is messy),
-- but **lagged** dynamics still carry predictable information (the ‘echo’ effect). 
+### 5.2 ARIMA
 
+**ARIMA** means **Autoregressive Integrated Moving Average**.
 
-### C) What the “persistence” parameter in GARCH means practically
-In GARCH, **α** controls how strongly new shocks hit volatility today, and **β** controls how much of yesterday’s volatility “sticks around.”
+It combines:
 
-Analogy: **a stone dropped in water**
-- The splash is the shock.
-- Persistence is how slowly the ripples fade.
+- autoregressive behavior from past values
+- differencing for non-stationarity
+- moving-average behavior from past errors
 
-- If **α + β** is close to 1, the ripples last a long time: volatility stays elevated instead of quickly calming down.
-- Practically for markets: after a bad news day, risk often remains high for many more days rather than reverting immediately.
+### 5.3 ARIMAX
 
+**ARIMAX** is ARIMA with **exogenous variables**.
 
+In your project, ARIMAX uses lagged macro-financial information in addition to the flow series itself.
 
-### D) Leverage effect (why EGARCH’s gamma matters)
-The **leverage effect** is the empirically observed asymmetry:
-- negative return shocks increase future volatility more than positive shocks of the same magnitude.
+Slide result:
 
-Analogy: **braking vs accelerating a car**
-- If you gently accelerate, the ride might not feel dramatically different.
-- But if you brake hard (bad news), the car’s stability worsens immediately—so future risk rises more.
+- `ARIMAX(1,0,1)`
+- directional accuracy = `75.0%`
+- RMSE = `58.56`
+- MAE = `37.35`
 
-In risk management terms:
-- downside moves are “more dangerous” for future risk than upside moves.
+Why it matters:
 
+- it captures lagged structure better than a simple benchmark
+- it works better as a direction/regime model than as an exact value model
 
-### E) VaR backtest interpretation (why 58/1300 is “good enough”)
-VaR backtesting is basically asking: **“Does the model’s ‘disaster line’ happen about as often as it should?”**
+### 5.4 VAR
 
-Analogy: **seatbelt warnings**
-- If your dashboard says “the chance of a crash this month is ~5%”, then over many months you should see warnings happen about ~5% of the time.
+**VAR** means **Vector Autoregression**.
 
-Similarly:
-- For a nominal **5% VaR**, you expect about **5%** of returns to fall below the VaR threshold (breaches).
-- Your observed breach rate (~4.46%) is close, which suggests the volatility model’s risk estimate is **reasonably calibrated**.
+It models multiple time series jointly so each variable can depend on its own lags and the lags of other variables.
 
-Important nuance:
-- Backtesting supports *calibration* (risk thresholds are plausible), but it does not automatically mean the strategy will be profitable.
+Why it fits this project:
 
+- fund flows, macro variables, and index measures may interact jointly
+- no single macro variable was strong enough alone, so a system approach is reasonable
 
-### F) Efficiency tests—how to explain them simply
-Instead of asking one big question like “Is the market efficient?”, your project runs **multiple tests**, because “randomness” has many faces.
+Slide result:
 
-Analogy: **checking whether a room is noisy**
-- You can listen for random footsteps (runs test).
-- You can measure how much noise grows over time (variance ratio).
-- You can check if sounds repeat in a pattern (Ljung–Box autocorrelation).
-- You can detect long memory, like a continuous buzz that never fully fades (Hurst).
+- `VAR(1)`
+- directional accuracy = `75.0%`
+- RMSE = `63.10`
+- MAE = `39.41`
 
-So each test checks a different “randomness property”:
-- **Runs test**: are signs randomly ordered?
-- **Variance ratio**: does variance scale linearly with horizon like a random walk?
-- **Ljung–Box**: is there autocorrelation in returns?
-- **Hurst**: is there long memory?
+### 5.5 Granger Causality
 
-That’s why the results can be mixed—especially in emerging markets, where liquidity and information timing are not perfect.
+**Granger causality** does not mean true philosophical causation.
 
+It means:
 
-### G) Rebalancing tasks—why classification vs regression
-- **Classification (Logistic Regression)** answers: “Will the stock stay or be excluded?” This produces a **retention probability**.
-- **Regression (Ridge)** answers: “What weight will it have if it stays / in the new composition?”
+- if past values of variable X improve prediction of variable Y, then X is said to Granger-cause Y
 
-Team framing:
-- Probabilities are most actionable for ranking “at-risk” stocks.
+Your report states:
 
-### H) AUC vs accuracy with class imbalance
-If most stocks are retained most of the time:
-- A naive “always retain” classifier may produce high accuracy.
-- **AUC** is more informative because it evaluates ranking quality across thresholds.
+- no single macroeconomic variable passes the 5% significance threshold on its own
+- CPI comes close with `p = 0.0639`
+- oil, interest rate, and exchange-rate changes are not individually significant
 
-Team framing:
-- “We use AUC to ensure the model identifies excluded-risk stocks, not just the majority class.”
+Interpretation:
 
+- isolated one-variable macro signals are weak
+- predictive value likely comes from lagged interactions and combined dynamics
 
+### 5.6 Directional Accuracy
+
+This is one of the most important metrics in your flow section.
+
+It asks:
+
+- did the model correctly predict the sign of movement?
+- inflow vs outflow
+
+Why it matters more here than exact magnitude:
+
+- monthly flows are noisy and shock-driven
+- a model can be poor at exact PKR amounts but still useful at direction
+
+This is why your presentation says:
+
+- the models are stronger as **directional tools** than as **point estimators**
+
+### 5.7 Why R-squared can be negative here
+
+`R²` compares model fit with a simple baseline.
+
+A negative `R²` means:
+
+- the model is worse than the baseline at matching exact magnitudes
+
+That sounds bad, but in this context it does not destroy the usefulness of the model because:
+
+- the real value is in directional classification, not precise PKR forecasting
+
+## 6. Volatility and Risk Models
+
+### 6.1 Volatility Clustering
+
+A classic financial fact is **volatility clustering**:
+
+- high-volatility periods tend to be followed by high-volatility periods
+- calm periods tend to be followed by calm periods
+
+This means variance is not constant over time.
+
+### 6.2 GARCH
+
+**GARCH** means **Generalized Autoregressive Conditional Heteroskedasticity**.
+
+In your project the main specification is **GARCH(1,1)**.
+
+Interpretation of symbols:
+
+- `ω` or omega = constant term in the variance equation
+- `α` or alpha = impact of recent shocks
+- `β` or beta = persistence from previous volatility
+
+From the slide:
+
+- `ω = 0.0749`
+- `α = 0.1284`
+- `β = 0.8383`
+- persistence = `α + β = 0.9667`
+
+### 6.3 Volatility Persistence
+
+Persistence is:
+
+`α + β`
+
+When this is close to 1, shocks decay slowly.
+
+Your result:
+
+- `0.9667`
+
+Meaning:
+
+- volatility remains elevated after shocks
+- risk is sticky, not short-lived
+
+### 6.4 EGARCH
+
+**EGARCH** means **Exponential GARCH**.
+
+Why it is useful:
+
+- it models log variance
+- it can capture asymmetry in volatility response
+
+### 6.5 Gamma and Leverage Effect
+
+In EGARCH, `γ` or **gamma** measures asymmetry.
+
+Your report says the gamma term is significantly negative.
+
+Interpretation:
+
+- negative news creates a larger jump in future volatility than positive news of equal size
+
+This is the **leverage effect**.
+
+### 6.6 AIC
+
+**AIC** means **Akaike Information Criterion**.
+
+Used for model comparison:
+
+- lower AIC suggests a better balance of fit and parsimony
+
+Your result:
+
+- GARCH AIC = `4243.43`
+- EGARCH AIC = `4209.68`
+
+So EGARCH is preferred.
+
+### 6.7 VaR
+
+**VaR** means **Value at Risk**.
+
+At 5% VaR, the model estimates a downside loss threshold such that losses worse than that threshold should happen around 5% of the time.
+
+### 6.8 VaR Backtesting
+
+Backtesting checks whether actual breaches occur about as often as the model predicts.
+
+Your result:
+
+- `58 exceedances out of 1,300`
+- breach rate = `4.46%`
+- expected rate = `5%`
+
+Interpretation:
+
+- the model is reasonably well calibrated
+- it provides a plausible downside-risk envelope
+
+## 7. Market Efficiency Tests Used
+
+### 7.1 Runs Test
+
+The **Runs Test** checks whether positive and negative returns occur in a random sequence.
+
+Your result:
+
+- `Z = -1.91`
+- `p = 0.0561`
+
+Interpretation:
+
+- borderline result
+- does not strongly reject random ordering of return signs
+
+### 7.2 Variance Ratio Test
+
+The **Variance Ratio (VR) Test** checks whether return variance scales with horizon in a way consistent with a random walk.
+
+Interpretation:
+
+- `VR ≈ 1` supports random walk
+- `VR > 1` can suggest momentum
+- `VR < 1` can suggest mean reversion
+
+Your slide reports:
+
+- `VR(2) = 1.0069`, `p = 0.8752`
+
+That is broadly consistent with efficiency over that short horizon.
+
+### 7.3 Ljung-Box Q Test
+
+The **Ljung-Box Q Test** checks for serial correlation across multiple lags.
+
+Your result:
+
+- `p = 0.0000`
+
+Interpretation:
+
+- reject no-autocorrelation
+- returns contain statistically significant dependence
+
+### 7.4 Hurst Exponent
+
+The **Hurst exponent**, written as `H`, measures long-memory behavior.
+
+Interpretation:
+
+- `H = 0.5` suggests random walk
+- `H > 0.5` suggests persistence
+- `H < 0.5` suggests mean reversion
+
+Your result:
+
+- `H = 0.6559`
+
+Meaning:
+
+- KSE-30 shows persistent long-memory behavior
+
+### 7.5 Mixed Efficiency
+
+Putting all tests together:
+
+- Runs and variance ratio lean toward short-horizon efficiency
+- Ljung-Box and Hurst point toward dependence and persistence
+
+So your academically correct conclusion is:
+
+- **KSE-30 is neither fully efficient nor fully inefficient**
+
+## 8. Portfolio Rebalancing Framework
+
+### 8.1 Rebalancing
+
+**Portfolio rebalancing** means adjusting holdings when index composition or constituent weights change.
+
+In your project, the framework anticipates future KSE-30 changes before the official review.
+
+### 8.2 Two prediction tasks
+
+The framework has two tasks:
+
+1. **Inclusion prediction**
+   Will the stock remain in the KSE-30 after the next recomposition?
+2. **Weight prediction**
+   What will the stock's constituent weight be?
+
+### 8.3 Logistic Regression
+
+Used for inclusion prediction.
+
+It outputs a probability-like score for class membership.
+
+In your context:
+
+- a higher score means a higher retention probability
+
+### 8.4 Retention Probability
+
+**Retention probability** means the estimated probability that a stock stays in the index.
+
+This is one of the most decision-useful outputs in the project.
+
+### 8.5 Exclusion Risk
+
+The report defines:
+
+`Exclusion Risk = 1 - Average Retention Probability`
+
+Interpretation:
+
+- higher exclusion risk means the stock is more vulnerable to removal
+
+### 8.6 Ridge Regression
+
+Used for weight prediction.
+
+Ridge is a linear regression model with **L2 regularization**, which shrinks coefficients and helps when predictors are correlated.
+
+Why it worked well here:
+
+- index weights are very stable
+- a simple regularized model is enough to slightly improve on the naive benchmark
+
+### 8.7 Random Forest
+
+**Random Forest** is an ensemble model made of many decision trees.
+
+It is useful for nonlinear relationships, but in your results it is not the preferred final model for the main rebalancing tasks.
+
+### 8.8 AUC
+
+**AUC** means **Area Under the ROC Curve**.
+
+It measures how well the classifier separates retained from excluded stocks across thresholds.
+
+This matters because your report identifies **class imbalance**.
+
+### 8.9 Class Imbalance
+
+Class imbalance means one class is much more common than the other.
+
+Here:
+
+- most stocks are retained
+
+So a model can get high accuracy by simply predicting "retain" most of the time.
+
+That is why:
+
+- accuracy alone is misleading
+- AUC is more informative
+
+### 8.10 Rebalancing Results
+
+From the slides/report:
+
+- all inclusion models show `96.55%` accuracy
+- Logistic Regression has `AUC = 0.8214`
+- Random Forest has `AUC = 0.5446`
+
+Interpretation:
+
+- Logistic Regression separates at-risk stocks much better
+- Random Forest likely overfit the majority class
+
+For weight prediction:
+
+- Naive: `RMSE = 0.5595`, `R² = 0.9677`
+- Ridge: `RMSE = 0.5590`, `R² = 0.9678`
+- Random Forest: `RMSE = 0.6900`, `R² = 0.9509`
+
+Interpretation:
+
+- weights are highly stable
+- even the naive baseline is strong
+- Ridge is preferred because it slightly improves fit without unnecessary complexity
+
+## 9. Important Variables and Features from the Report
+
+### 9.1 Monthly NAV Return
+
+From the report:
+
+`nav_return_m = ( NAV_end / NAV_start ) - 1`
+
+### 9.2 Rolling Volatility
+
+From the report:
+
+`rolling_vol_30d(t) = std(log returns over past 30 days) × √252`
+
+Interpretation:
+
+- `std` = standard deviation
+- `√252` annualizes volatility using roughly 252 trading days
+
+### 9.3 Rebalancing Features
+
+The report lists these as important predictive features:
+
+- `cur_weight` = current constituent weight
+- `mom_30`, `mom_60`, `mom_90` = 30/60/90-day momentum
+- `vol_30`, `vol_60` = realized volatility
+- `avg_volume` = average recent trading volume
+- `mkt_cap_proxy` = market-cap estimate
+- `price_to_ma20`, `ma50` = price relative to moving averages
+- `wt_drift` = weight change since last recomposition
+- `wt_range` = historical range of constituent weight
+
+### 9.4 Momentum
+
+Momentum generally means recent price strength or weakness.
+
+For example:
+
+`momentum = (Price_t / Price_{t-N}) - 1`
+
+Negative momentum often signals weakening relative position.
+
+### 9.5 Weight Drift
+
+Weight drift means how much a stock's index weight has moved since the last recomposition.
+
+This can signal whether it is gaining or losing structural importance in the index.
+
+## 10. Statistical and Evaluation Terms
+
+### 10.1 RMSE
+
+**RMSE** = Root Mean Squared Error
+
+It penalizes larger forecast errors more heavily.
+
+Lower is better.
+
+### 10.2 MAE
+
+**MAE** = Mean Absolute Error
+
+It measures average absolute forecast error.
+
+Lower is better.
+
+### 10.3 R-squared
+
+`R²` measures the proportion of variation explained by the model.
+
+Higher is generally better, but interpretation depends on the task and baseline.
+
+### 10.4 p-value
+
+A **p-value** helps assess statistical significance.
+
+Rough practical rule:
+
+- below `0.05` is often treated as statistically significant
+
+### 10.5 Z-statistic
+
+A **Z-statistic** standardizes how far a result is from its null expectation.
+
+In your slides it appears in the Runs Test.
+
+## 11. Symbols and Notation Cheat Sheet
+
+- `t` = current time period
+- `t-1` = previous time period
+- `ln` = natural logarithm
+- `ω` = omega, constant term in GARCH variance equation
+- `α` = alpha, shock sensitivity
+- `β` = beta, volatility persistence
+- `γ` = gamma, asymmetry/leverage parameter in EGARCH
+- `H` = Hurst exponent
+- `VR` = Variance Ratio
+- `Q` = Ljung-Box Q statistic
+- `√252` = annualization factor for daily volatility
+- `p` = p-value
+- `AIC` = Akaike Information Criterion
+- `AUC` = Area Under the ROC Curve
+
+## 12. How the Slides Fit Together Conceptually
+
+Slides 13 to 18 follow a clear logic:
+
+1. **Slide 13**
+   Fund flows are forecastable in direction.
+2. **Slide 14**
+   The flow signal is weak for exact PKR values but useful for regimes.
+3. **Slide 15**
+   Market volatility is persistent and asymmetric.
+4. **Slide 16**
+   VaR backtesting shows the volatility model is usable for risk control.
+5. **Slide 17**
+   Market efficiency is mixed, so exploitable structure may exist.
+6. **Slide 18**
+   Those findings are turned into a stock-level rebalancing framework.
+
+This chain is important in the viva because it shows the project is not a collection of separate techniques. It is one connected argument.
+
+## 13. Safest Viva Language to Use
+
+These are the safest ways to describe the work academically:
+
+- "Our models are more useful as directional tools than exact point estimators."
+- "The market shows mixed weak-form efficiency rather than pure efficiency or pure inefficiency."
+- "EGARCH is preferred because it captures both persistence and asymmetric downside risk."
+- "The rebalancing framework is a probabilistic decision-support system, not a fully validated live trading strategy."
+- "AUC is more informative than accuracy in the inclusion task because of class imbalance."
+
+## 14. Final One-Paragraph Summary
+
+The project studies how fund flows, volatility, market efficiency, and index rebalancing interact in the Pakistani market. It derives aggregate KSE-30-related fund flows from NAV and AUM data, uses ARIMAX and VAR to forecast flow direction, applies GARCH and EGARCH to model persistent and asymmetric volatility, validates downside risk through VaR backtesting, and tests weak-form efficiency through Runs, Variance Ratio, Ljung-Box, and Hurst diagnostics. Since the evidence suggests directionally useful flow signals, persistent downside-sensitive risk, and mixed market efficiency, the project then extends these findings into a practical rebalancing framework using Logistic Regression for retention probability and Ridge Regression for constituent weight prediction.
