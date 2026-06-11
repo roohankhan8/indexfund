@@ -32,6 +32,9 @@ This is why, in the decision-making process, we treat flows primarily as a **dir
 
 Even when the predicted line doesn’t perfectly match the exact magnitude month-to-month, the dynamic models capture the **inflow/outflow episodes better** than the naive baseline.
 
+### Why fund-flow graphs spike (quick intuition)
+Those sharp spikes usually happen when **NAV moves** and investors/fund managers react through **subscriptions and redemptions**—often during **macro/policy surprises** (rates, inflation, FX), or during **market stress/crises** when investors rebalance quickly. Since our “flow” is derived from AUM changes adjusted by NAV, any sudden NAV move or reporting/timing effect can also make the computed flow look abrupt.
+
 We also justify this from the earlier EDA:
 - contemporaneous correlation is tiny,
 - so the predictive structure must come from **lagged relationships**.
