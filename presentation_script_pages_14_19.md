@@ -12,18 +12,20 @@
 ---
 
 ## Slide/Page 14 — Fund Flow Forecasting Results (Naive vs ARIMAX vs VAR)
-“Now we test whether the flow signal is usable.
+“Now we test whether the *flow* signal is usable for decision-making.
 
-We compare three models against a naive random-walk benchmark:
-- **Naive (RW):** directional accuracy **37.5%**
-- **ARIMAX(1,0,1):** directional accuracy improves to **75.0%**
-- **VAR(1):** also achieves **75.0%** directional accuracy
+We compare three models against a naive random-walk benchmark, and we judge them mainly by **directional accuracy** (inflow vs outflow), not by exact PKR magnitude:
+- **Naive (RW):** directional accuracy **37.5%** (basically ‘guessing’)
+- **ARIMAX(1,0,1):** directional accuracy **75.0%**
+- **VAR(1):** directional accuracy **75.0%**
 
-Key interpretation:
-- Flow magnitude is noisy and shock-driven, so **R² can be negative**.
-- But direction—whether flows are expected to be inflow vs outflow—improves substantially.
+**What this implies (say it plainly):**
+- Fund flows are *noisy* and often driven by sudden events, so the **exact value** we forecast can miss.
+- That’s why **R² can be negative**—the model’s point forecast can be worse than a baseline.
+- But the models still capture the more important pattern: whether flows are likely to be **inflow episodes** or **outflow episodes**.
 
-This is why, in the decision-making process, we treat flows primarily as a **direction/regime tool**, not as an exact PKR point estimator.”
+**Decision framing:** We treat the flow models as a **regime/direction tool** (a ‘which way is the wind blowing?’ signal), not as an exact PKR predictor.”
+
 
 ---
 
