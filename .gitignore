@@ -1,3 +1,4 @@
 .venv
 unused
 __pycache__/
+.env
