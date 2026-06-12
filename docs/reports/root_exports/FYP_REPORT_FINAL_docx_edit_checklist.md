@@ -2,7 +2,7 @@
 
 This checklist is the practical follow-up to `FYP_REPORT_FINAL_alignment_changes.md`.
 
-It is designed for editing the source file:
+It is designed for editing:
 
 - `docs/reports/root_exports/FYP REPORT FINAL (1).docx`
 
@@ -15,22 +15,21 @@ Inspection basis:
 
 ## 1. Highest-priority text edits
 
-These should be fixed before touching formatting.
-
 ### 1.1 Executive Summary
 
 Current problem:
 
-- it overstates the project as predicting "index fund flows" in a direct sense
-- it describes the final workflow too generically
-- it implies a stronger machine-learning-centered flow model than the current pipeline actually uses
+- it overstates the project as predicting direct "index fund flows"
+- it describes the workflow too generically
+- it implies a stronger ML-centered forecasting stack than the final pipeline actually uses
 
-Replace the current framing with wording that says:
+Replace the framing so it says:
 
-- the project constructs a **proxy aggregate sector-flow series**
-- the flow series is based on `AKD`, `NBP`, and `NTI`
-- the final implemented pipeline combines:
-  - ARIMAX / VAR for monthly flow prediction
+- the project constructs a three-fund sector proxy index
+- the index is based on `AKD`, `NBP`, and `NTI/NIT`
+- the index was adopted after examiner feedback objected to the unsupported direct total-flow equation
+- the final pipeline combines:
+  - ARIMAX / VAR for monthly target forecasting
   - GARCH / EGARCH for volatility
   - market-efficiency tests
   - logistic / ridge / random forest comparisons for rebalancing
@@ -40,13 +39,17 @@ Replace the current framing with wording that says:
 Edit these points:
 
 - remove or downgrade `LSTM` as a final implemented model
-- remove or downgrade any "hybrid framework" language that implies it is in the final retained production workflow
-- replace generic "training, validation, and testing" wording with the actual final split logic
-- insert the corrected fund-flow equation language from `FYP_REPORT_FINAL_alignment_changes.md`
+- remove or downgrade any "hybrid framework" language that implies it is in the retained production workflow
+- replace generic training/validation/testing wording with the actual final split logic
+- replace the old total-flow headline equation with the new three-fund index equations
+
+Add a subsection heading if needed:
+
+- `Construction of Three-Fund Sector Proxy Index`
 
 ### 1.3 Results chapter
 
-Refresh all stale metrics using:
+Refresh stale metrics using:
 
 - `production_pipeline/output/analysis/results_fund_flow.csv`
 - `production_pipeline/output/analysis/results_garch.csv`
@@ -58,17 +61,96 @@ Refresh all stale metrics using:
 
 Standardize:
 
-- use "proxy aggregate sector-flow series" instead of "official KSE-30 flow"
+- use "three-fund sector proxy index" as the main label
+- use "composite fund index" or "sector proxy index" as acceptable short forms
+- do not use "official KSE-30 flow" or "direct total fund flow" as the final target label
 - fix `NIT` / `NTI` inconsistency
-- keep market-efficiency interpretation as "mixed" or "borderline", not absolute
+- keep market-efficiency interpretation as mixed or borderline, not absolute
 
-## 2. Main figure replacements in the DOCX
+## 2. Equations that must be changed in the DOCX
+
+This is the most important examiner-driven technical edit.
+
+### 2.1 Demote the old flow equation to literature background only
+
+If the DOCX currently presents this or a similar form as the main study target:
+
+`DollarNetFlow_(i,t) = TNA_(i,t) - TNA_(i,t-1) * (1 + R_(i,t))`
+
+or
+
+`FlowProxy_(i,t) = AUM_(i,t) - AUM_(i,t-1) * (NAV_(i,t) / NAV_(i,t-1))`
+
+change the surrounding text so these appear only as:
+
+- literature motivation
+- constituent-level background
+- an initial benchmark concept that was not retained as the final target
+
+### 2.2 Insert the constituent return equation
+
+Use:
+
+`r_(i,t) = (NAV_(i,t) - NAV_(i,t-1)) / NAV_(i,t-1)`
+
+Purpose:
+
+- defines the monthly return for each constituent fund
+- is needed before the normalized index construction
+
+### 2.3 Insert the normalized fund-level index equation
+
+Use:
+
+`IndexLevel_(i,t) = 100 * NAV_(i,t) / NAV_(i,0)`
+
+Purpose:
+
+- rebases the three funds to a common starting level
+- makes them directly aggregable into one composite index
+
+### 2.4 Insert the composite index equation
+
+If the dissertation uses equal weighting, use:
+
+`FundIndex_t = (1/3) * [IndexLevel_(AKD,t) + IndexLevel_(NBP,t) + IndexLevel_(NTI,t)]`
+
+If the dissertation uses fixed weights instead, use:
+
+`FundIndex_t = sum_(i in {AKD,NBP,NTI}) w_i * IndexLevel_(i,t), where sum_i w_i = 1`
+
+Important:
+
+- only one of the above should remain in the final DOCX
+- do not leave both unless one is explicitly labeled as an alternative specification
+
+### 2.5 Insert the modeled target equation if forecasting uses index return
+
+If the forecasting chapter models the composite return, add:
+
+`FundIndexReturn_t = ln(FundIndex_t / FundIndex_(t-1))`
+
+If the model instead uses simple percentage change, replace the log-return line with the exact implemented transformation and keep the variable name consistent everywhere.
+
+### 2.6 Keep any constituent flow proxy as optional background only
+
+If you want to preserve the AUM/NAV flow intuition, keep it in one short background paragraph only:
+
+`FlowProxy_(i,t) = AUM_(i,t) - AUM_(i,t-1) * (NAV_(i,t) / NAV_(i,t-1))`
+
+The text must state:
+
+- this is a constituent-level proxy concept
+- it is not the final dissertation target equation
+- the final target is the composite three-fund index or its return
+
+## 3. Main figure replacements in the DOCX
 
 The DOCX embed map shows that the main analytical figures are already embedded as images inside the Word file. Replace those embedded images with the current generated files below.
 
 ### Chapter 3 figures
 
-These are the existing DOCX image references:
+Existing DOCX image references:
 
 - Figure 3.1 -> `media/image5.png`
 - Figure 3.2 -> `media/image6.png`
@@ -80,23 +162,18 @@ Replace them with:
 
 - Figure 3.1
   Use: `production_pipeline/output/analysis/figures/eda/E07_top_weights.png`
-  Reason: this is the current top-weight figure and matches the "top weighted KSE-30 stocks" intent better than the old embedded chart.
 
 - Figure 3.2
   Use: `production_pipeline/output/analysis/figures/eda/E05_monthly_correlation.png`
-  Reason: this is the current monthly-correlation visualization aligned with the final pipeline.
 
 - Figure 3.3
   Use: `docs/report_workspace/chapter-03-methodology/images/C3_EDA_04_return_distribution_and_qq.png`
-  Reason: this is the current report-ready return distribution and Q-Q figure.
 
 - Figure 3.4
   Use: `docs/report_workspace/chapter-03-methodology/images/C3_EDA_ST_03_level_vs_return_examples.png`
-  Reason: this is the current stationarity transformation illustration.
 
 - Figure 3.5
   Use: `docs/report_workspace/chapter-03-methodology/images/C3_EDA_ST_01_pvalue_heatmap.png`
-  Reason: this is the current ADF p-value heatmap.
 
 ### Chapter 4 figures
 
@@ -190,13 +267,10 @@ Replace them with:
 
 - Figure 6.5
   Use: `docs/report_workspace/chapter-07-discussion/images/C7_05_rebalancing_risk_map_inbubble_labels.png`
-  Reason: this is the cleaner annotated version and is better than the plain unlabeled map.
 
-## 3. Appendix figure replacements
+## 4. Appendix figure replacements
 
-The DOCX also embeds appendix figures that should be checked against the current output set.
-
-### Appendix B images identified from the DOCX
+Appendix figures identified from the DOCX:
 
 - `media/image28.png` -> Figure B.2
 - `media/image29.png` -> Figure B.8
@@ -217,50 +291,38 @@ Recommended replacements:
 - Figure B.12
   Replace with: `docs/report_workspace/chapter-05-results-and-analysis/images/EF02_variance_ratio.png`
 
-## 4. Appendix E must be revised heavily
-
-This is the biggest DOCX-specific issue revealed by the image inspection.
+## 5. Appendix E must be revised heavily
 
 The DOCX contains a large block of embedded JPEG screenshots:
 
 - `media/image32.jpeg` through `media/image52.jpeg`
 
-These appear in the section around:
+These appear around the old repository-structure appendix. That appendix is now stale because the repo has been restructured into:
 
-- paragraph `1412`
-- `Table E.2: Internal structure of final pipeline — eight analytical sections`
-- `E.4 Report Workspace Role`
-
-Why this is a problem:
-
-- these screenshots document the **old repository structure**
-- the repo has now been restructured into:
-  - `production_pipeline/`
-  - `docs/`
-  - `markdown/`
-- therefore Appendix E is now stale even if the analytical chapters are corrected
+- `production_pipeline/`
+- `docs/`
+- `markdown/`
 
 Required action:
 
-- remove or replace all old Appendix E repository screenshots
-- rewrite the appendix so it reflects the **current production-ready structure**
+- remove or replace the old Appendix E repository screenshots
+- rewrite the appendix so it reflects the current production-ready structure
+- cut Appendix E aggressively if the department does not require screenshot-heavy implementation appendices
 
 Recommended replacement content:
 
-- one clean repository tree screenshot showing:
+- one clean repository tree image showing:
   - `production_pipeline/`
   - `docs/`
   - `markdown/`
   - `README.md`
   - `PROJECT_REFERENCE.md`
-
 - one workflow diagram showing:
   - `production_pipeline/data/raw`
   - `prepare_kse30_basic.py`
   - `pipeline.py`
   - `output/analysis`
   - `docs/report_workspace`
-
 - one short table listing the `run_all.py` stages:
   - `prepare`
   - `pipeline`
@@ -271,21 +333,48 @@ Recommended replacement content:
   - `report`
   - `risk_map`
 
-If you do not want to rebuild all those appendix screenshots, the safer option is:
+If you do not want to rebuild all screenshots:
 
-- replace the screenshot-heavy appendix with a concise text/table appendix describing the final production layout
+- replace the screenshot-heavy appendix with a concise text or table appendix describing the final production layout
 
-## 5. Tables that must be manually refreshed in the DOCX
+## 6. Appendix reduction and chapter-promotion plan
 
-These are not image swaps; they require editing the Word table values directly.
+The report should reduce appendix dependence and move core evidence into the main body.
+
+### 6.1 Move these items into the main chapters
+
+- move the final three-fund index equations into Chapter 3
+- move the final forecasting comparison table into Chapter 4
+- move the final stationarity summary and Granger summary into Chapter 4
+- move the final efficiency summary table into Chapter 4
+- move the final rebalancing comparison table into Chapter 5
+- move the final forward-risk or forecast table into Chapter 5
+
+### 6.2 Keep these in appendices only if space requires it
+
+- raw output dumps
+- alternate model specifications not discussed in the text
+- supplementary figure panels
+- implementation screenshots
+
+### 6.3 Recommended appendix cuts
+
+- remove repeated repository screenshots
+- remove duplicated figure versions when one final figure is already used in the chapter
+- compress long appendix narratives into short tables
+- delete appendix content that is never referenced in the discussion or conclusion
+
+## 7. Tables that must be manually refreshed in the DOCX
+
+These require editing the Word table values directly.
 
 ### Table 4.1
 
 Use current values:
 
-- Naive (RW): `RMSE 83.35`, `MAE 51.36`, `R² -1.4196`, `DirAcc 37.5%`
-- ARIMAX(1,0,1): `RMSE 58.00`, `MAE 36.52`, `R² -0.1716`, `DirAcc 70.8%`
-- VAR(1): `RMSE 62.54`, `MAE 38.80`, `R² -0.3622`, `DirAcc 75.0%`
+- Naive (RW): `RMSE 83.35`, `MAE 51.36`, `R^2 -1.4196`, `DirAcc 37.5%`
+- ARIMAX(1,0,1): `RMSE 58.00`, `MAE 36.52`, `R^2 -0.1716`, `DirAcc 70.8%`
+- VAR(1): `RMSE 62.54`, `MAE 38.80`, `R^2 -0.3622`, `DirAcc 75.0%`
 
 ### Table 4.2
 
@@ -293,7 +382,7 @@ Update to the current GARCH/EGARCH values from:
 
 - `production_pipeline/output/analysis/results_garch.csv`
 
-Key interpretation to preserve:
+Key interpretation:
 
 - EGARCH is preferred by lower AIC
 - GARCH persistence is `0.9667`
@@ -309,7 +398,7 @@ Update to current efficiency values:
 - Ljung-Box p `0.0000`
 - Hurst `0.6559`
 
-### Rebalancing chapter tables/text
+### Rebalancing chapter tables and text
 
 Update to:
 
@@ -318,27 +407,29 @@ Update to:
 - symbols `47`
 - retained rate `91.9%`
 - logistic AUC `0.8214`
-- ridge weight prediction `R² 0.9678`
+- ridge weight prediction `R^2 0.9678`
 
-## 6. Paragraphs in the DOCX that deserve direct rewriting
+## 8. Paragraphs in the DOCX that deserve direct rewriting
 
 Use the paragraph map file to locate these areas quickly.
 
-### Paragraphs 101–104
+### Paragraphs 101-104
 
-Rewrite the Executive Summary to remove overclaiming and align with the final workflow.
+Rewrite the Executive Summary to remove overclaiming and align it with the final workflow and the examiner-driven index framing.
 
 ### Paragraph 606
 
 Current issue:
 
-- claims train/validation/test in generic terms
+- it uses generic split language
+- it likely sits near the methodology area where the old target equation appears
 
 Change:
 
-- replace with the actual final split approach used by the retained pipeline
+- replace with the actual retained split approach
+- insert the three-fund index-construction narrative around this methodology area
 
-### Paragraphs 739–744
+### Paragraphs 739-744
 
 Current issue:
 
@@ -346,9 +437,11 @@ Current issue:
 
 Change:
 
-- replace with current output values and update the CPI significance wording to borderline rather than strongly significant
+- replace with current output values
+- update the CPI significance wording to borderline rather than strongly significant
+- make sure the paragraph says ARIMAX and VAR are forecasting the composite three-fund target
 
-### Paragraphs 824–845
+### Paragraphs 824-845
 
 Current issue:
 
@@ -357,19 +450,20 @@ Current issue:
 Change:
 
 - keep logistic as stronger classification evidence
-- keep ridge/naive as strongest weight-prediction story
-- refresh any example stock names if the old text uses names not present in the current top-risk list
+- keep ridge or naive as the strongest weight-prediction story
+- refresh any example stock names if the old text uses names not present in the current forecast
 
-### Paragraphs 851–857
+### Paragraphs 851-857
 
 Current issue:
 
-- discussion chapter still uses a generic summary tone and may not reflect the rerun values exactly
+- discussion chapter may still use generic summary language and may not reflect the rerun values exactly
 
 Change:
 
-- keep emphasis on directional utility over point-fit
+- keep emphasis on directional utility over point fit
 - preserve mixed-efficiency interpretation
+- add one sentence explaining that the three-fund index was adopted to improve methodological defensibility after examiner feedback
 
 ### Paragraph 866
 
@@ -379,25 +473,27 @@ Current issue:
 
 This is acceptable, but make sure it does not imply LSTM was part of the final flow-forecasting implementation.
 
-## 7. Quick replacement order for the editor
+## 9. Quick replacement order for the editor
 
-Recommended edit sequence inside Word:
-
-1. Fix Executive Summary wording.
-2. Fix Chapter 3 methodology scope and fund-flow equation.
-3. Replace Figures 3.1–6.5 using the replacement map above.
-4. Refresh Tables 4.1–4.3 and rebalancing metrics.
-5. Refresh Appendix B figures.
-6. Rewrite or replace Appendix E screenshots.
-7. Export a new PDF and cross-check it against:
+1. Fix the Executive Summary wording.
+2. Replace the unsupported total-flow equation with the three-fund index equations.
+3. Move the key equation block and key result tables into the main chapters.
+4. Fix Chapter 3 methodology scope and remove or downgrade LSTM wording.
+5. Replace Figures 3.1-6.5 using the map above.
+6. Refresh Tables 4.1-4.3 and the rebalancing metrics.
+7. Refresh Appendix B figures.
+8. Rewrite, replace, or heavily cut Appendix E.
+9. Export a new PDF and cross-check it against:
    - `FYP_REPORT_FINAL_alignment_changes.md`
    - `production_pipeline/output/analysis/`
 
-## 8. Bottom line
+## 10. Bottom line
 
 If you only have time for the most important DOCX fixes, do these first:
 
-- correct the flow-series framing
+- replace the unsupported total-flow equation with the final three-fund index equations
+- correct the target-series framing everywhere
+- move the important equations and key summary tables into the main chapters
 - remove LSTM as a final implemented model unless explicitly labeled as background only
 - refresh Tables 4.1 to 4.3
 - replace Figures 4.4 to 6.5
