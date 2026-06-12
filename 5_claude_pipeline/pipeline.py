@@ -468,7 +468,23 @@ monthly = monthly.dropna(
 flow_cols = [c for c in monthly.columns
              if c.startswith("flow_") and not c.endswith("_pct")
              and not c.endswith("_spike")]
-monthly["total_fund_flow"] = monthly[flow_cols].sum(axis=1)
+monthly["sector_aum_mn"] = (
+    monthly["aum_akd"] + monthly["aum_nbp"] + monthly["aum_nti"]
+)
+monthly["sector_aum_prev"] = monthly["sector_aum_mn"].shift(1)
+monthly["w_akd_prev"] = monthly["aum_akd"].shift(1) / monthly["sector_aum_prev"]
+monthly["w_nbp_prev"] = monthly["aum_nbp"].shift(1) / monthly["sector_aum_prev"]
+monthly["w_nti_prev"] = monthly["aum_nti"].shift(1) / monthly["sector_aum_prev"]
+monthly["composite_return_monthly"] = (
+    monthly["w_akd_prev"].fillna(0) * monthly["nav_return_akd_monthly"].fillna(0)
+    + monthly["w_nbp_prev"].fillna(0) * monthly["nav_return_nbp_monthly"].fillna(0)
+    + monthly["w_nti_prev"].fillna(0) * monthly["nav_return_nti_monthly"].fillna(0)
+)
+monthly["composite_net_flow"] = (
+    monthly["sector_aum_mn"]
+    - monthly["sector_aum_prev"] * (1 + monthly["composite_return_monthly"])
+)
+monthly["total_fund_flow"] = monthly["composite_net_flow"]
 
 # Replace inf values that arise when prior-period AUM = 0 (fund launch months)
 monthly = monthly.replace([np.inf, -np.inf], np.nan)
@@ -965,13 +981,13 @@ savefig("fund_flow", "FF02_granger.png")
 
 # Save results
 ff_rows = [
-    {"Model":"Naive (RW)","Target":"Total","RMSE":round(m_naive["RMSE"],2),
+    {"Model":"Naive (RW)","Target":"3fund_composite","RMSE":round(m_naive["RMSE"],2),
      "MAE":round(m_naive["MAE"],2),"R2":round(m_naive["R2"],4),
      "DirAcc":round(m_naive["DirAcc"],1),"Note":"Benchmark"},
-    {"Model":"ARIMAX(1,0,1)","Target":"Total","RMSE":round(m_arimax["RMSE"],2),
+    {"Model":"ARIMAX(1,0,1)","Target":"3fund_composite","RMSE":round(m_arimax["RMSE"],2),
      "MAE":round(m_arimax["MAE"],2),"R2":round(m_arimax["R2"],4),
      "DirAcc":round(m_arimax["DirAcc"],1),"Note":"Primary"},
-    {"Model":"VAR(1)","Target":"Total","RMSE":round(m_var["RMSE"],2),
+    {"Model":"VAR(1)","Target":"3fund_composite","RMSE":round(m_var["RMSE"],2),
      "MAE":round(m_var["MAE"],2),"R2":round(m_var["R2"],4),
      "DirAcc":round(m_var["DirAcc"],1),"Note":"System model"},
 ]
@@ -1465,7 +1481,7 @@ print(pd.DataFrame(garch_rows).to_string(index=False))
 
 print("\n[Table 3] Fund flow prediction")
 ff_df = pd.read_csv(os.path.join(BASE,"results_fund_flow.csv"))
-print(ff_df[ff_df.Target=="Total"].to_string(index=False))
+print(ff_df[ff_df.Target=="3fund_composite"].to_string(index=False))
 
 print("\n[Table 4] Market efficiency")
 eff_out = pd.DataFrame(eff_rows)

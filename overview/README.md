@@ -57,7 +57,7 @@ We answer questions like:
 |-------|------|--------------|----------------|
 | **Preprocessing** | nb0_preprocessing.py | Cleans data, creates daily/monthly master tables | Foundation for all analysis |
 | **EDA** | nb1_eda.py | Explores data patterns visually | Understands fund behavior |
-| **Fund Flow Prediction** | nb7_kse30_fund_flow_prediction.py | Predicts KSE-30 fund flows using ARIMAX + VAR models | Uses mutual fund data (AKD/NBP/NTI) as external variables since their flows reflect KSE-30 flows |
+| **Fund Flow Prediction** | nb7_kse30_fund_flow_prediction.py | Predicts 3-fund composite KSE-30 tracker flow using ARIMAX + VAR models | Uses mutual fund data from AKD, NBP, and NTI to build an AUM-weighted composite-flow proxy |
 | **Volatility Modeling** | nb3_garch_volatility.py | Models market volatility using GARCH | Captures risk clustering |
 | **Portfolio Optimization** | nb4_portfolio_optimisation.py | Mean-variance optimization (Markowitz) | Shows optimal stock weights |
 | **Rebalancing Prediction** | nb4b_rebalancing_prediction.py | Predicts rebalancing using Random Forest (Regressor + Classifier) | Key for index tracking |
@@ -329,7 +329,7 @@ This section maps each visualization to the research questions it answers.
 
 ### The Problem We Solved
 We analyze KSE-30 (Pakistan's top 30 index). The key questions:
-1. **Predict KSE-30 fund flows** - Using mutual fund data (AKD/NBP/NTI) as external variables since they track KSE-30
+1. **Predict 3-fund composite KSE-30 tracker flow** - Using mutual fund data from AKD, NBP, and NTI
 2. **Manage volatility** - How risky is the market?
 3. **Rebalance portfolios** - When should stocks be bought/sold to track the index?
 
@@ -346,7 +346,7 @@ Data → Preprocessing → Fund Flow Prediction
 ```
 
 ### Results
-- Since AKD, NBP, and NTI track KSE-30, predicted KSE-30 fund flows based on market indicators
+- Since AKD, NBP, and NTI track KSE-30, the project predicts an AUM-weighted 3-fund composite-flow series based on market indicators
 - GARCH models capture volatility clustering
 - Portfolio optimization provides optimal weights
 - Rebalancing predictions with cross-validation
@@ -391,7 +391,7 @@ Since these funds track KSE-30, we used NAV and AUM data to calculate fund flows
 - Flow % = (Flow / Previous AUM) × 100
 - NAV Returns = Daily/monthly fund returns
 
-These flows serve as external variables to predict KSE-30 fund flows (since index-tracking funds mirror index activity).
+These flows are combined into an AUM-weighted 3-fund composite-flow series for forecasting and analysis. They should not be described as an official observed KSE-30 net-flow series.
 
 ---
 

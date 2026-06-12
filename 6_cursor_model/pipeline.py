@@ -13,7 +13,7 @@ Single file covering the complete research workflow:
   SECTION 7  - KSE-30 rebalancing weight & inclusion prediction
   SECTION 8  - Results summary
 
-Flow series: combined net flow across KSE-30 index-tracking mutual funds
+Flow series: 3-fund composite net flow across KSE-30 index-tracking mutual funds
 (AKD + NBP + NTI merged to one sector total - not plotted or modelled separately).
 
 Primary market series: reconstructed KSE-30 index from constituent free-float MCAP.
@@ -561,16 +561,25 @@ monthly = monthly.dropna(
             and "pct" not in c]
 ).reset_index(drop=True)
 
-flow_cols = [c for c in monthly.columns
-             if c.startswith("flow_") and not c.endswith("_pct")
-             and not c.endswith("_spike")]
-monthly["total_fund_flow"] = monthly[flow_cols].sum(axis=1)
 monthly["sector_aum_mn"] = (
     monthly["aum_akd"] + monthly["aum_nbp"] + monthly["aum_nti"]
 )
 monthly["sector_aum_prev"] = monthly["sector_aum_mn"].shift(1)
+monthly["w_akd_prev"] = monthly["aum_akd"].shift(1) / monthly["sector_aum_prev"]
+monthly["w_nbp_prev"] = monthly["aum_nbp"].shift(1) / monthly["sector_aum_prev"]
+monthly["w_nti_prev"] = monthly["aum_nti"].shift(1) / monthly["sector_aum_prev"]
+monthly["composite_return_monthly"] = (
+    monthly["w_akd_prev"].fillna(0) * monthly["nav_return_akd_monthly"].fillna(0)
+    + monthly["w_nbp_prev"].fillna(0) * monthly["nav_return_nbp_monthly"].fillna(0)
+    + monthly["w_nti_prev"].fillna(0) * monthly["nav_return_nti_monthly"].fillna(0)
+)
+monthly["composite_net_flow"] = (
+    monthly["sector_aum_mn"]
+    - monthly["sector_aum_prev"] * (1 + monthly["composite_return_monthly"])
+)
+monthly["total_fund_flow"] = monthly["composite_net_flow"]
 monthly["flow_pct_sector"] = (
-    monthly["total_fund_flow"] / monthly["sector_aum_prev"].replace(0, np.nan)
+    monthly["composite_net_flow"] / monthly["sector_aum_prev"].replace(0, np.nan)
 )
 _tf = monthly["total_fund_flow"]
 monthly["flow_spike_sector"] = (_tf - _tf.mean()).abs() > 2 * _tf.std()
@@ -593,7 +602,8 @@ MONTHLY_EXPORT_COLS = [
     "usdpkr_return_monthly", "interest_rate_end", "cpi_yoy_end",
     "gold_price_end", "gold_return_monthly", "gdp_usd_end", "gdp_yoy_end",
     "idx_return_monthly", "idx_vol_monthly",
-    "sector_aum_mn", "total_fund_flow", "flow_pct_sector", "flow_spike_sector",
+    "sector_aum_mn", "sector_aum_prev", "composite_return_monthly",
+    "composite_net_flow", "total_fund_flow", "flow_pct_sector", "flow_spike_sector",
 ]
 monthly_saved = monthly[MONTHLY_EXPORT_COLS].copy()
 monthly_saved.to_csv(
@@ -635,8 +645,8 @@ print(desc_df.to_string(index=False))
 fig, ax = plt.subplots(figsize=(13, 4))
 ax.plot(monthly["date"], monthly["sector_aum_mn"], marker="o", markersize=3,
         color=INDEX_COLOR, linewidth=1.5,
-        label="Combined AUM (KSE-30 index funds)")
-ax.set_title("Monthly AUM - KSE-30 index-tracking funds combined (PKR Millions)")
+        label="Composite AUM (AKD + NBP + NTI)")
+ax.set_title("Monthly AUM - 3-fund KSE-30 tracker composite (PKR Millions)")
 ax.set_ylabel("AUM (PKR mn)"); ax.legend()
 ax.xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=4))
@@ -655,17 +665,17 @@ ax.set_xlim(s.quantile(0.01), s.quantile(0.99))
 plt.tight_layout()
 savefig("eda", "E02_nav_return_dist.png")
 
-# ── 3.4 Aggregate net flows (inflows / outflows) ─────────────────────────────
+# ── 3.4 Composite net flows (inflows / outflows) ─────────────────────────────
 fig, ax = plt.subplots(figsize=(13, 5))
 col = "total_fund_flow"
 colors = [INDEX_COLOR if v >= 0 else "#e74c3c" for v in monthly[col]]
 ax.bar(monthly["date"], monthly[col], color=colors, width=20, alpha=0.85)
 spikes = monthly[monthly["flow_spike_sector"]]
 ax.scatter(spikes["date"], spikes[col], color="black", s=45, marker="*",
-           zorder=5, label="Spike >2σ (aggregate)")
+           zorder=5, label="Spike >2σ (composite)")
 ax.axhline(0, color="black", linewidth=0.6)
 ax.set_ylabel("Net flow (PKR mn)")
-ax.set_title("Monthly net flows - KSE-30 index-tracking funds (combined)")
+ax.set_title("Monthly net flows - 3-fund KSE-30 tracker composite")
 if len(spikes): ax.legend(fontsize=8)
 ax.xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=4))
@@ -712,7 +722,7 @@ corr_cols = ["oil_return_monthly","usdpkr_return_monthly","interest_rate_end",
              "cpi_yoy_end","gold_return_monthly","gdp_yoy_end",
              "idx_return_monthly","idx_vol_monthly","flow_pct_sector"]
 corr_labels = ["Oil ret","USD/PKR ret","Int rate","CPI YoY","Gold ret",
-               "GDP YoY","KSE-30 ret","KSE-30 vol","Sector flow %"]
+               "GDP YoY","KSE-30 ret","KSE-30 vol","Composite flow %"]
 corr_m = monthly[corr_cols].dropna().corr()
 corr_m.index = corr_m.columns = corr_labels
 fig, ax = plt.subplots(figsize=(12, 9))
@@ -1117,7 +1127,7 @@ ax.plot(dates_te, np.array(var_preds), "s--", color="#2ca02c", linewidth=2,
         markersize=5, label=f"VAR(1) (R²={m_var['R2']:.3f})")
 ax.axvline(pd.Timestamp(TRAIN_END), color="gray", linestyle=":", linewidth=1.5)
 ax.axhline(0, color="black", linewidth=0.5)
-ax.set_title("KSE-30 sector net flow (stationarity-transformed) - Actual vs ARIMAX vs VAR(1)")
+ax.set_title("3-fund composite net flow (stationarity-transformed) - Actual vs ARIMAX vs VAR(1)")
 ax.set_ylabel("Transformed flow"); ax.legend(fontsize=8)
 ax.xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=4))
@@ -1133,20 +1143,20 @@ ax.bar(gc_df["Variable"], gc_df["p"], color=cols_bar, alpha=0.85)
 ax.axhline(0.05, color="black", linewidth=1.2, linestyle="--", label="5%")
 ax.axhline(0.10, color="gray",  linewidth=0.8, linestyle=":",  label="10%")
 ax.set_ylabel("Granger p-value (lag 1)")
-ax.set_title("Granger causality - macro vs aggregate KSE-30 sector flow")
+ax.set_title("Granger causality - macro vs 3-fund composite flow")
 ax.legend(); ax.set_xticklabels(gc_df["Variable"], rotation=20, ha="right")
 plt.tight_layout()
 savefig("fund_flow", "FF02_granger.png")
 
 # Save results
 ff_rows = [
-    {"Model":"Naive (RW)","Target":"KSE30_sector","RMSE":round(m_naive["RMSE"],2),
+    {"Model":"Naive (RW)","Target":"KSE30_3fund_composite","RMSE":round(m_naive["RMSE"],2),
      "MAE":round(m_naive["MAE"],2),"R2":round(m_naive["R2"],4),
      "DirAcc":round(m_naive["DirAcc"],1),"Note":"Benchmark"},
-    {"Model":"ARIMAX(1,0,1)","Target":"KSE30_sector","RMSE":round(m_arimax["RMSE"],2),
+    {"Model":"ARIMAX(1,0,1)","Target":"KSE30_3fund_composite","RMSE":round(m_arimax["RMSE"],2),
      "MAE":round(m_arimax["MAE"],2),"R2":round(m_arimax["R2"],4),
      "DirAcc":round(m_arimax["DirAcc"],1),"Note":f"Primary ({best_arimax['spec']})"},
-    {"Model":"VAR(1)","Target":"KSE30_sector","RMSE":round(m_var["RMSE"],2),
+    {"Model":"VAR(1)","Target":"KSE30_3fund_composite","RMSE":round(m_var["RMSE"],2),
      "MAE":round(m_var["MAE"],2),"R2":round(m_var["R2"],4),
      "DirAcc":round(m_var["DirAcc"],1),"Note":"System model"},
 ]
@@ -1708,7 +1718,7 @@ print(pd.DataFrame(garch_rows).to_string(index=False))
 
 print("\n[Table 3] Aggregate fund-flow prediction")
 ff_df = pd.read_csv(os.path.join(OUT_DIR, "results_fund_flow.csv"))
-print(ff_df[ff_df.Target == "KSE30_sector"].to_string(index=False))
+print(ff_df[ff_df.Target == "KSE30_3fund_composite"].to_string(index=False))
 
 print("\n[Table 4] Market efficiency (index)")
 eff_out = pd.DataFrame(eff_rows)
@@ -1773,7 +1783,7 @@ ax3.set_yticks([0, 1])
 ax3.set_yticklabels(["Efficient", "Inefficient"])
 ax3.set_title("Index efficiency -\nruns / VR / LB / Hurst")
 
-# Panel 4: total fund flow
+# Panel 4: composite fund flow
 ax4 = fig.add_subplot(gs[1,:2])
 bar_c = ["#2980b9" if v>=0 else "#e74c3c" for v in monthly["total_fund_flow"]]
 ax4.bar(monthly["date"], monthly["total_fund_flow"], color=bar_c, width=20, alpha=0.85)
@@ -1781,7 +1791,7 @@ ax4.axhline(0, color="black", linewidth=0.6)
 ax4.axvline(pd.Timestamp(TRAIN_END), color="gray", linestyle=":", linewidth=1.5)
 ax4.plot(dates_te, np.array(var_preds), "o-", color="#2ecc71",
          linewidth=2, markersize=5, label="VAR(1) forecast")
-ax4.set_title("KSE-30 sector net flow (PKR mn) with VAR(1) forecast")
+ax4.set_title("3-fund composite net flow (PKR mn) with VAR(1) forecast")
 ax4.set_ylabel("PKR mn"); ax4.legend(fontsize=8)
 ax4.xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
 ax4.xaxis.set_major_locator(mdates.MonthLocator(interval=4))

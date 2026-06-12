@@ -62,7 +62,11 @@ So the report uses a flow identity to isolate the investor-money component.
 
 ### 2.5 Fund Flow Identity
 
-From the report:
+Literature-standard form:
+
+`dollar_flow(i,t) = TNA(i,t) - TNA(i,t-1) × [1 + R(i,t)]`
+
+Project implementation proxy:
 
 `flow(t) = AUM(t) - AUM(t-1) × [ NAV(t) / NAV(t-1) ]`
 
@@ -70,22 +74,30 @@ Meaning:
 
 - `AUM(t)` = current period assets under management
 - `AUM(t-1)` = previous period AUM
-- `NAV(t) / NAV(t-1)` = growth in fund value due to market performance
+- `R(i,t)` = literature-standard total return term for the fund
+- `NAV(t) / NAV(t-1)` = project proxy for growth in fund value due to market performance
 
 Interpretation:
 
-- If actual AUM is higher than the market-performance-adjusted AUM, the difference is net inflow.
+- If actual AUM is higher than the return-adjusted prior AUM, the difference is net inflow.
 - If actual AUM is lower, the difference is net outflow.
+- In strict mutual-fund methodology, total return is preferable to raw NAV growth because distributions can mechanically reduce NAV.
 
-### 2.6 Aggregate Sector Fund Flow
+### 2.6 Composite Sector Fund Flow
 
 The project tracks three funds: **AKD, NBP, and NTI**.
 
-Their flows are aggregated as:
+Their flows are combined into a composite:
 
-`total_fund_flow(t) = flow_AKD(t) + flow_NBP(t) + flow_NTI(t)`
+`composite_tna(t) = AUM_AKD(t) + AUM_NBP(t) + AUM_NTI(t)`
 
-So the study does not use one official observed "KSE-30 fund flow" series. It builds a **proxy aggregate sector flow** from these three tracked funds.
+`w_i(t-1) = AUM_i(t-1) / composite_tna(t-1)`
+
+`composite_return(t) = Σ_i w_i(t-1) × R_i(t)`
+
+`total_fund_flow(t) = composite_tna(t) - composite_tna(t-1) × [1 + composite_return(t)]`
+
+So the study does not use one official observed "KSE-30 fund flow" series. It builds a **3-fund composite flow proxy** from these three tracked funds.
 
 ### 2.7 Flow Normalization
 

@@ -1,7 +1,7 @@
 Model,Target,RMSE,MAE,R2,DirAcc,Note
-Naive (RW),Total,83.1,51.54,-1.4048,37.5,Benchmark
-"ARIMAX(1,0,1)",Total,58.56,37.35,-0.1944,75.0,Primary
-VAR(1),Total,63.1,39.41,-0.3867,75.0,System model
-"ARIMAX(1,0,1)",AKD,55.96,34.54,-0.0254,66.7,Heterogeneity
-"ARIMAX(1,0,1)",NBP,8.29,5.51,0.0617,70.8,Heterogeneity
-"ARIMAX(1,0,1)",NIT,5.95,3.98,-0.2153,45.8,Heterogeneity
+Naive (RW),3fund_composite,83.35,51.36,-1.4196,37.5,Benchmark
+"ARIMAX(1,0,1)",3fund_composite,58.0,36.52,-0.1716,70.8,Primary
+VAR(1),3fund_composite,62.54,38.8,-0.3622,75.0,System model
+"ARIMAX(1,0,1)",AKD,55.83,34.63,-0.0208,66.7,Heterogeneity
+"ARIMAX(1,0,1)",NBP,8.29,5.52,0.0606,70.8,Heterogeneity
+"ARIMAX(1,0,1)",NIT,5.95,3.98,-0.2155,45.8,Heterogeneity

@@ -56,15 +56,25 @@ Caption idea: "Final data pipeline from raw KSE-30, fund, macro, and CPI inputs 
 
 3.5 Variable Construction
 
-The central dependent variable of the study is mutual fund flow. Across folders 4 to 6, the same fund-flow identity is retained:
+The central dependent variable of the study is mutual fund net flow. In the mutual-fund literature, net flow is usually measured as the return-adjusted change in total net assets so that investor subscriptions and redemptions are separated from pure valuation effects. The literature-standard form is:
+
+dollar_flow_(i,t) = TNA_(i,t) - TNA_(i,t-1) * (1 + R_(i,t))
+
+Here, TNA denotes total net assets or assets under management, and R_(i,t) denotes the fund's period return. This definition isolates investor inflows and outflows by removing the portion of asset growth that is explained only by investment performance. In the present project, a direct total-return series was not separately available for all sampled funds, so the implementation uses month-end AUM and a NAV-based return proxy:
 
 flow_t = AUM_t - AUM_(t-1) * (NAV_t / NAV_(t-1))
 
-This definition isolates investor inflows and outflows by removing the portion of AUM change that is explained only by NAV appreciation or decline. In the monthly implementation, month-end AUM and monthly NAV return are used to construct this variable. The monthly NAV return is calculated as:
+The monthly NAV return proxy is calculated as:
 
 nav_return_m = NAV_end / NAV_start - 1
 
-Separate flow series are first computed for AKD, NBP, and NTI. In `5_claude_pipeline/`, these are summed into `total_fund_flow`. In `6_cursor_model/`, the same aggregate is interpreted explicitly as the KSE-30 sector flow, making it the main target variable for the final dissertation narrative.
+Separate flow series are first computed for AKD, NBP, and NTI. These are then aggregated into a sampled sector-level proxy:
+
+sector_dollar_flow_t = sum_i dollar_flow_(i,t)
+
+sector_relative_flow_t = sector_dollar_flow_t / sum_i TNA_(i,t-1)
+
+In `5_claude_pipeline/`, this appears as `total_fund_flow`. In `6_cursor_model/`, the same aggregate is used as a 3-fund KSE-30 tracker composite flow. The dissertation should therefore describe it carefully: it is not an official observed market-wide KSE-30 net-flow series, but a composite proxy constructed from the three index-related funds available in the dataset.
 
 Additional variables are also constructed from the stock and index data. Daily stock prices are converted into log returns. Rolling 30-day volatility is annualized using the square-root-of-252 convention. At the index level, a KSE-30 return series is reconstructed from aggregated free-float market capitalization, which then supports index return, index volatility, cumulative return, and efficiency analysis.
 
@@ -72,7 +82,7 @@ The final workflow also constructs normalized flow measures, such as aggregate f
 
 3.6 Feature Engineering
 
-The final feature set combines macro-financial variables and KSE-30 market variables. For the aggregate fund-flow forecasting block, the most important explanatory inputs are interest rate, CPI, oil-return changes, and USD/PKR-return changes. These were retained because they are consistently available and economically interpretable in the context of fund allocation behaviour.
+The final feature set combines macro-financial variables and KSE-30 market variables. For the composite fund-flow forecasting block, the most important explanatory inputs are interest rate, CPI, oil-return changes, and USD/PKR-return changes. These were retained because they are consistently available and economically interpretable in the context of fund allocation behaviour.
 
 For the rebalancing block, stock-level features are built from rolling windows before each KSE-30 reconstitution event. These include current weight, momentum over 30, 60, and 90 days, volatility over 30 and 60 days, average trading volume, a market-cap proxy, price relative to the 20-day and 50-day moving averages, weight drift, and weight range.
 
@@ -94,11 +104,11 @@ Caption idea: "Main variable families used in the final KSE-30 methodology."
 
 3.8 Fund-Flow Forecasting Methodology
 
-The main forecasting task in the final methodology is one-step-ahead prediction of aggregate KSE-30 fund flow. This forecasting logic was developed modularly in folder 4, consolidated in folder 5, and finalized in folder 6.
+The main forecasting task in the final methodology is one-step-ahead prediction of 3-fund composite KSE-30 tracker flow. This forecasting logic was developed modularly in folder 4, consolidated in folder 5, and finalized in folder 6.
 
-The forecasting block begins with a stationarity check using a simplified ADF-style routine coded directly in Python. This is followed by Granger causality testing, where interest rate, CPI, oil-return changes, and USD/PKR-return changes are tested for predictive precedence over fund flows through restricted and unrestricted lagged regressions.
+The forecasting block begins with a stationarity check using a simplified ADF-style routine coded directly in Python. This is followed by Granger causality testing, where interest rate, CPI, oil-return changes, and USD/PKR-return changes are tested for predictive precedence over the composite flow series through restricted and unrestricted lagged regressions.
 
-Three forecasting approaches are then compared. The first is a naive benchmark that uses the most recent value as the prediction for the next period. The second is a custom ARIMAX(1,0,1)-style model estimated through explicit least-squares regression with one autoregressive lag and macroeconomic exogenous inputs. The third is a custom VAR(1) system in which aggregate fund flow, interest rate, and CPI are treated as endogenous variables, while oil-return and USD/PKR-return terms enter as exogenous predictors.
+Three forecasting approaches are then compared. The first is a naive benchmark that uses the most recent value as the prediction for the next period. The second is a custom ARIMAX(1,0,1)-style model estimated through explicit least-squares regression with one autoregressive lag and macroeconomic exogenous inputs. The third is a custom VAR(1) system in which composite fund flow, interest rate, and CPI are treated as endogenous variables, while oil-return and USD/PKR-return terms enter as exogenous predictors.
 
 This should be described transparently in the dissertation. The implementation is custom and not dependent on off-the-shelf `statsmodels` ARIMAX or VAR routines. The final numerical outputs for this block are stored in `6_cursor_model/results_fund_flow.csv`, with folder 5 and `4_claude_model/nb2_fund_flow_prediction.py` serving as supporting methodological references.
 
@@ -135,6 +145,8 @@ This section should be described as the portfolio-tilt or index-application comp
 The final methodology uses time-ordered validation throughout. For the aggregate fund-flow models, the train-test split is chronological, with the training sample ending in December 2023 and the later observations reserved for out-of-sample evaluation. This preserves the time order of financial information and prevents look-ahead bias.
 
 Regression models are evaluated using RMSE, MAE, R-squared, and directional accuracy. Classification models are evaluated using accuracy, ROC-AUC, and confusion-matrix components. GARCH models are evaluated using AIC, BIC, persistence, and VaR backtesting. Market-efficiency blocks are interpreted through their test statistics, p-values, and Hurst measures.
+
+For the dissertation, the flow-definition paragraph should be tied explicitly to the mutual-fund flow literature. The most relevant references for this purpose are Sirri and Tufano (1998), Edelen (1999), and Berk and Green (2004). These studies use return-adjusted asset-growth logic to infer investor flow from total net assets. The current project follows that same conceptual approach, while using NAV-based monthly return as a practical proxy where direct total-return data were not separately available.
 
 This multi-metric validation framework is necessary because the methodology addresses different tasks. Forecasting, volatility estimation, efficiency testing, and rebalancing prediction cannot be judged with one universal metric, so each block is evaluated using measures appropriate to its purpose.
 

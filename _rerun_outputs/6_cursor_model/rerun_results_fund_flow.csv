@@ -1,0 +1,4 @@
+Model,Target,RMSE,MAE,R2,DirAcc,Note
+Naive (RW),KSE30_3fund_composite,83.35,51.36,-1.4196,37.5,Benchmark
+"ARIMAX(1,0,1)",KSE30_3fund_composite,59.03,35.8,-0.2136,66.7,Primary (Base+CPI_lag1+chg)
+VAR(1),KSE30_3fund_composite,60.31,36.15,-0.2668,75.0,System model

@@ -1,0 +1,2 @@
+Series,Model,omega,alpha,beta,persist,AIC
+KSE-30,"GARCH(1,1)",0.074916,0.1284,0.8383,0.9667,4243.43
