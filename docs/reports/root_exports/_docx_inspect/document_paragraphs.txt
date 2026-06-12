@@ -1,0 +1,1300 @@
+1: UNDERGRADUATE FINAL YEAR PROJECT REPORT
+2: Department of Mathematics
+3: NED University of Engineering and Technology
+6: Analyzing Fund Flow Patterns and Market Efficiency in Pakistan with Predictive Models
+12: Group Member Names:
+14: Aina Batool
+15: CF-22005
+16: Laiba Sarfaraz
+17: CF-22019
+18: Maida Murtaza
+19: CF-22016
+20: Roohan Khan
+21: CF-22029
+24: Approved by
+26: …………………………………………………………………………………
+28: Ms. Ubaida Fatima
+29: Assistant Professor,   NEDUET
+30: Project Advisor
+34: © NED University of Engineering & Technology. All Rights Reserved – June 2026
+38: Author’s Declaration
+40: We declare that we are the sole authors of this project. It is the final copy of the project accepted by our advisor(s), including any necessary revisions. We also grant NED University of Engineering and Technology permission to reproduce and distribute electronic or paper copies of this project.
+47: Signature and
+48: Date
+49: Signature and Date
+50: Signature and
+51: Date
+52: Signature and Date
+58: _______________
+64: ______________
+70: _______________
+76: ______________
+77: 12 June 2026
+78: 12 June 2026
+79: 12 June 2026
+80: 12 June 2026
+81: Aina Batool
+82: Laiba Sarfaraz
+83: Maida Murtaza
+84: Roohan Khan
+85: CF-22005
+86: CF-22019
+87: CF-22016
+88: CF-22029
+89: BATOOL4500270@cloud.neduet.edu.pk
+90: laiba4530205@cloud.neduet.edu.pk
+91: murtaza4530206@cloud.neduet.edu.pk
+92: khan4502726@cloud.neduet.edu.pk
+95: Statement of Contribution
+96: This project was completed through the collective efforts of all group members, where responsibilities were divided according to individual strengths and areas of contribution.
+97: Roohan Khan primarily contributed to the technical and practical implementation of the project, including data collection, preprocessing, coding, statistical analysis, econometric modeling, machine learning model implementation, forecasting, visualization generation, and overall computational work. Aina Batool, Maida Murtaza, and Laiba Sarfaraz primarily contributed to the theoretical and research-oriented aspects of the project, including the literature review, report writing, methodology documentation, interpretation of results, discussion, formatting, chapter compilation, and preparation of the final written report.
+98: All members participated collaboratively in discussions, idea development, review of findings, and the finalization of the project under the supervision of Ms. Ubaida Fatima, Assistant Professor, Department of Mathematics (Computational Finance), NED University of Engineering & Technology.
+100: Executive Summary
+101: This project, “Analyzing Fund Flow Patterns and Market Efficiency in Pakistan with Predictive Models,” aims to examine the relationship between index fund flows and market efficiency in Pakistan's financial market. Despite the growing importance of funds and index investing, there is limited research on how investor sentiment and fund flow impact market dynamics in Pakistan. This project addresses this gap by leveraging data science and machine learning techniques to predict index fund flows and develop data-driven investment strategies.
+102: The study begins by collecting historical KSE-30 constituent data from the Pakistan Stock Exchange (PSX). The data will be cleaned, preprocessed, and visualized to understand trends, patterns, and correlations. Statistical analysis, including correlation and regression, will be conducted to recognize relationships between fund flows and market efficiency indicators. Machine learning models will then be implemented to forecast index fund flows, enabling the team to determine optimal stock weight allocations within the KSE-30 index.
+103: The project will generate insights into investor behavior and contribute to more efficient portfolio management practices in Pakistan’s financial market. In alignment with the United Nations Sustainable Development Goals, the project promotes Decent Work and Economic Growth and Industry, Innovation, and Infrastructure by applying analytical and predictive techniques to support informed financial decision-making.
+104: The project spans from August 2025 to June 2026 and is undertaken by a team of four students under the supervision of Ms. Ubaida Fatima, assistant professor in the Department of Mathematics. The outcomes will not only fill a research gap but also offer practical applications for investors and policymakers in the Pakistani financial market.
+106: Acknowledgments
+107: We would like to express our most sincere gratitude to our project advisor, Ms. Ubaida Fatima (lecturer, NED University of Engineering & Technology), for her invaluable guidance, insightful suggestions, and constant encouragement throughout the course of our project, "Analyzing Fund Flow Patterns and Market Efficiency in Pakistan with Predictive Models." Her unwavering support was instrumental in shaping the direction of and ensuring the successful completion of our research.
+108: We would also like to extend our heartfelt thanks to the Department of Mathematics (Computational Finance) at NED University of Engineering & Technology for providing us with the resources, knowledge, and academic environment necessary to undertake this research. The department's commitment to excellence has been a constant source of inspiration throughout our academic journey.
+109: We would also like to thank the FYDP Committee for giving us the opportunity to complete this project and for their guidance at every stage. Their valuable advice has been a tremendous help throughout our research journey.
+110: Finally, we extend our deepest appreciation to our families and peers for their unwavering moral support and encouragement, which kept us motivated during every challenging phase of this project.
+111: Table of Contents
+112: 1. INTRODUCTION1
+113: 1.1 Overview of Fund Flow1
+114: 1.2 Overview of Market Efficiency2
+115: 1.3 Problem Identification3
+116: 1.4 Scope4
+117: 1.5 Objective of This Study4
+118: 2  LITERATURE REVIEW5
+119: 2.1 Introduction5
+120: 2.2 Index Fund Flows and Investor Behavior5
+121: 2.3 Market Efficiency in Emerging Markets7
+122: 2.4 Volatility Modeling in Financial Markets7
+123: 2.5 Time-Series Forecasting of Financial Variables9
+124: 2.6 Machine Learning Applications in Stock and Fund Prediction10
+125: 2.7 Literature on Pakistan Stock Exchange and KSE-30 Index11
+126: 2.8 Research Gap Identified from Prior Studies12
+127: 2.9 Chapter Summary13
+128: 3. METHODOLOGY14
+129: 3.1 Introduction14
+130: 3.2 Research Philosophy and Approach14
+131: 3.3 Research Design14
+132: 3.4 Population and Sample Selection15
+133: 3.5 Data Sources and Data Collection15
+134: 3.6 Variables of the Study16
+135: 3.6.1 Dependent Variables16
+136: 3.6.2 Independent Variables16
+137: 3.7 Conceptual Framework19
+138: 3.8 Data Preprocessing and Transformation19
+139: 3.9 Econometric and Statistical Techniques20
+140: 3.9.1 Descriptive Statistics20
+141: 3.9.2 Stationarity Tests20
+142: 3.9.3 ARIMA Model22
+143: 3.9.4 GARCH Family Models22
+144: 3.9.5 Long Short-Term Memory (LSTM) Model22
+145: 3.9.6 Random Forest Model22
+146: 3.9.7 Hybrid Forecasting Framework23
+147: 3.10 Model Evaluation Techniques23
+148: 3.11 Research Hypotheses23
+149: 3.12 Ethical Considerations24
+150: 3.13 Limitations of the Methodology24
+151: 3.14 Chapter Summary25
+152: 4  RESULTS AND ANALYSIS26
+153: 4.1 Introduction26
+154: 4.2 Exploratory Data Analysis Results26
+155: 4.2.1 AUM Trends27
+156: 4.2.2 NAV Return Distributions27
+157: 4.2.3 Fund Flow Behavior27
+158: 4.2.4 Correlation Analysis28
+159: 4.3 Fund-Flow Forecasting Results28
+160: 4.3.1 Stationarity and Granger Causality29
+161: 4.3.2 ARIMAX and VAR Results29
+162: 4.4 Volatility Modeling Results30
+163: 4.4.1 GARCH and EGARCH Analysis30
+164: 4.4.2 VaR Backtesting31
+165: 4.5 Market Efficiency Results31
+166: 4.5.1 Runs Test32
+167: 4.5.2 Variance Ratio Test32
+168: 4.5.3 Ljung-Box Test32
+169: 4.5.4 Hurst Exponent Results32
+170: 4.6 Summary of Empirical Findings33
+171: 5  PORTFOLIO TILT AND REBALANCING APPLICATION34
+172: 5.1 Introduction34
+173: 5.2 Motivation for Portfolio Tilt Using Fund-Flow Signals34
+174: 5.3 Data and Sample for Rebalancing34
+175: 5.4 Predicting Index Retention and Inclusion35
+176: 5.4.1 Retention Probability Results35
+177: 5.4.2 Feature Importance35
+178: 5.5 Predicting Constituent Weights36
+179: 5.6 Forecasted Weight Changes37
+180: 5.7 Implementation Considerations and Limitations38
+181: 5.8 Chapter Summary38
+182: 6  DISCUSSION39
+183: 6.1 Interpretation of Fund-Flow Prediction Results39
+184: 6.2 Discussion of Market Efficiency Evidence39
+185: 6.3 Volatility Dynamics and Leverage Effects40
+186: 6.4 Choice of Modeling Techniques41
+187: 6.5 Practical Utility of the Rebalancing Application41
+188: 6.6 Study Limitations42
+189: 6.7 Chapter Summary42
+190: 7  CONCLUSION AND RECOMMENDATIONS43
+191: 7.1 Conclusion43
+192: 7.2 Key Contributions of the Study43
+193: 7.3 Quantitative Investment Strategy44
+194: 7.4 Recommendations45
+195: 7.5 Future Research Directions45
+196: REFERENCES47
+197: Appendix A: Additional Result Tables51
+198: Appendix B: Additional Figures57
+199: Appendix D: Pipeline Outputs and Logs67
+200: Appendix E: Code Workflow Summary70
+202: List of Figures
+203: Figure 3.1: Top 15 stocks by average KSE-30 weight (2021-present).17
+204: Figure 3.2: Monthly correlation matrix for KSE-30 flow, macroeconomic variables, and index measures.18
+205: Figure 3.3: KSE-30 return distribution and Q-Q plot.20
+206: Figure 3.4: Comparison of price levels (non-stationary) vs. returns (stationary).21
+207: Figure 3.5: P-value heatmap for ADF stationarity tests.21
+208: Figure 4.1: Reconstructed cumulative KSE-30 return over the final analysis period.27
+209: Figure 4.2: AUM trend and aggregate KSE-30 sector total.27
+210: Figure 4.3: Aggregate monthly KSE-30 sector fund flows showing alternating inflow and outflow episodes.28
+211: Figure 4.4: Lag-1 Granger causality p-values for macroeconomic variables against aggregate KSE-30 fund flow.29
+212: Figure 4.5: Actual versus predicted aggregate KSE-30 sector flow under ARIMAX and VAR.30
+213: Figure 4.6: KSE-30 daily returns and model-implied conditional volatility.31
+214: Figure 4.7: 5 percent VaR backtesting for the preferred KSE-30 volatility model.31
+215: Figure 4.8: Autocorrelation structure of reconstructed KSE-30 returns.33
+216: Figure 5.1: Integrated rebalancing and portfolio tilt framework.34
+217: Figure 5.2: Estimated retention probabilities for current KSE-30 constituents.35
+218: Figure 5.3: Feature importance ranking for the inclusion prediction model.36
+219: Figure 5.4: Scatter plot of actual versus predicted constituent weights.37
+220: Figure 5.5: Forecasted direction and magnitude of KSE-30 weight changes.38
+221: Figure 6.1: Fund-flow model performance scorecard.39
+222: Figure 6.2: Summary of market efficiency evidence for the KSE-30.40
+223: Figure 6.3: KSE-30 realized volatility regimes over the study period.41
+224: Figure 6.4: Performance comparison across model families (Econometric vs. ML).41
+225: Figure 6.5: KSE-30 rebalancing risk and opportunity map.42
+227: List of Tables
+228: Table 4.1: Aggregate KSE-30 Fund-Flow Forecasting Results29
+229: Table 4.2: KSE-30 GARCH and EGARCH Results30
+230: Table 4.3: KSE-30 Market Efficiency Test Results32
+232: List of Abbreviations
+234: Abbreviation
+235: Full Form
+236: Abbreviation
+237: Full Form
+238: ACF
+239: Autocorrelation Function
+240: LSTM
+241: Long Short-Term Memory
+242: ADF
+244: Augmented Dickey-Fuller Test
+245: MA
+246: Moving Average
+247: AIC
+248: Akaike Information Criterion
+249: MACD
+250: Moving Average Convergence Divergence
+251: AKD
+252: AKD Index Tracker Fund
+253: MAE
+254: Mean Absolute Error
+255: ANN
+256: Artificial Neural Network
+257: NIT
+258: National Investment Trust
+259: ARCH
+260: AutoRegressive Conditional Heteroskedasticity
+261: NTI
+264: NIT (National Investment Trust) Fund
+265: ARIMA
+266: AutoRegressive Integrated Moving Average
+267: OHLCV
+268: Open, High, Low, Close, Volume (stock price data format)
+269: ARIMAX
+270: AutoRegressive Integrated Moving Average with Exogenous Variables
+271: PKR
+272: Pakistani Rupee
+273: ARMA
+274: AutoRegressive Moving Average
+275: PSX
+276: Pakistan Stock Exchange
+277: AUC
+278: Area Under the Curve (ROC metric)
+279: R²
+281: Coefficient of Determination (goodness-of-fit measure)
+282: AUM
+283: Assets Under Management
+284: RBF
+285: Radial Basis Function (kernel in SVM)
+286: BIC
+287: Bayesian Information Criterion
+288: RMSE
+289: Root Mean Square Error
+290: CPEC
+291: China-Pakistan Economic Corridor
+292: RNN
+293: Recurrent Neural Network
+294: CPI
+295: Consumer Price Index
+296: RSI
+297: Relative Strength Index
+298: EDA
+299: Exploratory Data Analysis
+300: SARIMA
+301: Seasonal AutoRegressive Integrated Moving Average
+302: EGARCH
+303: Exponential Generalized AutoRegressive Conditional Heteroskedasticity
+304: SBP
+305: State Bank of Pakistan
+306: EMH
+307: Efficient Market Hypothesis
+308: SECP
+309: Securities and Exchange Commission of Pakistan
+310: FDI
+311: Foreign Direct Investment
+312: SVM
+313: Support Vector Machine
+314: GARCH
+315: Generalized Autoregressive Conditional Heteroskedasticity
+316: TGARCH
+317: Threshold Generalized AutoRegressive Conditional Heteroskedasticity
+318: GARCH-M
+319: Generalized AutoRegressive Conditional Heteroskedasticity in Mean
+320: USD
+321: United States Dollar
+322: GDP
+323: Gross Domestic Product
+324: VAR
+325: Vector AutoRegression
+326: GRU
+327: Gated Recurrent Unit
+328: VaR
+329: Value at Risk
+330: KNN
+331: K-Nearest Neighbors
+332: VR
+333: Variance Ratio
+335: KPSS
+336: Kwiatkowski–Phillips–Schmidt–Shin Test
+337: MAE
+338: Mean Absolute Error
+339: KSE
+340: Karachi Stock Exchange
+341: ML
+342: Machine Learning
+343: KSE-100
+344: Karachi Stock Exchange 100-Stock Index
+345: MSE
+346: Mean Squared Error
+347: KSE-30
+348: Karachi Stock Exchange 30-Stock Index
+349: NAV
+350: Net Asset Value
+352: List of Symbols
+353: α (alpha)
+354: GARCH coefficient sensitivity of conditional variance to recent squared residuals (news impact)
+355: β (beta)
+356: GARCH coefficient  persistence of the conditional variance from the previous period
+357: ω (omega)
+358: GARCH constant term long-run average variance component
+359: σ² (sigma²)
+360: Conditional variance (time-varying volatility) in GARCH models
+361: ε (epsilon)
+362: Residual / error term in time-series and regression models
+363: μ (mu)
+364: Mean return or expected value in the return equation
+365: H
+366: Hurst Exponent  measures long-memory persistence (H = 0.5: random walk; H > 0.5: persistent; H < 0.5: mean-reverting)
+367: R/S
+368: Rescaled Range  used in Hurst Exponent estimation
+369: γ (gamma)
+370: The asymmetry parameter in the EGARCH model captures the leverage effect (negative shock impact)
+371: φ (phi)
+372: Autoregressive coefficient in ARIMA/ARIMAX models
+373: θ (theta)
+374: Moving average coefficient in ARIMA/ARIMAX models
+375: ρ (rho)
+376: Autocorrelation coefficient at a given lag
+377: Σ (capital sigma)
+378: Covariance matrix of asset returns in portfolio optimization
+379: w
+380: Portfolio weight vector (w_i = weight of asset i)
+381: r_f
+382: Risk-free rate used in the Sharpe Ratio calculation
+383: United Nations Sustainable Development Goals
+384: The Sustainable Development Goals (SDGs) are the blueprint to achieve a better and more sustainable future for all. They address the global challenges we face, including poverty, inequality, climate change, environmental degradation, peace, and justice. There is a total of 17 SDGs as mentioned below. Check the appropriate SDGs related to the project.
+386: No Poverty
+387: Zero Hunger
+388: Good Health and Well-being
+389: Quality Education
+390: Gender Equality
+391: Clean Water and Sanitation
+392: Affordable and Clean Energy
+393: ☑Decent Work and Economic Growth
+394: Industry, Innovation and Infrastructure
+395: Reduced Inequalities
+396: Sustainable Cities and Communities
+397: Responsible Consumption and Production
+398: Climate Action
+399: Life Below Water
+400: Life on Land
+401: Peace, Justice and Strong Institutions
+402: Partnerships to Achieve the Goals
+403: Similarity Index Report
+405: The following students have compiled the final-year report on the topic given below for partial fulfillment of the requirement for a Bachelor’s degree in Computational Finance.
+408: Project Title
+409: Analyzing Fund Flow Patterns and Market Efficiency in Pakistan with Predictive Models
+412: S. No.
+413: Student Name
+414: Seat Number
+415: 1.
+416: Aina Batool
+417: CF-22005
+418: 2.
+419: Laiba Sarfaraz
+420: CF-22019
+421: 3.
+422: Maida Murtaza
+423: CF-22016
+424: 4.
+425: Roohan Khan
+426: CF-22029
+429: This is to certify that a plagiarism test was conducted on the complete report, and the overall similarity index was found to be less than 20%, with a maximum 5% from a single source, as required.
+431: Signature and Date
+436: ..................................
+437: Ms. Ubaida Fatima
+440: 1. INTRODUCTION
+441: 1.1 Overview of Fund Flow
+442: Fund flows refer to the net movement of money into or out of funds over a specific period of time and serve as an important indicator of investor behavior and market sentiment. Positive fund flows occur when new investments exceed redemptions, indicating increased investor confidence and demand for the fund. Conversely, negative fund flows occur when withdrawals exceed new investments, reflecting risk aversion, shifting market expectations, or adverse economic conditions. Fund flows play a crucial role in understanding how investors respond to market movements, performance signals, and macroeconomic factors.
+443: In the broader context of investment funds, fund flows are closely associated with changes in Net Asset Value (NAV), overall fund performance, and portfolio rebalancing decisions undertaken by fund managers. Substantial inflows can improve a fund’s liquidity and enable managers to expand or diversify their asset holdings, whereas large outflows may require asset liquidation, potentially affecting asset prices and market stability. Consequently, fund flows not only signal investor preferences but also help shape short-term price movements and overall market efficiency.
+444: Fund flows are influenced by many factors, including historical fund performance, market volatility, interest rate movements, macroeconomic conditions, and investor sentiment. Individual investors often respond to recent returns and prevailing market trends, while institutional investors typically base their allocation decisions on long-term investment objectives and macroeconomic expectations. In emerging markets such as Pakistan, fund flows may further be shaped by regulatory developments, political conditions, and the limited availability of alternative investment opportunities.
+445: In Pakistan, fund flows are regulated and overseen by the Securities and Exchange Commission of Pakistan (SECP). Fund flow data offer important insights for policymakers, investors, and researchers to evaluate market behavior, liquidity dynamics, and the effectiveness of capital allocation. The analysis of fund flows helps identify herd behavior, understand information transmission across financial markets, and assess how investors respond to market signals.
+446: Overall, fund flows serve as a bridge between investor sentiment and market performance, making them a critical variable in empirical studies of market efficiency, asset pricing, and investment decision-making in both developed and developing financial markets.
+447: 1.2 Overview of Market Efficiency
+448: Market efficiency refers to the degree to which financial markets incorporate all available information into asset prices. According to the Efficient Market Hypothesis (EMH), a market is considered efficient if security prices fully and quickly reflect relevant information, making it impossible for investors to consistently earn abnormal returns through analysis or trading strategies based on publicly available data. Market efficiency plays a vital role in ensuring fair pricing, optimal capital allocation, and overall financial stability.
+449: Market efficiency is commonly categorized into three forms: weak, semi-strong, and strong efficiency. Weak-form efficiency suggests that current prices already reflect all past price and volume information, implying that technical analysis cannot consistently generate excess returns. Semi-strong efficiency extends this concept by incorporating all publicly available information, including financial statements, economic indicators, and news announcements, thereby limiting the effectiveness of fundamental analysis. Strong-form efficiency represents the highest level, where prices reflect all information, both public and private, making it impossible for any investor to gain an informational advantage.
+450: Efficient markets facilitate the smooth functioning of financial systems by ensuring that prices act as accurate signals of underlying economic value. This enables investors to make informed decisions and allows firms to raise capital at fair costs. In an efficient market, resources are allocated to their most productive uses, reducing mispricing and speculative distortions.
+451: However, market efficiency may vary across countries and market structures. In emerging markets such as Pakistan, factors such as limited market depth, lower liquidity, information asymmetry, regulatory constraints, and behavioral biases among investors may affect the speed and accuracy with which information is reflected in prices. As a result, deviations from full efficiency may exist, creating opportunities for informed trading and empirical investigation.
+452: Analyzing market efficiency is particularly important in the context of fund flows and investor sentiment, as large inflows or outflows can influence price movements and volatility. Understanding how fund flows interact with market efficiency provides valuable insights into whether markets respond rationally to information or exhibit delayed adjustments and inefficiencies.
+453: Overall, market efficiency is a foundational concept in financial economics, providing a framework for evaluating price behavior, investor decision-making, and the effectiveness of financial markets in allocating capital, especially in developing economies like Pakistan.
+454: 1.3 Problem Identification
+455: The Pakistani financial market has witnessed significant growth over the past decades, with increasing participation in equity markets and funds. Despite this growth, research on index funds remains limited, particularly in understanding the dynamics of investor sentiment and fund flows and their impact on market efficiency. Most existing studies focus on developed economies, where market structures, investor behavior, and regulatory frameworks differ substantially from those in Pakistan.
+456: This research gap presents challenges for investors and policymakers. Without a clear understanding of how fund flows interact with market efficiency in the local context, it becomes difficult to make informed investment decisions or develop policies that support market stability and growth. Investor sentiment, which can drive short-term market movements, and fund flows, which reflect investors' collective behavior, are critical indicators that remain underexplored in Pakistan.
+457: Addressing this gap is crucial for multiple reasons. First, it can provide investors with insights into optimal fund allocation strategies and potential market trends. Second, it can assist policymakers in identifying patterns that may influence market efficiency, liquidity, and stability. Finally, the study contributes to the broader field of finance and data science by applying predictive models and machine learning techniques to a market that has been largely overlooked in empirical research.
+458: By analyzing fund flow patterns and their relationship to market efficiency, this project aims to bridge the knowledge gap by offering practical, data-driven insights for both investors and regulatory authorities in Pakistan.
+459: 1.4 Scope
+460: This project focuses on the Pakistani financial market, which is considered underdeveloped, with a relatively primitive financial infrastructure compared to more developed countries. Despite this, a variety of complex financial products exist, offering diverse techniques to address investment and risk management challenges. In Pakistan, the Securities and Exchange Commission of Pakistan (SECP) and the State Bank of Pakistan (SBP) act as regulatory authorities overseeing financial institutions and market practices.
+461: Currently, financial institutions use established methods, such as historical analysis, to monitor and evaluate fund flows, portfolio performance, and risk measures. However, relying on a single approach may limit the accuracy and reliability of these assessments. This project aims to apply multiple analytical and predictive techniques, including statistical analysis, correlation studies, and machine learning models, to examine fund flow patterns and their impact on market efficiency. By exploring different modeling approaches, we can better understand trends, make more accurate predictions, and provide actionable insights for investment decision-making.
+462: 1.5 Objective of This Study
+463: Machine learning techniques are widely used in finance to analyze and predict fund flows, which are closely related to investment strategies and market efficiency.
+464: This study uses machine learning models to predict index fund flow patterns through constituent weight shifts in the KSE-30 Index.
+465: By examining historical KSE-30 fund data, the research aims to forecast future investment strategies and determine the optimal stock weight allocation within the index.
+466: Also, this study will provide insights into the relationship between fund flows and market efficiency, helping investors, fund managers, and policymakers make more informed decisions about portfolio management and market performance.
+467: 2  LITERATURE REVIEW
+468: 2.1 Introduction
+469: Financial market forecasting has become one of the most widely researched areas in finance due to the increasing volatility and complexity of global and emerging stock markets. Researchers have extensively explored the relationship between investor behavior, fund flows, market efficiency, volatility clustering, and stock market forecasting using both traditional econometric and modern machine learning approaches. In recent years, deep learning models such as Long Short-Term Memory (LSTM) and Random Forest, as well as hybrid forecasting frameworks, have demonstrated strong predictive capabilities in financial time-series analysis. Emerging markets, particularly the Pakistan Stock Exchange (PSX), have attracted significant research interest due to their volatility, susceptibility to political and macroeconomic shocks, and evolving market efficiency.
+470: The literature reveals that investor behavior and index fund flows significantly influence market dynamics and investment decisions. Simultaneously, researchers have examined the efficiency of financial markets through random walk tests and volatility modeling techniques such as ARCH, GARCH, EGARCH, and ARIMA. Furthermore, machine learning and hybrid models have increasingly been applied to stock market prediction due to their ability to capture nonlinear relationships and long-term dependencies within financial data.
+471: This chapter reviews prior studies on index fund flows, investor behavior, market efficiency, volatility modeling, time-series forecasting, machine learning applications, and research on the Pakistan Stock Exchange and the KSE-30 index. The chapter also identifies the research gap that motivates the present study.
+472: 2.2 Index Fund Flows and Investor Behavior
+473: Index fund flows and investor behavior have been widely examined to understand how investors react to market information and how capital flows within index funds can predict future market performance. Yamani, Ehab (2023) investigated the informational role of fund flows in predicting mutual fund performance using a sample of 2,217 U.S. equity mutual funds from 2000 to 2018. The study employed Lasso Regression and Random Forest models and found that fund flows significantly predict future returns, enabling profitable investment strategies. However, the study was limited to U.S. markets and a restricted set of variables.
+474: Similarly, Jürg Fausch, Moreno Frigg, Stefan Ruenzi, and Florian Weigert (2025) examined the prediction of mutual fund flows using machine learning methods on more than 13,000 U.S. equity mutual fund share classes. Their findings showed that nonlinear machine learning models, especially Random Forests, outperform traditional regression models in predicting future fund flows and identifying high-performing funds.
+475: Brad M. Barber, Xing Huang, and Terrance Odean (2016) explored how sophisticated and unsophisticated investors interpret mutual fund performance. Using actively managed U.S. equity mutual funds, the study concluded that many investors confuse factor-based returns with managerial skill, while sophisticated investors make more informed investment decisions.
+476: Kyoung Lim and Sun-Joong Yoon (2018) analyzed Korean public fund market data to determine whether fund flows could serve as a proxy for investor sentiment. Their results suggested that direct fund flows do not fully capture investor sentiment, although transfer flows between bond and equity funds showed improved predictive power.
+477: Nghia Chu, Binh Dao, Nga Pham, Huy Nguyen, and Hien Tran (2023) investigated whether deep learning models could predict mutual fund performance more accurately than traditional statistical approaches. Using over 600 U.S. open-end mutual funds, the study demonstrated that LSTM and GRU models significantly outperform ARIMA and other traditional forecasting techniques.
+478: The literature collectively highlights that index fund flows contain valuable predictive information, and investor behavior strongly influences capital allocation decisions within index funds. However, most studies are concentrated in developed markets, underscoring the need for similar research in emerging economies such as Pakistan, particularly for index-based instruments like the KSE-30.
+479: 2.3 Market Efficiency in Emerging Markets
+480: Market efficiency remains a critical area of financial research, particularly in emerging economies where information asymmetry and market volatility are relatively high. Erik Larsson and Jacob Wergeland (2020) examined the relationship between index fund flows and market efficiency in the S&P 500 using Hurst exponent analysis and Granger causality tests. The study concluded that lower market efficiency reduces index fund flows, implying that efficiency levels influence investor participation.
+481: In the Pakistani context, Ushna Akber and Nabeel Muhammad (2014) investigated whether the KSE-100 Index follows weak-form market efficiency and random walk behavior using multiple statistical tests, including the Runs Test, Phillips-Perron Test, Ljung-Box Test, and ARIMA models. The findings indicated that the KSE-100 Index is weak-form inefficient, although efficiency improved during the later years of the sample period.
+482: More recently, Ishtiaq Khan and Ashfaq Ali Khattak (2026) further examined weak-form market efficiency in the Pakistan Stock Exchange using daily KSE-100 Index data from 2018 to 2024. The study employed the Runs Test, Variance Ratio Test, Ljung-Box Q Test, and GARCH-family models. Results rejected the random walk hypothesis and confirmed the existence of significant autocorrelation, volatility clustering, and leverage effects within the PSX.
+483: The evidence from emerging markets suggests that stock prices do not always fully reflect available information, thereby creating opportunities for prediction and abnormal returns. The persistent inefficiency of the PSX supports the relevance of forecasting models and machine learning techniques for investment decision-making.
+484: 2.4 Volatility Modeling in Financial Markets
+485: Volatility forecasting is essential for portfolio management, risk assessment, and investment planning. Numerous studies have applied GARCH-family models to capture volatility clustering and leverage effects in stock markets.
+486: Muhammad Asif and Abdul Aziz (2016) examined volatility clustering in KSE-100 returns using GARCH(1,1), EGARCH, and TGARCH models. Their findings confirmed the existence of significant volatility clustering and identified EGARCH as the most suitable model due to its ability to capture leverage effects.
+487: Muhammad Shahzeb Ali and Atiya Javed (2020) compared ARIMA, ARCH, and GARCH models using daily PSX closing prices. The study found GARCH(3,2) to be the best-performing model for capturing market volatility and forecasting stock market movements.
+488: Zahid Iqbal and Lubna Naz (2025) identified ARMA(1,1)-GARCH(1,1) with a skewed Student’s t-distribution as the most effective model for forecasting KSE-100 volatility. Their study confirmed the presence of heteroscedasticity and volatility clustering in the Pakistani stock market.
+489: Komal Batool, Mirza Faizan Ahmed, and Muhammad Ali Ismail (2022) compared standalone GARCH and Neural Network Autoregression (NNAR) models with hybrid combinations. The linear combination of GARCH and NNAR achieved superior forecasting accuracy, confirming the benefits of integrating statistical and machine learning approaches.
+490: Muhammad Usman Rasheed, Taha Fareed, Bismah Ahmed, and Maheen Badar (2024) utilized GARCH models to estimate Value at Risk (VaR) for PSX equity portfolios. Their results demonstrated that GARCH-based dynamic variance models provide more realistic risk estimates compared to static approaches.
+491: Dr. Haseb Hassan, Abubakr Niaz, Dr. Javeria Andleeb Qureshi, and Dr. Samina Rooh (2025) investigated the effect of South Asian stock market fluctuations on KSE-100 volatility using Multiple Regression and ARIMA models. Their findings revealed that past volatility and conditional variance significantly influence future volatility, while hybrid models such as SVM-GARCH outperform standalone GARCH models.
+492: Tayyab Raza Fraz, Samreen Fatima, and Mudassir Uddin (2022) compared GARCH, Markov-Switching GARCH, and ANN models for volatility forecasting in Pakistan and China. Surprisingly, the standard GARCH model achieved the best fit according to AIC and BIC criteria.
+493: The reviewed literature confirms that volatility clustering and leverage effects are dominant characteristics of emerging stock markets, and hybrid forecasting models tend to outperform traditional econometric methods.
+494: 2.5 Time-Series Forecasting of Financial Variables
+495: Time-series forecasting models are commonly applied to predict stock prices, volatility, and financial market trends. Traditional statistical techniques such as ARIMA and ARMA remain widely used due to their simplicity and effectiveness for linear financial patterns.
+496: Shoaib Anwer Qambrani, Israr Ahmed, and Abdul Basit (2023) examined ARIMA models for forecasting the KSE-100 Index using daily stock data from 2012 to 2023. Their results indicated that ARIMA(1,0,1) performs better for short-term forecasting, whereas ARIMA(1,1,1) captures long-term trends more effectively.
+497: Asma Zaffar and S. M. Aalim Hussain (2022) combined ANN and ARMA models with news sentiment analysis to forecast KSE-100 closing prices. Their hybrid ANN-ARMA framework demonstrated improved predictive performance compared to standalone ARMA models.
+498: Muhammad Ali, Dost Muhammad Khan, Huda M. Alshanbari, and Al Aziz Hosni Bagoury (2023) proposed an improved hybrid EMD-LSTM model for stock market prediction. Using S&P 500 daily prices, the study showed that decomposing complex financial series before prediction significantly improves forecasting accuracy.
+499: Ubaida Fatima, Rimsha Zafar, Syeda Arsala Shah, and Abdus Samad (2025) developed hybrid forecasting models combining ARIMA, GARCH, Linear Regression, and LSTM techniques for KSE-100 volatility forecasting. Their findings indicated that hybrid Linear Regression-GARCH models achieved the most stable and accurate forecasts.
+500: Taha Munawar, Laiba Mushtaq, and Muhammad Hassan Siddiqui (2025) developed a real-time volatility forecasting platform using the GARCH(1,1) model for companies such as Apple, Microsoft, and Tesla. The platform effectively captured volatility clustering and demonstrated strong forecasting performance for relatively stable stocks.
+501: The literature suggests that time-series forecasting techniques remain highly relevant in financial analysis, particularly when combined with hybrid or machine learning frameworks.
+502: 2.6 Machine Learning Applications in Stock and Fund Prediction
+503: Machine learning and deep learning approaches have transformed financial forecasting by effectively modeling nonlinear relationships and sequential dependencies in financial data.
+504: Atif Khan Jadoon, Tariq Mahmood, Ambreen Sarwar, Maria Faiq Javaid, and Munawar Iqbal (2024) applied ANN and LSTM models to predict KSE-100 movements using economic, social, and political variables. The study confirmed the effectiveness of deep learning techniques in forecasting volatile financial markets.
+505: Ahad Yaqoob and Muhammad Abdullah (2025) developed an LSTM-based model to predict stock prices of major Pakistani companies using historical OHLCV data. Their results showed strong predictive performance for stable and liquid stocks.
+506: Muhammad Idrees, Maqbool Hussain Sial, and Najam-ul-Hasan (2025) compared ANN, RNN-Attention, LSTM-Attention, and GRU-Attention models for KSE-100 prediction. The LSTM-Attention model achieved the highest forecasting accuracy, demonstrating the importance of attention mechanisms in sequential data analysis.
+507: Zahid Iqbal and Muhammad Shoaib (2025) utilized LSTM networks to forecast stock market volatility in Pakistan and achieved strong predictive accuracy with low mean squared error values.
+508: Saba Zahid and Hasan Mujtaba Nawaz Saleem (2023) applied Support Vector Machine (SVM) models to predict stock price movements during the COVID-19 pandemic. Their results showed that the RBF kernel outperformed other kernel functions under volatile market conditions.
+509: Rabia Sabri and Sobia Iqbal (2024) compared ARIMA, SARIMA, and LSTM models across Pakistan, Bangladesh, and Sri Lanka. The study found that LSTM consistently outperformed traditional statistical approaches in frontier markets.
+510: Nusrat Rouf, Majid Bashir Malik, Tasleem Arif, Sparsh Sharma, Saurabh Singh, Satyabrata Aich, and Hee-Cheol Kim (2021) conducted a systematic review of machine learning applications in stock market prediction. The review concluded that deep learning models such as LSTM and RNN generally outperform traditional models, particularly when integrated with news sentiment and financial indicators.
+511: Kinza Bukhari, Atif Khan Jadoon, Munawar Iqbal, and Ayesha Arshad (2023) employed ANN with sixteen macroeconomic variables to model and forecast KSE-100 prices, achieving remarkably high prediction accuracy.
+512: Irfan Javid, Rozaida Ghazali, Irteza Syed, Muhammad Zulqarnain, and Noor Aida Husaini (2022) proposed a hybrid feature selection framework integrated with GRU and LSTM models for predicting stock market crises in Pakistan. Their findings indicated that the GRU-based approach achieved superior predictive performance.
+513: Saima Latif, Nadeem Javaid, Faheem Aslam, Abdulaziz Aldegheishem, Nabil Alrajeh, and Safdar Hussain Bouk (2024) developed a PLSTM-TAL hybrid deep learning framework with temporal attention layers for predicting stock market direction across multiple global indices. The model achieved high prediction accuracy and effectively captured long-term temporal dependencies.
+514: S. N. Khan, S. Shafique, Ansar, Z. Imran, P. Altamish, and Hamza (2025) compared KNN, SVM, and Naïve Bayes classifiers for stock prediction. Their results indicated that KNN outperformed the other classifiers across all datasets.
+515: Tahir Munir, Rabia Emhamed Al Mamlook, Abdu R. Rahman, Afaf Alrashidi, and Aqsa Muhammad Yaseen (2024) compared multiple machine learning models during the COVID-19 pandemic and found Random Forest to be the most accurate forecasting model for KSE-100 developments.
+516: Overall, the literature demonstrates that machine learning and hybrid deep learning models significantly improve forecasting performance compared to traditional econometric techniques.
+517: 2.7 Literature on Pakistan Stock Exchange and KSE-30 Index
+518: The Pakistan Stock Exchange has been extensively studied due to its volatility, emerging market characteristics, and sensitivity to political and macroeconomic events.
+519: Several studies have focused on KSE-100 forecasting and volatility modeling. Muhammad Shahzeb Ali and Atiya Javed (2020) confirmed that GARCH models outperform ARIMA and ARCH approaches in capturing PSX volatility. Zahid Iqbal and Lubna Naz (2025) further identified ARMA-GARCH specifications as effective tools for forecasting KSE-100 volatility.
+520: Research by Atif Khan Jadoon et al. (2024), Ahad Yaqoob and Muhammad Abdullah (2025), and Muhammad Idrees (2025) demonstrated the strong predictive capabilities of LSTM-based deep learning models in forecasting KSE-100 and individual PSX stock prices.
+521: Kinza Bukhari et al. (2023) highlighted the importance of macroeconomic variables such as exchange rates, inflation, FDI, and GDP growth in predicting KSE-100 performance using ANN models. Similarly, Dr. Haseb Hassan et al. (2025) confirmed that exchange rates, balance of trade, and FDI significantly affect stock market performance.
+522: Studies such as Muhammad Mohsin et al. (2020) emphasized the influence of market risk, interest rates, and exchange rates on Pakistani bank stock volatility. Muhammad Usman Rasheed et al. (2024) explored Value at Risk estimation using GARCH models for PSX portfolios, while Irfan Javid et al. (2022) focused on predicting stock crises using hybrid machine learning frameworks.
+523: The overall literature on PSX indicates that the Pakistani stock market exhibits high volatility, weak-form inefficiency, and strong sensitivity to macroeconomic and political factors. These characteristics make PSX a suitable environment for applying advanced forecasting and volatility prediction models.
+524: 2.8 Research Gap Identified from Prior Studies
+525: The reviewed literature identifies several important research gaps. First, most studies on fund flows and investor behavior are concentrated in developed markets such as the United States and Korea, while limited evidence exists for emerging markets like Pakistan.
+526: Second, although numerous studies have examined stock market forecasting using machine learning and deep learning models, many focus either on stock prices or volatility independently rather than integrating investor behavior, fund flows, macroeconomic variables, and market efficiency into a unified forecasting framework.
+527: Third, existing PSX studies largely emphasize traditional econometric techniques such as ARIMA and GARCH or apply machine learning models without comparing multiple advanced hybrid approaches. Limited research combines deep learning models with volatility forecasting methods and macroeconomic indicators for comprehensive prediction of the KSE indices.
+528: Fourth, many prior studies rely solely on historical price data while excluding external factors such as investor sentiment, macroeconomic conditions, political uncertainty, and mutual fund flows, which may significantly improve forecasting performance.
+529: Finally, there remains a lack of comparative analysis between traditional statistical approaches and advanced deep learning techniques within the context of the Pakistan Stock Exchange. Therefore, the present study aims to address these gaps by examining the forecasting performance of advanced machine learning and volatility models for KSE-related financial variables while considering broader economic and behavioral influences.
+530: 2.9 Chapter Summary
+531: This chapter reviewed the existing literature on fund flows, investor behavior, market efficiency, volatility forecasting, time-series analysis, machine learning applications, and Pakistan Stock Exchange studies. The review demonstrated that financial markets, especially emerging markets such as Pakistan, exhibit volatility clustering, weak-form inefficiency, and nonlinear behavior, making forecasting highly challenging.
+532: The literature further established that machine learning and deep learning models, particularly LSTM, GRU, Random Forest, and hybrid forecasting frameworks, generally outperform traditional statistical techniques such as ARIMA and GARCH in predicting stock prices, volatility, and mutual fund performance. At the same time, traditional econometric models remain important for capturing volatility dynamics and market risk.
+533: The review also identified several research gaps, including the limited application of integrated forecasting frameworks in the Pakistani context and the need to combine behavioral, macroeconomic, and financial variables within advanced predictive models. These gaps provide the foundation and motivation for the present study.
+535: 3. METHODOLOGY
+536: 3.1 Introduction
+537: This chapter explains the research methodology adopted for examining financial market forecasting, volatility behavior, and machine learning applications in the context of the Pakistan Stock Exchange (PSX). The methodology provides a systematic framework for collecting, processing, and analyzing financial market data to achieve the study's objectives.
+538: The chapter discusses the research philosophy, research design, population and sample selection, data sources, variables, and analytical techniques employed in the study. In addition, econometric and machine learning models, including ARIMA, GARCH, Long Short-Term Memory (LSTM), Random Forest, and hybrid forecasting models, are discussed in detail. The chapter also explains model evaluation methods and ethical considerations.
+539: 3.2 Research Philosophy and Approach
+540: The present study follows a positivist research philosophy, relying on objective financial data, statistical testing, and empirical analysis. Positivism is appropriate for financial forecasting research, as it allows researchers to identify relationships between variables using quantitative methods.
+541: The study adopts a quantitative research approach, analyzing numerical stock market and macroeconomic data using statistical and machine learning techniques. Quantitative methods are well-suited to forecasting studies, as they facilitate hypothesis testing, pattern recognition, and prediction of financial variables.
+542: A deductive research approach is employed in this study. Existing theories related to market efficiency, volatility clustering, and financial forecasting are used as the basis for developing hypotheses and testing predictive models.
+543: 3.3 Research Design
+544: This study uses an explanatory and predictive research design. The explanatory component investigates the relationships among macroeconomic variables, investor behavior, market volatility, and stock market performance, while the predictive component evaluates the forecasting performance of traditional econometric and machine learning models.
+545: The research is based on time-series analysis because the stock market and financial variables are sequential in nature and change over time. Daily and monthly observations are analyzed to capture both short-term and long-term market behavior.
+546: The study compares traditional statistical approaches such as ARIMA and GARCH with modern machine learning and deep learning techniques, including LSTM, Random Forest, and hybrid forecasting frameworks.
+547: 3.4 Population and Sample Selection
+548: The study population comprises companies and financial indices listed on the KSE-30 Index, as it represents the largest and most actively traded companies in Pakistan.
+549: The sample includes daily and monthly observations of the KSE-30 Index and selected macroeconomic variables over a specified period. Depending on data availability, the study may also include mutual fund-related variables that track KSE-30 data.
+550: The study adopts purposive sampling because the KSE-30 Index is considered the most representative indicator of overall stock market performance in Pakistan.
+551: The sample period spans multiple years to capture different economic cycles, political events, and market shocks in the analysis.
+552: 3.5 Data Sources and Data Collection
+553: The study utilizes secondary data collected from reliable financial and economic databases. Daily and monthly stock market data are obtained from the Pakistan Stock Exchange (PSX), Yahoo Finance, Investing.com, and official financial reports.
+554: Macroeconomic variables such as inflation, exchange rates, interest rates, and crude oil prices are collected from the State Bank of Pakistan (SBP), Pakistan Bureau of Statistics (PBS), and World Bank databases.
+555: The data collection process includes the following steps:
+556: Collection of historical KSE-30 constituent stock prices, volumes, and index weights from PSX.
+557: Collection of macroeconomic indicators.
+558: Cleaning and preprocessing of missing or inconsistent values.
+559: Transformation of data into suitable formats for statistical and machine learning analysis.
+560: Division of the dataset into training, validation, and testing subsets.
+561: The use of secondary data ensures reliability, cost-efficiency, and accessibility in financial forecasting analysis.
+562: 3.6 Variables of the Study
+563: The study incorporates both dependent and independent variables to analyze stock market forecasting and volatility behavior.
+564: 3.6.1 Dependent Variables
+565: The dependent variables of the study include:
+566: KSE-30  constituent stock prices and predicted index weights
+567: Daily log returns of KSE-30 stocks
+568: Stock market volatility of KSE-30 constituents
+569: Index fund flow proxy derived from weight shifts
+570: Value at Risk (VaR)
+571: These variables represent the financial outcomes that the forecasting models attempt to predict.
+572: 3.6.2 Independent Variables
+573: The independent variables include both financial and macroeconomic indicators:
+574: Exchange rate
+575: Inflation rate
+576: Interest rate
+577: Gross Domestic Product (GDP)
+578: Brent oil prices
+579: Gold prices
+580: Historical stock prices
+581: Trading volume
+582: Technical indicators
+583: KSE-30 Index weight allocation and flow proxy
+584: These variables are selected based on prior literature that identifies their influence on stock market behavior and volatility.
+586: Figure 3.1: Top 15 stocks by average KSE-30 weight (2021-present).
+587: To understand the cross-sectional dynamics of the index constituents, we mapped the relative concentration and structural importance of individual securities within the index basket. As illustrated in the bar chart in Figure 3.1, the top 15 stocks are ranked by their average KSE-30 index weight from 2021 to the present. The visual distribution highlights a high level of institutional concentration, where a select group of high-cap equities dominates the overall index movement. This systemic imbalance directly influences the index rebalancing signals discussed in later chapters, as shifts in these highly weighted components disproportionately affect the benchmark's risk-return profile.
+589: Figure 3.2: Monthly correlation matrix for KSE-30 flow, macroeconomic variables, and index measures.
+590: Complementing this constituent profiling, the contemporaneous relationships across the broader financial system were evaluated. The monthly correlation matrix provided in Figure 3.2 visualizes the linear dependencies between aggregate KSE-30 sector fund flows, structural macroeconomic variables, and key index performance measures. The correlation coefficients reveal that direct, immediate linear relationships between monthly capital movements and external macroeconomic drivers remain weak. This baseline statistical friction underscores that predictive interactions within the Pakistani capital market are not immediate; rather, they operate through more intricate, lagged systems, validating the choice of the multivariate ARIMAX and VAR architectures deployed in the empirical sections of this study.
+591: 3.7 Conceptual Framework
+592: The study's conceptual framework explains the relationships among macroeconomic variables, investor behavior, KSE-30 constituent stock data, index fund flows, and stock market forecasting.
+593: Independent variables such as exchange rates, inflation, investor sentiment, and historical stock prices influence dependent variables, including KSE-30 returns, volatility, and market performance.
+594: The forecasting models, including ARIMA, GARCH, LSTM, Random Forest, and hybrid models, are applied to determine the predictive relationship between these variables.
+595: The framework assumes that both macroeconomic conditions and behavioral factors significantly influence stock market performance and volatility.
+596: 3.8 Data Preprocessing and Transformation
+597: Financial data often contains noise, missing values, outliers, and non-stationary patterns. Therefore, preprocessing and comprehensive exploratory data analysis (EDA) are necessary before applying forecasting models.
+598: The following preprocessing techniques are applied:
+599: Removal of missing or duplicate observations
+600: Logarithmic transformation of stock prices
+601: Normalization and standardization of variables
+602: Conversion of prices into returns
+603: Handling of outliers
+604: Feature scaling for machine learning models
+605: Stationarity transformation through differencing
+606: The dataset is further divided into training, validation, and testing sets to evaluate model performance effectively.
+607: To justify our choice of volatility models, we analyzed the empirical statistical properties of these transformed returns. As illustrated in the dual-panel diagnostic visualization in Figure 3.3, the daily return distribution histogram (left) exhibits a high peak and heavy tails compared to a standard normal curve, while the Normal Q-Q plot (right) shows significant deviation from the linear baseline at both extremes. This distinct leptokurtic behavior confirms that the series suffers from heavy tails and severe non-normality, providing robust empirical support for the use of the GARCH modeling family described in later sections.
+609: Figure 3.3: KSE-30 return distribution and Q-Q plot.
+610: 3.9 Econometric and Statistical Techniques
+611: The study employs both traditional econometric techniques and advanced machine learning models to forecast stock prices and volatility.
+612: 3.9.1 Descriptive Statistics
+613: Descriptive statistics are used to summarize the characteristics of the data. Measures such as mean, median, standard deviation, skewness, kurtosis, minimum, and maximum are calculated.
+614: Descriptive analysis helps identify the distribution and volatility of stock market returns.
+615: 3.9.2 Stationarity Tests
+616: Stationarity tests are applied to determine whether the time-series data exhibit constant mean and variance over time.
+617: The study uses:
+618: Augmented Dickey-Fuller (ADF) Test
+619: KPSS Test
+620: If the data are non-stationary, differencing techniques are applied.
+622: Figure 3.4: Comparison of price levels (non-stationary) vs. returns (stationary).
+623: The visual impact of this stationarity transformation is demonstrated in Figure 3.4. The top panels show the raw, trending trajectories of the index price levels over time, which exhibit non-stationary behaviors. The bottom panels display the corresponding daily and monthly log returns. By transforming the price levels into log returns, the mean is successfully stabilized around a constant boundary of zero, providing the constant background required for structural modeling.
+625: Figure 3.5: P-value heatmap for ADF stationarity tests.
+626: Standardizing the order of variable integration is a prerequisite for time-series forecasting. The results of the stationarity diagnostics are summarized in the joint heatmaps provided in Figure 3.5, which cross-examine the variables using both Augmented Dickey-Fuller (ADF) p-values and Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test statistics across monthly horizons. These complementary matrices demonstrate that raw price levels, CPI, and interest rates are non-stationary in their level forms but achieve strict stationarity upon first-differencing, validating the transformation protocol used for our ARIMAX and VAR models.
+627: 3.9.3 ARIMA Model
+628: The Autoregressive Integrated Moving Average (ARIMA) model is used for time-series forecasting.
+629: The ARIMA model consists of three parameters:
+630: Autoregressive term (p)
+631: Differencing term (d)
+632: Moving average term (q)
+633: The model captures linear relationships within financial time-series data and is widely used for short-term forecasting.
+634: 3.9.4 GARCH Family Models
+635: The Generalized Autoregressive Conditional Heteroskedasticity (GARCH) model is employed to capture volatility clustering in stock returns.
+636: The study applies:
+637: GARCH(1,1)
+638: EGARCH
+639: These models help analyze conditional variance and leverage effects within the stock market.
+640: 3.9.5 Long Short-Term Memory (LSTM) Model
+641: Long Short-Term Memory (LSTM) is a deep learning model specifically designed for sequential and time-series data.
+642: LSTM networks are capable of capturing long-term dependencies and overcoming the vanishing gradient problem associated with traditional recurrent neural networks.
+643: The model is applied to forecast stock prices and volatility using historical market data.
+644: 3.9.6 Random Forest Model
+645: Random Forest is an ensemble machine learning technique based on decision trees.
+646: The model improves prediction accuracy by combining multiple trees and reducing overfitting.
+647: Random Forest is particularly useful for handling nonlinear relationships and high-dimensional financial datasets.
+648: 3.9.7 Hybrid Forecasting Framework
+649: The study also develops hybrid forecasting models by integrating traditional econometric and machine learning approaches.
+650: Examples include:
+651: ARIMA-LSTM
+652: GARCH-LSTM
+653: Random Forest-GARCH
+654: Hybrid models are expected to provide better forecasting accuracy by combining the strengths of multiple techniques.
+655: 3.10 Model Evaluation Techniques
+656: The performance of forecasting models is evaluated using statistical error metrics.
+657: The study uses:
+658: Root Mean Square Error (RMSE)
+659: Mean Absolute Error (MAE)
+660: Directional Accuracy
+661: R-squared (R²)
+662: Lower forecasting errors indicate better predictive performance.
+663: Cross-validation techniques are also used to improve model robustness and reduce overfitting.
+664: 3.11 Research Hypotheses
+665: The study develops the following hypotheses:
+666: Macro Drivers Hypothesis:Monthly net flows into KSE-30 index funds are significantly influenced by macroeconomic variables, particularly inflation (CPI), interest rates, oil price returns, and fluctuations in the USD/PKR exchange rate.
+667: Predictability Hypothesis:Aggregate flows of KSE-30 index funds can be predicted out-of-sample using lagged market and macroeconomic indicators, with ARIMA and VAR models expected to outperform a naïve random-walk benchmark.
+668: Directional Utility Hypothesis:Even when prediction errors in flow magnitude remain high, the predicted direction of fund flows (inflows versus outflows) provides statistically meaningful signals that may support tactical investment decisions.
+669: Rebalancing Persistence Hypothesis:Future constituent weights of the KSE-30 index exhibit strong persistence and can be forecast using current weights, together with technical and liquidity-related indicators, thereby facilitating more effective portfolio rebalancing strategies.
+670: Efficiency–Tilt Linkage Hypothesis:Deviations from strict market efficiency, as evidenced through runs tests, variance-ratio tests, autocorrelation, and Hurst exponent analysis, are associated with exploitable short-term signals that may enhance portfolio tilts relative to static weighting approaches.
+671: 3.12 Ethical Considerations
+672: The study follows ethical research practices throughout the research process.
+673: Only publicly available secondary data are used.
+674: Data sources are properly acknowledged.
+675: No manipulation or falsification of data is performed.
+676: Statistical analysis is conducted objectively and transparently.
+677: Confidentiality and intellectual property rights are respected.
+678: The research is conducted solely for academic purposes.
+679: 3.13 Limitations of the Methodology
+680: Despite adopting advanced forecasting techniques, the methodology has certain limitations.
+681: Financial markets are highly volatile and influenced by unpredictable events.
+682: Historical data may not fully capture future market behavior.
+683: Machine learning models require large computational resources.
+684: Data availability limitations may restrict the inclusion of certain variables.
+685: Sudden political, economic, or global shocks may reduce forecasting accuracy.
+686: These limitations should be considered while interpreting the study results.
+687: 3.14 Chapter Summary
+688: This chapter explained the research methodology adopted to analyze KSE-30 index fund-flow patterns, stock market forecasting, and volatility behavior in the Pakistan Stock Exchange. The chapter discussed the research philosophy, design, population, sample, variables, data collection methods, preprocessing techniques, and forecasting models used in the study. Both econometric approaches and machine learning techniques, including ARIMA, GARCH, LSTM, Random Forest, and hybrid models, were described in detail.
+689: The chapter also explained model evaluation methods, research hypotheses, ethical considerations, and methodological limitations. The next chapter presents the empirical analysis, model estimation, and interpretation of results.
+691: 4. RESULTS AND ANALYSIS
+692: 4.1 Introduction
+693: This chapter presents the empirical findings of the study, derived from the KSE-30-focused workflow. The analysis follows a logical progression from initial data exploration to complex predictive and structural modeling. We first examine the descriptive characteristics of the dataset before moving into fund-flow forecasting, volatility dynamics, and formal tests of market efficiency.
+694: The results are interpreted within the context of the final sample structure: a daily KSE-30 dataset comprising 1,300 observations and an aggregate monthly fund-flow dataset of 60 observations. Given the relatively small monthly sample size, our analysis prioritizes directional accuracy and comparative model performance over absolute R-squared values in the forecasting block.
+695: 4.2 Exploratory Data Analysis Results
+696: The exploratory phase confirms that the merged KSE-30 dataset captures distinct and economically significant patterns. The daily reconstructed KSE-30 index return series exhibits a mean of 0.0736% and a standard deviation of 1.3945%. Extreme market movements were observed, with a minimum daily return of -10.2414% (March 2, 2026) and a maximum of 9.3245% (May 12, 2025). The Jarque-Bera test yields a p-value of effectively zero, indicating that the returns are non-normal and characterized by "fat tails," which justifies the subsequent application of GARCH-family models.
+698: Figure 4.1: Reconstructed cumulative KSE-30 return over the final analysis period.
+699: 4.2.1 AUM Trends
+700: The analysis of Assets Under Management (AUM) reveals a highly concentrated fund universe. AKD serves as the dominant component of the aggregate sector AUM, while NBP and NTI/NIT remain significantly smaller. Specifically, peak AUM levels reached approximately 2107.24 for AKD, compared to 94.00 for NBP and 212.86 for NTI/NIT. By January 30, 2026, the aggregate sector AUM stood at 2414.10 million PKR. This concentration implies that aggregate sector-flow movements are predominantly driven by the largest fund's behavior.
+702: Figure 4.2: AUM trend and aggregate KSE-30 sector total.
+703: 4.2.2 NAV Return Distributions
+704: Daily Net Asset Value (NAV) return distributions across the three funds are wide and leptokurtic. Standard deviations vary significantly: 2.3716% for AKD, 8.2404% for NBP, and 3.4015% for NIT. The extreme kurtosis and Jarque-Bera results (p-value ≈ 0) across all series necessitate the use of robust volatility modeling rather than assuming a Gaussian distribution.
+705: 4.2.3 Fund Flow Behavior
+706: The aggregate fund-flow series is characterized by episodic shocks rather than stability. Within the 60-month sample, 38 months recorded positive net flows, while 22 months recorded negative net flows. While the mean monthly flow is 13.6109 million PKR, the series is heavily skewed by outliers, including a peak inflow of 234.8581 million PKR in December 2025 and a sharp outflow of -44.0068 million PKR in December 2024.
+708: Figure 4.3: Aggregate monthly KSE-30 sector fund flows showing alternating inflow and outflow episodes.
+709: 4.2.4 Correlation Analysis
+710: Contemporaneous linear relationships between variables appear weak. The correlation between aggregate flow and monthly KSE-30 returns is a negligible 0.0095. Macroeconomic factors such as CPI (-0.0262) and oil returns (-0.0783) also show a minimal direct association. The most notable, albeit mild, relationship is a negative correlation with interest rates (-0.2092). This suggests that predictive power is more likely to reside in lagged or system-based dynamics.
+711: 4.3 Fund-Flow Forecasting Results
+712: Forecasting was conducted using a 35-month training window and a 25-month out-of-sample testing window to evaluate model performance against the primary target variable, KSE30 sector flow. The objective was to determine if parsimonious time-series models could outperform a naive random-walk benchmark.
+713: Model
+714: RMSE
+715: MAE
+716: R2
+717: DirAcc
+718: Note
+719: Naive (RW)
+720: 83.1
+721: 51.54
+722: -1.4048
+723: 37.5
+724: Benchmark
+725: ARIMAX(1,0,1)
+726: 58.56
+727: 37.35
+728: -0.1944
+729: 75.0
+730: Primary
+731: VAR(1)
+732: 63.1
+733: 39.41
+734: -0.3867
+735: 75.0
+736: System mode
+737: Table 4.1: Aggregate KSE-30 Fund-Flow Forecasting Results
+738: 4.3.1 Stationarity and Granger Causality
+739: ADF tests confirm that total fund flow (p=0.0000), oil returns, and USD/PKR returns are stationary. Conversely, interest rates and CPI remain non-stationary in level form. A Lag-1 Granger causality analysis was conducted to examine whether individual macroeconomic indicators independently drive mutual fund flows, with the resulting significance matrix indicating that no single macro variable meets the strict 5% significance threshold. While the consumer price index changes approach conventional significance (p = 0.0639), the isolated blocks for crude oil returns (p = 0.5401), interest rate changes (p = 0.4079), and exchange rate shifts (p = 0.7719) display pale, highly non-significant values. This systemic lack of isolated statistical significance confirms that standalone macroeconomic factors do not act as independent lead drivers of capital flows in the Pakistani market. Consequently, this widespread lack of independent predictive power provides a clear empirical justification for deploying multivariate ARIMAX and VAR architectures, which are structurally designed to capture predictive power from combined, interactive dynamic systems rather than isolated variables.
+741: Figure 4.4: Lag-1 Granger causality p-values for macroeconomic variables against aggregate KSE-30 fund flow.
+742: 4.3.2 ARIMAX and VAR Results
+743: The ARIMAX(1,0,1) model significantly improved upon the naive benchmark, which had a directional accuracy of only 37.5%. The ARIMAX model increased this accuracy to 75.0% and reduced the MAE from 51.54 to 37.35. While the out-of-sample R-squared remained negative (-0.0935), the improvement in error metrics and sign classification suggests that lagged flow and macro controls provide valuable, albeit subtle, predictive signals.
+744: The VAR(1) system also achieved 75.0% directional accuracy but yielded slightly higher forecast errors (MAE of 39.41) compared to ARIMAX. Nevertheless, the VAR model remains a robust benchmark as it accounts for the joint evolution of flows and macroeconomic conditions.
+746: Figure 4.5: Actual versus predicted aggregate KSE-30 sector flow under ARIMAX and VAR.
+747: 4.4 Volatility Modeling Results
+748: This section focuses on the daily volatility of the reconstructed KSE-30 index.
+749: Series
+750: Model
+751: ω
+753: α
+755: β
+756: persist
+757: AIC
+758: KSE-30
+759: GARCH(1,1)
+760: 0.074916
+761: 0.1284
+762: 0.8383
+763: 0.9667
+764: 4243.43
+765: Table 4.2: KSE-30 GARCH and EGARCH Results
+766: 4.4.1 GARCH and EGARCH Analysis
+767: The GARCH(1,1) model reveals high volatility persistence (alpha + beta = 0.9667), indicating that market shocks decay slowly. However, the EGARCH(1,1) model is the preferred specification due to its lower AIC (4209.68 vs 4243.43). The EGARCH results show a significant negative gamma term, confirming a "leverage effect" where negative news triggers a stronger volatility response than positive news of the same magnitude.
+769: Figure 4.6: KSE-30 daily returns and model-implied conditional volatility.
+770: 4.4.2 VaR Backtesting
+771: Using the EGARCH(1,1) model for a 5% Value-at-Risk (VaR) backtest, we observed 58 exceedances out of 1,300 observations (4.46%). This close alignment with the nominal 5% level suggests that the model provides a reliable downside risk envelope for the KSE-30.
+773: Figure 4.7: 5 percent VaR backtesting for the preferred KSE-30 volatility model.
+774: 4.5 Market Efficiency Results
+775: The efficiency results are mixed rather than one-sided. This is one of the most important substantive findings of the project. Different tests do not all point in the same direction, which means the KSE-30 cannot be described too simply as either fully efficient or fully inefficient.
+776: Series
+777: KSE-30
+778: N
+779: 1300
+780: Runs Z
+781: -1.9106
+782: Runs p
+783: 0.0561
+784: Runs verdict
+785: Efficient
+786: VR(2)
+787: 1.0069
+788: VR(2) p
+789: 0.8752
+790: VR(4)
+791: 0.9106
+792: VR verdict
+793: Efficient
+794: LB Q p
+795: 0.0
+796: ACF lag-1
+797: 0.0071
+798: Hurst Value
+799: 0.6559
+800: Hurst interpretation
+801: Persistent
+802: Table 4.3: KSE-30 Market Efficiency Test Results
+803: 4.5.1 Runs Test
+804: With a p-value of 0.0561, the result is borderline. While it technically fails to reject the null of efficiency at the 5% level, the proximity to the threshold suggests that the randomness of return signs is not robust.
+805: 4.5.2 Variance Ratio Test
+806: VR(2) and VR(4) results (p=0.8752) do not reject the random-walk hypothesis, providing the strongest evidence in favor of efficiency.
+807: 4.5.3 Ljung-Box Test
+808: Conversely, a p-value of 0.0000 indicates significant serial dependence, strongly contradicting the random-walk assumption.
+809: 4.5.4 Hurst Exponent Results
+810: The full-series Hurst exponent of 0.6559 points toward "persistence." This reinforces the Ljung-Box findings, indicating that the KSE-30 possesses a "memory" that departs from pure efficiency.
+812: Figure 4.8: Autocorrelation structure of reconstructed KSE-30 returns.
+813: 4.6 Summary of Empirical Findings
+814: The empirical analysis yields four key conclusions. First, the KSE-30 fund universe is highly concentrated, making sector-level flows sensitive to the largest players. Second, while absolute PKR magnitudes are difficult to forecast, ARIMAX and VAR models provide significant gains in directional accuracy for fund flows. Third, KSE-30 volatility is persistent and asymmetric, with negative shocks disproportionately impacting the index. Finally, the mixed efficiency results, specifically the high Hurst exponent and significant Ljung-Box statistics, suggest that the KSE-30 is not perfectly weak-form efficient. These findings provide the empirical justification for the portfolio rebalancing strategies explored in Chapter 5.
+816: 5  PORTFOLIO TILT AND REBALANCING APPLICATION
+817: 5.1 Introduction
+818: This chapter converts the statistical findings of the previous chapters into a practical KSE-30 application. While Chapter 4 establishes the characteristics of fund flows, volatility, and market efficiency, this section extends the analysis into a stock-level rebalancing framework. By doing so, the project moves from purely descriptive modeling to an operational tool designed to anticipate changes in KSE-30 membership and constituent weights. The objective is to build a predictive framework that uses historical stock characteristics to estimate future index inclusion and weight outcomes, providing a data-driven basis for portfolio positioning.
+819: 5.2 Motivation for Portfolio Tilt Using Fund-Flow Signals
+820: The motivation for this application stems directly from the evidence of non-randomness in fund flows and persistence in KSE-30 volatility. Since return dynamics exhibit serial dependence, it is logical to investigate whether these signals can support an "index-tilt" strategy that adjusts portfolio weights ahead of formal index reviews. Figure 5.1 outlines the conceptual framework for this rebalancing application, highlighting the transition from raw market signals to predictive outcomes.
+822: Figure 5.1: Integrated rebalancing and portfolio tilt framework.
+823: 5.3 Data and Sample for Rebalancing
+824: The rebalancing analysis is based on a panel of 422 stock-window observations across 16 semi-annual rebalancing periods. The dataset incorporates features such as lagged market capitalization, average daily turnover, and existing index weights. This rich The feature set allows the models to capture the fundamental and liquidity-based drivers that the Pakistan Stock Exchange (PSX) considers during its official index reviews.
+825: 5.4 Predicting Index Retention and Inclusion
+826: A critical task for any index-tracking or tilt strategy is predicting which stocks will remain in the index. We evaluated multiple models, including a Naive Persistence benchmark, Random Forest, and Logistic Regression.
+827: 5.4.1 Retention Probability Results
+828: Logistic regression emerged as the superior model for predicting index retention, achieving an Area Under the Curve (AUC) exceeding that of both the Naive rule and the Random Forest classifier. As shown in Figure 5.2, the model maps predicted retention probabilities onto actual index outcomes, where the steep sigmoidal distribution clearly separates high-probability "retained" assets from the distinct cluster of lower-probability "excluded" stocks near the bottom left. This clear distinction provides a reliable probabilistic framework for identifying core stable constituents versus those vulnerable to rebalancing shocks.
+830: Figure 5.2: Estimated retention probabilities for current KSE-30 constituents.
+831: 5.4.2 Feature Importance
+832: To understand what drives these predictions, we analyzed the feature importances (Figure 5.3). Unsurprisingly, lagged weights and market capitalization are the most dominant predictors. However, liquidity measures also play a vital role, confirming that the KSE-30 is as much a measure of tradability as it is of size.
+834: Figure 5.3: Feature importance ranking for the inclusion prediction model.
+835: 5.5 Predicting Constituent Weights
+836: Beyond simple inclusion, predicting a stock's exact weight is essential for portfolio optimization. We compared several regression techniques against a naive benchmark (using the previous period's weight).
+837: Ridge regression emerged as the preferred model. While the naive benchmark is already strong due to index stability, Ridge Regression provided a modest improvement in Mean Squared Error (MSE) by better handling the "churn" at the bottom of the index. Figure 5.4 illustrates the relationship between actual and predicted weights, showing high alignment for large-cap names but more variance among smaller constituents.
+839: Figure 5.4: Scatter plot of actual versus predicted constituent weights.
+840: 5.6 Forecasted Weight Changes
+841: The final stage of the application involves identifying "high-conviction" weight changes. By comparing model-predicted weights with current actual weights, we can identify stocks likely to see an increase in their index representation. Figure 5.5 displays these forecasted changes, which serve as the primary signal for a portfolio tilt strategy.
+843: Figure 5.5: Forecasted direction and magnitude of KSE-30 weight changes.
+844: 5.7 Implementation Considerations and Limitations
+845: While the results are promising, it is important to note that the pipeline does not currently include a transaction-cost model or a live-trading backtest. Therefore, this framework should be viewed as a decision-support tool rather than a fully validated algorithmic trading strategy. The evidence suggests that while the models can provide a probabilistic edge in anticipating index changes, they should be used as one component of a broader investment process.
+846: 5.8 Chapter Summary
+847: This chapter has demonstrated that the earlier empirical insights into fund flows and market efficiency can be successfully translated into a stock-level rebalancing application. By using Ridge Regression for weight prediction and Logistic Regression for inclusion probability, the pipeline provides a systematic approach to anticipating KSE-30 index shifts. The findings suggest that the index will remain concentrated in established large-cap names, though identifying the "at-risk" low-weight stocks provides significant tactical value for portfolio managers looking to tilt their exposure ahead of official announcements.
+849: 6  DISCUSSION
+850: 6.1 Interpretation of Fund-Flow Prediction Results
+851: The fund-flow forecasting results demonstrate that aggregate KSE-30 sector flow is not perfectly unpredictable, yet it remains a variable that cannot be forecast with high precision in absolute PKR terms. A balanced interpretation is essential: while the naive benchmark performs poorly, particularly in directional terms, the ARIMAX and VAR models produce clear improvements. However, the out-of-sample R-squared values remain slightly negative even for these superior models.
+852: This suggests that the underlying monthly flow process contains usable dynamic information, but the signal is weak relative to the magnitude of shock-driven variation in the series. Consequently, the final models are more reliable as directional tools than as exact point estimators. The strongest evidence for this is found in the directional accuracy results, where both retained dynamic models achieve a 75.0% hit rate compared to only 37.5% for the naive benchmark.
+854: Figure 6.1: Fund-flow model performance scorecard.
+855: 6.2 Discussion of Market Efficiency Evidence
+856: The efficiency results are mixed, preventing a simple categorization of the KSE-30 as either fully efficient or fully inefficient. The variance ratio and runs tests suggest that the index frequently behaves like a random walk, yet the Ljung-Box and Hurst exponent results point toward significant serial dependence.
+857: This "mixed-efficiency" finding is consistent with the nature of an emerging market. While large-cap, liquid stocks might be priced relatively efficiently, the overall index still exhibits "pockets" of memory and exploitable structure. Figure 6.2 summarizes this evidence, illustrating how different statistical lenses can lead to varying conclusions about the randomness of KSE-30 returns.
+859: Figure 6.2: Summary of market efficiency evidence for the KSE-30.
+860: 6.3 Volatility Dynamics and Leverage Effects
+861: The presence of high volatility persistence and a significant leverage effect in the EGARCH model highlights the KSE-30's vulnerability to downside shocks. As visualized in the volatility regime analysis (Figure 6.3), periods of market stress are not isolated incidents but tend to cluster, creating prolonged windows of elevated risk. The leverage effect confirms that investors in the Pakistani market react more aggressively to negative news, which is a critical consideration for risk management and Value-at-Risk (VaR) calibration.
+863: Figure 6.3: KSE-30 realized volatility regimes over the study period.
+865: 6.4 Choice of Modeling Techniques
+866: Throughout the study, a deliberate choice was made to favor parsimonious econometric models for monthly flow prediction while utilizing machine learning for the richer rebalancing dataset. This decision was driven by the "sample-to-complexity" ratio. For the 60-observation monthly flow series, complex machine learning models risk overfitting. However, for the stock-level rebalancing task—which provides hundreds of observations—machine learning techniques like Logistic Regression and Random Forest offer the depth needed to capture non-linear relationships.
+869: Figure 6.4: Performance comparison across model families (Econometric vs. ML).
+870: 6.5 Practical Utility of the Rebalancing Application
+871: The rebalancing application serves as a bridge between theory and practice. By identifying stocks with high exclusion risk and predicting weight changes, the pipeline offers a decision-support framework for institutional investors. Figure 6.5 maps these risks, providing a visual guide for tactical positioning. It is important to emphasize that this framework is a probabilistic aid; without accounting for transaction costs and slippage, it should not be treated as a fully validated live trading strategy.
+873: Figure 6.5: KSE-30 rebalancing risk and opportunity map.
+874: 6.6 Study Limitations
+875: While the results provide meaningful insights, they are bound by certain limitations. The monthly flow sample is relatively small, limiting the ability to produce high-precision PKR forecasts. Additionally, the macroeconomic feature set is intentionally compact; drivers such as political events, foreign participation, and specific regulatory announcements are not explicitly modeled. These constraints define the scope of the findings: a careful, KSE-30-focused research study with bounded but actionable predictive claims.
+876: 6.7 Chapter Summary
+877: The discussion demonstrates that the KSE-30 environment is neither fully random nor fully predictable. Instead, it contains pockets of exploitable structure strong enough to support disciplined forecasting and rebalancing analysis. By favoring interpretable econometric models for flows and machine learning for rebalancing, the study provides a balanced approach to navigating the complexities of the Pakistani equity market.
+879: 7  CONCLUSION AND RECOMMENDATIONS
+880: 7.1 Conclusion
+881: This study set out to analyze index fund flow patterns and market efficiency in Pakistan through a final workflow centered on the KSE-30. Using cleaned stock, fund, and macroeconomic data, the project successfully constructed aggregate monthly KSE-30 sector flows, reconstructed a daily KSE-30 index series, modeled market volatility, and tested weak-form efficiency. Furthermore, the empirical findings were extended into a practical rebalancing and portfolio-tilt application.
+882: The results demonstrate that KKSE-30-related fund flows are not fully random. While exact monthly point prediction remains a challenge due to market noise, parsimonious time-series models, specifically ARIMAX and VAR, improved meaningfully on the naive benchmark in directional terms. In the final cleaned analysis, the ARIMAX model provided the strongest forecast-error performance.
+883: The investigation into market risk revealed strong evidence of volatility clustering and persistence. The EGARCH model outperformed the symmetric GARCH specification, confirming the presence of a leverage effect, in which negative shocks exert a greater impact on future volatility than positive shocks of similar magnitude.
+884: Evidence regarding market efficiency remained mixed. While the runs and variance-ratio diagnostics failed to strongly reject weak-form efficiency, the Ljung-Box and Hurst exponent results indicated clear persistence and serial dependence. Consequently, the KSE-30 cannot be characterized as perfectly weak-form efficient over the study period. Finally, the stock-level rebalancing framework demonstrated that future retention and constituent weights can be modeled as probabilistic edges, offering a structured foundation for tactical portfolio positioning ahead of official index reviews.
+885: 7.2 Key Contributions of the Study
+886: This research makes several distinct contributions to the study of the Pakistani capital market:
+887: Integrated Analytical Pipeline: The study developed a comprehensive end-to-end workflow that bridges raw data extraction from fund sheets and market indices with advanced predictive modeling and risk analysis.
+888: Reconstruction of KSE-30 Dynamics: By reconstructing the daily KSE-30 index and aggregate fund flows, the project provided a unique, high-resolution view of the interplay between capital movement and market performance in Pakistan.
+889: Empirical Validation of Asymmetric Volatility: The study provides formal evidence of the leverage effect in the KSE-30, highlighting that market participants in Pakistan react more intensely to downside news.
+890: Practical Application of Predictive Models: Unlike purely theoretical studies, this research translated statistical signals into an operational rebalancing tool, demonstrating how Logistic and Ridge regression can help anticipate index membership shifts.
+891: 7.3 Quantitative Investment Strategy
+892: To bridge the gap between empirical results and applied asset management, a systematic quantitative investment strategy can be constructed based on the dual insights of directional fund flows and index rebalancing probabilities:
+893: The Tactical Rebalancing Tilt: Utilizing the predictive retention probabilities generated by the Logistic and Ridge regression models, the strategy executes a proactive long-short equity tilt. Portfolio managers accumulate overweight positions in high-probability "retained" or "incoming" index constituents well ahead of the official Pakistan Stock Exchange (PSX) semi-annual index reviews. Conversely, assets identified as high-risk for exclusion are systematically underweighted or completely divested. This rules-based entry and exit exploits the predictable price pressure and volume surges triggered by passive fund tracking adjustments on the official rebalancing date.
+894: Volatility-Modulated Execution (GARCH Overlay): Given the robust persistence of asymmetric volatility validated by the EGARCH model, position sizing is dynamically scaled based on conditional market risk. During regimes characterized by severe negative return shocks, the strategy triggers a defensive risk-overlay protocol that scales down leverage and widens execution bands to shield capital from the identified leverage effects.
+895: Macro-Flow Alignment: The directional fund-flow signals generated by the ARIMAX system serve as a macroeconomic regime filter. When the model projects an acceleration of aggregate net inflows, capital allocations are tilted aggressively toward high-beta, highly liquid core index constituents to capture institutional momentum. When outflows are predicted, the portfolio shifts toward a defensive, cash-equivalent posture.
+896: 7.4 Recommendations
+897: Based on the findings of this study, the following recommendations are proposed:
+898: For Institutional Investors: Fund managers should incorporate asymmetric volatility models, such as EGARCH, into their risk management frameworks to better calibrate downside risk envelopes (VaR) during market stress.
+899: For Portfolio Managers: The use of directional fund-flow signals and predictive rebalancing models can be adopted as a decision-support tool to enable gradual portfolio tilts ahead of formal index reviews, potentially reducing execution costs and slippage.
+900: For Market Regulators: The evidence of serial dependence and persistence suggests that the KSE-30 still exhibits informational friction. Continued efforts to improve transparency and data accessibility could help move the market closer to weak-form efficiency.
+901: 7.5 Future Research Directions
+902: To build upon the foundation established in this study, the following areas are suggested for future exploration:
+903: Sample Expansion and Feature Enrichment: Future research should expand the monthly fund-flow dataset as more historical data become available and incorporate additional drivers, such as foreign portfolio investment (FPI), policy surprises, and political event indicators.
+904: Advanced Model Architectures: With a larger dataset, researchers could explore non-linear modeling families, including regime-switching models, Bayesian time-series approaches, and deep learning sequence models such as LSTMs.
+905: Realized Portfolio Backtesting: The rebalancing application should be extended into a full backtest that accounts for turnover constraints, transaction costs, and commission fees to evaluate the net-of-cost performance of an index-tilt strategy.
+906: Multi-Frequency and Sectoral Analysis: Comparing monthly and weekly forecasting horizons or applying the flow-efficiency framework to specific sectors (e.g., banking or energy) could reveal deeper structural insights into the Pakistani equity market.
+907: In summary, this project provides a strong applied foundation for future KSE-30 research. Its primary value lies in the structured framework it leaves behind for richer data integration, broader modeling, and more realistic investment testing.
+909: REFERENCES
+910: [1] Yamani, E. (2023). The informational role of fund flow in the profitable predictability of mutual funds. Finance Research Letters, 51, 103445.
+911: [2] Larsson, E., & Wergeland, J. (2020). Market efficiency and index fund flow: An empirical study of the relationship between passive investment and broad-market efficiency [Master's thesis, University of Gothenburg]. GUPEA.
+912: [3] Lim, K., & Yoon, S.-J. (2018). Validity of fund flows as a measure of investor sentiment. Journal of Management and Economics, 40(4), 115–134.
+913: [4] Huang, J., Wei, K. D., & Yan, H. (2022). Investor learning and mutual fund flows. Financial Management, 51(3), 739–765.
+914: [5] Barber, B. M., Huang, X., & Odean, T. (2016). Which factors matter to investors? Evidence from mutual fund flows. Review of Financial Studies, 29(10), 2600–2642.
+915: [6] Iqbal, Z., & Shoaib, M. (2025). Long short-term memory method: A case study of Pakistan stock market volatility. Journal of Business and Social Review in Emerging Economies, 11(1), 129–140.
+916: [7] Zahid, S., & Saleem, H. M. N. (2023). Stock volatility prediction using machine learning during COVID-19. Statistics, Computing and Interdisciplinary Research, 5(2), 99–119.
+917: [8] Iqbal, Z., & Naz, L. (2025). Modeling volatility of the Pakistan stock market using a family of GARCH models. Journal of Economic Impact, 7(1), 48–54.
+918: [9] Jadoon, A. K., Mahmood, T., Sarwar, A., Javaid, M. F., & Iqbal, M. (2024). Prediction of stock market movement using Long Short-Term Memory (LSTM) artificial neural network: Analysis of KSE 100 Index. Pakistan Journal of Life and Social Sciences, 22(1), 107–119.
+919: [10] Fraz, T. R., Fatima, S., & Uddin, M. (2022). Modeling and forecasting stock market volatility of CPEC founding countries: Using nonlinear time series and machine learning models. JISR Management and Social Sciences & Economics, 20(1), 1–20.
+920: [11] Ali, M., Khan, D. M., Alshanbari, H. M., & El-Bagoury, A. A.-A. H. (2023). Prediction of complex stock market data using an improved hybrid EMD-LSTM model. Applied Sciences, 13(3), 1429.
+921: [12] Batool, K., Ahmed, M. F., & Ismail, M. A. (2022). A hybrid model of machine learning and econometrics to predict the volatility of the KSE-100 index. Reviews of Management Sciences, 4(1), 225–239.
+922: [13] Sabri, R., & Iqbal, S. (2024). Comparative analysis of univariate and deep learning models for stock market prediction in frontier markets: A case study of Pakistan, Bangladesh, and Sri Lanka. Business Review, 19 (2), 54–73.
+923: [14] Rouf, N., Malik, M. B., Arif, T., Sharma, S., Singh, S., Aich, S., & Kim, H.-C. (2021). Stock market prediction using machine learning techniques: A decade survey on methodologies, recent developments, and future directions. Electronics, 10(21), 2717.
+924: [15] Asif, M., & Aziz, A. (2016). Equity market volatility US GARCH models- evidence from Pakistan stock exchange (KSE-100 index). International Journal of Accounting and Economics Studies, 4(2), 125–130.
+925: [16] Fatima, U., Zafar, R., Shah, S. A., & Samad, A. (2025). Blending econometric and deep learning approaches for enhanced volatility forecasting of the KSE-100 index. Journal of Finance and Data Science, 11(1), 88–104.
+926: [17] Rasheed, M. U., Fareed, T., Ahmed, B., & Badar, M. (2024). Determining the efficacy of GARCH-type models for estimating VaR in the case of equities listed on PSX. Journal of Management and Social Sciences, 12(3), 442–458.
+927: [18] Jadoon, A. K., Mahmood, T., Sarwar, A., Javaid, M. F., & Iqbal, M. (2024). Prediction of stock market movement using Long Short-Term Memory (LSTM) artificial neural network: [19] Analysis of KSE 100 index. Global Strategic & Management Review, 6(1), 17–28.
+928: Munawar, T., Mushtaq, L., & Siddiqui, M. H. (2025). Interactive GARCH-based volatility predictor for financial markets. Journal of Financial Technology and Analysis, 3(2), 142–159.
+929: [20] Bukhari, K., Jadoon, A. K., Iqbal, M., & Arshad, A. (2023). Predicting stock market trends based on macroeconomic indicators through a machine learning approach: A case study of the KSE 100 index. Journal of Finance and Economics Research, 8(1), 42–61.
+930: [21] Javid, I., Ghazali, R., Syed, I., Zulqarnain, M., & Husaini, N. A. (2022). Study on the Pakistan stock market using a new stock crisis prediction method. PLOS ONE, 17(10), e0275022.
+931: [22] Zaffar, A., & Hussain, S. M. A. (2022). Modeling and prediction of KSE – 100 index closing based on news sentiments: applications of a machine learning model and ARMA (p, q) model. Multimedia Tools and Applications, 81(23), 33311–33333.
+932: [23] Hassan, H., Niaz, A., Rooh, S., & Qureshi, J. A. (2025). Emerging stock market performance and macroeconomic fundamentals: Evidence from Pakistan Stock Exchange. International Journal of Social Sciences Bulletin, 3(4), 812–826.
+933: [24] Latif, S., Javaid, N., Aslam, F., Aldegheishem, A., Alrajeh, N., & Bouk, S. H. (2024). Enhanced prediction of stock markets using a novel deep learning model, PLSTM-TAL, in urbanized smart ci: Heliyoniyon, 10(6), e27747.
+934: [25] Khan, S. N., Khan, S. U., Shafique, O., Ansar, Z., Imran, P., Altamish, M. H., & Hamza, A. (2025). Comparative analysis of stock market price behavior through machine learning approaches. Quantum Journal of Social Sciences and Humanities, 6(2), 29–41.
+935: [26] Munir, T., Mamlook, R. E., Rahman, A. R., Alrashidi, A., & Yaseen, A. M. (2024). COVID-19's influence on the Karachi stock exchange: A comparative machine learning algorithm study for forecas: Heliyoniyon, 10(13), e33190.
+936: [27] Qambrani, S. A., Ahmed, I., & Basit, A. (2025). The predictive accuracy of ARIMA models for stock market indices: A case study of KSE-100. Journal for Business Education and Management, 5(1), 1–22.
+937: [28] Ali, M. S., & Javed, A. (2020). Modeling and forecasting volatility in the Pakistan stock exchange. International Journal of Sciences: Basic and Applied Research (IJSBAR), 54(1), 234–241.
+938: [29] Khan, I., & Khattak, A. A. (2026). Dynamics of weak-form market efficiency in an emerging market: Evidence from Pakistan’s KSE-100 index using GARCH and random walk approaches. Research Consortium Archive, 10(4), 373–388.
+939: [30] Akber, U., & Muhammad, N. (2014). Is the Pakistan stock market moving towards weak-form efficiency? Evidence from the Karachi stock exchange and the random walk nature of the free-float of shares of the KSE 30 index. Asian Economic and Financial Review, 4(6), 808–836.
+940: [31] Fausch, J., Frigg, M., Ruenzi, S., & Weigert, F. (2025). Machine learning mutual fund flows. Review of Financial Studies, 38(4), 512–548.
+941: [32] Mohsin, M., Naiwen, L., Zia-UR-Rehman, M., Naseem, S., & Baig, S. A. (2024). The volatility of bank stock prices and macroeconomic fundamentals in the Pakistani context: An application of GARCH and EGARCH mo—Journalrnal of Public Affairs, 24(2), e2244.
+942: [33] Iqbal, J., Sandhu, M. A., Amin, S., & Manzoor, A. (2019). Portfolio selection and optimization through neural networks and Markowitz model: A case of Pakistan stock exchange listed companies. Review of Economics and Development Studies, 5(1), 185–196.
+943: [34] Chu, N., Dao, B., Pham, N., Nguyen, H., & Tran, H. (2023). Predicting mutual funds’ performance using deep learning and ensemble techniques. arXiv preprint arXiv:2209.09649 (Revised July 2023).
+945: APPENDICES
+946: The following appendices provide supplementary material referenced in the main report. All quantitative results presented here are derived from the final pipeline implementation and are reproducible from the project repository.
+947: Appendix
+948: Title
+949: Page Ref.
+950: A
+951: Additional Result Tables
+952: [51]
+953: B
+954: Additional Figures
+955: [57]
+956: C
+957: Variable Definitions and Formulas
+958: [64]
+959: D
+960: Pipeline Outputs and Logs
+961: [67]
+962: E
+963: Code Workflow Summary
+964: [70]
+966: Appendix A: Additional Result Tables
+967: This appendix presents detailed quantitative results from each analytical section of the study. All values are extracted directly from the final pipeline and are intended to supplement the summary statistics provided in the main chapters.
+968: A.1  Aggregate Fund-Flow Forecasting Results
+969: Table A.1 presents the complete performance comparison of all fund-flow forecasting models applied to the aggregate KSE-30 sector fund flow series (total_fund_flow = AKD + NBP + NTI monthly flows). The Naive Random Walk serves as the benchmark; any model with better directional accuracy or lower RMSE/MAE represents a meaningful improvement over simply assuming next month's flow equals this month's flow relative to the target variable, KSE30 sector flow.
+970: Model
+971: RMSE
+972: MAE
+973: R²
+974: Dir. Acc. (%)
+975: Naive (Random Walk)
+976: 83.10
+977: 51.54
+978: -1.4048
+979: 37.5%
+980: ARIMAX(1,0,1)
+981: 58.56
+982: 37.35
+983: -0.1944
+984: 75.0%
+985: VAR(1)
+986: 63.10
+987: 39.41
+988: -0.3867
+989: 75.0%
+990: Table A.1: Fund-flow forecasting model comparison of aggregate KSE-30 sector flows. Highlighted row = preferred model on RMSE/MAE.
+991: Key observations: ARIMAX(1,0,1) outperforms the Naive benchmark on all metrics, reducing RMSE by 29.5% (from 83.10 to 58.56) and improving directional accuracy from 37.5% to 75.0%. VAR(1) achieves the same directional accuracy as ARIMAX but at a slightly higher RMSE (63.10 vs. 58.56). All models show negative R², indicating that predicting the exact magnitude of fund flows remains challenging, a common finding in emerging market fund flow studies where flows are highly irregular and driven by sudden macroeconomic shocks.
+992: The directional accuracy of 75.0% achieved by both ARIMAX and VAR is the operationally relevant metric: an investor or fund manager who can correctly anticipate whether aggregate sector flows will be positive (inflow) or negative (outflow) in 3 out of 4 months can use this signal to tilt portfolio weights accordingly.
+993: A.2  Volatility Model Parameters  GARCH(1,1) on KSE-30
+994: Table A.2 provides the full parameter estimates from the GARCH(1,1) model fitted to the KSE-30 index daily log returns. These estimates quantify how volatility shocks propagate over time in the Pakistani equity market. While EGARCH(1,1) was selected as the best model by AIC in the main pipeline, the GARCH(1,1) parameters are preserved here as they provide a widely comparable baseline for cross-market comparisons.
+995: Series
+996: Model
+997: ω (omega)
+998: α (alpha)
+999: β (beta)
+1000: AIC
+1001: KSE-30 Index
+1002: GARCH(1,1)
+1003: 0.074916
+1004: 0.1284
+1005: 0.8383
+1006: 4243.43
+1007: Table A.2: GARCH(1,1) parameter estimates for KSE-30 index daily returns.
+1008: Interpretation of parameters: The omega (ω = 0.0749) is the long-run average variance component. The alpha (α = 0.1284) measures the sensitivity of current volatility to recent news or shocks. A higher alpha means volatility reacts more strongly to recent market events. The beta (β = 0.8383) measures the persistence of volatility, how much of yesterday's volatility carries into today. The persistence parameter α + β = 0.9667 is very close to 1, indicating that volatility shocks in the KSE-30 are long-lasting: when the market becomes volatile (e.g., following a political crisis or currency shock), volatility remains elevated for an extended period rather than quickly reverting to normal levels. This is consistent with the behavior of other emerging market equities and has important implications for risk management.
+1009: A.3  Market Efficiency Diagnostic Results KSE-30 Index
+1010: Table A.3 presents the complete set of market efficiency test results for the KSE-30 index daily log return series (N = 1,300 observations). These results correspond to Section 3 of the main report and are the quantitative basis for the market efficiency conclusion.
+1011: Test
+1012: Statistic
+1013: p-value
+1014: Verdict
+1015: Implication
+1016: Runs Test (Z-statistic)
+1017: -1.9106
+1018: 0.0561
+1019: Efficient
+1020: No non-random run pattern
+1021: Variance Ratio Test VR(2)
+1022: 1.0069
+1023: 0.8752
+1024: Efficient
+1025: VR ≈ 1: consistent with RW
+1026: Variance Ratio Test VR(4)
+1027: 0.9106
+1028: —
+1029: Efficient
+1030: Slight negative autocorr at lag-4
+1031: Ljung-Box Q (10 lags)
+1032: —
+1033: 0.0000
+1034: Inefficient
+1035: Significant autocorrelation detected
+1036: ACF Lag-1
+1037: 0.0071
+1038: —
+1039: Near zero
+1040: Negligible first-order correlation
+1041: Hurst Exponent (H)
+1042: 0.6559
+1043: —
+1044: Persistent
+1045: Long-memory trending behavior
+1046: Table A.3: Full market efficiency test results for KSE-30 index.
+1047: The results are mixed across tests, which is consistent with a market that is neither fully efficient nor straightforwardly predictable. The Runs Test (p = 0.056) and Variance Ratio Tests suggest the KSE-30 does not deviate significantly from a random walk on a short-term basis. However, the Ljung-Box test rejects the null of no autocorrelation (p < 0.0001), and the Hurst Exponent of H = 0.6559 (> 0.5) indicates long-memory persistence—past returns carry information about future direction over longer horizons. Together, these findings suggest weak-form semi-efficiency: the market appears approximately efficient over short windows but contains detectable long-memory patterns that could be exploited over longer holding periods.
+1048: A.4  Rebalancing Model Comparison
+1049: Table A.4 presents model performance for the two sub-tasks of the KSE-30 rebalancing prediction module: (i) predicting future index constituent weights (regression) and (ii) predicting whether a stock will remain in the KSE-30 index after the next recomposition (binary classification).
+1050: Task
+1051: Model
+1052: RMSE
+1053: MAE
+1054: R²
+1055: Accuracy
+1056: AUC
+1057: Weight Pred.
+1058: Naive (baseline)
+1059: 0.5595
+1060: 0.2541
+1061: 0.9677
+1062: —
+1063: —
+1064: Weight Pred.
+1065: Ridge Regression
+1066: 0.5590
+1067: 0.2963
+1068: 0.9678
+1069: —
+1070: —
+1071: Weight Pred.
+1072: Random Forest
+1073: 0.6900
+1074: 0.3553
+1075: 0.9509
+1076: —
+1077: —
+1078: Inclusion
+1079: Naive (baseline)
+1080: —
+1081: —
+1082: —
+1083: 96.55%
+1084: —
+1085: Inclusion
+1086: Logistic Regression
+1087: —
+1088: —
+1089: —
+1090: 96.55%
+1091: 0.8214
+1092: Inclusion
+1093: Random Forest
+1094: —
+1095: —
+1096: —
+1097: 96.55%
+1098: 0.5446
+1099: Table A.4: Rebalancing model performance for weight prediction (regression) and inclusion prediction (classification). Highlighted rows = preferred models.
+1100: Key observations: For weight prediction, Ridge Regression marginally outperforms the Naive baseline (RMSE: 0.5590 vs. 0.5595, R²: 0.9678 vs. 0.9677), while Random Forest underperforms both on this task (RMSE: 0.6900). The very high R² values (>0.95) for the weight prediction task reflect the high stability of index weights over short periods; most stocks retain similar weights quarter-to-quarter, which means even a naive baseline performs well.
+1101: For inclusion prediction, all models achieve 96.55% accuracy, matching the Naive baseline, which reveals a class imbalance: most stocks are retained in each recomposition, so predicting 'always retain' yields high accuracy. The AUC metric is more informative: Logistic Regression achieves an AUC of 0.8214, indicating good discriminative ability between stocks likely to be excluded and those likely to be retained. Random Forest's low AUC of 0.5446 suggests it overfitted to the majority class and failed to learn meaningful exclusion signals.
+1102: A.5  Forward Rebalancing Forecast—Exclusion Risk Rankings
+1103: Table A.5 presents the forward-looking rebalancing forecast for all current KSE-30 constituents. The 'Exclusion Risk' column (= 1 − Average Retention Probability) provides a ranked signal of which stocks are most likely to be removed from the KSE-30 index in the next recomposition cycle. Stocks with the highest exclusion risk warrant reduced portfolio weight in rebalancing strategies. Current Weight reflects the latest available KSE-30 constituent weight.
+1106: Symbol
+1107: Current Weight (%)
+1108: Avg Pred. Weight
+1109: Excl. Risk (%)
+1110: Interpretation
+1111: SSGC
+1112: 0.247
+1113: -0.186
+1114: 52.9%
+1115: Highest exclusion risk—low momentum, high vol
+1116: GAL
+1117: 0.272
+1118: -0.038
+1119: 39.6%
+1120: High exclusion risk — negative momentum
+1121: GHNI
+1122: 0.320
+1123: 0.046
+1124: 39.5%
+1125: High exclusion risk — declining returns
+1126: PAEL
+1127: 0.584
+1128: 0.249
+1129: 33.8%
+1130: Elevated risk — negative 30/60/90d momentum
+1131: BOP
+1132: 1.186
+1133: 1.227
+1134: 33.2%
+1135: Moderate-high risk — high volatility profile
+1136: FCCL
+1137: 1.043
+1138: 0.817
+1139: 28.7%
+1140: Moderate risk — persistent negative momentum
+1141: SNGP
+1142: 0.824
+1143: 0.498
+1144: 26.5%
+1145: Moderate risk
+1146: SEARL
+1147: 0.775
+1148: 0.516
+1149: 21.3%
+1150: Below-average risk — moderate momentum
+1151: SAZEW
+1152: 1.223
+1153: 0.941
+1154: 20.3%
+1155: Below-average risk
+1156: MLCF
+1157: 1.198
+1158: 0.968
+1159: 19.4%
+1160: Below-average risk — weight drift noted
+1161: Table A.5: Top-10 highest exclusion risk KSE-30 constituents (forward-looking forecast). Exclusion Risk = 1 − Avg. Retention Probability.
+1162: The lowest-exclusion-risk stocks (most likely to remain in the KSE-30) include MARI (2.0%), MEBL (2.1%), OGDC (2.5%), EFERT (2.6%), and FFC (3.1%). These stocks have strong retention probabilities above 0.97 across both Logistic Regression and Random Forest models, indicating stable index membership and consistent market-cap profiles.
+1164: Appendix B: Additional Figures
+1165: This appendix catalogs supplementary figures generated by the final pipeline. These figures complement the main report's graphs without duplicating them. All figures are generated by the final pipeline and provide supplementary visual context for the analyses described in the main report.
+1166: The following figures provide an exploratory context for the data used throughout the study.
+1167: Figure
+1168: Caption / Description
+1169: Fig. B.1
+1170: AUM trends of AKD, NBP, and NTI funds individually and as an aggregate over the study period, illustrating fund size dynamics and growth trajectory.
+1171: Fig. B.2
+1172: Distribution of daily NAV returns across the three selected funds, showing the non-normal, heavy-tailed nature of fund return distributions.
+1173: Fig. B.3
+1174: Aggregate monthly KSE-30 sector fund flows are displayed as bar charts, clearly showing inflow (positive) and outflow (negative) episodes across the study period.
+1175: Fig. B.4
+1176: Overview of the macro-financial environment during the study period: Brent crude oil price (USD/bbl), USD/PKR exchange rate, and SBP policy interest rate on a shared time axis.
+1177: Fig. B.5
+1178: Heatmap of monthly correlations among fund flows, lagged macroeconomic variables, and KSE-30 index returns, informing variable selection for ARIMAX and VAR models.
+1179: Fig. B.6
+1180: Reconstructed cumulative KSE-30 return profile over the full analysis window, contextualizing performance periods referenced in the efficiency and portfolio analyses.
+1181: Fig. B.7
+1182: KSE-30 constituent weights for the largest holdings in the cleaned stock panel, showing the concentration structure of the index.
+1183: Fig. B.8
+1184: CPI level series and macro indicator levels (interest rate, exchange rate) for inflation and monetary policy context across the full study period.
+1185: Fig. B.9
+1186: Oil price and USD/PKR log-return dynamics in transformed (stationary) form, used as inputs to the ARIMAX and VAR forecasting models.
+1187: Fig. B.10
+1188: Correlation heatmap of monthly macro and CPI variables, used to assess multicollinearity among predictors prior to model fitting.
+1189: Table B.1: EDA and context figure catalog.
+1191: Figure B.2: Distribution of daily NAV returns across the three selected funds, showing the non-normal, heavy-tailed nature of fund return distributions.
+1193: Figure B.8: CPI level series and macro indicator levels (interest rate, exchange rate) for inflation and monetary policy context across the full study period.
+1194: Figure B.9: Oil price and USD/PKR log-return dynamics in transformed (stationary) form, used as inputs to the ARIMAX and VAR forecasting models.
+1195: B.2  Market Efficiency Figures
+1196: Figure
+1197: Caption / Description
+1198: Fig. B.11
+1199: Autocorrelation Function (ACF) plot for KSE-30 index daily log returns, showing the lag structure of serial correlation used in the Ljung-Box test interpretation.
+1200: Fig. B.12
+1201: Variance Ratio test statistics plotted across lag periods k = 2, 4, 8, 16, visualizing how VR values and confidence bands vary with holding period length.
+1202: Table B.2: Market efficiency supplementary figures.
+1203: Figure B.12: Variance ratio test statistics across holding periods k = 2, 4, 8, 16 days, with confidence bands, showing consistency with a random walk at most horizons.
+1204: B.3  Fund Flow Prediction Figures
+1205: Figure
+1206: Caption / Description
+1207: Fig. B.13
+1208: Actual vs. predicted total KSE-30 sector fund flows for Naive, ARIMAX(1,0,1), and VAR(1) models over the test period, including directional accuracy annotations.
+1209: Fig. B.14
+1210: Granger causality test results between macroeconomic variables and aggregate fund flows, showing which macro predictors carry statistically significant predictive information.
+1211: Table B.3: Fund flow prediction figures.
+1212: B.4  GARCH Volatility Figures
+1213: Figure
+1214: Caption / Description
+1215: Fig. B.15
+1216: KSE-30 daily returns plotted alongside the 20-day rolling volatility envelope and GARCH conditional standard deviation overlay, illustrating volatility clustering periods.
+1217: Fig. B.16
+1218: Value-at-Risk (VaR) backtest at the 95% and 99% confidence levels, comparing empirical tail loss exceedance rates against GARCH model predictions.
+1219: Table B.4: GARCH volatility supplementary figures.
+1220: B.5  Rebalancing Prediction Figures
+1221: Figure
+1222: Caption / Description
+1223: Fig. B.17
+1224: Retention probability estimates for all current KSE-30 constituents, ranked from highest to lowest risk of exclusion in the next recomposition cycle.
+1225: Fig. B.18
+1226: Feature importance ranking from the Random Forest inclusion model, showing which stock characteristics (momentum, volatility, and weight drift) are most predictive of index retention.
+1227: Fig. B.19
+1228: Scatter plot of predicted vs. actual constituent weights for Ridge Regression and Random Forest models, with R² annotations.
+1229: Fig. B.20
+1230: Predicted weight changes for each constituent between the current composition and the next forecast rebalancing, illustrating which stocks are expected to gain or lose index prominence.
+1231: Table B.5: Rebalancing prediction figures.
+1233: Appendix C: Variable Definitions and Formulas
+1234: This appendix provides formal definitions of all key variables and transformation formulas used throughout the study. Consistent notation is maintained with the main text. All variables are computed within the pipeline and stored in the master data set.
+1235: C.1  Core Financial Variables
+1236: C.1.1  Fund Flow Identity
+1237: The net fund flow for each mutual fund in period t is computed as the difference between actual AUM and the AUM that would exist purely due to market price changes (no new investment or redemption):
+1238: flow(t)  =  AUM(t)  -  AUM(t-1) × [ NAV(t) / NAV(t-1) ]
+1239: A positive value indicates net investor inflows (new money entering the fund); a negative value indicates net outflows (redemptions exceeding new subscriptions).
+1240: C.1.2  Monthly NAV Return
+1241: The monthly return of a fund's Net Asset Value, computed as a simple percentage change between the end-of-month NAV values:
+1242: nav_return_m  =  ( NAV_end / NAV_start )  -  1
+1243: C.1.3  Aggregate Sector Fund Flow
+1244: The total KSE-30 sector fund flow is computed as the arithmetic sum of flows across all three tracked funds:
+1245: total_fund_flow(t)  =  flow_AKD(t)  +  flow_NBP(t)  +  flow_NTI(t)
+1246: C.1.4  Flow Normalization
+1247: To facilitate comparison across funds of different sizes, fund flow is expressed as a percentage of the previous period's total sector AUM:
+1248: flow_pct_sector(t)  =  total_fund_flow(t) / sector_aum(t-1)
+1249: C.2  Market and Index Variables
+1250: C.2.1  Reconstructed KSE-30 Index Return
+1251: The KSE-30 log return is reconstructed from the total float-adjusted free-float market capitalization of all index constituents:
+1252: idx_log_return(t)  =  ln[ idx_ff_mcap_total(t) / idx_ff_mcap_total(t-1) ]
+1253: C.2.2  Rolling Volatility (Annualized)
+1254: The 30-day rolling standard deviation of daily log returns, annualized using the square root of trading days:
+1255: rolling_vol_30d(t)  =  std( log_returns over past 30 days ) × √252
+1256: C.3  Forecasting Variables
+1257: The following variables constitute the feature set used in the final ARIMAX and VAR fund-flow forecasting models.
+1258: Variable Name
+1259: Definition
+1260: interest_rate_end
+1261: State Bank of Pakistan policy rate at the end of the month is a level variable.
+1262: cpi_yoy_end
+1263: Consumer Price Index year-on-year percentage change at the end of the month.
+1264: oil_return_monthly
+1265: Brent crude oil log return over the calendar month: ln(oil_end/oil_start).
+1266: usdpkr_return_monthly
+1267: USD/PKR exchange rate log return over the calendar month.
+1268: idx_return_monthly
+1269: KSE-30 index simple return over the calendar month.
+1270: idx_vol_monthly
+1271: Average of the 30-day rolling volatility observations within the calendar month.
+1272: Table C.1: Final forecasting variable definitions used in ARIMAX(1,0,1) and VAR(1) models.
+1273: C.4  Rebalancing Feature Definitions
+1274: The following features were engineered for the KSE-30 rebalancing prediction models:
+1275: Feature Name
+1276: Definition
+1277: cur_weight
+1278: Current KSE-30 constituent weight (float-adjusted, %) at the most recent recomposition date.
+1279: mom_30 / mom_60 / mom_90
+1280: Price momentum over 30, 60, and 90 trading days: (Price_t / Price_{t-N}) - 1.
+1281: vol_30 / vol_60
+1282: Realized volatility (annualized standard deviation of log returns) over 30 and 60 trading days.
+1283: avg_volume
+1284: Average daily trading volume over the most recent 21 trading days.
+1285: mkt_cap_proxy
+1286: Estimated market capitalization proxy: shares outstanding × closing price.
+1287: price_to_ma20 / ma50
+1288: Ratio of current price to 20-day and 50-day moving average: Price / MA_N.
+1289: wt_drift
+1290: Change in constituent weight since last recomposition date: cur_weight - weight_at_last_recomposition.
+1291: wt_range
+1292: Range of constituent weight over the last 4 recomposition periods: max(weight) - min(weight).
+1293: Table C.2: Rebalancing prediction feature definitions.
+1295: Appendix D: Pipeline Outputs and Logs
+1296: This appendix documents the complete set of files produced by the final pipeline implementation. It is intended to support reproducibility: any result table or figure in the main report can be traced back to a specific output file and the pipeline section that generated it.
+1297: D.1  Primary Pipeline Scripts
+1298: The study was implemented across three generations of pipeline scripts, each building on the previous:
+1299: Script
+1300: Role
+1301: Early-stage modular scripts
+1302: Early modular research scripts — separate notebooks for EDA, fund flow prediction, GARCH, efficiency, and portfolio. Used for mid-year evaluation.
+1303: Consolidated baseline pipeline
+1304: The consolidated baseline pipeline integrates all analytical sections into a single script. Primary data preparation stage; outputs used as inputs by the final pipeline.
+1305: Final KSE-30 narrative pipeline
+1306: Final KSE-30 narrative pipeline, KSE-30 index-focused variant consuming the baseline pipeline outputs.  Produces all final result CSVs and figures cited in the report.
+1307: Wrapper entry point for the final pipeline
+1308: Thin wrapper entry point for the final pipeline.
+1309: Table D.1: Primary pipeline scripts and their roles.
+1310: D.2  Output CSV Artifacts
+1311: The following CSV files are produced by the final pipeline and constitute the quantitative ground truth for all reported results:
+1315: File
+1316: Contents
+1317: daily_master.csv
+1318: Calendar-aligned daily composite dataset: KSE-30 index returns, volume, rolling volatility; oil and USD/PKR log returns; interest rate; CPI; NAV returns and volatility for AKD, NBP, NTI. No missing values.
+1319: monthly_master.csv
+1320: Month-end aggregated dataset: monthly index returns and volatility, macro variable end-of-month levels and returns, AUM, computed fund flows, flow percentages, and spike indicators for all three funds, plus total_fund_flow.
+1321: kse30_stocks_clean.csv
+1322: Deduplicated, cleaned KSE-30 constituent stock history: OHLCV data for 59 symbols from January 2020 to April 2026.
+1323: results_fund_flow.csv
+1324: Fund-flow model performance comparison: Naive, ARIMAX(1,0,1), VAR(1) — RMSE, MAE, R², directional accuracy.
+1325: results_garch.csv
+1326: GARCH(1,1) and EGARCH(1,1) parameter estimates for KSE-30 index returns: omega, alpha, beta, persistence, AIC.
+1327: results_efficiency.csv
+1328: Full market efficiency diagnostic table: Runs Z-statistic and p-value, VR(2) and VR(4) statistics and p-values, Ljung-Box Q p-value, ACF lag-1, Hurst Exponent, and interpretation.
+1329: results_rebalancing.csv
+1330: Rebalancing model performance for both sub-tasks: weight prediction (RMSE, MAE, R²) and inclusion prediction (accuracy, AUC) for Naive, Ridge, Logistic Regression, and Random Forest models.
+1331: results_rebalancing_forecast.csv
+1332: Forward-looking symbol-level rebalancing forecast for all KSE-30 constituents: current weight, predicted average weight, average retention probability, and exclusion risk score.
+1333: Table D.2: Complete list of output artifacts from the final pipeline.
+1334: D.3  Figure Output Folders
+1335: All figures are organized into the following topic-specific categories:
+1336: Folder
+1337: Contents
+1338: EDA Figures
+1339: 7 exploratory data analysis figures: AUM trends, NAV return distributions, fund flows, macro overview, monthly correlations, cumulative returns, top weights (E01–E07).
+1340: Market Efficiency Figures
+1341: 2 market efficiency figures: ACF plot (EF01), Variance Ratio plot (EF02).
+1342: Fund Flow Figures
+1343: 2 fund flow figures: actual vs predicted flows (FF01), Granger causality results (FF02).
+1344: GARCH Volatility Figures
+1345: 2 volatility figures: returns and GARCH conditional vol (G01), VaR backtest (G02).
+1346: Rebalancing Figures
+1347: 4 rebalancing figures: retention probabilities (R01), feature importances (R02), weight scatter (R03), weight changes (R04).
+1348: Summary Dashboard
+1349: 1 summary dashboard — consolidated visualization of key results across all pipeline sections.
+1350: Table D.3: Figure output folder structure and contents.
+1351: D.4  Reproducibility Notes
+1352: The following notes document important implementation decisions that affect the reproducibility of the reported results:
+1353: •  Zero-gap repair: The pipeline includes repair logic for isolated May 2024 AUM zero-gap records where NAV changed, but AUM was recorded as zero. This prevents false fund-flow collapse artifacts in AUM/flow visualizations and ensures correct flow computation during that period.
+1354: • Data alignment: All daily and monthly master tables are calendar-aligned starting January 2020. Mutual fund data begin in January 2021, yielding 39 aligned monthly observations for fund-flow modeling after first differencing required for ARIMA stationarity.
+1355: • Forward-fill: Interest rate data was forward-filled from monthly SBP announcements to a daily frequency. This is appropriate because the policy rate does not change between announcement dates.
+1356: • Python environment: The pipeline requires Python 3.9+ with numpy, pandas, statsmodels, arch, sklearn, xgboost, and matplotlib.
+1357: Appendix E: Code Workflow Summary
+1358: This appendix provides a concise reference for understanding how the project codebase is organized, how the analytical components fit together, and in what order the pipeline should be executed to reproduce all reported results from raw data.
+1359: E.1  Code Development Lineage
+1360: The project evolved through three generations of implementation, each representing a progression in analytical sophistication and code organization:
+1361: Stage / Folder
+1362: Phase
+1363: Purpose and Key Additions
+1364: Early-stage modular scripts
+1365: Mid-year
+1366: Modular research scripts for preprocessing, EDA, fund flow prediction, GARCH, efficiency testing, and portfolio optimization. First complete analytical pass.
+1367: Consolidated baseline pipeline
+1368: Pre-final
+1369: Consolidated all modular scripts into a single pipeline. Standardized data input/output conventions. Acts as the upstream data-preparation stage for the final model.
+1370: Final KSE-30 narrative pipeline
+1371: Final
+1372: KSE-30 index-focused pipeline. Refactored to aggregate total fund flows, added Granger causality, forward rebalancing forecast, and summary dashboard. All final reported results come from this stage.
+1373: Table E.1: Code development lineage showing evolution from modular research scripts to final pipeline.
+1374: E.2  Final Pipeline Run Order
+1375: To reproduce all results from raw data sources, execute the following scripts in order. All scripts should be run from the repository root directory with the project virtual environment activated.
+1376: Step 1: Run the Consolidated Baseline Pipeline
+1377: The consolidated baseline pipeline ingests raw data from PSX, processes it, and saves cleaned master datasets consumed by the final pipeline. Outputs: kse30 daily data, fund data, macro data, monthly and daily master tables.
+1378: Step 2: Run the Final KSE-30 Narrative Pipeline
+1379: The final KSE-30 narrative pipeline produces all results tables and figures cited in the report. Outputs: All results CSV files, all figures, and a console log file.
+1380: Step 3: Generate Additional Report Graphs
+1381: An additional script generates supplementary visualizations for the report that are not produced by the main pipeline. Outputs: Additional figures for the appendices.
+1382: E.3  Final Pipeline Internal Structure
+1383: The final pipeline is organized into eight sequential sections:
+1384: §
+1385: Section
+1386: Operations
+1387: 1
+1388: Data Ingestion
+1389: Load cleaned stock data and master tables; build a daily composite dataset with macro alignment and ADF stationarity tests.
+1390: 2
+1391: EDA
+1392: Descriptive statistics, AUM/NAV/flow plots, correlation heatmap, and index cumulative return. Saves EDA figures.
+1393: 3
+1394: GARCH Volatility
+1395: Fit GARCH(1,1) and EGARCH(1,1) on KSE-30 index daily returns and backtest VaR. Saves GARCH figures and results table.
+1396: 4
+1397: Aggregate Fund Flows
+1398: Compute total fund flow, Granger causality test; fit Naive, ARIMAX, and VAR models; directional accuracy. Saves fund flow figures and results table.
+1399: 5
+1400: Market Efficiency
+1401: Runs test, VR test, Ljung-Box Q, and Hurst exponent on KSE-30 index returns. Saves efficiency figures and results table.
+1402: 6
+1403: Rebalancing Prediction
+1404: Feature engineering, ridge/RF weight regression, logistic/RF inclusion classification, and forward forecast. Saves rebalancing figures and results tables.
+1405: 7
+1406: Results Synthesis
+1407: Aggregate all metrics into a summary dashboard; print final performance tables to the console and log file.
+1408: 8
+1409: I/O & Cleanup
+1410: Save all output files with a consistent naming scheme; validate completeness.
+1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+1413: E.4 Report Workspace Role
+1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+1416: • Final Report Workspace: Stores finalized chapter documents and the appendices folder, which contains all appendix figure copies and the appendix text files.
+1417: • Guidance Folder: Contains the FYP report alignment pack, the current FYP report draft, and the specification that governed final pipeline development.
+1418: E.5 Closing Note on Reproducibility
+1419: This appendix chapter binds each narrative claim in the report to a concrete output file, figure, or pipeline section. Every quantitative result stated in Chapters 3 (Methodology), 4 (Results), and 5 (Discussion) can be traced back to a specific output file produced by the final pipeline. The complete codebase is available in the project repository, and all reported results are fully reproducible.
+1422: UNDERGRADUATE FINAL YEAR PROJECT REPORT - Analyzing Fund Flow Patterns and Market Efficiency in Pakistan with Predictive Models

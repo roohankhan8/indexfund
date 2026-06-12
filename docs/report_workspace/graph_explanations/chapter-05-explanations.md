@@ -23,7 +23,7 @@ Path: `report_workspace/chapter-05-results-and-analysis/images/E02_nav_return_di
 Path: `report_workspace/chapter-05-results-and-analysis/images/E03_fund_flows.png`
 
 - This bar chart shows monthly aggregate KSE-30 sector net flow, separating inflow and outflow months visually.
-- After the AUM repair, the largest negative observed flow month in the final monthly master is 2024-12-31 with approximately -44.01 PKR million, while the strongest positive month is 2025-12-31 with approximately 234.86 PKR million.
+- After the AUM repair, the largest negative observed flow month in the final monthly master is 2026-01-30 with approximately -47.28 PKR million, while the strongest positive month is 2025-12-31 with approximately 233.67 PKR million.
 - Use this graph to explain that the sector flow series is episodic and shock-prone even after data cleaning.
 
 ## Figure 5.5

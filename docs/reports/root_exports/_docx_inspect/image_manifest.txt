@@ -1,0 +1,462 @@
+DOCX: FYP REPORT FINAL (1).docx
+Media files: 52
+  word/media/image38.jpeg
+  word/media/image39.jpeg
+  word/media/image37.jpeg
+  word/media/image35.jpeg
+  word/media/image36.jpeg
+  word/media/image34.jpeg
+  word/media/image33.jpeg
+  word/media/image32.jpeg
+  word/media/image28.png
+  word/media/image29.png
+  word/media/image30.png
+  word/media/image31.png
+  word/media/image40.jpeg
+  word/media/image45.jpeg
+  word/media/image42.jpeg
+  word/media/image50.jpeg
+  word/media/image51.jpeg
+  word/media/image52.jpeg
+  word/media/image49.jpeg
+  word/media/image48.jpeg
+  word/media/image47.jpeg
+  word/media/image43.jpeg
+  word/media/image44.jpeg
+  word/media/image27.png
+  word/media/image46.jpeg
+  word/media/image41.jpeg
+  word/media/image23.png
+  word/media/image25.png
+  word/media/image7.png
+  word/media/image8.png
+  word/media/image9.png
+  word/media/image10.png
+  word/media/image6.png
+  word/media/image5.png
+  word/media/image4.png
+  word/media/image1.jpg
+  word/media/image2.jpg
+  word/media/image3.jpg
+  word/media/image26.png
+  word/media/image11.png
+  word/media/image13.png
+  word/media/image21.png
+  word/media/image22.png
+  word/media/image24.png
+  word/media/image12.png
+  word/media/image20.png
+  word/media/image18.png
+  word/media/image19.png
+  word/media/image15.png
+  word/media/image14.png
+  word/media/image17.png
+  word/media/image16.png
+
+Embedded drawing references: 52
+[1] paragraph=4 rid=rId9 target=media/image1.jpg
+  context:
+    1: UNDERGRADUATE FINAL YEAR PROJECT REPORT
+    2: Department of Mathematics
+    3: NED University of Engineering and Technology
+    6: Analyzing Fund Flow Patterns and Market Efficiency in Pakistan with Predictive Models
+[2] paragraph=4 rid=rId10 target=media/image2.jpg
+  context:
+    1: UNDERGRADUATE FINAL YEAR PROJECT REPORT
+    2: Department of Mathematics
+    3: NED University of Engineering and Technology
+    6: Analyzing Fund Flow Patterns and Market Efficiency in Pakistan with Predictive Models
+[3] paragraph=439 rid=rId15 target=media/image4.png
+  context:
+    436: ..................................
+    437: Ms. Ubaida Fatima
+    440: 1. INTRODUCTION
+    441: 1.1 Overview of Fund Flow
+    442: Fund flows refer to the net movement of money into or out of funds over a specific period of time and serve as an important indicator of investor behavior and market sentiment. Positive fund flows occur when new investments exceed redemptions, indicating increased investor confidence and demand for the fund. Conversely, negative fund flows occur when withdrawals exceed new investments, reflecting risk aversion, shifting market expectations, or adverse economic conditions. Fund flows play a crucial role in understanding how investors respond to market movements, performance signals, and macroeconomic factors.
+[4] paragraph=585 rid=rId16 target=media/image5.png
+  context:
+    582: Technical indicators
+    583: KSE-30 Index weight allocation and flow proxy
+    584: These variables are selected based on prior literature that identifies their influence on stock market behavior and volatility.
+    586: Figure 3.1: Top 15 stocks by average KSE-30 weight (2021-present).
+    587: To understand the cross-sectional dynamics of the index constituents, we mapped the relative concentration and structural importance of individual securities within the index basket. As illustrated in the bar chart in Figure 3.1, the top 15 stocks are ranked by their average KSE-30 index weight from 2021 to the present. The visual distribution highlights a high level of institutional concentration, where a select group of high-cap equities dominates the overall index movement. This systemic imbalance directly influences the index rebalancing signals discussed in later chapters, as shifts in these highly weighted components disproportionately affect the benchmark's risk-return profile.
+[5] paragraph=588 rid=rId17 target=media/image6.png
+  context:
+    586: Figure 3.1: Top 15 stocks by average KSE-30 weight (2021-present).
+    587: To understand the cross-sectional dynamics of the index constituents, we mapped the relative concentration and structural importance of individual securities within the index basket. As illustrated in the bar chart in Figure 3.1, the top 15 stocks are ranked by their average KSE-30 index weight from 2021 to the present. The visual distribution highlights a high level of institutional concentration, where a select group of high-cap equities dominates the overall index movement. This systemic imbalance directly influences the index rebalancing signals discussed in later chapters, as shifts in these highly weighted components disproportionately affect the benchmark's risk-return profile.
+    589: Figure 3.2: Monthly correlation matrix for KSE-30 flow, macroeconomic variables, and index measures.
+    590: Complementing this constituent profiling, the contemporaneous relationships across the broader financial system were evaluated. The monthly correlation matrix provided in Figure 3.2 visualizes the linear dependencies between aggregate KSE-30 sector fund flows, structural macroeconomic variables, and key index performance measures. The correlation coefficients reveal that direct, immediate linear relationships between monthly capital movements and external macroeconomic drivers remain weak. This baseline statistical friction underscores that predictive interactions within the Pakistani capital market are not immediate; rather, they operate through more intricate, lagged systems, validating the choice of the multivariate ARIMAX and VAR architectures deployed in the empirical sections of this study.
+    591: 3.7 Conceptual Framework
+[6] paragraph=608 rid=rId18 target=media/image7.png
+  context:
+    605: Stationarity transformation through differencing
+    606: The dataset is further divided into training, validation, and testing sets to evaluate model performance effectively.
+    607: To justify our choice of volatility models, we analyzed the empirical statistical properties of these transformed returns. As illustrated in the dual-panel diagnostic visualization in Figure 3.3, the daily return distribution histogram (left) exhibits a high peak and heavy tails compared to a standard normal curve, while the Normal Q-Q plot (right) shows significant deviation from the linear baseline at both extremes. This distinct leptokurtic behavior confirms that the series suffers from heavy tails and severe non-normality, providing robust empirical support for the use of the GARCH modeling family described in later sections.
+    609: Figure 3.3: KSE-30 return distribution and Q-Q plot.
+    610: 3.9 Econometric and Statistical Techniques
+    611: The study employs both traditional econometric techniques and advanced machine learning models to forecast stock prices and volatility.
+[7] paragraph=621 rid=rId19 target=media/image8.png
+  context:
+    618: Augmented Dickey-Fuller (ADF) Test
+    619: KPSS Test
+    620: If the data are non-stationary, differencing techniques are applied.
+    622: Figure 3.4: Comparison of price levels (non-stationary) vs. returns (stationary).
+    623: The visual impact of this stationarity transformation is demonstrated in Figure 3.4. The top panels show the raw, trending trajectories of the index price levels over time, which exhibit non-stationary behaviors. The bottom panels display the corresponding daily and monthly log returns. By transforming the price levels into log returns, the mean is successfully stabilized around a constant boundary of zero, providing the constant background required for structural modeling.
+[8] paragraph=621 rid=rId19 target=media/image8.png
+  context:
+    618: Augmented Dickey-Fuller (ADF) Test
+    619: KPSS Test
+    620: If the data are non-stationary, differencing techniques are applied.
+    622: Figure 3.4: Comparison of price levels (non-stationary) vs. returns (stationary).
+    623: The visual impact of this stationarity transformation is demonstrated in Figure 3.4. The top panels show the raw, trending trajectories of the index price levels over time, which exhibit non-stationary behaviors. The bottom panels display the corresponding daily and monthly log returns. By transforming the price levels into log returns, the mean is successfully stabilized around a constant boundary of zero, providing the constant background required for structural modeling.
+[9] paragraph=624 rid=rId20 target=media/image9.png
+  context:
+    622: Figure 3.4: Comparison of price levels (non-stationary) vs. returns (stationary).
+    623: The visual impact of this stationarity transformation is demonstrated in Figure 3.4. The top panels show the raw, trending trajectories of the index price levels over time, which exhibit non-stationary behaviors. The bottom panels display the corresponding daily and monthly log returns. By transforming the price levels into log returns, the mean is successfully stabilized around a constant boundary of zero, providing the constant background required for structural modeling.
+    625: Figure 3.5: P-value heatmap for ADF stationarity tests.
+    626: Standardizing the order of variable integration is a prerequisite for time-series forecasting. The results of the stationarity diagnostics are summarized in the joint heatmaps provided in Figure 3.5, which cross-examine the variables using both Augmented Dickey-Fuller (ADF) p-values and Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test statistics across monthly horizons. These complementary matrices demonstrate that raw price levels, CPI, and interest rates are non-stationary in their level forms but achieve strict stationarity upon first-differencing, validating the transformation protocol used for our ARIMAX and VAR models.
+    627: 3.9.3 ARIMA Model
+[10] paragraph=697 rid=rId21 target=media/image10.png
+  context:
+    694: The results are interpreted within the context of the final sample structure: a daily KSE-30 dataset comprising 1,300 observations and an aggregate monthly fund-flow dataset of 60 observations. Given the relatively small monthly sample size, our analysis prioritizes directional accuracy and comparative model performance over absolute R-squared values in the forecasting block.
+    695: 4.2 Exploratory Data Analysis Results
+    696: The exploratory phase confirms that the merged KSE-30 dataset captures distinct and economically significant patterns. The daily reconstructed KSE-30 index return series exhibits a mean of 0.0736% and a standard deviation of 1.3945%. Extreme market movements were observed, with a minimum daily return of -10.2414% (March 2, 2026) and a maximum of 9.3245% (May 12, 2025). The Jarque-Bera test yields a p-value of effectively zero, indicating that the returns are non-normal and characterized by "fat tails," which justifies the subsequent application of GARCH-family models.
+    698: Figure 4.1: Reconstructed cumulative KSE-30 return over the final analysis period.
+    699: 4.2.1 AUM Trends
+    700: The analysis of Assets Under Management (AUM) reveals a highly concentrated fund universe. AKD serves as the dominant component of the aggregate sector AUM, while NBP and NTI/NIT remain significantly smaller. Specifically, peak AUM levels reached approximately 2107.24 for AKD, compared to 94.00 for NBP and 212.86 for NTI/NIT. By January 30, 2026, the aggregate sector AUM stood at 2414.10 million PKR. This concentration implies that aggregate sector-flow movements are predominantly driven by the largest fund's behavior.
+[11] paragraph=701 rid=rId22 target=media/image11.png
+  context:
+    698: Figure 4.1: Reconstructed cumulative KSE-30 return over the final analysis period.
+    699: 4.2.1 AUM Trends
+    700: The analysis of Assets Under Management (AUM) reveals a highly concentrated fund universe. AKD serves as the dominant component of the aggregate sector AUM, while NBP and NTI/NIT remain significantly smaller. Specifically, peak AUM levels reached approximately 2107.24 for AKD, compared to 94.00 for NBP and 212.86 for NTI/NIT. By January 30, 2026, the aggregate sector AUM stood at 2414.10 million PKR. This concentration implies that aggregate sector-flow movements are predominantly driven by the largest fund's behavior.
+    702: Figure 4.2: AUM trend and aggregate KSE-30 sector total.
+    703: 4.2.2 NAV Return Distributions
+    704: Daily Net Asset Value (NAV) return distributions across the three funds are wide and leptokurtic. Standard deviations vary significantly: 2.3716% for AKD, 8.2404% for NBP, and 3.4015% for NIT. The extreme kurtosis and Jarque-Bera results (p-value ≈ 0) across all series necessitate the use of robust volatility modeling rather than assuming a Gaussian distribution.
+[12] paragraph=707 rid=rId23 target=media/image12.png
+  context:
+    704: Daily Net Asset Value (NAV) return distributions across the three funds are wide and leptokurtic. Standard deviations vary significantly: 2.3716% for AKD, 8.2404% for NBP, and 3.4015% for NIT. The extreme kurtosis and Jarque-Bera results (p-value ≈ 0) across all series necessitate the use of robust volatility modeling rather than assuming a Gaussian distribution.
+    705: 4.2.3 Fund Flow Behavior
+    706: The aggregate fund-flow series is characterized by episodic shocks rather than stability. Within the 60-month sample, 38 months recorded positive net flows, while 22 months recorded negative net flows. While the mean monthly flow is 13.6109 million PKR, the series is heavily skewed by outliers, including a peak inflow of 234.8581 million PKR in December 2025 and a sharp outflow of -44.0068 million PKR in December 2024.
+    708: Figure 4.3: Aggregate monthly KSE-30 sector fund flows showing alternating inflow and outflow episodes.
+    709: 4.2.4 Correlation Analysis
+    710: Contemporaneous linear relationships between variables appear weak. The correlation between aggregate flow and monthly KSE-30 returns is a negligible 0.0095. Macroeconomic factors such as CPI (-0.0262) and oil returns (-0.0783) also show a minimal direct association. The most notable, albeit mild, relationship is a negative correlation with interest rates (-0.2092). This suggests that predictive power is more likely to reside in lagged or system-based dynamics.
+[13] paragraph=740 rid=rId24 target=media/image13.png
+  context:
+    737: Table 4.1: Aggregate KSE-30 Fund-Flow Forecasting Results
+    738: 4.3.1 Stationarity and Granger Causality
+    739: ADF tests confirm that total fund flow (p=0.0000), oil returns, and USD/PKR returns are stationary. Conversely, interest rates and CPI remain non-stationary in level form. A Lag-1 Granger causality analysis was conducted to examine whether individual macroeconomic indicators independently drive mutual fund flows, with the resulting significance matrix indicating that no single macro variable meets the strict 5% significance threshold. While the consumer price index changes approach conventional significance (p = 0.0639), the isolated blocks for crude oil returns (p = 0.5401), interest rate changes (p = 0.4079), and exchange rate shifts (p = 0.7719) display pale, highly non-significant values. This systemic lack of isolated statistical significance confirms that standalone macroeconomic factors do not act as independent lead drivers of capital flows in the Pakistani market. Consequently, this widespread lack of independent predictive power provides a clear empirical justification for deploying multivariate ARIMAX and VAR architectures, which are structurally designed to capture predictive power from combined, interactive dynamic systems rather than isolated variables.
+    741: Figure 4.4: Lag-1 Granger causality p-values for macroeconomic variables against aggregate KSE-30 fund flow.
+    742: 4.3.2 ARIMAX and VAR Results
+    743: The ARIMAX(1,0,1) model significantly improved upon the naive benchmark, which had a directional accuracy of only 37.5%. The ARIMAX model increased this accuracy to 75.0% and reduced the MAE from 51.54 to 37.35. While the out-of-sample R-squared remained negative (-0.0935), the improvement in error metrics and sign classification suggests that lagged flow and macro controls provide valuable, albeit subtle, predictive signals.
+[14] paragraph=745 rid=rId25 target=media/image14.png
+  context:
+    742: 4.3.2 ARIMAX and VAR Results
+    743: The ARIMAX(1,0,1) model significantly improved upon the naive benchmark, which had a directional accuracy of only 37.5%. The ARIMAX model increased this accuracy to 75.0% and reduced the MAE from 51.54 to 37.35. While the out-of-sample R-squared remained negative (-0.0935), the improvement in error metrics and sign classification suggests that lagged flow and macro controls provide valuable, albeit subtle, predictive signals.
+    744: The VAR(1) system also achieved 75.0% directional accuracy but yielded slightly higher forecast errors (MAE of 39.41) compared to ARIMAX. Nevertheless, the VAR model remains a robust benchmark as it accounts for the joint evolution of flows and macroeconomic conditions.
+    746: Figure 4.5: Actual versus predicted aggregate KSE-30 sector flow under ARIMAX and VAR.
+    747: 4.4 Volatility Modeling Results
+    748: This section focuses on the daily volatility of the reconstructed KSE-30 index.
+[15] paragraph=768 rid=rId26 target=media/image15.png
+  context:
+    765: Table 4.2: KSE-30 GARCH and EGARCH Results
+    766: 4.4.1 GARCH and EGARCH Analysis
+    767: The GARCH(1,1) model reveals high volatility persistence (alpha + beta = 0.9667), indicating that market shocks decay slowly. However, the EGARCH(1,1) model is the preferred specification due to its lower AIC (4209.68 vs 4243.43). The EGARCH results show a significant negative gamma term, confirming a "leverage effect" where negative news triggers a stronger volatility response than positive news of the same magnitude.
+    769: Figure 4.6: KSE-30 daily returns and model-implied conditional volatility.
+    770: 4.4.2 VaR Backtesting
+    771: Using the EGARCH(1,1) model for a 5% Value-at-Risk (VaR) backtest, we observed 58 exceedances out of 1,300 observations (4.46%). This close alignment with the nominal 5% level suggests that the model provides a reliable downside risk envelope for the KSE-30.
+[16] paragraph=772 rid=rId27 target=media/image16.png
+  context:
+    769: Figure 4.6: KSE-30 daily returns and model-implied conditional volatility.
+    770: 4.4.2 VaR Backtesting
+    771: Using the EGARCH(1,1) model for a 5% Value-at-Risk (VaR) backtest, we observed 58 exceedances out of 1,300 observations (4.46%). This close alignment with the nominal 5% level suggests that the model provides a reliable downside risk envelope for the KSE-30.
+    773: Figure 4.7: 5 percent VaR backtesting for the preferred KSE-30 volatility model.
+    774: 4.5 Market Efficiency Results
+    775: The efficiency results are mixed rather than one-sided. This is one of the most important substantive findings of the project. Different tests do not all point in the same direction, which means the KSE-30 cannot be described too simply as either fully efficient or fully inefficient.
+[17] paragraph=811 rid=rId28 target=media/image17.png
+  context:
+    808: Conversely, a p-value of 0.0000 indicates significant serial dependence, strongly contradicting the random-walk assumption.
+    809: 4.5.4 Hurst Exponent Results
+    810: The full-series Hurst exponent of 0.6559 points toward "persistence." This reinforces the Ljung-Box findings, indicating that the KSE-30 possesses a "memory" that departs from pure efficiency.
+    812: Figure 4.8: Autocorrelation structure of reconstructed KSE-30 returns.
+    813: 4.6 Summary of Empirical Findings
+    814: The empirical analysis yields four key conclusions. First, the KSE-30 fund universe is highly concentrated, making sector-level flows sensitive to the largest players. Second, while absolute PKR magnitudes are difficult to forecast, ARIMAX and VAR models provide significant gains in directional accuracy for fund flows. Third, KSE-30 volatility is persistent and asymmetric, with negative shocks disproportionately impacting the index. Finally, the mixed efficiency results, specifically the high Hurst exponent and significant Ljung-Box statistics, suggest that the KSE-30 is not perfectly weak-form efficient. These findings provide the empirical justification for the portfolio rebalancing strategies explored in Chapter 5.
+[18] paragraph=821 rid=rId29 target=media/image18.png
+  context:
+    818: This chapter converts the statistical findings of the previous chapters into a practical KSE-30 application. While Chapter 4 establishes the characteristics of fund flows, volatility, and market efficiency, this section extends the analysis into a stock-level rebalancing framework. By doing so, the project moves from purely descriptive modeling to an operational tool designed to anticipate changes in KSE-30 membership and constituent weights. The objective is to build a predictive framework that uses historical stock characteristics to estimate future index inclusion and weight outcomes, providing a data-driven basis for portfolio positioning.
+    819: 5.2 Motivation for Portfolio Tilt Using Fund-Flow Signals
+    820: The motivation for this application stems directly from the evidence of non-randomness in fund flows and persistence in KSE-30 volatility. Since return dynamics exhibit serial dependence, it is logical to investigate whether these signals can support an "index-tilt" strategy that adjusts portfolio weights ahead of formal index reviews. Figure 5.1 outlines the conceptual framework for this rebalancing application, highlighting the transition from raw market signals to predictive outcomes.
+    822: Figure 5.1: Integrated rebalancing and portfolio tilt framework.
+    823: 5.3 Data and Sample for Rebalancing
+    824: The rebalancing analysis is based on a panel of 422 stock-window observations across 16 semi-annual rebalancing periods. The dataset incorporates features such as lagged market capitalization, average daily turnover, and existing index weights. This rich The feature set allows the models to capture the fundamental and liquidity-based drivers that the Pakistan Stock Exchange (PSX) considers during its official index reviews.
+[19] paragraph=829 rid=rId30 target=media/image19.png
+  context:
+    826: A critical task for any index-tracking or tilt strategy is predicting which stocks will remain in the index. We evaluated multiple models, including a Naive Persistence benchmark, Random Forest, and Logistic Regression.
+    827: 5.4.1 Retention Probability Results
+    828: Logistic regression emerged as the superior model for predicting index retention, achieving an Area Under the Curve (AUC) exceeding that of both the Naive rule and the Random Forest classifier. As shown in Figure 5.2, the model maps predicted retention probabilities onto actual index outcomes, where the steep sigmoidal distribution clearly separates high-probability "retained" assets from the distinct cluster of lower-probability "excluded" stocks near the bottom left. This clear distinction provides a reliable probabilistic framework for identifying core stable constituents versus those vulnerable to rebalancing shocks.
+    830: Figure 5.2: Estimated retention probabilities for current KSE-30 constituents.
+    831: 5.4.2 Feature Importance
+    832: To understand what drives these predictions, we analyzed the feature importances (Figure 5.3). Unsurprisingly, lagged weights and market capitalization are the most dominant predictors. However, liquidity measures also play a vital role, confirming that the KSE-30 is as much a measure of tradability as it is of size.
+[20] paragraph=833 rid=rId31 target=media/image20.png
+  context:
+    830: Figure 5.2: Estimated retention probabilities for current KSE-30 constituents.
+    831: 5.4.2 Feature Importance
+    832: To understand what drives these predictions, we analyzed the feature importances (Figure 5.3). Unsurprisingly, lagged weights and market capitalization are the most dominant predictors. However, liquidity measures also play a vital role, confirming that the KSE-30 is as much a measure of tradability as it is of size.
+    834: Figure 5.3: Feature importance ranking for the inclusion prediction model.
+    835: 5.5 Predicting Constituent Weights
+    836: Beyond simple inclusion, predicting a stock's exact weight is essential for portfolio optimization. We compared several regression techniques against a naive benchmark (using the previous period's weight).
+[21] paragraph=838 rid=rId32 target=media/image21.png
+  context:
+    835: 5.5 Predicting Constituent Weights
+    836: Beyond simple inclusion, predicting a stock's exact weight is essential for portfolio optimization. We compared several regression techniques against a naive benchmark (using the previous period's weight).
+    837: Ridge regression emerged as the preferred model. While the naive benchmark is already strong due to index stability, Ridge Regression provided a modest improvement in Mean Squared Error (MSE) by better handling the "churn" at the bottom of the index. Figure 5.4 illustrates the relationship between actual and predicted weights, showing high alignment for large-cap names but more variance among smaller constituents.
+    839: Figure 5.4: Scatter plot of actual versus predicted constituent weights.
+    840: 5.6 Forecasted Weight Changes
+    841: The final stage of the application involves identifying "high-conviction" weight changes. By comparing model-predicted weights with current actual weights, we can identify stocks likely to see an increase in their index representation. Figure 5.5 displays these forecasted changes, which serve as the primary signal for a portfolio tilt strategy.
+[22] paragraph=842 rid=rId33 target=media/image22.png
+  context:
+    839: Figure 5.4: Scatter plot of actual versus predicted constituent weights.
+    840: 5.6 Forecasted Weight Changes
+    841: The final stage of the application involves identifying "high-conviction" weight changes. By comparing model-predicted weights with current actual weights, we can identify stocks likely to see an increase in their index representation. Figure 5.5 displays these forecasted changes, which serve as the primary signal for a portfolio tilt strategy.
+    843: Figure 5.5: Forecasted direction and magnitude of KSE-30 weight changes.
+    844: 5.7 Implementation Considerations and Limitations
+    845: While the results are promising, it is important to note that the pipeline does not currently include a transaction-cost model or a live-trading backtest. Therefore, this framework should be viewed as a decision-support tool rather than a fully validated algorithmic trading strategy. The evidence suggests that while the models can provide a probabilistic edge in anticipating index changes, they should be used as one component of a broader investment process.
+[23] paragraph=853 rid=rId34 target=media/image23.png
+  context:
+    850: 6.1 Interpretation of Fund-Flow Prediction Results
+    851: The fund-flow forecasting results demonstrate that aggregate KSE-30 sector flow is not perfectly unpredictable, yet it remains a variable that cannot be forecast with high precision in absolute PKR terms. A balanced interpretation is essential: while the naive benchmark performs poorly, particularly in directional terms, the ARIMAX and VAR models produce clear improvements. However, the out-of-sample R-squared values remain slightly negative even for these superior models.
+    852: This suggests that the underlying monthly flow process contains usable dynamic information, but the signal is weak relative to the magnitude of shock-driven variation in the series. Consequently, the final models are more reliable as directional tools than as exact point estimators. The strongest evidence for this is found in the directional accuracy results, where both retained dynamic models achieve a 75.0% hit rate compared to only 37.5% for the naive benchmark.
+    854: Figure 6.1: Fund-flow model performance scorecard.
+    855: 6.2 Discussion of Market Efficiency Evidence
+    856: The efficiency results are mixed, preventing a simple categorization of the KSE-30 as either fully efficient or fully inefficient. The variance ratio and runs tests suggest that the index frequently behaves like a random walk, yet the Ljung-Box and Hurst exponent results point toward significant serial dependence.
+[24] paragraph=858 rid=rId35 target=media/image24.png
+  context:
+    855: 6.2 Discussion of Market Efficiency Evidence
+    856: The efficiency results are mixed, preventing a simple categorization of the KSE-30 as either fully efficient or fully inefficient. The variance ratio and runs tests suggest that the index frequently behaves like a random walk, yet the Ljung-Box and Hurst exponent results point toward significant serial dependence.
+    857: This "mixed-efficiency" finding is consistent with the nature of an emerging market. While large-cap, liquid stocks might be priced relatively efficiently, the overall index still exhibits "pockets" of memory and exploitable structure. Figure 6.2 summarizes this evidence, illustrating how different statistical lenses can lead to varying conclusions about the randomness of KSE-30 returns.
+    859: Figure 6.2: Summary of market efficiency evidence for the KSE-30.
+    860: 6.3 Volatility Dynamics and Leverage Effects
+    861: The presence of high volatility persistence and a significant leverage effect in the EGARCH model highlights the KSE-30's vulnerability to downside shocks. As visualized in the volatility regime analysis (Figure 6.3), periods of market stress are not isolated incidents but tend to cluster, creating prolonged windows of elevated risk. The leverage effect confirms that investors in the Pakistani market react more aggressively to negative news, which is a critical consideration for risk management and Value-at-Risk (VaR) calibration.
+[25] paragraph=862 rid=rId36 target=media/image25.png
+  context:
+    859: Figure 6.2: Summary of market efficiency evidence for the KSE-30.
+    860: 6.3 Volatility Dynamics and Leverage Effects
+    861: The presence of high volatility persistence and a significant leverage effect in the EGARCH model highlights the KSE-30's vulnerability to downside shocks. As visualized in the volatility regime analysis (Figure 6.3), periods of market stress are not isolated incidents but tend to cluster, creating prolonged windows of elevated risk. The leverage effect confirms that investors in the Pakistani market react more aggressively to negative news, which is a critical consideration for risk management and Value-at-Risk (VaR) calibration.
+    863: Figure 6.3: KSE-30 realized volatility regimes over the study period.
+    865: 6.4 Choice of Modeling Techniques
+[26] paragraph=867 rid=rId37 target=media/image26.png
+  context:
+    865: 6.4 Choice of Modeling Techniques
+    866: Throughout the study, a deliberate choice was made to favor parsimonious econometric models for monthly flow prediction while utilizing machine learning for the richer rebalancing dataset. This decision was driven by the "sample-to-complexity" ratio. For the 60-observation monthly flow series, complex machine learning models risk overfitting. However, for the stock-level rebalancing task—which provides hundreds of observations—machine learning techniques like Logistic Regression and Random Forest offer the depth needed to capture non-linear relationships.
+    869: Figure 6.4: Performance comparison across model families (Econometric vs. ML).
+    870: 6.5 Practical Utility of the Rebalancing Application
+[27] paragraph=872 rid=rId38 target=media/image27.png
+  context:
+    869: Figure 6.4: Performance comparison across model families (Econometric vs. ML).
+    870: 6.5 Practical Utility of the Rebalancing Application
+    871: The rebalancing application serves as a bridge between theory and practice. By identifying stocks with high exclusion risk and predicting weight changes, the pipeline offers a decision-support framework for institutional investors. Figure 6.5 maps these risks, providing a visual guide for tactical positioning. It is important to emphasize that this framework is a probabilistic aid; without accounting for transaction costs and slippage, it should not be treated as a fully validated live trading strategy.
+    873: Figure 6.5: KSE-30 rebalancing risk and opportunity map.
+    874: 6.6 Study Limitations
+    875: While the results provide meaningful insights, they are bound by certain limitations. The monthly flow sample is relatively small, limiting the ability to produce high-precision PKR forecasts. Additionally, the macroeconomic feature set is intentionally compact; drivers such as political events, foreign participation, and specific regulatory announcements are not explicitly modeled. These constraints define the scope of the findings: a careful, KSE-30-focused research study with bounded but actionable predictive claims.
+[28] paragraph=1191 rid=rId39 target=media/image28.png
+  paragraph_text: Figure B.2: Distribution of daily NAV returns across the three selected funds, showing the non-normal, heavy-tailed nature of fund return distributions.
+  context:
+    1188: Correlation heatmap of monthly macro and CPI variables, used to assess multicollinearity among predictors prior to model fitting.
+    1189: Table B.1: EDA and context figure catalog.
+    1191: Figure B.2: Distribution of daily NAV returns across the three selected funds, showing the non-normal, heavy-tailed nature of fund return distributions.
+    1193: Figure B.8: CPI level series and macro indicator levels (interest rate, exchange rate) for inflation and monetary policy context across the full study period.
+    1194: Figure B.9: Oil price and USD/PKR log-return dynamics in transformed (stationary) form, used as inputs to the ARIMAX and VAR forecasting models.
+[29] paragraph=1193 rid=rId40 target=media/image29.png
+  paragraph_text: Figure B.8: CPI level series and macro indicator levels (interest rate, exchange rate) for inflation and monetary policy context across the full study period.
+  context:
+    1191: Figure B.2: Distribution of daily NAV returns across the three selected funds, showing the non-normal, heavy-tailed nature of fund return distributions.
+    1193: Figure B.8: CPI level series and macro indicator levels (interest rate, exchange rate) for inflation and monetary policy context across the full study period.
+    1194: Figure B.9: Oil price and USD/PKR log-return dynamics in transformed (stationary) form, used as inputs to the ARIMAX and VAR forecasting models.
+    1195: B.2  Market Efficiency Figures
+    1196: Figure
+[30] paragraph=1194 rid=rId41 target=media/image30.png
+  paragraph_text: Figure B.9: Oil price and USD/PKR log-return dynamics in transformed (stationary) form, used as inputs to the ARIMAX and VAR forecasting models.
+  context:
+    1191: Figure B.2: Distribution of daily NAV returns across the three selected funds, showing the non-normal, heavy-tailed nature of fund return distributions.
+    1193: Figure B.8: CPI level series and macro indicator levels (interest rate, exchange rate) for inflation and monetary policy context across the full study period.
+    1194: Figure B.9: Oil price and USD/PKR log-return dynamics in transformed (stationary) form, used as inputs to the ARIMAX and VAR forecasting models.
+    1195: B.2  Market Efficiency Figures
+    1196: Figure
+    1197: Caption / Description
+[31] paragraph=1203 rid=rId42 target=media/image31.png
+  paragraph_text: Figure B.12: Variance ratio test statistics across holding periods k = 2, 4, 8, 16 days, with confidence bands, showing consistency with a random walk at most horizons.
+  context:
+    1200: Fig. B.12
+    1201: Variance Ratio test statistics plotted across lag periods k = 2, 4, 8, 16, visualizing how VR values and confidence bands vary with holding period length.
+    1202: Table B.2: Market efficiency supplementary figures.
+    1203: Figure B.12: Variance ratio test statistics across holding periods k = 2, 4, 8, 16 days, with confidence bands, showing consistency with a random walk at most horizons.
+    1204: B.3  Fund Flow Prediction Figures
+    1205: Figure
+    1206: Caption / Description
+[32] paragraph=1412 rid=rId43 target=media/image32.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[33] paragraph=1412 rid=rId44 target=media/image33.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[34] paragraph=1412 rid=rId45 target=media/image34.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[35] paragraph=1412 rid=rId46 target=media/image35.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[36] paragraph=1412 rid=rId47 target=media/image36.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[37] paragraph=1412 rid=rId48 target=media/image37.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[38] paragraph=1412 rid=rId49 target=media/image38.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[39] paragraph=1412 rid=rId50 target=media/image39.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[40] paragraph=1412 rid=rId51 target=media/image40.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[41] paragraph=1412 rid=rId52 target=media/image41.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[42] paragraph=1412 rid=rId53 target=media/image42.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[43] paragraph=1412 rid=rId54 target=media/image43.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[44] paragraph=1412 rid=rId55 target=media/image44.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[45] paragraph=1412 rid=rId56 target=media/image45.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[46] paragraph=1412 rid=rId57 target=media/image46.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[47] paragraph=1412 rid=rId58 target=media/image47.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[48] paragraph=1412 rid=rId59 target=media/image48.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[49] paragraph=1412 rid=rId60 target=media/image49.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[50] paragraph=1412 rid=rId61 target=media/image50.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[51] paragraph=1412 rid=rId62 target=media/image51.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.
+[52] paragraph=1412 rid=rId63 target=media/image52.jpeg
+  context:
+    1409: I/O & Cleanup
+    1410: Save all output files with a consistent naming scheme; validate completeness.
+    1411: Table E.2: Internal structure of final pipeline — eight analytical sections.
+    1413: E.4 Report Workspace Role
+    1414: The report workspace folders serve as the final report preparation area, separate from analytical scripts:
+    1415: • Report workspace: Contains chapter drafts, TOC files, and an additional graph generation script for report-only visualizations.

@@ -30,4 +30,4 @@ Path: `report_workspace/chapter-07-discussion/images/C7_05_rebalancing_risk_map.
 
 - This risk map relates current index weight to exclusion risk and predicted weight change.
 - It is useful for discussing portfolio tilt because it separates core names from vulnerable names visually.
-- The current highest-risk forecasted name is SSGC with exclusion risk of 52.89%.
+- The current highest-risk forecasted name is SSGC with exclusion risk of 53.75%.
