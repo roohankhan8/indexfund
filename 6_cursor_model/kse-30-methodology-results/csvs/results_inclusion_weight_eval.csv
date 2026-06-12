@@ -1,3 +1,0 @@
-task,model,accuracy,auc,rmse,mae
-inclusion,"avg(logit,rf)",0.9,0.7841,,
-weight,"avg(ridge,rf)",,,1.3017,0.815

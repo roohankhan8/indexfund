@@ -1,7 +1,0 @@
-Model,Target,Train N,Test N,RMSE (PKR mn),MAE (PKR mn),R²,Dir. Accuracy,Note
-Naive (random walk),Total Fund Flow,48,28,235.62,95.58,-0.9902,40.7,Benchmark
-"ARIMAX(1,0,1)",Total Fund Flow,48,28,174.71,63.27,-0.0943,55.6,Primary model
-VAR(1),Total Fund Flow,48,28,170.46,63.54,-0.0417,63.0,Macro-system model
-"ARIMAX(1,0,1)",AKD Flow,48,28,162.23,60.82,-0.128,55.6,Heterogeneity analysis
-"ARIMAX(1,0,1)",NBP Flow,48,28,5.72,3.68,-0.0059,55.6,Heterogeneity analysis
-"ARIMAX(1,0,1)",NIT Flow,48,28,13.58,5.02,-0.0341,37.0,Heterogeneity analysis
