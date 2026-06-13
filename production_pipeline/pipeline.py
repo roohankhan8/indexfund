@@ -888,6 +888,7 @@ arimax_pred, arimax_fit, arimax_beta, arimax_r2_tr = fit_arimax(
     y_tr, X_tr, y_te, X_te, p=1)
 m_arimax = metrics_reg(y_te, arimax_pred, "ARIMAX(1,0,1)")
 m_naive  = metrics_reg(y_te, [y_tr[-1]]+list(y_te[:-1]), "Naive (RW)     ")
+arimax_train_dates = monthly.loc[train_m, "date"].values[1:]
 
 # ── 5.4 VAR(1) model ─────────────────────────────────────────────────────────
 print("  VAR(1) ...")
@@ -901,6 +902,8 @@ Y_te = var_te[ENDO].values.astype(float)
 X_te_v = var_te[EXOG].values.astype(float)
 Z_tr = np.column_stack([np.ones(len(Y_tr)-1), Y_tr[:-1], X_tr_v[1:]])
 betas_var = [lstsq(Z_tr, Y_tr[1:,i])[0] for i in range(len(ENDO))]
+var_fit = Z_tr @ betas_var[0]
+var_train_dates = monthly.loc[var_tr.index, "date"].values[1:]
 
 history_Y = list(Y_tr); var_preds = []
 for t in range(len(Y_te)):
@@ -915,41 +918,20 @@ dates_te = monthly.loc[test_m, "date"].values
 fig, ax = plt.subplots(figsize=(13,5))
 train_vals = monthly.loc[train_m, TARGET].values
 test_vals = y_te
-train_colors = ["#2980b9" if v >= 0 else "#e74c3c" for v in train_vals]
-test_colors = ["#2980b9" if v >= 0 else "#e74c3c" for v in test_vals]
-
-# Show training history with stronger contrast so it remains visible
-# against the longer time axis and the later high-volatility test window.
-ax.bar(
-    dates_tr,
-    train_vals,
-    color=train_colors,
-    width=20,
-    alpha=0.45,
-    edgecolor="white",
-    linewidth=0.6,
-    label="Actual (train)",
-)
-ax.plot(
-    dates_tr,
-    train_vals,
-    color="#34495e",
-    linewidth=1.6,
-    alpha=0.85,
-    label="Actual train trend",
-)
-ax.bar(dates_te, y_te,
-       color=test_colors,
-       width=20, alpha=0.85, edgecolor="white", linewidth=0.6,
-       label="Actual (test)")
-ax.plot(dates_te, arimax_pred, "o-", color="#e74c3c", linewidth=2,
+ax.plot(dates_tr, train_vals, color="#34495e", linewidth=2.0, label="Actual (train)")
+ax.plot(dates_te, test_vals, color="#1f77b4", linewidth=2.2, label="Actual (test)")
+ax.plot(arimax_train_dates, arimax_fit, "o-", color="#f5b7b1", linewidth=1.8,
+        markersize=4, label="ARIMAX fit (train)")
+ax.plot(dates_te, arimax_pred, "o-", color="#e74c3c", linewidth=2.2,
         markersize=5, label=f"ARIMAX (R²={m_arimax['R2']:.3f})")
-ax.plot(dates_te, np.array(var_preds), "s--", color="#2ca02c", linewidth=2,
+ax.plot(var_train_dates, var_fit, "s--", color="#a9dfbf", linewidth=1.8,
+        markersize=4, label="VAR(1) fit (train)")
+ax.plot(dates_te, np.array(var_preds), "s--", color="#2ca02c", linewidth=2.2,
         markersize=5, label=f"VAR(1) (R²={m_var['R2']:.3f})")
 ax.axvline(pd.Timestamp(TRAIN_END), color="gray", linestyle=":", linewidth=1.5)
 ax.axhline(0, color="black", linewidth=0.5)
 ax.set_title("3-fund composite net flow - Actual vs ARIMAX vs VAR(1) (PKR Millions)")
-ax.set_ylabel("Flow (PKR mn)"); ax.legend(fontsize=8)
+ax.set_ylabel("Flow (PKR mn)"); ax.legend(fontsize=8, ncol=2)
 ax.xaxis.set_major_formatter(mdates.DateFormatter("%b'%y"))
 ax.xaxis.set_major_locator(mdates.MonthLocator(interval=4))
 fig.autofmt_xdate(rotation=30)
