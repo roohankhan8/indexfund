@@ -913,13 +913,35 @@ dates_tr = monthly.loc[train_m,"date"].values
 dates_te = monthly.loc[test_m, "date"].values
 
 fig, ax = plt.subplots(figsize=(13,5))
-ax.bar(dates_tr, monthly.loc[train_m,TARGET],
-       color=["#2980b9" if v>=0 else "#e74c3c"
-              for v in monthly.loc[train_m,TARGET]], width=20, alpha=0.5,
-       label="Actual (train)")
+train_vals = monthly.loc[train_m, TARGET].values
+test_vals = y_te
+train_colors = ["#2980b9" if v >= 0 else "#e74c3c" for v in train_vals]
+test_colors = ["#2980b9" if v >= 0 else "#e74c3c" for v in test_vals]
+
+# Show training history with stronger contrast so it remains visible
+# against the longer time axis and the later high-volatility test window.
+ax.bar(
+    dates_tr,
+    train_vals,
+    color=train_colors,
+    width=20,
+    alpha=0.45,
+    edgecolor="white",
+    linewidth=0.6,
+    label="Actual (train)",
+)
+ax.plot(
+    dates_tr,
+    train_vals,
+    color="#34495e",
+    linewidth=1.6,
+    alpha=0.85,
+    label="Actual train trend",
+)
 ax.bar(dates_te, y_te,
-       color=["#2980b9" if v>=0 else "#e74c3c" for v in y_te],
-       width=20, alpha=0.85, label="Actual (test)")
+       color=test_colors,
+       width=20, alpha=0.85, edgecolor="white", linewidth=0.6,
+       label="Actual (test)")
 ax.plot(dates_te, arimax_pred, "o-", color="#e74c3c", linewidth=2,
         markersize=5, label=f"ARIMAX (R²={m_arimax['R2']:.3f})")
 ax.plot(dates_te, np.array(var_preds), "s--", color="#2ca02c", linewidth=2,
